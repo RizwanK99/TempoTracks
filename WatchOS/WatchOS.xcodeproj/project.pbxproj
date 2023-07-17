@@ -7,14 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B32526702A3C066D003A9507 /* SessionPagingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B325266F2A3C066D003A9507 /* SessionPagingView.swift */; };
+		B32526722A3C075E003A9507 /* MetricsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32526712A3C075E003A9507 /* MetricsView.swift */; };
+		B32526742A3C0A45003A9507 /* ElapsedTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32526732A3C0A45003A9507 /* ElapsedTimeView.swift */; };
 		B3860B4A2A3BC86400CA3C02 /* WatchOS Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = B3860B492A3BC86400CA3C02 /* WatchOS Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		B3860B4F2A3BC86400CA3C02 /* WatchOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3860B4E2A3BC86400CA3C02 /* WatchOSApp.swift */; };
-		B3860B512A3BC86400CA3C02 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3860B502A3BC86400CA3C02 /* ContentView.swift */; };
+		B3860B512A3BC86400CA3C02 /* StartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3860B502A3BC86400CA3C02 /* StartView.swift */; };
 		B3860B532A3BC86400CA3C02 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B3860B522A3BC86400CA3C02 /* Assets.xcassets */; };
 		B3860B562A3BC86400CA3C02 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B3860B552A3BC86400CA3C02 /* Preview Assets.xcassets */; };
 		B3860B602A3BC86500CA3C02 /* WatchOS_Watch_AppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3860B5F2A3BC86500CA3C02 /* WatchOS_Watch_AppTests.swift */; };
 		B3860B6A2A3BC86500CA3C02 /* WatchOS_Watch_AppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3860B692A3BC86500CA3C02 /* WatchOS_Watch_AppUITests.swift */; };
 		B3860B6C2A3BC86500CA3C02 /* WatchOS_Watch_AppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3860B6B2A3BC86500CA3C02 /* WatchOS_Watch_AppUITestsLaunchTests.swift */; };
+		B38992B12A65B66D00A4A9C7 /* ControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38992B02A65B66D00A4A9C7 /* ControlsView.swift */; };
+		B38992B32A65B91000A4A9C7 /* SummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38992B22A65B91000A4A9C7 /* SummaryView.swift */; };
+		B38992B52A65BAA000A4A9C7 /* ActivityRingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38992B42A65BAA000A4A9C7 /* ActivityRingsView.swift */; };
+		B38992B72A65BDBF00A4A9C7 /* WorkoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38992B62A65BDBF00A4A9C7 /* WorkoutManager.swift */; };
+		B38992B92A65BE7900A4A9C7 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38992B82A65BE7900A4A9C7 /* NotificationController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,13 +61,26 @@
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B38992CB2A65C13500A4A9C7 /* Embed ExtensionKit Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(EXTENSIONS_FOLDER_PATH)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			name = "Embed ExtensionKit Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B325266F2A3C066D003A9507 /* SessionPagingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionPagingView.swift; sourceTree = "<group>"; };
+		B32526712A3C075E003A9507 /* MetricsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricsView.swift; sourceTree = "<group>"; };
+		B32526732A3C0A45003A9507 /* ElapsedTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElapsedTimeView.swift; sourceTree = "<group>"; };
 		B3860B432A3BC86400CA3C02 /* WatchOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WatchOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3860B492A3BC86400CA3C02 /* WatchOS Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "WatchOS Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3860B4E2A3BC86400CA3C02 /* WatchOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchOSApp.swift; sourceTree = "<group>"; };
-		B3860B502A3BC86400CA3C02 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		B3860B502A3BC86400CA3C02 /* StartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartView.swift; sourceTree = "<group>"; };
 		B3860B522A3BC86400CA3C02 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B3860B552A3BC86400CA3C02 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B3860B5B2A3BC86500CA3C02 /* WatchOS Watch AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "WatchOS Watch AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -67,6 +88,13 @@
 		B3860B652A3BC86500CA3C02 /* WatchOS Watch AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "WatchOS Watch AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3860B692A3BC86500CA3C02 /* WatchOS_Watch_AppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchOS_Watch_AppUITests.swift; sourceTree = "<group>"; };
 		B3860B6B2A3BC86500CA3C02 /* WatchOS_Watch_AppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchOS_Watch_AppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		B38992B02A65B66D00A4A9C7 /* ControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlsView.swift; sourceTree = "<group>"; };
+		B38992B22A65B91000A4A9C7 /* SummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryView.swift; sourceTree = "<group>"; };
+		B38992B42A65BAA000A4A9C7 /* ActivityRingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityRingsView.swift; sourceTree = "<group>"; };
+		B38992B62A65BDBF00A4A9C7 /* WorkoutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutManager.swift; sourceTree = "<group>"; };
+		B38992B82A65BE7900A4A9C7 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
+		B38992CD2A65C18500A4A9C7 /* WatchOS Watch App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "WatchOS Watch App.entitlements"; sourceTree = "<group>"; };
+		B38992CE2A65C19900A4A9C7 /* WatchOS-Watch-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "WatchOS-Watch-App-Info.plist"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,10 +146,20 @@
 		B3860B4D2A3BC86400CA3C02 /* WatchOS Watch App */ = {
 			isa = PBXGroup;
 			children = (
+				B38992CE2A65C19900A4A9C7 /* WatchOS-Watch-App-Info.plist */,
+				B38992CD2A65C18500A4A9C7 /* WatchOS Watch App.entitlements */,
 				B3860B4E2A3BC86400CA3C02 /* WatchOSApp.swift */,
-				B3860B502A3BC86400CA3C02 /* ContentView.swift */,
+				B3860B502A3BC86400CA3C02 /* StartView.swift */,
 				B3860B522A3BC86400CA3C02 /* Assets.xcassets */,
 				B3860B542A3BC86400CA3C02 /* Preview Content */,
+				B325266F2A3C066D003A9507 /* SessionPagingView.swift */,
+				B32526712A3C075E003A9507 /* MetricsView.swift */,
+				B32526732A3C0A45003A9507 /* ElapsedTimeView.swift */,
+				B38992B02A65B66D00A4A9C7 /* ControlsView.swift */,
+				B38992B22A65B91000A4A9C7 /* SummaryView.swift */,
+				B38992B42A65BAA000A4A9C7 /* ActivityRingsView.swift */,
+				B38992B62A65BDBF00A4A9C7 /* WorkoutManager.swift */,
+				B38992B82A65BE7900A4A9C7 /* NotificationController.swift */,
 			);
 			path = "WatchOS Watch App";
 			sourceTree = "<group>";
@@ -178,6 +216,7 @@
 				B3860B452A3BC86400CA3C02 /* Sources */,
 				B3860B462A3BC86400CA3C02 /* Frameworks */,
 				B3860B472A3BC86400CA3C02 /* Resources */,
+				B38992CB2A65C13500A4A9C7 /* Embed ExtensionKit Extensions */,
 			);
 			buildRules = (
 			);
@@ -309,8 +348,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B3860B512A3BC86400CA3C02 /* ContentView.swift in Sources */,
+				B38992B92A65BE7900A4A9C7 /* NotificationController.swift in Sources */,
+				B3860B512A3BC86400CA3C02 /* StartView.swift in Sources */,
+				B38992B32A65B91000A4A9C7 /* SummaryView.swift in Sources */,
+				B38992B72A65BDBF00A4A9C7 /* WorkoutManager.swift in Sources */,
 				B3860B4F2A3BC86400CA3C02 /* WatchOSApp.swift in Sources */,
+				B32526742A3C0A45003A9507 /* ElapsedTimeView.swift in Sources */,
+				B32526722A3C075E003A9507 /* MetricsView.swift in Sources */,
+				B38992B52A65BAA000A4A9C7 /* ActivityRingsView.swift in Sources */,
+				B38992B12A65B66D00A4A9C7 /* ControlsView.swift in Sources */,
+				B32526702A3C066D003A9507 /* SessionPagingView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -466,11 +513,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "WatchOS Watch App/WatchOS Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"WatchOS Watch App/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "WatchOS-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = WatchOS;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKWatchOnly = YES;
@@ -495,11 +544,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "WatchOS Watch App/WatchOS Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"WatchOS Watch App/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "WatchOS-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = WatchOS;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKWatchOnly = YES;
