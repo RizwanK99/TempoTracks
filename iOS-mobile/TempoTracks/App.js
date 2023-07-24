@@ -68,7 +68,7 @@ function App() {
               component={HomeStack}
               options={{
                 tabBarLabel: 'Home',
-                title: 'Home',
+                title: 'TempoTracks Home',
               }} />
             <Tab.Screen
               name="MusicStack"
