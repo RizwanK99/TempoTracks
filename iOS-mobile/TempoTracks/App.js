@@ -45,11 +45,7 @@ function Root() {
             iconName = focused ? "dumbbell" : "dumbbell";
           }
           return (
-            <MaterialCommunityIcons
-              name={iconName}
-              size={size}
-              color={color}
-            />
+            <MaterialCommunityIcons name={iconName} size={size} color={color} />
           );
         },
       })}
@@ -75,7 +71,7 @@ function Root() {
         component={WorkoutsStack}
         options={{
           tabBarLabel: "Workouts",
-          title: "Workouts",
+          title: null,
         }}
       />
       <Tab.Screen
@@ -87,7 +83,7 @@ function Root() {
         }}
       />
     </Tab.Navigator>
-  )
+  );
 }
 
 function App() {
