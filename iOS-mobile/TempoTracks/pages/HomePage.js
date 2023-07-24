@@ -16,7 +16,7 @@ const HomePage = ({ navigation }) => {
       key="Run"
       style={{
         alignItems: "center",
-        width: 340,
+        width: "100%",
         height: 100,
         paddingTop: 8,
         marginBottom: 15,
@@ -43,7 +43,7 @@ const HomePage = ({ navigation }) => {
       key="Bike"
       style={{
         alignItems: "center",
-        width: 340,
+        width: "100%",
         height: 100,
         paddingTop: 8,
         marginBottom: 15,
@@ -79,7 +79,7 @@ const HomePage = ({ navigation }) => {
       alignItems: "center",
     },
     title_box: {
-      backgroundColor: "rgba(74,144,226,1)",
+      backgroundColor: "#74b3ce",
       borderRadius: 10,
       width: "95%",
       height: 40,
@@ -133,7 +133,7 @@ const HomePage = ({ navigation }) => {
       alignContent: "center",
     },
     btn_shape: {
-      backgroundColor: "rgba(178,108,233,1)",
+      backgroundColor: "#09bc8a",
       borderRadius: 10,
       width: "50%",
       height: 40,
@@ -157,7 +157,7 @@ const HomePage = ({ navigation }) => {
       <View style={styles.container}>
         <View style={styles.progress}>
           <View style={styles.title_box}>
-            <Text style={styles.title}>Today's Progress! 🏃</Text>
+            <Text style={styles.title}>Today's Progress!</Text>
           </View>
           <View style={styles.progress_container}>
             <View style={styles.progress_box}>

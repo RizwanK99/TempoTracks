@@ -79,11 +79,11 @@ function App() {
       <Tab.Navigator 
         initialRouteName="Feed"
         screenOptions={({ route }) => ({
-          headerStyle: { backgroundColor: '#42f44b' },
+          headerStyle: { backgroundColor: '#09BC8A' },
           headerTintColor: '#fff',
           headerTitleStyle: { fontWeight: 'bold' },
-          tabBarActiveTintColor: 'tomato',
-          tabBarInactiveTintColor: 'gray',
+          tabBarActiveTintColor: '#74b3ce',
+          tabBarInactiveTintColor: '#172a3a',
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
             if (route.name === 'HomeStack') {
