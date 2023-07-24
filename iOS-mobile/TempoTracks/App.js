@@ -8,12 +8,12 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import HomePage from "./pages/HomePage";
-import SettingsPage from "./pages/SettingsPage";
-import WorkoutsPage from "./pages/WorkoutsPage";
-import MusicPage from "./pages/MusicPage";
-import SignInPage from "./pages/SignInPage";
-import IndividualWorkoutPage from "./pages/IndividualWorkoutPage";
+import HomePage from "./src/pages/HomePage";
+import SettingsPage from "./src/pages/SettingsPage";
+import WorkoutsPage from "./src/pages/WorkoutsPage";
+import MusicPage from "./src/pages/MusicPage";
+import SignInPage from "./src/pages/SignInPage";
+import IndividualWorkoutPage from "./src/pages/IndividualWorkoutPage";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
