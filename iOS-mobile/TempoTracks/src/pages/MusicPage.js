@@ -18,7 +18,7 @@ const MusicPage = ({ route, navigation }) => {
         <View
           style={{
             alignItems: 'center',
-            justifyContent: 'flex-start',
+            justifyContent: 'flex-start'
           }}>
             <Text
             style={{
@@ -49,6 +49,7 @@ const MusicPage = ({ route, navigation }) => {
               fontSize: 25,
               textAlign: 'center',
               marginBottom: 16,
+              marginTop: 30,
               fontWeight: 'bold'
             }}>
             Your Playlists
@@ -56,7 +57,7 @@ const MusicPage = ({ route, navigation }) => {
           <ScrollView 
           style={{
             height: '80vh',
-            backgroundColor: 'lightgrey'
+            backgroundColor: 'white'
           }}>
             <Playlist name = "Jog"></Playlist>
             <Playlist name = "Run"></Playlist>
