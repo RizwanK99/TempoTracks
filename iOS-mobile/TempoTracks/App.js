@@ -14,9 +14,60 @@ import HomePage from './pages/HomePage';
 import SettingsPage from './pages/SettingsPage';
 import WorkoutsPage from './pages/WorkoutsPage';
 import MusicPage from './pages/MusicPage';
+import SignInPage from './pages/SignInPage';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+
+const getIsSignedIn = () => {
+  return true;
+}
+
+function App() {
+  const isSignedIn = getIsSignedIn();
+
+  return (
+    <NavigationContainer>
+        {isSignedIn ? (
+          <Tab.Navigator>
+            <Tab.Screen
+              name="HomeStack"
+              component={HomeStack}
+              options={{
+                tabBarLabel: 'Home',
+                title: 'Home',
+              }} />
+            <Tab.Screen
+              name="MusicStack"
+              component={MusicStack}
+              options={{
+                tabBarLabel: 'Music',
+                title: 'Music'
+              }} />
+            <Tab.Screen
+              name="WorkoutsStack"
+              component={WorkoutsStack}
+              options={{
+                tabBarLabel: 'Workouts',
+                title: 'Workouts'
+              }} />
+            <Tab.Screen
+              name="SettingsStack"
+              component={SettingsStack}
+              options={{
+                tabBarLabel: 'Settings',
+                title: 'Setting'
+              }} />
+          </Tab.Navigator>
+        ) : (
+          <Stack.Navigator>
+            <Stack.Screen name="Sign In" component={SignInStack} />
+          </Stack.Navigator>
+        )}
+      
+    </NavigationContainer>
+  );
+}
 
 function HomeStack() {
   return (
@@ -67,71 +118,16 @@ function WorkoutsStack() {
   );
 }
 
-function App() {
+function SignInStack() {
   return (
-    <NavigationContainer>
-      <Tab.Navigator
-        initialRouteName="Feed"
-        screenOptions={({ route }) => ({
-          headerStyle: { backgroundColor: '#09BC8A' },
-          headerTintColor: '#fff',
-          headerTitleStyle: { fontWeight: 'bold' },
-          tabBarActiveTintColor: '#74b3ce',
-          tabBarInactiveTintColor: '#172a3a',
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
-            if (route.name === 'HomeStack') {
-              iconName = focused
-                ? 'home-circle'
-                : 'home-circle-outline';
-            } else if (route.name === 'SettingsStack') {
-              iconName = focused
-                ? 'account-settings'
-                : 'account-settings-outline';
-            } else if (route.name === 'MusicStack') {
-              iconName = focused ? 'music' : 'music-note';
-            } else if (route.name === 'WorkoutsStack') {
-              iconName = focused ? 'dumbbell' : 'dumbbell';
-            }
-            return (
-              <MaterialCommunityIcons
-                name={iconName}
-                size={size}
-                color={color}
-              />
-            );
-          }
-        })}>
-        <Tab.Screen
-          name="HomeStack"
-          component={HomeStack}
-          options={{
-            tabBarLabel: 'Home',
-            title: 'Home',
-          }} />
-        <Tab.Screen
-          name="MusicStack"
-          component={MusicStack}
-          options={{
-            tabBarLabel: 'Music',
-            title: 'Music'
-          }} />
-        <Tab.Screen
-          name="WorkoutsStack"
-          component={WorkoutsStack}
-          options={{
-            tabBarLabel: 'Workouts',
-            title: 'Workouts'
-          }} />
-        <Tab.Screen
-          name="SettingsStack"
-          component={SettingsStack}
-          options={{
-            tabBarLabel: 'Settings',
-            title: 'Setting'
-          }} />
-      </Tab.Navigator>
-    </NavigationContainer>
+    <Stack.Navigator
+      initialRouteName="SignIn"
+      screenOptions={{ headerShown: false }}>
+      <Stack.Screen
+        name="SignIn"
+        component={SignInPage} />
+    </Stack.Navigator>
   );
 }
+
 export default App;
