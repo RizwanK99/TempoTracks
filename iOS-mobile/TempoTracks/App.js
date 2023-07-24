@@ -76,7 +76,7 @@ function WorkoutsStack() {
 function App() {
   return (
     <NavigationContainer>
-      <Tab.Navigator
+      <Tab.Navigator 
         initialRouteName="Feed"
         screenOptions={({ route }) => ({
           headerStyle: { backgroundColor: '#42f44b' },
@@ -94,6 +94,10 @@ function App() {
               iconName = focused
                 ? 'account-settings'
                 : 'account-settings-outline';
+            } else if (route.name === 'MusicStack') {
+              iconName = focused ? 'music' : 'music-note';
+            } else if (route.name === 'WorkoutsStack') {
+              iconName = focused ? 'dumbbell' : 'dumbbell';
             }
             return (
               <MaterialCommunityIcons
