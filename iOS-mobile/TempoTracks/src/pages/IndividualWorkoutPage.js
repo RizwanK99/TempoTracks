@@ -1,7 +1,13 @@
 import React from "react";
+import { Button, Text, View } from "react-native";
 
-const IndividualWorkoutPage = () => {
-  return <Text>Individual Workout Page</Text>;
+const IndividualWorkoutPage = ({ navigation }) => {
+  return (
+    <View>
+      <Text>Individual workout screen</Text>
+      <Button title="navigate back" onPress={() => navigation.goBack()} />
+    </View>
+  );
 };
 
 export default IndividualWorkoutPage;

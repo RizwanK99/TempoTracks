@@ -147,16 +147,6 @@ function WorkoutsStack() {
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="Workouts" component={WorkoutsPage} />
-    </Stack.Navigator>
-  );
-}
-
-function IndividualWorkoutStack() {
-  return (
-    <Stack.Navigator
-      initialRouteName="IndividualWorkout"
-      screenOptions={{ headerShown: false }}
-    >
       <Stack.Screen
         name="IndividualWorkout"
         component={IndividualWorkoutPage}
