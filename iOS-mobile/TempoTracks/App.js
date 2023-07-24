@@ -78,9 +78,6 @@ function HomeStack() {
       <Stack.Screen
         name="Home"
         component={HomePage} />
-      <Stack.Screen
-        name="Workouts"
-        component={WorkoutsPage} />
     </Stack.Navigator>
   );
 }
@@ -93,9 +90,6 @@ function SettingsStack() {
       <Stack.Screen
         name="Settings"
         component={SettingsPage} />
-      <Stack.Screen
-        name="Music"
-        component={MusicPage} />
     </Stack.Navigator>
   );
 }
