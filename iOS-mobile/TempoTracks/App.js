@@ -9,6 +9,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import HomePage from "./src/pages/HomePage";
+import ProfilePage from "./src/pages/ProfilePage";
 import SettingsPage from "./src/pages/SettingsPage";
 import WorkoutsPage from "./src/pages/WorkoutsPage";
 import MusicPage from "./src/pages/MusicPage";
@@ -115,6 +116,7 @@ function HomeStack() {
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="Home" component={HomePage} />
+      <Stack.Screen name="Profile" component={ProfilePage} />
     </Stack.Navigator>
   );
 }

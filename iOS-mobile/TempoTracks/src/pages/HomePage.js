@@ -7,6 +7,7 @@ import {
   Text,
   SafeAreaView
 } from 'react-native';
+import profileData from '../../mocks/profile_data.json';
 
 import WorkoutObject from '../components/WorkoutObject';
 
@@ -92,12 +93,8 @@ const HomePage = ({ navigation }) => {
           <Text style={styles.btn_text}>Add Exercise</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          // onPress={() =>
-          //   this.props.navigation.navigate("Profile", {
-          //     username: this.props.navigation.state.params.username,
-          //     token: this.props.navigation.state.params.token,
-          //   })
-          // }
+          onPress={() => navigation.navigate("Profile", {...profileData})
+          }
           style={[styles.btn_shape, { marginHorizontal: 10 }]}
         >
           <Text style={styles.btn_text}>View Profile</Text>
