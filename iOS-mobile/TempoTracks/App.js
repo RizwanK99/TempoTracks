@@ -19,7 +19,7 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const getIsLoggedIn = () => {
-  return false;
+  return true;
 };
 
 function Root() {
