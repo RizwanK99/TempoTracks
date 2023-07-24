@@ -1,81 +1,118 @@
-// React Native Bottom Navigation
-// https://aboutreact.com/react-native-bottom-navigation/
-import * as React from 'react';
+import * as React from "react";
 import {
   TouchableOpacity,
   StyleSheet,
   View,
   Text,
-  SafeAreaView
-} from 'react-native';
+  SafeAreaView,
+  ScrollView,
+  Button,
+} from "react-native";
+import PageHeading from "../components/PageHeading";
+import SectionHeading from "../components/SectionHeading";
+import PressableCardBanner from "../components/PressableCardBanner";
+import PressableCard from "../components/PressableCard";
 
 const WorkoutsPage = ({ route, navigation }) => {
+  const recommendedWorkoutImage = require("../assets/recommended-workout.webp");
+  const createWorkoutImage = require("../assets/create-workout.png");
+  const weightLiftingFocusImage = require("../assets/weight-focus-training.webp");
+  const weightLossFocusImage = require("../assets/weight-loss-focus.png");
+  const cardioFocusImage = require("../assets/cardio-focus.png");
+  const bulkingFocusImage = require("../assets/bulking-focus.png");
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <View style={{ flex: 1, padding: 16 }}>
-        <View
-          style={{
-            flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-          <Text
+      <ScrollView>
+        <View style={{ flex: 1, padding: 16 }}>
+          <View>
+            <PageHeading title={"Workouts"} />
+          </View>
+          <View style={{ marginTop: 24 }}>
+            <SectionHeading title={"Quick Starter"} />
+          </View>
+          <View style={{ marginTop: 16 }}>
+            <PressableCardBanner
+              title={"Try a new workout"}
+              subtitle={"Based on your preferences."}
+              imageUri={recommendedWorkoutImage}
+              // TODO: Fix routing
+              onPress={() => navigation.navigate("IndividualWorkout")}
+            />
+          </View>
+          <View style={{ marginTop: 28 }}>
+            <SectionHeading title={"Custom Made"} />
+          </View>
+          <View style={{ marginTop: 16 }}>
+            <PressableCardBanner
+              title={"Designed By You"}
+              subtitle={"Create your perfect workout."}
+              imageUri={createWorkoutImage}
+              // TODO: Set up create new workout page + route
+              onPress={() => navigation.navigate("IndividualWorkout")}
+            />
+          </View>
+          <View style={{ marginTop: 28 }}>
+            <SectionHeading title={"Focus"} />
+          </View>
+          <View style={{ flex: 1 }}>
+            <View
+              style={{
+                marginTop: 16,
+                flex: 1,
+                flexDirection: "row",
+                justifyContent: "space-between",
+                marginBottom: 10,
+              }}
+            >
+              <PressableCard
+                title={"Cardio Training"}
+                imageUrl={cardioFocusImage}
+              />
+              <PressableCard
+                title={"Weight Lifting"}
+                imageUrl={weightLiftingFocusImage}
+              />
+            </View>
+            <View
+              style={{
+                marginTop: 16,
+                flex: 1,
+                flexDirection: "row",
+                justifyContent: "space-between",
+                marginBottom: 10,
+              }}
+            >
+              <PressableCard
+                title={"Weight Loss"}
+                imageUrl={weightLossFocusImage}
+              />
+              <PressableCard title={"Bulking"} imageUrl={bulkingFocusImage} />
+            </View>
+          </View>
+          <View
             style={{
-              fontSize: 25,
-              textAlign: 'center',
-              marginBottom: 16
-            }}>
-            You are on Workouts Page Screen
-          </Text>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={
-              () => navigation.navigate('Home')
-            }>
-            <Text>Go to Home Tab</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={
-              () => navigation.navigate('Music')
-            }>
-            <Text>Open Music Screen</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={
-              () => navigation.navigate('Workout')
-            }>
-            <Text>Open Workouts Screen</Text>
-          </TouchableOpacity>
+              flex: 1,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <TouchableOpacity style={styles.button}>
+              <Text style={{ fontWeight: "bold" }}>All Workouts</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-        <Text
-          style={{
-            fontSize: 18,
-            textAlign: 'center',
-            color: 'grey'
-          }}>
-          React Native Bottom Navigation
-        </Text>
-        <Text
-          style={{
-            fontSize: 16,
-            textAlign: 'center',
-            color: 'grey'
-          }}>
-          www.aboutreact.com
-        </Text>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
-}
+};
 const styles = StyleSheet.create({
   button: {
-    alignItems: 'center',
-    backgroundColor: '#DDDDDD',
+    alignItems: "center",
+    backgroundColor: "#FFF",
     padding: 10,
-    width: 300,
+    width: 350,
     marginTop: 16,
+    borderRadius: 8,
   },
 });
 export default WorkoutsPage;
