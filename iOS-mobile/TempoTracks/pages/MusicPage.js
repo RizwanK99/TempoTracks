@@ -23,9 +23,10 @@ const MusicPage = ({ route, navigation }) => {
             <Text
             style={{
               fontSize: 25,
-              fontWeight: 'bold'
+              fontWeight: 'bold',
+              marginBottom: 10
             }}>
-              Playlist Filters
+              Playlist Actions
             </Text>
             <TouchableOpacity
             style={styles.button}
@@ -33,7 +34,15 @@ const MusicPage = ({ route, navigation }) => {
               () => navigation.navigate(
                 'SettingsStack', { screen: 'Settings' }
               )}*/>
-            <Text>Filters</Text>
+            <Text>Add Playlist</Text>
+          </TouchableOpacity>
+            <TouchableOpacity
+            style={styles.button}
+            /*onPress={
+              () => navigation.navigate(
+                'SettingsStack', { screen: 'Settings' }
+              )}*/>
+            <Text>Filter Playlist</Text>
           </TouchableOpacity>
           <Text
             style={{
@@ -46,7 +55,8 @@ const MusicPage = ({ route, navigation }) => {
           </Text>
           <ScrollView 
           style={{
-            height: '80vh'
+            height: '80vh',
+            backgroundColor: 'lightgrey'
           }}>
             <Playlist name = "Jog"></Playlist>
             <Playlist name = "Run"></Playlist>
@@ -83,11 +93,11 @@ const MusicPage = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
-    backgroundColor: '#DDDDDD',
+    backgroundColor: '#09BC8A',
+    borderRadius: 15,
     padding: 10,
     width: 300,
-    marginTop: 16,
-    marginBottom: 50
+    marginBottom: 10
   },
 });
 export default MusicPage;

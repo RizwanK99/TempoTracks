@@ -12,9 +12,9 @@ const Playlist = props => {
     <SafeAreaView>
       <View
       style={{
-        width: '60vw',
+        width: '80vw',
         height: '8vh',
-        backgroundColor: '#09BC8A',
+        backgroundColor: '#508991',
         borderRadius: 5,
         margin: 5,
         justifyContent: 'center',
@@ -23,9 +23,9 @@ const Playlist = props => {
         <Text
         style={{
           fontWeight: 'bold',
-          marginLeft: 10
+          marginLeft: 10,
         }}>
-          {`Playlists - ${props.name}`}
+          {`Playlist - ${props.name}`}
         </Text>
       </View>
     </SafeAreaView>
