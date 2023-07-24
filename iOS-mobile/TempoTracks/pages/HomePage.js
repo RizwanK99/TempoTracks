@@ -7,69 +7,54 @@ import {
   Text,
   SafeAreaView
 } from 'react-native';
-import { Button } from 'react-native-web';
+
+import WorkoutObject from '../components/WorkoutObject';
+
+
 
 const HomePage = ({ navigation }) => {
   let exercise = [];
-  exercise.push(
-    <View
-      key="Run"
-      style={{
-        alignItems: "center",
-        width: "100%",
-        height: 125,
-        paddingTop: 8,
-        marginBottom: 15,
-      }}
-    >
-      <View
-        style={{
-          backgroundColor: "rgba(230,230,230,1)",
-          borderRadius: 15,
-          padding: 15,
-          width: "95%",
-          height: "95%",
-        }}
-      >
-        <Text style={{ fontSize: 25, fontWeight: "bold" }}>5k Run</Text>
-        <Text>{"Duration: 15 min"}</Text>
-        <Text>{"Calories: 500 cal"}</Text>
-      </View>
-    </View>
-  );
+  let workouts = [];
 
-  exercise.push(
-    <View
-      key="Bike"
-      style={{
-        alignItems: "center",
-        width: "100%",
-        height: 125,
-        paddingTop: 8,
-        marginBottom: 15,
-      }}
-    >
+  workouts.push(new WorkoutObject("Run", 100, 10, "Cardio", [], "2021-10-01", "Notes", 1));
+  workouts.push(new WorkoutObject("Biking", 200, 20, "Biking", [], "2021-10-02", "Notes", 2));
+  workouts.push(new WorkoutObject("Sprint", 300, 30, "Cardio", [], "2021-10-03", "Notes", 3));
+ 
+  for (var w = 0; w < workouts.length; w++) {
+
+    exercise.push(
       <View
+        key={workouts[w].id}
         style={{
-          backgroundColor: "rgba(230,230,230,1)",
-          borderRadius: 15,
-          padding: 15,
-          width: "95%",
-          height: "95%",
+          alignItems: "center",
+          width: "100%",
+          height: 125,
+          paddingTop: 8,
         }}
       >
-        <Text style={{ fontSize: 25, fontWeight: "bold" }}>5k Cycling</Text>
-        <Text>{"Duration: 55 min"}</Text>
-        <Text>{"Calories: 500 cal"}</Text>
+        <View
+          style={{
+            backgroundColor: "rgba(230,230,230,1)",
+            borderRadius: 15,
+            padding: 15,
+            width: "95%",
+            height: "95%",
+          }}
+        >
+          <Text style={{ fontSize: 25, fontWeight: "bold" }}>{workouts[w].name}</Text>
+          <Text>{"Duration: " + workouts[w].duration + " min"}</Text>
+          <Text>{"Calories: " + workouts[w].calories + " cal"}</Text>
+        </View>
       </View>
-    </View>
-  );
+    );
+  }
+
+
+
+
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <Text style={{ fontSize: 25, textAlign: 'center', margin: 16 }}>
-        TempoTracks Home
-      </Text>
       <View style={styles.container}>
         <View style={styles.progress}>
           <View style={styles.title_box}>
@@ -95,29 +80,29 @@ const HomePage = ({ navigation }) => {
         </ScrollView>
       </View>
       <View style={styles.btn_box}>
-          <TouchableOpacity
-            // onPress={() => {
-            //   this.props.navigation.navigate("Exercise", {
-            //     username: this.props.navigation.state.params.username,
-            //     token: this.props.navigation.state.params.token,
-            //   });
-            // }}
-            style={[styles.btn_shape, { marginHorizontal: 10 }]}
-          >
-            <Text style={styles.btn_text}>Add Exercise</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            // onPress={() =>
-            //   this.props.navigation.navigate("Profile", {
-            //     username: this.props.navigation.state.params.username,
-            //     token: this.props.navigation.state.params.token,
-            //   })
-            // }
-            style={[styles.btn_shape, { marginHorizontal: 10 }]}
-          >
-            <Text style={styles.btn_text}>View Profile</Text>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity
+          // onPress={() => {
+          //   this.props.navigation.navigate("Exercise", {
+          //     username: this.props.navigation.state.params.username,
+          //     token: this.props.navigation.state.params.token,
+          //   });
+          // }}
+          style={[styles.btn_shape, { marginHorizontal: 10 }]}
+        >
+          <Text style={styles.btn_text}>Add Exercise</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          // onPress={() =>
+          //   this.props.navigation.navigate("Profile", {
+          //     username: this.props.navigation.state.params.username,
+          //     token: this.props.navigation.state.params.token,
+          //   })
+          // }
+          style={[styles.btn_shape, { marginHorizontal: 10 }]}
+        >
+          <Text style={styles.btn_text}>View Profile</Text>
+        </TouchableOpacity>
+      </View>
 
 
     </SafeAreaView>

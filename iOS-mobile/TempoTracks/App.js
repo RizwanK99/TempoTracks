@@ -19,7 +19,7 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const getIsSignedIn = () => {
-  return true;
+  return false;
 };
 
 function App() {
@@ -63,7 +63,7 @@ function App() {
             component={HomeStack}
             options={{
               tabBarLabel: "Home",
-              title: "Home",
+              title: "TempoTracks Home",
             }}
           />
           <Tab.Screen
@@ -79,7 +79,7 @@ function App() {
             component={WorkoutsStack}
             options={{
               tabBarLabel: "Workouts",
-              title: null,
+              title: "Workouts",
             }}
           />
           <Tab.Screen
@@ -93,10 +93,10 @@ function App() {
         </Tab.Navigator>
       ) : (
         <Stack.Navigator>
-          <Stack.Screen name="Sign In" component={SignInStack} />
           <Stack.Screen
-            name="IndividualWorkoutStack"
-            component={IndividualWorkoutStack}
+            name="Sign In"
+            component={SignInStack}
+            options={{ headerShown: false }}
           />
         </Stack.Navigator>
       )}
