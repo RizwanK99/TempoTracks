@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Text, View } from "react-native";
 
-const IndividualWorkoutPage = ({ navigation }) => {
+const CreateWorkoutPage = ({ navigation }) => {
   return (
     <View
       style={{
@@ -15,4 +15,4 @@ const IndividualWorkoutPage = ({ navigation }) => {
   );
 };
 
-export default IndividualWorkoutPage;
+export default CreateWorkoutPage;

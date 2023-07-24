@@ -35,7 +35,6 @@ const WorkoutsPage = ({ route, navigation }) => {
               title={"Try a new workout"}
               subtitle={"Based on your preferences."}
               imageUri={recommendedWorkoutImage}
-              // TODO: Fix routing
               onPress={() => navigation.navigate("IndividualWorkout")}
             />
           </View>
@@ -47,8 +46,7 @@ const WorkoutsPage = ({ route, navigation }) => {
               title={"Designed By You"}
               subtitle={"Create your perfect workout."}
               imageUri={createWorkoutImage}
-              // TODO: Set up create new workout page + route
-              onPress={() => navigation.navigate("IndividualWorkout")}
+              onPress={() => navigation.navigate("CreateWorkout")}
             />
           </View>
           <View style={{ marginTop: 28 }}>
