@@ -7,7 +7,7 @@ const SignInPage = ({ navigation }) => {
             <Text>TempoTracks</Text>
             <TextInput placeholder='Email' />
             <TextInput placeholder='Password' />
-            <Button onPress={() => navigation.navigate('Home')} title='Log in' />
+            <Button onPress={() => navigation.navigate('Root', {screen: 'Home'})} title='Log in' />
         </View>
     );
 }
