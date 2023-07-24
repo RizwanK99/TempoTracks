@@ -2,3 +2,4 @@
 .branches
 .temp
 .env
+./supabase/node_modules
