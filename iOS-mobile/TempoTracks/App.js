@@ -13,6 +13,7 @@ import SettingsPage from "./src/pages/SettingsPage";
 import WorkoutsPage from "./src/pages/WorkoutsPage";
 import MusicPage from "./src/pages/MusicPage";
 import SignInPage from "./src/pages/SignInPage";
+import LaunchPage from "./src/pages/LaunchPage";
 import IndividualWorkoutPage from "./src/pages/IndividualWorkoutPage";
 
 const Stack = createNativeStackNavigator();
@@ -96,14 +97,12 @@ function App() {
     <NavigationContainer>
       <Stack.Navigator>
         {isLoggedIn ? (
-          // Screens for logged in users
           <Stack.Group screenOptions={{ headerShown: false }}>
             <Stack.Screen name="Root" component={Root} />
           </Stack.Group>
         ) : (
-          // Auth screens
           <Stack.Group screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="SignIn" component={SignInStack} />
+            <Stack.Screen name="Launch" component={LaunchStack} />
           </Stack.Group>
         )}
       </Stack.Navigator>
@@ -169,12 +168,13 @@ function IndividualWorkoutStack() {
   );
 }
 
-function SignInStack() {
+function LaunchStack() {
   return (
     <Stack.Navigator
-      initialRouteName="SignIn"
+      initialRouteName="Launch"
       screenOptions={{ headerShown: false }}
     >
+      <Stack.Screen name="Launch" component={LaunchPage} />
       <Stack.Screen name="SignIn" component={SignInPage} />
       <Stack.Screen name="Root" component={Root} />
     </Stack.Navigator>
