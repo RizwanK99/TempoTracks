@@ -3,8 +3,8 @@
 import * as React from 'react';
 
 import
- MaterialCommunityIcons
-from 'react-native-vector-icons/MaterialCommunityIcons';
+MaterialCommunityIcons
+  from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -20,17 +20,14 @@ const Tab = createBottomTabNavigator();
 
 function HomeStack() {
   return (
-      <Stack.Navigator
-        initialRouteName="Home"
-        screenOptions={{headerShown: false}}
-        >
-        <Stack.Screen
-          name="Home"
-          component={HomePage} />
-        <Stack.Screen
-          name="Workouts"
-          component={WorkoutsPage} />
-      </Stack.Navigator>
+    <Stack.Navigator
+      initialRouteName="Home"
+      screenOptions={{ headerShown: false }}
+    >
+      <Stack.Screen
+        name="Home"
+        component={HomePage} />
+    </Stack.Navigator>
   );
 }
 
@@ -38,13 +35,10 @@ function SettingsStack() {
   return (
     <Stack.Navigator
       initialRouteName="Settings"
-      screenOptions={{headerShown: false}}>
+      screenOptions={{ headerShown: false }}>
       <Stack.Screen
         name="Settings"
         component={SettingsPage} />
-      <Stack.Screen
-        name="Music"
-        component={MusicPage} />
     </Stack.Navigator>
   );
 }
@@ -53,10 +47,10 @@ function MusicStack() {
   return (
     <Stack.Navigator
       initialRouteName="Music"
-      screenOptions={{headerShown: false}}>
-          <Stack.Screen
-          name="Music"
-          component={MusicPage} />
+      screenOptions={{ headerShown: false }}>
+      <Stack.Screen
+        name="Music"
+        component={MusicPage} />
     </Stack.Navigator>
   );
 }
@@ -65,10 +59,10 @@ function WorkoutsStack() {
   return (
     <Stack.Navigator
       initialRouteName="Workouts"
-      screenOptions={{headerShown: false}}>
-          <Stack.Screen
-          name="Workouts"
-          component={WorkoutsPage} />
+      screenOptions={{ headerShown: false }}>
+      <Stack.Screen
+        name="Workouts"
+        component={WorkoutsPage} />
     </Stack.Navigator>
   );
 }
@@ -76,7 +70,7 @@ function WorkoutsStack() {
 function App() {
   return (
     <NavigationContainer>
-      <Tab.Navigator 
+      <Tab.Navigator
         initialRouteName="Feed"
         screenOptions={({ route }) => ({
           headerStyle: { backgroundColor: '#09BC8A' },
@@ -114,7 +108,7 @@ function App() {
           options={{
             tabBarLabel: 'Home',
             title: 'Home',
-          }}  />
+          }} />
         <Tab.Screen
           name="MusicStack"
           component={MusicStack}
@@ -122,14 +116,14 @@ function App() {
             tabBarLabel: 'Music',
             title: 'Music'
           }} />
-          <Tab.Screen
+        <Tab.Screen
           name="WorkoutsStack"
           component={WorkoutsStack}
           options={{
             tabBarLabel: 'Workouts',
             title: 'Workouts'
           }} />
-              <Tab.Screen
+        <Tab.Screen
           name="SettingsStack"
           component={SettingsStack}
           options={{
