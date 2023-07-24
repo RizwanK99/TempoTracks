@@ -15,6 +15,7 @@ import MusicPage from "./src/pages/MusicPage";
 import SignInPage from "./src/pages/SignInPage";
 import LaunchPage from "./src/pages/LaunchPage";
 import IndividualWorkoutPage from "./src/pages/IndividualWorkoutPage";
+import CreateWorkoutPage from "./src/pages/CreateWorkoutPage";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -46,11 +47,7 @@ function Root() {
             iconName = focused ? "dumbbell" : "dumbbell";
           }
           return (
-            <MaterialCommunityIcons
-              name={iconName}
-              size={size}
-              color={color}
-            />
+            <MaterialCommunityIcons name={iconName} size={size} color={color} />
           );
         },
       })}
@@ -76,7 +73,7 @@ function Root() {
         component={WorkoutsStack}
         options={{
           tabBarLabel: "Workouts",
-          title: "Workouts",
+          title: null,
         }}
       />
       <Tab.Screen
@@ -88,7 +85,7 @@ function Root() {
         }}
       />
     </Tab.Navigator>
-  )
+  );
 }
 
 function App() {
@@ -150,20 +147,11 @@ function WorkoutsStack() {
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="Workouts" component={WorkoutsPage} />
-    </Stack.Navigator>
-  );
-}
-
-function IndividualWorkoutStack() {
-  return (
-    <Stack.Navigator
-      initialRouteName="IndividualWorkout"
-      screenOptions={{ headerShown: false }}
-    >
       <Stack.Screen
         name="IndividualWorkout"
         component={IndividualWorkoutPage}
       />
+      <Stack.Screen name="CreateWorkout" component={CreateWorkoutPage} />
     </Stack.Navigator>
   );
 }
