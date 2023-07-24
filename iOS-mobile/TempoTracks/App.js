@@ -19,7 +19,7 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const getIsSignedIn = () => {
-  return false;
+  return true;
 };
 
 function App() {
@@ -169,6 +169,7 @@ function SignInStack() {
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="SignIn" component={SignInPage} />
+      <Stack.Screen name="Home" component={HomePage} />
     </Stack.Navigator>
   );
 }
