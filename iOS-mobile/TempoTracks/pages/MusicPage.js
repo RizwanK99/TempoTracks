@@ -1,12 +1,14 @@
 // React Native Bottom Navigation
 // https://aboutreact.com/react-native-bottom-navigation/
 import * as React from 'react';
+import Playlist from './Playlist';
 import {
   TouchableOpacity,
   StyleSheet,
   View,
   Text,
-  SafeAreaView
+  SafeAreaView,
+  ScrollView
 } from 'react-native';
 
 const MusicPage = ({ route, navigation }) => {
@@ -15,56 +17,65 @@ const MusicPage = ({ route, navigation }) => {
       <View style={{ flex: 1, padding: 16 }}>
         <View
           style={{
-            flex: 1,
             alignItems: 'center',
-            justifyContent: 'center',
+            justifyContent: 'flex-start',
           }}>
+            <Text
+            style={{
+              fontSize: 25,
+              fontWeight: 'bold'
+            }}>
+              Playlist Filters
+            </Text>
+            <TouchableOpacity
+            style={styles.button}
+            /*onPress={
+              () => navigation.navigate(
+                'SettingsStack', { screen: 'Settings' }
+              )}*/>
+            <Text>Filters</Text>
+          </TouchableOpacity>
           <Text
             style={{
               fontSize: 25,
               textAlign: 'center',
-              marginBottom: 16
+              marginBottom: 16,
+              fontWeight: 'bold'
             }}>
-            You are on MusicPage Screen
+            Your Playlists
           </Text>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={
-              () => navigation.navigate('Home')
-            }>
-            <Text>Go to Home Tab</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={
-              () => navigation.navigate('Workouts')
-            }>
-            <Text>Open Workout Screen</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={
-              () => navigation.navigate('Music')
-            }>
-            <Text>Open Music Screen</Text>
-          </TouchableOpacity>
+          <ScrollView 
+          style={{
+            height: '80vh'
+          }}>
+            <Playlist name = "Jog"></Playlist>
+            <Playlist name = "Run"></Playlist>
+            <Playlist name = "Hike"></Playlist>
+            <Playlist name = "HIIT"></Playlist>
+            <Playlist name = "Sprint"></Playlist>
+            <Playlist name = "Jog"></Playlist>
+            <Playlist name = "Run"></Playlist>
+            <Playlist name = "Hike"></Playlist>
+            <Playlist name = "HIIT"></Playlist>
+            <Playlist name = "Sprint"></Playlist>
+          </ScrollView >
         </View>
-        <Text
+        {/*<Text
           style={{
             fontSize: 18,
             textAlign: 'center',
             color: 'grey'
           }}>
           React Native Bottom Navigation
-        </Text>
-        <Text
+        </Text>*/}
+        {/*<Text
           style={{
             fontSize: 16,
             textAlign: 'center',
             color: 'grey'
           }}>
           www.aboutreact.com
-        </Text>
+        </Text>*/}
       </View>
     </SafeAreaView>
   );
@@ -76,6 +87,7 @@ const styles = StyleSheet.create({
     padding: 10,
     width: 300,
     marginTop: 16,
+    marginBottom: 50
   },
 });
 export default MusicPage;

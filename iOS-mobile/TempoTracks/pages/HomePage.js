@@ -21,9 +21,10 @@ const HomePage = ({ navigation }) => {
             style={{
               fontSize: 25,
               textAlign: 'center',
-              marginBottom: 16
+              marginBottom: 16,
+              fontWeight: 'bold'
             }}>
-            You are on Home Screen
+            Home
           </Text>
           <TouchableOpacity
             style={styles.button}
@@ -41,22 +42,22 @@ const HomePage = ({ navigation }) => {
             <Text>Open Music Screen</Text>
           </TouchableOpacity>
         </View>
-        <Text
+        {/*<Text
           style={{
             fontSize: 18,
             textAlign: 'center',
             color: 'grey'
           }}>
           React Native Bottom Navigation
-        </Text>
-        <Text
+        </Text>*/}
+        {/*<Text
           style={{
             fontSize: 16,
             textAlign: 'center',
             color: 'grey'
           }}>
           www.aboutreact.com
-        </Text>
+        </Text>*/}
       </View>
     </SafeAreaView>
   );
