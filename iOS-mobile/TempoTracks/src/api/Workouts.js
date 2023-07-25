@@ -38,18 +38,20 @@ function deleteWorkout(workout_id) {
 
 }
 
-function getUsersWorkouts(user_id) {
+async function getUsersWorkouts(user_id) {
     let headers = new Headers();
     headers.append("Content-Type", "application/json");
     headers.append("Accept", "application/json");
 
-    fetch('https://kbgiqwyohojnejjlkwae.supabase.co/functions/v1/get-all-workouts', {
+    var res = await fetch('https://kbgiqwyohojnejjlkwae.supabase.co/functions/v1/get-all-workouts', {
         method: 'POST',
         headers: headers,
         body: JSON.stringify({
             user_id: user_id,
         }),
     });
+
+    console.log(res);
 }
 
 export { createWorkout, deleteWorkout, getUsersWorkouts };

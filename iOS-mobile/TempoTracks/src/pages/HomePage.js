@@ -10,12 +10,14 @@ import {
 import profileData from '../../mocks/profile_data.json';
 
 import WorkoutObject from '../components/WorkoutObject';
-
+import { getUsersWorkouts } from '../api/Workouts';
 
 
 const HomePage = ({ navigation }) => {
   let exercise = [];
   let workouts = [];
+
+  let workoutData = getUsersWorkouts(2);
 
   workouts.push(new WorkoutObject("Run", 100, 10, "Cardio", [], "2021-10-01", "Notes", 1));
   workouts.push(new WorkoutObject("Biking", 200, 20, "Biking", [], "2021-10-02", "Notes", 2));
