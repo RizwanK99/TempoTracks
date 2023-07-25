@@ -114,11 +114,11 @@ const WorkoutDetailsForm = () => {
           alignItems: "center",
         }}
       >
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={() => createWorkout()}>
           <View
             style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
           >
-            <Text style={{ fontWeight: "bold", fontSize: 20, color: "#FFF" }} onPress={() => createWorkout()}>
+            <Text style={{ fontWeight: "bold", fontSize: 20, color: "#FFF" }}>
               Create
             </Text>
           </View>
@@ -171,10 +171,6 @@ function createWorkout() {
   let headers = new Headers();
   headers.append("Content-Type", "application/json");
   headers.append("Accept", "application/json");
-  headers.append("Access-Control-Allow-Origin", "*");
-  headers.append("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  headers.append("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-  headers.append("Access-Control-Allow-Credentials", "true");
 
   fetch('https://kbgiqwyohojnejjlkwae.supabase.co/functions/v1/create-workout', {
     method: 'POST',
