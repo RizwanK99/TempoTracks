@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View, Text, StyleSheet, Image, Button } from 'react-native';
-import "../../App.css";
+// import "../../App.css";
 
 const LaunchPage = ({ navigation }) => {
     return (
@@ -15,7 +15,7 @@ const LaunchPage = ({ navigation }) => {
                 </div>
                 <div className='buttons'>
                     <button className='regButton'>Register</button>
-                    <button className='signButton'>Sign In</button>
+                    <button className='signButton' onClick = {() => navigation.navigate("SignIn")}>Sign In</button>
                 </div>
             </div>
         </div>
