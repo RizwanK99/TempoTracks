@@ -14,6 +14,9 @@ import {
   TabBar,
 } from 'react-native-tab-view'
 
+import Feed from '../components/Profile/Feed';
+import Summary from '../components/Profile/Summary';
+
 const styles = StyleSheet.create({
   cardContainer: {
     flex: 1,
@@ -27,6 +30,11 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginTop: 45,
   },
+  contentContainer: {
+    alignItems: 'center',
+    marginBottom: 20,
+    marginTop: 20,
+  },
   indicatorTab: {
     backgroundColor: 'transparent',
   },
@@ -35,6 +43,7 @@ const styles = StyleSheet.create({
   },
   sceneContainer: {
     marginTop: 10,
+    marginLeft: 20,
   },
   socialIcon: {
     marginLeft: 14,
@@ -48,7 +57,6 @@ const styles = StyleSheet.create({
   },
   tabContainer: {
     flex: 1,
-    marginBottom: 12,
   },
   tabLabelNumber: {
     color: 'gray',
@@ -114,14 +122,13 @@ const styles = StyleSheet.create({
 })
 
 const ProfilePage = ({route, navigation}) => {
-    const {avatar, name, bio, containerStyle = {}, tabContainerStyle = {}} = route.params;
+    const {avatar, name, bio, feed, containerStyle = {}, tabContainerStyle = {}} = route.params;
     const [tabs, setTabs] = useState({
         index: 0,
         routes: [
-            { key: '1', title: 'active', count: 31 },
-            { key: '2', title: 'like', count: 86 },
-            { key: '3', title: 'following', count: 95 },
-            { key: '4', title: 'followers', count: '1.3 K' },
+            { key: '1', title: 'Summary' },
+            { key: '2', title: 'Feed' },
+            { key: '3', title: 'Friends' },
         ],
     });
 
@@ -216,9 +223,10 @@ const ProfilePage = ({route, navigation}) => {
     const renderScene = ({ route: { key } }) => {
         switch (key) {
             case '1':
+                return <Summary />
             case '2':
+                return <Feed containerStyle={styles.sceneContainer} feed={feed} />
             case '3':
-            case '4':
                 return <View />;
             default:
                 return <View />;
@@ -229,21 +237,23 @@ const ProfilePage = ({route, navigation}) => {
         <ScrollView style={styles.scroll}>
             <View style={[styles.container, containerStyle]}>
                 <View style={styles.cardContainer}>
-                {renderContactHeader()}
-                <TabView
-                    style={[styles.tabContainer, tabContainerStyle]}
-                    navigationState={tabs}
-                    renderScene={renderScene}
-                    renderTabBar={renderTabBar}
-                    onIndexChange={handleIndexChange}
-                />
+                    {renderContactHeader()}
+                    <TabView
+                        style={[styles.tabContainer, tabContainerStyle]}
+                        navigationState={tabs}
+                        renderScene={renderScene}
+                        renderTabBar={renderTabBar}
+                        onIndexChange={handleIndexChange}
+                    />
                 </View>
-                <TouchableOpacity
-                    onPress={() => navigation.navigate("Home")}
-                    style={[styles.btn_shape, { marginHorizontal: 10 }]}
-                >
-                    <Text style={styles.btn_text}>Back To Home</Text>
-                </TouchableOpacity>
+                <View style={styles.contentContainer}>
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate("Home")}
+                        style={[styles.btn_shape, { marginHorizontal: 10 }]}
+                    >
+                        <Text style={styles.btn_text}>Back To Home</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         </ScrollView>
     );
