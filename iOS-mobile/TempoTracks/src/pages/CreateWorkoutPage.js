@@ -118,7 +118,7 @@ const WorkoutDetailsForm = () => {
           <View
             style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
           >
-            <Text style={{ fontWeight: "bold", fontSize: 20, color: "#FFF" }}>
+            <Text style={{ fontWeight: "bold", fontSize: 20, color: "#FFF" }} onPress={() => createWorkout()}>
               Create
             </Text>
           </View>
@@ -159,5 +159,31 @@ const styles = StyleSheet.create({
     alignitems: "flex-end",
   },
 });
+
+function createWorkout() {
+  const payload = {
+    user_id: 16,
+    workout_name: "test",
+    workout_type: "cardio",
+    workout_name: "api's run"
+  }
+
+  let headers = new Headers();
+  headers.append("Content-Type", "application/json");
+  headers.append("Accept", "application/json");
+  headers.append("Access-Control-Allow-Origin", "*");
+  headers.append("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  headers.append("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  headers.append("Access-Control-Allow-Credentials", "true");
+
+  fetch('https://kbgiqwyohojnejjlkwae.supabase.co/functions/v1/create-workout', {
+    method: 'POST',
+    headers: headers,
+    body: JSON.stringify({
+      payload: payload,
+    }),
+  });
+
+}
 
 export default CreateWorkoutPage;
