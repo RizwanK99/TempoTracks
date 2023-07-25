@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { RadioButton } from "react-native-paper";
+import  {createWorkout}  from "../api/Workouts";
 
 const CreateWorkoutPage = ({ navigation }) => {
   return (
@@ -159,27 +160,5 @@ const styles = StyleSheet.create({
     alignitems: "flex-end",
   },
 });
-
-function createWorkout() {
-  const payload = {
-    user_id: 16,
-    workout_name: "test",
-    workout_type: "cardio",
-    workout_name: "api's run"
-  }
-
-  let headers = new Headers();
-  headers.append("Content-Type", "application/json");
-  headers.append("Accept", "application/json");
-
-  fetch('https://kbgiqwyohojnejjlkwae.supabase.co/functions/v1/create-workout', {
-    method: 'POST',
-    headers: headers,
-    body: JSON.stringify({
-      payload: payload,
-    }),
-  });
-
-}
 
 export default CreateWorkoutPage;
