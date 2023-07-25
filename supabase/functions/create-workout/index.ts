@@ -38,6 +38,7 @@ serve(async (req) => {
     const { data: insertedWorkout, error: insertWorkoutError } = await supabase
       .from('workouts')
       .upsert(workout)
+      .select()
     if (insertWorkoutError) {
       return new Response(
         JSON.stringify({ error: insertWorkoutError }),
@@ -46,9 +47,9 @@ serve(async (req) => {
     }
 
     return new Response(
-      JSON.stringify({ data: workout }),
+      JSON.stringify({ data: insertedWorkout }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } },
-      {body: JSON.stringify({ data: workout })},
+      {body: JSON.stringify({ data: insertedWorkout })},
     )
   } catch (error) {
     return new Response(JSON.stringify({ error: error.message }), {

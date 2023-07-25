@@ -11,7 +11,7 @@ async function createPlaylist() {
     headers.append("Content-Type", "application/json");
     headers.append("Accept", "application/json");
 
-     let ret = await fetch('https://kbgiqwyohojnejjlkwae.supabase.co/functions/v1/create-playlist', {
+     let response = await fetch('https://kbgiqwyohojnejjlkwae.supabase.co/functions/v1/create-playlist', {
         method: 'POST',
         headers: headers,
         body: JSON.stringify({
@@ -20,7 +20,8 @@ async function createPlaylist() {
 
     
     });
-    console.log(ret);
+    const data = await response.json();
+    console.log(data);
 }
 
 async function deletePlaylist(playlist_id) {
@@ -29,7 +30,7 @@ async function deletePlaylist(playlist_id) {
     headers.append("Content-Type", "application/json");
     headers.append("Accept", "application/json");
 
-     let ret = await fetch('https://kbgiqwyohojnejjlkwae.supabase.co/functions/v1/delete-playlist', {
+     let response = await fetch('https://kbgiqwyohojnejjlkwae.supabase.co/functions/v1/delete-playlist', {
         method: 'POST',
         headers: headers,
         body: JSON.stringify({
@@ -38,7 +39,8 @@ async function deletePlaylist(playlist_id) {
 
     
     });
-    console.log(ret);
+    const data = await response.json();
+    console.log(data);
 }
 
 export { createPlaylist, deletePlaylist };

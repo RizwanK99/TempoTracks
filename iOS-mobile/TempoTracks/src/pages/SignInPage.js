@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, Pressable, Alert } from 'react-native';
+import { userLogIn } from '../api/User';
 
 const SignInPage = ({ navigation }) => {
-    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [textColor, setTextColor] = useState('#181818');
 
@@ -12,6 +13,22 @@ const SignInPage = ({ navigation }) => {
         } else {
             setTextColor('#ff5555')
         }
+
+
+        // if (username == "" || password == "") {
+        //     setTextColor('#ff5555')
+        // }
+        // else {
+        //     let data = userLogIn(username, password);
+
+        //     if (data == null) {
+        //         setTextColor('#ff5555')
+        //     }
+        //     else {
+        //         // save the userId to the global state
+        //         navigation.navigate('Root', { screen: 'Home' })
+        //     }
+        // }
     }
 
     return (
@@ -28,9 +45,9 @@ const SignInPage = ({ navigation }) => {
                     <Text style={styles.body}>You've been missed!</Text>
                 </View>
                 <View style={{ flex: 10 }}>
-                    <TextInput style={styles.input} placeholder='Phone, email or username' onChangeText={(email) => setEmail(email)} />
+                    <TextInput style={styles.input} placeholder='Username' onChangeText={(username) => setUsername(username)} />
                     <TextInput style={styles.input} placeholder='Password' onChangeText={(password) => setPassword(password)} secureTextEntry={true} />
-                    <Text style={[styles.help2, { color:textColor }]}>Incorrect Username/Password.</Text>
+                    <Text style={[styles.help2, { color: textColor }]}>Incorrect Username/Password.</Text>
                 </View>
                 <View style={{ flex: 1 }}>
                     <View style={[styles.helpContainer, { flexDirection: 'row' }]}>
