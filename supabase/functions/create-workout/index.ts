@@ -48,6 +48,7 @@ serve(async (req) => {
     return new Response(
       JSON.stringify({ data: workout }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      {body: JSON.stringify({ data: workout })},
     )
   } catch (error) {
     return new Response(JSON.stringify({ error: error.message }), {
