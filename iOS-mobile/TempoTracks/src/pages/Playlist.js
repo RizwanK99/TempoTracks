@@ -1,11 +1,6 @@
 import * as React from 'react';
-import {
-  TouchableOpacity,
-  StyleSheet,
-  View,
-  Text,
-  SafeAreaView
-} from 'react-native';
+import {  TouchableOpacity,  StyleSheet,  View,  Text,  SafeAreaView,  Image,} from 'react-native';
+import { IconButton } from 'react-native-paper';
 
 const playFocusImage = require("../assets/play-button.png");
 
@@ -13,34 +8,42 @@ const Playlist = props => {
   return (
     <SafeAreaView>
       <View
-      style={{
-        boxShadow: "3px 3px 3px #9E9E9E",
-        width: '80vw',
-        height: '8vh',
-        backgroundColor: '#508991',
-        borderRadius: 5,
-        margin: 5,
-        justifyContent: 'space-around',
-          alignItems: 'center',
-        flexDirection: 'row'
-      }}>
-        <View style={{
-          width: '40vw'
-        }}>
-        <Text
         style={{
-          fontWeight: 'bold',
-          marginLeft: 10
+          boxShadow: "3px 3px 3px #9E9E9E",
+          height: 60,
+          backgroundColor: '#508991',
+          borderRadius: 5,
+          margin : 5,
+          justifyContent: 'space-around',
+          alignItems: 'center',
+          flexDirection: 'row'
         }}>
-          {`Playlist - ${props.name}`}
-        </Text>
+        <View style={{
+          width: '40%'
+        }}>
+          <Text
+            style={{
+              fontWeight: 'bold',
+              marginLeft: 10
+            }}>
+            {`Playlist - ${props.name}`}
+          </Text>
         </View>
-        <img src={playFocusImage} width="auto" height="50vh"
-        >
-        </img>
+        <View >
+          <IconButton icon={playFocusImage} style={styles.img} />
+        </View>
+
       </View>
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  img: {
+    width: 100,
+    height: 100,
+  },
+});
+
 
 export default Playlist

@@ -55,9 +55,10 @@ const MusicPage = ({ route, navigation }) => {
             Your Playlists
           </Text>
           <ScrollView 
-          style={{
-            height: '80vh',
-            backgroundColor: 'white'
+          contentContainerStyle={{
+            height: '80%',
+            backgroundColor: 'white',
+            width: '100%',
           }}>
             <Playlist name = "Jog"></Playlist>
             <Playlist name = "Run"></Playlist>

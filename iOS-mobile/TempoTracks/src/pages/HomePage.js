@@ -77,7 +77,7 @@ const HomePage = ({ navigation }) => {
           </View>
         </View>
         <ScrollView horizontal={false} style={styles.box}>
-          <Text>{exercise}</Text>
+          <View>{exercise}</View>
         </ScrollView>
       </View>
       <View style={styles.btn_box}>
