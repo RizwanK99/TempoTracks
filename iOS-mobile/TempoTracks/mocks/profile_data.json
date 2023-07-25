@@ -1,0 +1,83 @@
+{
+    "name": "Darrell Schmeler",
+    "bio": "Web & Mobile UI/UX designer, Motion designer following the latest ui & ux trends",
+    "avatar": "https://i.imgur.com/GfkNpVG.jpg",
+    "summary": {
+        "calories_burned": 1000,
+        "distance_travelled": 34,
+        "workout_streak": 6
+    },
+    "feed": [
+        {
+            "id": 1,
+            "words": "cupiditate qui cum",
+            "sentence": "Ipsum laborum quasi debitis dolores veniam.",
+            "sentences":
+            "Impedit veritatis harum nihil dolores dolorem optio assumenda. Laborum saepe voluptas officia odit. Ut voluptas mollitia mollitia eum autem quisquam qui aut. Et ipsa hic harum molestias et quam qui cum. Sint sit soluta.",
+            "paragraph":
+            "Beatae voluptas ea magni quibusdam dolorem sit aut qui. Dolorem rerum et consequuntur inventore officia excepturi dolore architecto fuga. Quia consequatur asperiores rerum qui corporis dolorum. At harum velit adipisci iste odit modi veniam ut. Deserunt quibusdam velit non ea.",
+            "image":
+            "https://i0.wp.com/post.greatist.com/wp-content/uploads/sites/2/2020/02/GRT-male-pushup-1296x728-header.jpg?w=1155&h=1528",
+            "createdDate": "2017-11-21T02:33:53.770Z",
+            "user": {
+            "name": "Ronaldo",
+            "username": "Ronaldo.Effertz",
+            "avatar":
+                "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?cs=srgb&dl=pexels-pixabay-220453.jpg&fm=jpg",
+            "email": "Ronaldo.Effertz.Deckow@hotmail.com"
+            }
+        },
+        {
+            "id": 2,
+            "words": "est voluptatum aut",
+            "sentence": "Omnis omnis aut dolor quaerat sunt et optio.",
+            "sentences":
+            "Nam numquam magni saepe. Deserunt aspernatur dolorem libero soluta sint molestias et sint sed. Maiores id quis assumenda voluptates quos ut saepe officia voluptatem. Ea placeat sed ut. Modi sed earum voluptas cumque unde eum doloribus ipsam.",
+            "paragraph":
+            "Quam aut reprehenderit asperiores aut. Sunt quis aspernatur incidunt. Illo et perferendis ex incidunt eos ut maxime dolorem voluptatem. Qui rem nihil quos cumque eum doloribus. Quae beatae tempore commodi.",
+            "createdDate": "2017-11-20T18:04:58.858Z",
+            "user": {
+            "name": "Markus",
+            "username": "Markus.Price68",
+            "avatar":
+                "https://wallpapers.com/images/hd/cool-profile-picture-87h46gcobjl5e4xu.jpg",
+            "email": "Markus.Price68.Dicki@yahoo.com"
+            }
+        },
+        {
+            "id": 3,
+            "words": "vitae voluptas quia",
+            "sentence": "Voluptates dolor ad rem amet voluptas.",
+            "sentences":
+            "Rem ipsum quis. Animi ipsum ut at possimus. Beatae molestiae non odio soluta quidem ut suscipit.",
+            "paragraph":
+            "Veniam veritatis nihil illum rerum et. Temporibus facere sed delectus corporis alias. Et odio aliquid est. Quas sit et quia tempora sit eveniet quam.",
+            "createdDate": "2017-03-24T10:56:15.461Z",
+            "image": "https://i.pinimg.com/736x/51/ef/83/51ef83f158c0ae1549df0fe033ebfd00.jpg",
+            "user": {
+            "name": "Magali",
+            "username": "Magali16",
+            "avatar":
+                "https://twirpz.files.wordpress.com/2015/06/twitter-avi-gender-balanced-figure.png",
+            "email": "Magali1664@gmail.com"
+            }
+        }
+    ],
+    "friends": [
+        {
+            "id": 1,
+            "name": "Ronaldo",
+            "avatar": "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?cs=srgb&dl=pexels-pixabay-220453.jpg&fm=jpg"
+        },
+        {
+            "id": 2,
+            "name": "Markus",
+            "avatar": "https://wallpapers.com/images/hd/cool-profile-picture-87h46gcobjl5e4xu.jpg"
+        },
+        {
+            "id": 3,
+            "name": "Magali",
+            "avatar": "https://twirpz.files.wordpress.com/2015/06/twitter-avi-gender-balanced-figure.png"
+        }
+    ]
+}
