@@ -8,7 +8,7 @@ const SignInPage = ({ navigation }) => {
     const [textColor, setTextColor] = useState('#181818');
 
     function checkLogin() {
-        if (email == "admin" && password == "admin") {
+        if (username == "admin" && password == "admin") {
             navigation.navigate('Root', { screen: 'Home' })
         } else {
             setTextColor('#ff5555')
@@ -52,7 +52,7 @@ const SignInPage = ({ navigation }) => {
                 <View style={{ flex: 1 }}>
                     <View style={[styles.helpContainer, { flexDirection: 'row' }]}>
                         <Text style={styles.help}>Don't have an account? </Text>
-                        <Text style={styles.help1}>Register</Text>
+                        <Text style={styles.help1} onPress={() => navigation.navigate("Register")}>Register</Text>
                     </View>
                 </View>
             </View>
