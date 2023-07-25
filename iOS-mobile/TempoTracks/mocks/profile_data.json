@@ -2,6 +2,11 @@
     "name": "Darrell Schmeler",
     "bio": "Web & Mobile UI/UX designer, Motion designer following the latest ui & ux trends",
     "avatar": "https://i.imgur.com/GfkNpVG.jpg",
+    "summary": {
+        "calories_burned": 1000,
+        "distance_travelled": 34,
+        "workout_streak": 6
+    },
     "feed": [
         {
             "id": 1,
@@ -56,6 +61,23 @@
                 "https://twirpz.files.wordpress.com/2015/06/twitter-avi-gender-balanced-figure.png",
             "email": "Magali1664@gmail.com"
             }
+        }
+    ],
+    "friends": [
+        {
+            "id": 1,
+            "name": "Ronaldo",
+            "avatar": "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?cs=srgb&dl=pexels-pixabay-220453.jpg&fm=jpg"
+        },
+        {
+            "id": 2,
+            "name": "Markus",
+            "avatar": "https://wallpapers.com/images/hd/cool-profile-picture-87h46gcobjl5e4xu.jpg"
+        },
+        {
+            "id": 3,
+            "name": "Magali",
+            "avatar": "https://twirpz.files.wordpress.com/2015/06/twitter-avi-gender-balanced-figure.png"
         }
     ]
 }

@@ -12,27 +12,36 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  postContainer: {
-    justifyContent: 'space-between',
-    marginBottom: 5,
-    marginLeft: 12,
-    marginRight: 12,
+  progress_title: {
+    color: "#172A3A",
     marginTop: 10,
-    padding: 0,
-    borderWidth: 0,
+    textAlign: "center",
+    fontSize: 20,
+    fontWeight: "bold",
   },
+  progress_value: {
+    color: "#74B3CE",
+    marginTop: 10,
+    textAlign: "center",
+    fontSize: 40,
+    fontWeight: "bold",
+  }
 })
 
 const Summary = ({
+    summary,
     containerStyle = {},
   }) => {
     return (
         <View
             contentContainerStyle={[styles.container, containerStyle]}
         >
-            <Text>Total Calories Burned:</Text>
-            <Text>Total Distance Travelled:</Text>
-            <Text>Workout Streak:</Text>
+          <Text style={styles.progress_title}>Total Calories Burned</Text>
+          <Text style={styles.progress_value}>{summary.calories_burned} kcals</Text>
+          <Text style={styles.progress_title}>Total Distance Travelled</Text>
+          <Text style={styles.progress_value}>{summary.distance_travelled} km</Text>
+          <Text style={styles.progress_title}>Workout Streak</Text>
+          <Text style={styles.progress_value}>{summary.workout_streak} days</Text>
         </View>
     )
   }

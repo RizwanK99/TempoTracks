@@ -16,6 +16,7 @@ import {
 
 import Feed from '../components/Profile/Feed';
 import Summary from '../components/Profile/Summary';
+import FriendsList from '../components/Profile/FriendsList';
 
 const styles = StyleSheet.create({
   cardContainer: {
@@ -36,7 +37,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   indicatorTab: {
-    backgroundColor: 'transparent',
+    backgroundColor: "#004346",
   },
   scroll: {
     backgroundColor: '#FFF',
@@ -59,14 +60,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   tabLabelNumber: {
-    color: 'gray',
+    color: '#172A3A',
     fontSize: 12.5,
-    textAlign: 'center',
-  },
-  tabLabelText: {
-    color: 'black',
-    fontSize: 22.5,
-    fontWeight: '600',
     textAlign: 'center',
   },
   userBioRow: {
@@ -74,7 +69,7 @@ const styles = StyleSheet.create({
     marginRight: 40,
   },
   userBioText: {
-    color: 'gray',
+    color: '#172A3A',
     fontSize: 13.5,
     textAlign: 'center',
   },
@@ -88,7 +83,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   userNameText: {
-    color: '#5B5A5A',
+    color: '#172A3A',
     fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',
@@ -122,7 +117,7 @@ const styles = StyleSheet.create({
 })
 
 const ProfilePage = ({route, navigation}) => {
-    const {avatar, name, bio, feed, containerStyle = {}, tabContainerStyle = {}} = route.params;
+    const {avatar, name, bio, feed, friends, summary, containerStyle = {}, tabContainerStyle = {}} = route.params;
     const [tabs, setTabs] = useState({
         index: 0,
         routes: [
@@ -223,11 +218,11 @@ const ProfilePage = ({route, navigation}) => {
     const renderScene = ({ route: { key } }) => {
         switch (key) {
             case '1':
-                return <Summary />
+                return <Summary summary={summary}/>
             case '2':
                 return <Feed containerStyle={styles.sceneContainer} feed={feed} />
             case '3':
-                return <View />;
+                return <FriendsList containerStyle={styles.sceneContainer} friends={friends}/>;
             default:
                 return <View />;
         }

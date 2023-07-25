@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     padding: 0,
   },
   date: {
-    color: 'gray',
+    color: '#172A3A',
     fontSize: 12.5,
   },
   postRow: {
@@ -41,10 +41,14 @@ const styles = StyleSheet.create({
     paddingTop: 6,
   },
   wordText: {
+    color: "#172A3A",
     fontSize: 14,
     fontWeight: '500',
     lineHeight: 22,
   },
+  userText: {
+    color: "#172A3A",
+  }
 })
 
 const Post = ({ containerStyle, user, image, createdDate, sentences }) => (
@@ -60,7 +64,7 @@ const Post = ({ containerStyle, user, image, createdDate, sentences }) => (
         />
       </View>
       <View>
-        <Text>{user.name}</Text>
+        <Text styles={styles.userText}>{user.name}</Text>
         <Text style={styles.date}>
           {datetime.timeDifferenceForDate(createdDate)}
         </Text>
