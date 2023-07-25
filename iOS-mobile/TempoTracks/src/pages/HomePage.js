@@ -1,17 +1,16 @@
-import * as React from 'react';
+import * as React from "react";
 import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
   View,
   Text,
-  SafeAreaView
-} from 'react-native';
-import profileData from '../../mocks/profile_data.json';
+  SafeAreaView,
+} from "react-native";
+import profileData from "../../mocks/profile_data.json";
 
-import WorkoutObject from '../components/WorkoutObject';
-import { getUsersWorkouts } from '../api/Workouts';
-
+import WorkoutObject from "../components/Workouts/WorkoutObject";
+import { getUsersWorkouts } from "../api/Workouts";
 
 const HomePage = ({ navigation }) => {
   let exercise = [];
@@ -19,12 +18,17 @@ const HomePage = ({ navigation }) => {
 
   let workoutData = getUsersWorkouts(2);
 
-  workouts.push(new WorkoutObject("Run", 100, 10, "Cardio", [], "2021-10-01", "Notes", 1));
-  workouts.push(new WorkoutObject("Biking", 200, 20, "Biking", [], "2021-10-02", "Notes", 2));
-  workouts.push(new WorkoutObject("Sprint", 300, 30, "Cardio", [], "2021-10-03", "Notes", 3));
- 
-  for (var w = 0; w < workouts.length; w++) {
+  workouts.push(
+    new WorkoutObject("Run", 100, 10, "Cardio", [], "2021-10-01", "Notes", 1)
+  );
+  workouts.push(
+    new WorkoutObject("Biking", 200, 20, "Biking", [], "2021-10-02", "Notes", 2)
+  );
+  workouts.push(
+    new WorkoutObject("Sprint", 300, 30, "Cardio", [], "2021-10-03", "Notes", 3)
+  );
 
+  for (var w = 0; w < workouts.length; w++) {
     exercise.push(
       <View
         key={workouts[w].id}
@@ -44,17 +48,15 @@ const HomePage = ({ navigation }) => {
             height: "95%",
           }}
         >
-          <Text style={{ fontSize: 25, fontWeight: "bold" }}>{workouts[w].name}</Text>
+          <Text style={{ fontSize: 25, fontWeight: "bold" }}>
+            {workouts[w].name}
+          </Text>
           <Text>{"Duration: " + workouts[w].duration + " min"}</Text>
           <Text>{"Calories: " + workouts[w].calories + " cal"}</Text>
         </View>
       </View>
     );
   }
-
-
-
-
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -66,15 +68,11 @@ const HomePage = ({ navigation }) => {
           <View style={styles.progress_container}>
             <View style={styles.progress_box}>
               <Text style={styles.progress_title}>Current Goal</Text>
-              <Text style={styles.progress_value}>
-                {"10 min"}
-              </Text>
+              <Text style={styles.progress_value}>{"10 min"}</Text>
             </View>
             <View style={styles.progress_box}>
               <Text style={styles.progress_title}>Current Total</Text>
-              <Text style={styles.progress_value}>
-                {"15 min"}
-              </Text>
+              <Text style={styles.progress_value}>{"15 min"}</Text>
             </View>
           </View>
         </View>
@@ -95,18 +93,15 @@ const HomePage = ({ navigation }) => {
           <Text style={styles.btn_text}>Add Exercise</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => navigation.navigate("Profile", {...profileData})
-          }
+          onPress={() => navigation.navigate("Profile", { ...profileData })}
           style={[styles.btn_shape, { marginHorizontal: 10 }]}
         >
           <Text style={styles.btn_text}>View Profile</Text>
         </TouchableOpacity>
       </View>
-
-
     </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -190,6 +185,5 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 });
-
 
 export default HomePage;

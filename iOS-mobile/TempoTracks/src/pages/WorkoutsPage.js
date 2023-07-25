@@ -6,12 +6,11 @@ import {
   Text,
   SafeAreaView,
   ScrollView,
-  Button,
 } from "react-native";
-import PageHeading from "../components/PageHeading";
-import SectionHeading from "../components/SectionHeading";
-import PressableCardBanner from "../components/PressableCardBanner";
-import PressableCard from "../components/PressableCard";
+import PageHeading from "../components/Workouts/PageHeading";
+import SectionHeading from "../components/Workouts/SectionHeading";
+import PressableCardBanner from "../components/Workouts/PressableCardBanner";
+import PressableCard from "../components/Workouts/PressableCard";
 
 const WorkoutsPage = ({ navigation }) => {
   const recommendedWorkoutImage = require("../assets/recommended-workout.webp");
