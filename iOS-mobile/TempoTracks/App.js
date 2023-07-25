@@ -15,6 +15,7 @@ import WorkoutsPage from "./src/pages/WorkoutsPage";
 import MusicPage from "./src/pages/MusicPage";
 import SignInPage from "./src/pages/SignInPage";
 import LaunchPage from "./src/pages/LaunchPage";
+import RegisterPage from "./src/pages/RegisterPage";
 import IndividualWorkoutPage from "./src/pages/IndividualWorkoutPage";
 import CreateWorkoutPage from "./src/pages/CreateWorkoutPage";
 
@@ -22,14 +23,14 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const getIsLoggedIn = () => {
-  return true;
+  return false;
 };
 
 function Root() {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        headerStyle: { backgroundColor: "#09BC8A" },
+        headerStyle: { backgroundColor: "#000000" },
         headerTintColor: "#fff",
         headerTitleStyle: { fontWeight: "bold" },
         tabBarActiveTintColor: "#74b3ce",
@@ -166,6 +167,7 @@ function LaunchStack() {
     >
       <Stack.Screen name="Launch" component={LaunchPage} />
       <Stack.Screen name="SignIn" component={SignInPage} />
+      <Stack.Screen name="Register" component={RegisterPage} />
       <Stack.Screen name="Root" component={Root} />
     </Stack.Navigator>
   );

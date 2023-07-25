@@ -18,7 +18,7 @@ const LaunchPage = ({ navigation }) => {
 
             </View>
             <View style={[styles.buttonContainer, { flexDirection: 'row' }]}>
-                <Pressable style={styles.regButton}>
+                <Pressable style={styles.regButton} onPress={() => navigation.navigate("Register")}>
                     <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Register</Text>
                 </Pressable>
                 <Pressable style={styles.signButton} onPress={() => navigation.navigate("SignIn")}>
