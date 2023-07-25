@@ -14,6 +14,7 @@ const { width } = Dimensions.get("window");
 const CustomCarousel = ({ carouselData, handleItemTap }) => {
   const carouselRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [currentlySelected, setCurrentlySelected] = useState(0);
 
   const handleScroll = (event) => {
     const slideSize = event.nativeEvent.layoutMeasurement.width;
@@ -25,17 +26,26 @@ const CustomCarousel = ({ carouselData, handleItemTap }) => {
     }
   };
 
-  const renderItem = ({ item, index }) => (
-    <TouchableWithoutFeedback onPress={() => handleItemTap(index)}>
-      <View style={styles.carouselItem}>
-        <Image source={item.image} style={styles.carouselImage} />
-        <View style={styles.carouselTextContainer}>
-          <Text style={styles.carouselTitle}>{item.title}</Text>
-          <Text style={styles.carouselDescription}>{item.artists}</Text>
+  const renderItem = ({ item, index }) => {
+    return (
+      <TouchableWithoutFeedback
+        onPress={() => {
+          handleItemTap(index);
+          setCurrentlySelected(index);
+        }}
+      >
+        <View style={styles.carouselItem}>
+          <Image source={item.image} style={styles.carouselImage} />
+          <View style={styles.carouselTextContainer}>
+            <Text style={styles.carouselTitle}>{item.title}</Text>
+            <Text style={styles.carouselDescription}>
+              {index === currentlySelected ? "Currently Selected" : ""}
+            </Text>
+          </View>
         </View>
-      </View>
-    </TouchableWithoutFeedback>
-  );
+      </TouchableWithoutFeedback>
+    );
+  };
 
   const PaginationBar = () => (
     <View style={styles.paginationContainer}>

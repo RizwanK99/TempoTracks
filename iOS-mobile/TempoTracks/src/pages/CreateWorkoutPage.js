@@ -21,7 +21,7 @@ const CreateWorkoutPage = ({ navigation }) => {
       <Header navigation={navigation} />
       <ScrollView style={{ flex: 1 }}>
         <View style={{ paddingHorizontal: 8, marginTop: 18 }}>
-          <WorkoutDetailsForm />
+          <WorkoutDetailsForm navigation={navigation} />
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -51,7 +51,7 @@ const Header = ({ navigation }) => {
   );
 };
 
-const WorkoutDetailsForm = () => {
+const WorkoutDetailsForm = ({ navigation }) => {
   const [formData, setFormData] = useState({
     workoutName: "",
     description: "",
@@ -83,6 +83,7 @@ const WorkoutDetailsForm = () => {
 
   const handleItemTap = (index) => {
     setCarouselItem(index);
+    return index;
   };
 
   React.useEffect(() => {
@@ -195,7 +196,7 @@ const WorkoutDetailsForm = () => {
       >
         <TouchableOpacity
           style={styles.button}
-          onPress={() =>
+          onPress={() => {
             createWorkout(
               formData.status,
               formData.timeDuration,
@@ -204,14 +205,20 @@ const WorkoutDetailsForm = () => {
               formData.trainingIntervals,
               formData.workoutName,
               formData.playlistId
-            )
-          }
+            );
+            if (isSwitchOn) {
+              navigation.navigate("WorkoutInProgress");
+            }
+            if (!isSwitchOn) {
+              navigation.navigate("Workouts");
+            }
+          }}
         >
           <View
             style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
           >
             <Text style={{ fontWeight: "bold", fontSize: 20, color: "#FFF" }}>
-              Create
+              {isSwitchOn ? "Start" : "Create"}
             </Text>
           </View>
         </TouchableOpacity>
