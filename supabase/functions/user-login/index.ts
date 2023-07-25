@@ -17,26 +17,27 @@ serve(async (req) => {
     return new Response('ok', { headers: corsHeaders })
   }
 
+  const { username } = await req.json()
+  const { password } = await req.json()
   try {
-    const { payload } = await req.json()
 
-    console.log("Hello from Functions!")
-    console.log(payload)
-
-    const { data: insertedUser, error: insertedUserError } = await supabase
+    const { data: userdata, error: userdataError } = await supabase
       .from('users')
-      .upsert(payload)
       .select()
-    if (insertedUserError) {
+      .filter('username', 'eq', username)
+      .filter('password', 'eq', password)
+
+    if (userdataError) {
       return new Response(
-        JSON.stringify({ error: insertedUserError }),
+        JSON.stringify({ error: userdataError }),
         { headers: { ...corsHeaders, "Content-Type": "application/json" } },
       )
     }
 
     return new Response(
-      JSON.stringify({ data: insertedUser }),
+      JSON.stringify({ data: userdata }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      { body: JSON.stringify({ data: userdata }) },
     )
   } catch (error) {
     return new Response(JSON.stringify({ error: error.message }), {
