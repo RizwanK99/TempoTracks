@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+import { corsHeaders } from '../_shared/cors.ts'
 import { Buffer } from "https://deno.land/std@0.139.0/node/buffer.ts";
 import _ from "https://raw.githubusercontent.com/lodash/lodash/4.17.21-es/lodash.js"
 
@@ -12,37 +13,48 @@ const SUPABASE_ANON_KEY = Deno.env.get('SUPABASE_ANON_KEY')
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 
 serve(async (req) => {
-  const { payload } = await req.json()
-
-  console.log("Hello from Functions!")
-  console.log(payload)
-
-  const workout = {
-    user_id: 1,
-    status: '',
-    workout_type: '',
-    workout_name: '',
-  };
-  for (var key in payload) {
-    workout[key] = payload[key]
+  if (req.method === 'OPTIONS') {
+    return new Response('ok', { headers: corsHeaders })
   }
 
-  console.log(workout)
+  try {
+    const { payload } = await req.json()
 
-  const { data: insertedWorkout, error: insertWorkoutError } = await supabase
-    .from('workouts')
-    .upsert(workout)
-  if (insertWorkoutError) {
+    console.log("Hello from Functions!")
+    console.log(payload)
+
+    const workout = {
+      user_id: 1,
+      status: '',
+      workout_type: '',
+      workout_name: '',
+    };
+    for (var key in payload) {
+      workout[key] = payload[key]
+    }
+
+    console.log(workout)
+
+    const { data: insertedWorkout, error: insertWorkoutError } = await supabase
+      .from('workouts')
+      .upsert(workout)
+    if (insertWorkoutError) {
+      return new Response(
+        JSON.stringify({ error: insertWorkoutError }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      )
+    }
+
     return new Response(
-      JSON.stringify({ error: insertWorkoutError }),
-      { headers: { "Content-Type": "application/json" } },
+      JSON.stringify({ data: workout }),
+      { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     )
+  } catch (error) {
+    return new Response(JSON.stringify({ error: error.message }), {
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      status: 400,
+    })
   }
-
-  return new Response(
-    JSON.stringify({ data: workout }),
-    { headers: { "Content-Type": "application/json" } },
-  )
 })
 
 // To invoke:
