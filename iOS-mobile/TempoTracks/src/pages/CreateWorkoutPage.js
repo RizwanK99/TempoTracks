@@ -209,6 +209,9 @@ const WorkoutDetailsForm = ({ navigation }) => {
             if (isSwitchOn) {
               navigation.navigate("WorkoutInProgress");
             }
+            if (!isSwitchOn) {
+              navigation.navigate("Workouts");
+            }
           }}
         >
           <View
