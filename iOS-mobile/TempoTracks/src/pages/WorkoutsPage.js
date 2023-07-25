@@ -13,7 +13,7 @@ import SectionHeading from "../components/SectionHeading";
 import PressableCardBanner from "../components/PressableCardBanner";
 import PressableCard from "../components/PressableCard";
 
-const WorkoutsPage = ({ route, navigation }) => {
+const WorkoutsPage = ({ navigation }) => {
   const recommendedWorkoutImage = require("../assets/recommended-workout.webp");
   const createWorkoutImage = require("../assets/create-workout.png");
   const weightLiftingFocusImage = require("../assets/weight-focus-training.webp");
