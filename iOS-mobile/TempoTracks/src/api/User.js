@@ -37,7 +37,7 @@ async function userLogIn (username, password) {
     headers.append("Content-Type", "application/json");
     headers.append("Accept", "application/json");
 
-    let response = await fetch('https://kbgiqwyohojnejjlkwae.supabase.co/functions/v1/create-user', {
+    let response = await fetch('https://kbgiqwyohojnejjlkwae.supabase.co/functions/v1/user-login', {
         method: 'POST',
         headers: headers,
         body: JSON.stringify({
