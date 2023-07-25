@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
   wordText: {
     color: "#172A3A",
     fontSize: 14,
-    fontWeight: '500',
+    fontWeight: 500,
     lineHeight: 22,
   },
   userText: {

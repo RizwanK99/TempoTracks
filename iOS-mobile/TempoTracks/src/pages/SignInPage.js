@@ -8,27 +8,27 @@ const SignInPage = ({ navigation }) => {
     const [textColor, setTextColor] = useState('#181818');
 
     function checkLogin() {
-        if (username == "admin" && password == "admin") {
-            navigation.navigate('Root', { screen: 'Home' })
-        } else {
-            setTextColor('#ff5555')
-        }
-
-
-        // if (username == "" || password == "") {
+        // if (username == "admin" && password == "admin") {
+        //     navigation.navigate('Root', { screen: 'Home' })
+        // } else {
         //     setTextColor('#ff5555')
         // }
-        // else {
-        //     let data = userLogIn(username, password);
 
-        //     if (data == null) {
-        //         setTextColor('#ff5555')
-        //     }
-        //     else {
-        //         // save the userId to the global state
-        //         navigation.navigate('Root', { screen: 'Home' })
-        //     }
-        // }
+
+        if (username == "" || password == "") {
+            setTextColor('#ff5555')
+        }
+        else {
+            let data = userLogIn(username, password);
+            console.log(data);
+            if (data.length == 0) {
+                setTextColor('#ff5555')
+            }
+            else {
+                // save the userId to the global state
+                navigation.navigate('Root', { screen: 'Home' })
+            }
+        }
     }
 
     return (
@@ -69,7 +69,7 @@ const SignInPage = ({ navigation }) => {
 const styles = StyleSheet.create({
     full: {
         height: "100%",
-        padding: "30pt",
+        padding: 30,
         backgroundColor: "#181818"
     },
     container: {
@@ -81,18 +81,18 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
     },
     title: {
-        fontSize: "26pt",
+        fontSize: 26,
         color: 'white',
         paddingBottom: 20
     },
     body: {
-        fontSize: "26pt",
+        fontSize: 26,
         color: 'white',
         fontWeight: 100
     },
     buttonContainer: {
         width: "100%",
-        height: "45pt",
+        height: 45,
         justifyContent: 'space-between',
         borderRadius: 20,
         backgroundColor: "white",
@@ -102,28 +102,28 @@ const styles = StyleSheet.create({
     help: {
         alignSelf: 'center',
         color: '#6b6b6b',
-        fontSize: "11pt"
+        fontSize: 11
     },
     help1: {
         alignSelf: 'center',
         color: 'white',
-        fontSize: "11pt",
+        fontSize: 11,
     },
     help2: {
         color: '#6b6b6b',
-        fontSize: "11pt",
+        fontSize: 11,
         marginLeft: 9,
         marginTop: 4
     },
     help3: {
         alignSelf: 'center',
         color: 'white',
-        fontSize: "11pt",
+        fontSize: 11,
         marginTop: 4
     },
     input: {
         width: "100%",
-        height: "45pt",
+        height: 45,
         margin: 5,
         borderRadius: 20,
         borderWidth: 2,
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         placeholderTextColor: '#3b3b3b',
         padding: 15,
-        fontWeight: 500,
+        fontWeight: 'bold',
         color: 'white',
         fontSize: 15
     }

@@ -61,7 +61,7 @@ const RegisterPage = ({ navigation }) => {
 const styles = StyleSheet.create({
     full: {
         height: "100%",
-        padding: "30pt",
+        padding: 30,
         backgroundColor: "#181818"
     },
     container: {
@@ -73,18 +73,18 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
     },
     title: {
-        fontSize: "26pt",
+        fontSize: 26,
         color: 'white',
         paddingBottom: 20
     },
     body: {
-        fontSize: "18pt",
+        fontSize: 18,
         color: 'white',
         fontWeight: 100
     },
     buttonContainer: {
         width: "100%",
-        height: "45pt",
+        height: 45,
         justifyContent: 'space-between',
         borderRadius: 20,
         backgroundColor: "white",
@@ -94,28 +94,28 @@ const styles = StyleSheet.create({
     help: {
         alignSelf: 'center',
         color: '#6b6b6b',
-        fontSize: "11pt"
+        fontSize: 11
     },
     help1: {
         alignSelf: 'center',
         color: 'white',
-        fontSize: "11pt",
+        fontSize: 11,
     },
     help2: {
         color: '#6b6b6b',
-        fontSize: "11pt",
+        fontSize: 11,
         marginLeft: 9,
         marginTop: 4
     },
     help3: {
         alignSelf: 'center',
         color: 'white',
-        fontSize: "11pt",
+        fontSize: 11,
         marginTop: 4
     },
     input: {
         width: "100%",
-        height: "45pt",
+        height: 45,
         margin: 5,
         borderRadius: 20,
         borderWidth: 2,
@@ -125,7 +125,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         placeholderTextColor: '#3b3b3b',
         padding: 15,
-        fontWeight: 500,
         color: 'white',
         fontSize: 15
     }

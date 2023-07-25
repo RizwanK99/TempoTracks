@@ -25,6 +25,7 @@ async function createUser(username, firstName, lastName, email, phoneNumber, pas
 
     const data = await response.json();
     console.log(data);
+    return data;
 }
 
 async function userLogIn (username, password) {
@@ -47,6 +48,7 @@ async function userLogIn (username, password) {
     });
     const data = await response.json();
     console.log(data);
+    return data;
 }
 
 export { createUser, userLogIn };

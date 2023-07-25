@@ -34,7 +34,7 @@ const LaunchPage = ({ navigation }) => {
 const styles = StyleSheet.create({
     full: {
         height: "100%",
-        padding: "30pt",
+        padding: 30,
         backgroundColor: "#181818"
     },
     container: {
@@ -43,18 +43,18 @@ const styles = StyleSheet.create({
         backgroundColor: "#181818"
     },
     title: {
-        fontSize: "40pt",
+        fontSize: 40,
         alignSelf: 'center',
         color: 'white'
     },
     body: {
-        fontSize: "12pt",
+        fontSize: 12,
         alignSelf: 'center',
         color: '#6b6b6b'
     },
     buttonContainer: {
         width: "100%",
-        height: "45pt",
+        height: 45,
         backgroundColor: '#222222',
         borderRadius: 20,
         justifyContent: 'space-between',

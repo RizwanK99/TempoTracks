@@ -17,15 +17,17 @@ serve(async (req) => {
     return new Response('ok', { headers: corsHeaders })
   }
 
-  const { username } = await req.json()
-  const { password } = await req.json()
+  const { payload } = await req.json()
+
+  console.log(payload.username)
+  console.log(payload.password)
   try {
 
     const { data: userdata, error: userdataError } = await supabase
       .from('users')
       .select()
-      .filter('username', 'eq', username)
-      .filter('password', 'eq', password)
+      .filter('username', 'eq', payload.username)
+      .filter('password', 'eq', payload.password)
 
     if (userdataError) {
       return new Response(
