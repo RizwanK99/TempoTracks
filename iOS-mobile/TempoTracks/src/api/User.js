@@ -1,11 +1,12 @@
-// API BACKEND NOT SET UP
-async function createUser() {
+async function createUser(username, firstName, lastName, email, phoneNumber, password) {
     //edit the payload data to match the data you want to send
     const payload = {
-        user_id: 16,
-        workout_name: "test",
-        workout_type: "cardio",
-        workout_name: "Garrick's Workout"
+        first_name: firstName,
+        last_name: lastName,
+        username: username,
+        email: email,
+        phone_number: phoneNumber,
+        password: password
     }
 
     let headers = new Headers();
