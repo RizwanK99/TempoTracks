@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Switch } from "react-native-paper";
 import {
   Button,
   SafeAreaView,
@@ -10,7 +11,9 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { RadioButton } from "react-native-paper";
-import  {createWorkout}  from "../api/Workouts";
+import { createWorkout } from "../api/Workouts";
+import { Slider } from "react-native-elements";
+import CustomCarousel from "../components/Workouts/CustomCarousel";
 
 const CreateWorkoutPage = ({ navigation }) => {
   return (
@@ -50,11 +53,22 @@ const Header = ({ navigation }) => {
 
 const WorkoutDetailsForm = () => {
   const [formData, setFormData] = useState({
-    name: "",
+    workoutName: "",
     description: "",
-    category: "",
+    workoutType: "",
     trainingIntervals: "",
+    timeDuration: "",
+    totalDistance: "",
+    playlistId: "",
+    trainingDuration: "",
+    status: "",
   });
+  const [category, setCategory] = React.useState("biking");
+  const [totalDistance, setTotalDistance] = React.useState(5);
+  const [carouselItem, setCarouselItem] = useState(0);
+  const [isSwitchOn, setIsSwitchOn] = React.useState(false);
+
+  const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
 
   const handleFormChange = (fieldName, text) => {
     setFormData((prevFormData) => ({
@@ -63,18 +77,32 @@ const WorkoutDetailsForm = () => {
     }));
   };
 
-  const [category, setCategory] = React.useState("biking");
+  const handleSliderChange = (value) => {
+    setTotalDistance(value);
+  };
+
+  const handleItemTap = (index) => {
+    setCarouselItem(index);
+  };
+
   React.useEffect(() => {
-    handleFormChange("category", category);
-  }, [category]);
+    handleFormChange("workoutType", category.toLowerCase());
+    handleFormChange("totalDistance", totalDistance);
+    const playlistId = playListMockData[carouselItem].id;
+    handleFormChange("playlistId", playlistId);
+    const status = isSwitchOn ? "started" : "not_started";
+    handleFormChange("status", status);
+  }, [category, totalDistance, carouselItem, isSwitchOn]);
 
   return (
     <View style={styles.container}>
       <View>
         <TextInput
           placeholder="Workout Name"
-          value={formData.name}
-          onChange={(event) => handleFormChange("name", event.nativeEvent.text)}
+          value={formData.workoutName}
+          onChange={(event) =>
+            handleFormChange("workoutName", event.nativeEvent.text)
+          }
           style={styles.largeInput}
         />
       </View>
@@ -93,6 +121,33 @@ const WorkoutDetailsForm = () => {
         <TextInput
           style={styles.smallInput}
           placeholder="Desired training interval in mins"
+          onChange={(event) =>
+            handleFormChange("trainingIntervals", event.nativeEvent.text)
+          }
+        />
+      </View>
+      <View style={{ paddingHorizontal: 6 }}>
+        <FormHeading text="Training Duration" />
+        <TextInput
+          style={styles.smallInput}
+          placeholder="Desired duration of training session in mins"
+          onChange={(event) =>
+            handleFormChange("timeDuration", event.nativeEvent.text)
+          }
+        />
+      </View>
+      <View style={{ paddingHorizontal: 6 }}>
+        <FormHeading text="Estimated Distance" />
+        <Text>{totalDistance.toFixed(2)} kilometers</Text>
+        <Slider
+          value={totalDistance}
+          onValueChange={handleSliderChange}
+          step={0.25}
+          minimumValue={0}
+          maximumValue={20}
+          trackStyle={styles.trackStyle}
+          thumbStyle={styles.thumbStyle}
+          thumbTintColor="#000"
         />
       </View>
       <View style={{ paddingHorizontal: 6, marginTop: 16 }}>
@@ -107,15 +162,51 @@ const WorkoutDetailsForm = () => {
           <RadioButton.Item label="HIIT" value="hiit" />
         </RadioButton.Group>
       </View>
+      <View style={{ paddingHorizontal: 6, marginTop: 8 }}>
+        <FormHeading text="Pick a playlist" />
+        <CustomCarousel
+          carouselData={playListMockData}
+          handleItemTap={handleItemTap}
+        />
+      </View>
+      <View
+        style={{
+          paddingHorizontal: 6,
+          marginTop: 28,
+          flexDirection: "row",
+          justifyContent: "space-between",
+        }}
+      >
+        <FormHeading text="Start right away?" />
+        <Switch
+          value={isSwitchOn}
+          onValueChange={onToggleSwitch}
+          trackColor={"#fff"}
+        />
+      </View>
       <View
         style={{
           flex: 1,
           marginTop: 34,
+          marginBottom: 14,
           justifyContent: "center",
           alignItems: "center",
         }}
       >
-        <TouchableOpacity style={styles.button} onPress={() => createWorkout()}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() =>
+            createWorkout(
+              formData.status,
+              formData.timeDuration,
+              formData.workoutType,
+              formData.totalDistance,
+              formData.trainingIntervals,
+              formData.workoutName,
+              formData.playlistId
+            )
+          }
+        >
           <View
             style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
           >
@@ -159,6 +250,36 @@ const styles = StyleSheet.create({
     height: 60,
     alignitems: "flex-end",
   },
+  trackStyle: {
+    height: 10,
+    borderRadius: 5,
+  },
+  thumbStyle: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+  },
 });
+
+const playListMockData = [
+  {
+    id: "1",
+    title: "Playlist 1",
+    image: require("../assets/album-art-light.jpg"),
+    artists: "Test",
+  },
+  {
+    id: "2",
+    title: "Playlist 2",
+    image: require("../assets/album-art-light.jpg"),
+    artists: "Test",
+  },
+  {
+    id: "3",
+    title: "Playlist 3",
+    image: require("../assets/album-art-light.jpg"),
+    artists: "Test",
+  },
+];
 
 export default CreateWorkoutPage;

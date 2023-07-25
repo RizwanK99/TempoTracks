@@ -1,57 +1,92 @@
-async function createWorkout() {
-    const payload = {
-        user_id: 16,
-        workout_name: "test",
-        workout_type: "cardio",
-        workout_name: "Garrick's Workout"
+import uuid from "react-native-uuid";
+async function createWorkout(
+  status,
+  timeDuration,
+  workoutType,
+  totalDistance,
+  trainingIntervals,
+  workoutName,
+  playlistId
+) {
+  console.log("status:", status);
+  console.log("timeDuration:", timeDuration);
+  console.log("workoutType:", workoutType);
+  console.log("totalDistance:", totalDistance);
+  console.log("trainingIntervals:", trainingIntervals);
+  console.log("workoutName:", workoutName);
+  console.log("playlistId:", playlistId);
+
+  const totalElevationChange = 0;
+  const totalEnergyBurned = 0;
+  const timeStart = 0;
+  const timeEnd = timeStart + timeDuration;
+  const payload = {
+    workout_id: uuid(),
+    user_id: uuid(),
+    status: status,
+    time_start: timeStart,
+    time_end: timeEnd,
+    time_duration: timeDuration,
+    workout_type: workoutType,
+    total_distance: totalDistance,
+    total_energy_burned: totalEnergyBurned,
+    total_elevation_change: totalElevationChange,
+    training_intervals: trainingIntervals,
+    workout_name: workoutName,
+    playlist_id: playlistId,
+  };
+
+  let headers = new Headers();
+  headers.append("Content-Type", "application/json");
+  headers.append("Accept", "application/json");
+
+  let ret = await fetch(
+    "https://kbgiqwyohojnejjlkwae.supabase.co/functions/v1/create-workout",
+    {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify({
+        payload: payload,
+      }),
     }
-
-    let headers = new Headers();
-    headers.append("Content-Type", "application/json");
-    headers.append("Accept", "application/json");
-
-     let ret = await fetch('https://kbgiqwyohojnejjlkwae.supabase.co/functions/v1/create-workout', {
-        method: 'POST',
-        headers: headers,
-        body: JSON.stringify({
-            payload: payload,
-        }),
-
-    
-    });
-    console.log(ret);
+  );
+  console.log(ret);
 }
 
 function deleteWorkout(workout_id) {
+  let headers = new Headers();
+  headers.append("Content-Type", "application/json");
+  headers.append("Accept", "application/json");
 
-    let headers = new Headers();
-    headers.append("Content-Type", "application/json");
-    headers.append("Accept", "application/json");
-
-    fetch('https://kbgiqwyohojnejjlkwae.supabase.co/functions/v1/delete-workout', {
-        method: 'POST',
-        headers: headers,
-        body: JSON.stringify({
-            workout_id: workout_id,
-        }),
-    });
-
+  fetch(
+    "https://kbgiqwyohojnejjlkwae.supabase.co/functions/v1/delete-workout",
+    {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify({
+        workout_id: workout_id,
+      }),
+    }
+  );
 }
 
 async function getUsersWorkouts(user_id) {
-    let headers = new Headers();
-    headers.append("Content-Type", "application/json");
-    headers.append("Accept", "application/json");
+  let headers = new Headers();
+  headers.append("Content-Type", "application/json");
+  headers.append("Accept", "application/json");
 
-    var res = await fetch('https://kbgiqwyohojnejjlkwae.supabase.co/functions/v1/get-all-workouts', {
-        method: 'POST',
-        headers: headers,
-        body: JSON.stringify({
-            user_id: user_id,
-        }),
-    });
+  var res = await fetch(
+    "https://kbgiqwyohojnejjlkwae.supabase.co/functions/v1/get-all-workouts",
+    {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify({
+        user_id: user_id,
+      }),
+    }
+  );
 
-    console.log(res);
+  console.log(res);
 }
 
 export { createWorkout, deleteWorkout, getUsersWorkouts };
