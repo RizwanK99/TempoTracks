@@ -14,6 +14,10 @@ RCT_EXTERN_METHOD(
   decrement: (RCTPromiseResolveBlock)resolve
   rejecter: (RCTPromiseRejectBlock)reject
 )
+RCT_EXTERN_METHOD(
+  requestAuthorization: (RCTPromiseResolveBlock)resolve
+  rejecter: (RCTPromiseRejectBlock)reject
+)
 
 RCT_EXTERN_METHOD(getCount: (RCTResponseSenderBlock)callback)
 

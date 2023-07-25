@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import MusicKit
 
 @objc(Counter)
 class Counter: NSObject {
@@ -34,6 +35,22 @@ class Counter: NSObject {
   @objc
   func getCount(_ callback: RCTResponseSenderBlock) {
     callback([count])
+  }
+  
+  @objc
+  func requestAuthorization(
+    _ resolve: @escaping RCTPromiseResolveBlock,
+    rejecter reject: @escaping RCTPromiseRejectBlock
+  ) -> Void {
+    Task {
+      do {
+        let response = try await MusicAuthorization.request()
+        resolve([response])
+      } catch {
+        let error = NSError(domain: "", code: 200, userInfo: nil)
+        reject("E_AUTH", "not authorized", error)
+      }
+    }
   }
   
   @objc

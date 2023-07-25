@@ -22,7 +22,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.anonymous.TempoTracks"
     },
     "web": {
       "favicon": "./src/assets/favicon.png"
