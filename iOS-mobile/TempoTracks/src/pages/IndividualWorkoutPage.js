@@ -90,8 +90,8 @@ const IndividualWorkoutPage = ({ route, navigation }) => {
                 ? {
                     latitude: currentLocation.latitude,
                     longitude: currentLocation.longitude,
-                    latitudeDelta: 0.0922,
-                    longitudeDelta: 0.0421,
+                    latitudeDelta: 0.00922,
+                    longitudeDelta: 0.00421,
                   }
                 : undefined
             }
