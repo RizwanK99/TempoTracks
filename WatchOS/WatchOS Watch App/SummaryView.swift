@@ -29,8 +29,7 @@ struct SummaryView: View {
                 VStack(alignment: .leading) {
                     SummaryMetricView(
                         title: "Total Time",
-                        value: durationFormatter
-                            .string(from: workoutManager.workout?.duration ?? 0.0) ?? ""
+                        value: workoutManager.displayTime
                     ).accentColor(Color.yellow)
                     SummaryMetricView(
                         title: "Total Distance",
