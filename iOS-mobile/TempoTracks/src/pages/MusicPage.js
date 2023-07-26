@@ -13,12 +13,18 @@ import {
 import { getSongLibrary, requestMusicAuthorization } from '../module/MusicManager';
 import Song from '../components/Music/Song';
 import { styles } from '../styles/Stylesheet';
-import Player from '../components/Music/Player';
+import PlayerControls from '../components/Music/PlayerControls';
+import LiveGraph from '../components/Music/LiveGraph';
+import { changePlaybackRate } from '../module/MusicManager';
 
 const MusicPage = ({ route, navigation }) => {
 
   const [authorized, setAuthorized] = useState(false);
   const [songs, setSongs] = useState([]);
+
+  // Player Controls
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [playbackRate, setPlaybackRate] = useState(1)
 
   const loadLibrary = async () => {
     const songData = await getSongLibrary();
@@ -29,6 +35,12 @@ const MusicPage = ({ route, navigation }) => {
   const loadAuthorization = async () => {
     await requestMusicAuthorization();
     setAuthorized(true);
+  }
+
+  const handlePlaybackRateChange = (newPlaybackRate) => {
+    setIsPlaying(true)
+    setPlaybackRate(newPlaybackRate)
+    changePlaybackRate(newPlaybackRate)
   }
 
   useEffect(() => {
@@ -56,10 +68,21 @@ const MusicPage = ({ route, navigation }) => {
             </Text>
             <ScrollView >
               {songs.map((song, index) => (
-                <Song key={index} song={song} />
+                <Song key={index} song={song} handlePlaybackRateChange={handlePlaybackRateChange} setIsPlaying={setIsPlaying}/>
               ))}
             </ScrollView >
-            <Player/>
+
+            <LiveGraph
+              isPlaying={isPlaying}
+              playbackRate={playbackRate}
+              handlePlaybackRateChange={handlePlaybackRateChange}
+            />
+            <PlayerControls 
+              isPlaying={isPlaying}
+              setIsPlaying={setIsPlaying}
+              playbackRate={playbackRate}
+              handlePlaybackRateChange={handlePlaybackRateChange}
+            />
           </View>
         </View>
       </View>

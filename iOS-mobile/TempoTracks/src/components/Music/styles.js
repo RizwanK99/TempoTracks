@@ -19,7 +19,6 @@ export const musicStyles = StyleSheet.create({
   songArtist: {
     color: "grey",
     fontSize: 14,
-    textOverflow: "ellipsis",
     maxWidth: "80%",
     marginTop: 2
   },

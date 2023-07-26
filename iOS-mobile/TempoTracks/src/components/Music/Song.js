@@ -2,11 +2,17 @@ import { Text, TouchableOpacity, View } from "react-native"
 import { musicStyles } from "./styles"
 import { playSongWithId } from "../../module/MusicManager"
 
-const Song = ({ song }) => {
+const Song = ({ 
+  song, 
+  setIsPlaying, 
+  handlePlaybackRateChange,
+}) => {
 
   const handleOnClick = () => {
     console.log('song', song)
     playSongWithId(song.id)
+    setIsPlaying(true)
+    handlePlaybackRateChange(1)
   }
 
   return (

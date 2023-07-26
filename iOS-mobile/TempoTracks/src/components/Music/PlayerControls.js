@@ -8,10 +8,12 @@ import { musicStyles } from "./styles"
 import { changePlaybackRate, pause, play } from "../../module/MusicManager";
 import { Slider } from 'react-native-elements';
 
-const Player = () => {
-  const [isPlaying, setIsPlaying] = useState(false)
-  const [speed, setSpeed] = useState(1)
-
+const PlayerControls = ({
+  isPlaying,
+  setIsPlaying,
+  playbackRate,
+  handlePlaybackRateChange
+}) => {
   const togglePlay = () => {
     if (isPlaying) {
       // pause the song
@@ -24,10 +26,8 @@ const Player = () => {
     setIsPlaying(!isPlaying)
   }
 
-  const onSpeedChange = (speed) => {
-    setSpeed(speed)
-
-    changePlaybackRate(speed)
+  const onPlaybackRateChange = (newPlaybackRate) => {
+    handlePlaybackRateChange(newPlaybackRate)
   }
 
   return (
@@ -50,18 +50,18 @@ const Player = () => {
         </TouchableOpacity>
       </View>
 
-      <Slider
-        value={speed}
+      {/* <Slider
+        value={playbackRate}
         minimumValue={0.5}
         maximumValue={1.5}
         step={0.01}
-        onValueChange={onSpeedChange}
+        onValueChange={onPlaybackRateChange}
         style={{ width: '80%' }}
         thumbTintColor="#09BC8A"
         minimumTrackTintColor="#09BC8A"
-      />
+      /> */}
     </View>
   )
 }
 
-export default Player
+export default PlayerControls
