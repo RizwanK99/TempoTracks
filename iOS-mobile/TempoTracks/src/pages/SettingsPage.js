@@ -1,6 +1,7 @@
 // React Native Bottom Navigation
 // https://aboutreact.com/react-native-bottom-navigation/
 import React, { useState, useEffect } from "react";
+import updateSettings from "../api/Settings";
 import { Switch, TextInput, Button, ToggleButton  } from 'react-native-paper';
 import { Slider } from 'react-native-elements';
 import {
@@ -21,6 +22,10 @@ const SettingsPage = ({ route, navigation }) => {
 
   useEffect(() => {
     console.log('State changed!')
+    async function fetchData() {
+      await updateSettings(dataStream,fade,mix,explicitContent,peakNormalize,bpmWarning);
+    }
+    fetchData();
   });
 
 
@@ -174,6 +179,7 @@ const SettingsPage = ({ route, navigation }) => {
     </SafeAreaView>
   );
 }
+
 const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
