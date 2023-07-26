@@ -82,8 +82,8 @@ const IndividualWorkoutPage = ({ route, navigation }) => {
             provider={PROVIDER_GOOGLE}
             initialRegion={{
               ...universityOfWaterlooCoordinates,
-              latitudeDelta: 0.0922,
-              longitudeDelta: 0.0421,
+              latitudeDelta: 0.00922,
+              longitudeDelta: 0.00421,
             }}
             region={
               currentLocation
