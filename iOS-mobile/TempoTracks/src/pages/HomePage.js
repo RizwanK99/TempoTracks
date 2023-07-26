@@ -70,7 +70,7 @@ const HomePage = ({ navigation }) => {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: 'black' }}>
       <View style={styles.full}>
         <View style={styles.container}>
           <View style={[styles.topBar, { flex: 2 }]}>
@@ -113,7 +113,7 @@ const HomePage = ({ navigation }) => {
               // }}
               style={styles.startButton}
             >
-              <Text style={{ color: '#004346', fontSize: 16, fontWeight: "bold"}}>New Exercise</Text>
+              <Text style={{ color: '#004346', fontSize: 16, fontWeight: "bold" }}>New Exercise</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -125,7 +125,7 @@ const HomePage = ({ navigation }) => {
 const styles = StyleSheet.create({
   full: {
     backgroundColor: 'black',
-    height: "100%"
+    height: "100%",
   },
   container: {
     flex: 1,
@@ -182,8 +182,8 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "#004346",
     margin: 10,
-    width: 100,
-    height: 30,
+    width: "100%",
+    height: "60%",
     justifyContent: "center"
   },
   startButtonContainer: {

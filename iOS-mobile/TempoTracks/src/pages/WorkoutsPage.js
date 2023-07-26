@@ -21,7 +21,7 @@ const WorkoutsPage = ({ navigation }) => {
   const bulkingFocusImage = require("../assets/bulking-focus.png");
   const workoutProgressImage = require("../assets/workout-trends.png");
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "black" }}>
       <ScrollView>
         {/* QUICK STARTER */}
         <View style={{ flex: 1, padding: 16 }}>
@@ -110,7 +110,12 @@ const WorkoutsPage = ({ navigation }) => {
             }}
           >
             <TouchableOpacity style={styles.button}>
-              <Text style={{ fontWeight: "bold" }} onPress={() =>  navigation.navigate("AllWorkouts")}>All Workouts</Text>
+              <Text
+                style={{ fontWeight: "bold" }}
+                onPress={() => navigation.navigate("AllWorkouts")}
+              >
+                All Workouts
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -124,6 +129,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFF",
     padding: 10,
     width: 350,
+    height: 40,
     marginTop: 16,
     borderRadius: 8,
   },

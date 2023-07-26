@@ -7,14 +7,14 @@ const Highlights = () => {
   return (
     <View
       style={{
-        backgroundColor: "gray",
+        backgroundColor: "#000",
         flex: 1,
         width: "100%",
         paddingHorizontal: 16,
         paddingVertical: 8,
       }}
     >
-      <Text style={{ fontWeight: "bold", fontSize: 24, color: "#FFF" }}>
+      <Text style={{ fontWeight: "bold", fontSize: 28, color: "#FFF" }}>
         Summary
       </Text>
       <View style={{ marginTop: 12 }}>
@@ -84,12 +84,14 @@ const HighlightItem = () => {
           alignContent: "center",
         }}
       >
-        <Ionicons name="ios-timer" size={24} color="black" />
-        <Text style={{ fontWeight: "bold", fontSize: 16 }}>Minutes</Text>
+        <Ionicons name="ios-timer" size={24} color="white" />
+        <Text style={{ fontWeight: "bold", fontSize: 16, color: "white" }}>
+          Minutes
+        </Text>
       </View>
       <View style={{ marginTop: 8 }}>
         <Text style={{ fontWeight: "bold", fontSize: 18, color: "#FFF" }}>
-          On average, you're workring out more this year compared to last year.
+          On average, you're working out more this year compared to last year.
         </Text>
         <Divider style={{ marginTop: 8 }} />
       </View>

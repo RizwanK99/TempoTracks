@@ -9,7 +9,6 @@ const Playlist = props => {
     <SafeAreaView>
       <View
         style={{
-          boxShadow: "3px 3px 3px #9E9E9E",
           height: 60,
           backgroundColor: '#508991',
           borderRadius: 5,
