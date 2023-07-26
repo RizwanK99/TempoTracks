@@ -7,7 +7,7 @@ const SignInPage = ({ navigation }) => {
     const [password, setPassword] = useState('');
     const [textColor, setTextColor] = useState('black');
 
-    function checkLogin() {
+    async function checkLogin() {
         // if (username == "admin" && password == "admin") {
         //     navigation.navigate('Root', { screen: 'Home' })
         // } else {
@@ -19,10 +19,12 @@ const SignInPage = ({ navigation }) => {
             setTextColor('#ff5555')
         }
         else {
-            let data = userLogIn(username, password);
+            let data = await userLogIn(username, password);
             console.log(data);
-            if (data.length == 0) {
+            console.log(data.data.length);
+            if (data.data.length === 0) {
                 setTextColor('#ff5555')
+                console.log("Incorrect Username/Password");
             }
             else {
                 // save the userId to the global state

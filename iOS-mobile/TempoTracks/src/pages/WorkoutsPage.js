@@ -94,7 +94,7 @@ const WorkoutsPage = ({ navigation }) => {
             }}
           >
             <TouchableOpacity style={styles.button}>
-              <Text style={{ fontWeight: "bold" }}>All Workouts</Text>
+              <Text style={{ fontWeight: "bold" }} onPress={() =>  navigation.navigate("AllWorkouts")}>All Workouts</Text>
             </TouchableOpacity>
           </View>
         </View>
