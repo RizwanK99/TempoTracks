@@ -77,10 +77,15 @@ async function deleteWorkout(workout_id) {
     console.log(data);
 }
 
-async function getUsersWorkouts(user_id) {
+async function getUsersWorkouts(user_id, status) {
     let headers = new Headers();
     headers.append("Content-Type", "application/json");
     headers.append("Accept", "application/json");
+
+    const payload = {
+        user_id: user_id,
+        status: status,
+    };
 
     let response = await fetch(
         "https://kbgiqwyohojnejjlkwae.supabase.co/functions/v1/get-all-workouts",
@@ -88,12 +93,17 @@ async function getUsersWorkouts(user_id) {
             method: "POST",
             headers: headers,
             body: JSON.stringify({
-                user_id: user_id,
+                payload: payload,
             }),
         }
     );
 
     const data = await response.json();
+
+    if (data.error){
+        return [];
+    }
+    
     console.log(data);
     return data;
 }

@@ -14,55 +14,79 @@ import profileData from "../../mocks/profile_data.json";
 import WorkoutObject from "../components/Workouts/WorkoutObject";
 import { getUsersWorkouts } from "../api/Workouts";
 import { getSongLibrary } from "../module/MusicManager";
+import { useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+async function retrieveData(user, setUser) {
+  try {
+    const value = await AsyncStorage.getItem("user_data");
+    if (value !== null) {
+      let userData = JSON.parse(value);
+      await setUser(userData);
+    }
+  } catch (error) {
+    console.log("Error retreiving user data", error);
+  }
+}
 
 const HomePage = ({ navigation }) => {
-  let exercise = [];
-  let workouts = [];
+  const [workouts, setWorkouts] = useState([]);
+  const [user, setUser] = useState({});
+  const [exerciseList, setExerciseList] = useState([]);
 
-  var formattedDate = format(endOfDay(new Date()), "EEEE, MMMM do");
+  useEffect(() => {
+    async function fetchData() {
+      await retrieveData(user, setUser);
+      let w = await getUsersWorkouts(user.user_id, "complete");
+      setWorkouts(w.userWorkouts);
+    }
+    fetchData();
+  }, [user.user_id]);
 
-  workouts.push(
-    new WorkoutObject("Biking", 200, 20, "Biking", [], "2021-10-02", "Notes", 2)
-  );
-  workouts.push(
-    new WorkoutObject("Sprint", 300, 30, "Cardio", [], "2021-10-03", "Notes", 3)
-  );
-  workouts.push(
-    new WorkoutObject("Run", 234, 30, "Cardio", [], "2021-10-03", "Notes", 3)
-  );
-  workouts.push(
-    new WorkoutObject("Swim", 567, 30, "Cardio", [], "2021-10-03", "Notes", 3)
-  );
 
-  for (var w = 0; w < workouts.length; w++) {
-    exercise.push(
-      <View
-        key={workouts[w].id}
-        style={{
-          alignItems: "center",
-          width: "100%",
-          height: 100,
-        }}
-      >
+  useEffect(() => {
+
+    console.log(workouts);
+    let workouts1 = [];
+    if (workouts) {
+      workouts1 = [...workouts];
+    }
+    for (var w = 0; w < workouts1.length; w++) {
+      console.log("for");
+      let newExercise = [...exerciseList];
+      newExercise.push(
         <View
+          key={workouts1[w].workout_id}
           style={{
-            backgroundColor: "#222222",
-            padding: 7,
-            borderRadius: 10,
+            alignItems: "center",
             width: "100%",
-            height: "90%",
+            height: 100,
           }}
         >
-          <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-            <Text style={{ fontSize: 25, color: 'white' }}>{workouts[w].name}</Text>
-            <Text style={{ fontSize: 13, color: 'grey', marginRight: 2 }}>{workouts[w].date}</Text>
+          <View
+            style={{
+              backgroundColor: "#222222",
+              padding: 7,
+              borderRadius: 10,
+              width: "100%",
+              height: "90%",
+            }}
+          >
+            <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+              <Text style={{ fontSize: 25, color: 'white' }}>{workouts1[w].workout_name}</Text>
+              <Text style={{ fontSize: 13, color: 'grey', marginRight: 2 }}>{workouts1[w].date}</Text>
+            </View>
+            <Text style={{ color: '#74B3CE' }}>{"Duration: " + workouts1[w].time_duration + " min"}</Text>
+            <Text style={{ color: '#09BC8A' }}>{"Calories: " + workouts1[w].total_energy_burned + " cal"}</Text>
           </View>
-          <Text style={{ color: '#74B3CE' }}>{"Duration: " + workouts[w].duration + " min"}</Text>
-          <Text style={{ color: '#09BC8A' }}>{"Calories: " + workouts[w].calories + " cal"}</Text>
         </View>
-      </View>
-    );
-  }
+      );
+      setExerciseList(newExercise);
+    }
+
+  }, [workouts]);
+
+  var formattedDate = format(endOfDay(new Date()), "EEEE, MMMM do");
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: 'black' }}>
@@ -94,9 +118,8 @@ const HomePage = ({ navigation }) => {
             <Text style={{ color: 'white', fontSize: 22, }}>History</Text>
           </View>
 
-
           <ScrollView horizontal={false} style={[styles.box, { flex: 8 }]} >
-            <View>{exercise}</View>
+            <View>{exerciseList}</View>
           </ScrollView>
           <View style={[styles.startButtonContainer, { flex: 1 }]}>
             <TouchableOpacity
