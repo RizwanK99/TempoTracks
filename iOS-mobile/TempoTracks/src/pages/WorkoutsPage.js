@@ -19,9 +19,11 @@ const WorkoutsPage = ({ navigation }) => {
   const weightLossFocusImage = require("../assets/weight-loss-focus.png");
   const cardioFocusImage = require("../assets/cardio-focus.png");
   const bulkingFocusImage = require("../assets/bulking-focus.png");
+  const workoutProgressImage = require("../assets/workout-trends.png");
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView>
+        {/* QUICK STARTER */}
         <View style={{ flex: 1, padding: 16 }}>
           <View>
             <PageHeading title={"Workouts"} />
@@ -37,6 +39,7 @@ const WorkoutsPage = ({ navigation }) => {
               onPress={() => navigation.navigate("IndividualWorkout")}
             />
           </View>
+          {/* CREATE WORKOUT */}
           <View style={{ marginTop: 28 }}>
             <SectionHeading title={"Custom Made"} />
           </View>
@@ -48,6 +51,19 @@ const WorkoutsPage = ({ navigation }) => {
               onPress={() => navigation.navigate("CreateWorkout")}
             />
           </View>
+          {/* WORKOUT HISTORY */}
+          <View style={{ marginTop: 28 }}>
+            <SectionHeading title={"Progress"} />
+          </View>
+          <View style={{ marginTop: 16 }}>
+            <PressableCardBanner
+              title={"Track Your Progress"}
+              subtitle={"View your workout history."}
+              imageUri={workoutProgressImage}
+              onPress={() => navigation.navigate("WorkoutTrends")}
+            />
+          </View>
+          {/* FOCUS */}
           <View style={{ marginTop: 28 }}>
             <SectionHeading title={"Focus"} />
           </View>

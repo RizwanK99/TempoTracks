@@ -14,6 +14,9 @@ const IndividualWorkoutPage = ({ navigation }) => {
         >
           <Button title="Cancel" onPress={() => navigation.goBack()} />
         </View>
+        <View>
+          <Text>Workout Name</Text>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );

@@ -19,6 +19,7 @@ import RegisterPage from "./src/pages/RegisterPage";
 import IndividualWorkoutPage from "./src/pages/IndividualWorkoutPage";
 import CreateWorkoutPage from "./src/pages/CreateWorkoutPage";
 import WorkoutInProgressPage from "./src/pages/WorkoutInProgressPage";
+import WorkoutTrendsPage from "./src/pages/WorkoutTrendsPage";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -159,7 +160,8 @@ function WorkoutsStack() {
       <Stack.Screen
         name="WorkoutInProgress"
         component={WorkoutInProgressPage}
-      ></Stack.Screen>
+      />
+      <Stack.Screen name="WorkoutTrends" component={WorkoutTrendsPage} />
     </Stack.Navigator>
   );
 }
