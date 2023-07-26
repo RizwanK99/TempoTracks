@@ -52,6 +52,8 @@ class WorkoutManager: NSObject, ObservableObject {
         
         // Start the workout session and begin data collection.
         let startDate = Date()
+        startTime = startDate
+        self.startTimer()
         session?.startActivity(with: startDate)
         builder?.beginCollection(withStart: startDate) { (success, error) in
             // The workout has started.
@@ -86,10 +88,17 @@ class WorkoutManager: NSObject, ObservableObject {
     @Published var running = false
 
     func pause() {
+        pauseTime = Date()
+        self.invalidateTimer()
         session?.pause()
     }
 
     func resume() {
+        if let pauseTime = pauseTime {
+            totalPausedTime += Date().timeIntervalSince(pauseTime)
+        }
+        self.pauseTime = nil
+        self.startTimer()
         session?.resume()
     }
 
@@ -111,7 +120,33 @@ class WorkoutManager: NSObject, ObservableObject {
     @Published var heartRate: Double = 0
     @Published var activeEnergy: Double = 0
     @Published var distance: Double = 0
+    @Published var displayTime: String = "00:00:00"
     @Published var workout: HKWorkout?
+    
+    //Private vars
+    private var startTime: Date?
+    private var pauseTime: Date?
+    private var totalPausedTime: TimeInterval = 0
+    private var timer: Timer?
+    
+    private func startTimer(){
+        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
+            self?.updateDisplayTime()
+        }
+    }
+    
+    private func updateDisplayTime() {
+        let duration = Date().timeIntervalSince(startTime!) - totalPausedTime
+        let hours = Int(duration) / 3600
+        let minutes = (Int(duration) / 60) % 60
+        let seconds = Int(duration) % 60
+        displayTime = String(format:"%02i:%02i:%02i", hours, minutes, seconds)
+    }
+    
+    private func invalidateTimer() {
+        timer?.invalidate()
+        timer = nil
+    }
     
     func updateForStatistics(_ statistics: HKStatistics?) {
         guard let statistics = statistics else { return }
@@ -135,6 +170,11 @@ class WorkoutManager: NSObject, ObservableObject {
     }
     
     func resetWorkout() {
+        self.invalidateTimer()
+        self.startTime = nil
+        self.pauseTime = nil
+        self.totalPausedTime = 0
+        self.displayTime = "00:00:00"
         selectedWorkout = nil
         builder = nil
         session = nil

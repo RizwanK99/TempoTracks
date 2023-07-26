@@ -17,9 +17,8 @@ struct MetricsView: View {
             )
         ) { context in
             VStack(alignment: .leading) {
-                ElapsedTimeView(
-                    elapsedTime: workoutManager.builder?.elapsedTime ?? 0,
-                    showSubseconds: context.cadence == .live
+                Text(
+                    workoutManager.displayTime
                 ).foregroundColor(Color.yellow)
                 Text(
                     Measurement(
