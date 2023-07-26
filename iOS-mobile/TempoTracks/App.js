@@ -20,6 +20,7 @@ import IndividualWorkoutPage from "./src/pages/IndividualWorkoutPage";
 import CreateWorkoutPage from "./src/pages/CreateWorkoutPage";
 import WorkoutInProgressPage from "./src/pages/WorkoutInProgressPage";
 import WorkoutTrendsPage from "./src/pages/WorkoutTrendsPage";
+import AllWorkoutsPage from "./src/pages/AllWorkoutsPage";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -62,6 +63,7 @@ function Root() {
         options={{
           tabBarLabel: "Home",
           title: "TempoTracks Home",
+          headerShown: false,
         }}
       />
       <Tab.Screen
@@ -70,6 +72,7 @@ function Root() {
         options={{
           tabBarLabel: "Music",
           title: "Music",
+          headerShown: false,
         }}
       />
       <Tab.Screen
@@ -78,6 +81,7 @@ function Root() {
         options={{
           tabBarLabel: "Workouts",
           title: null,
+          headerShown: false,
         }}
       />
       <Tab.Screen
@@ -86,6 +90,7 @@ function Root() {
         options={{
           tabBarLabel: "Settings",
           title: "Setting",
+          headerShown: false,
         }}
       />
     </Tab.Navigator>
@@ -162,6 +167,7 @@ function WorkoutsStack() {
         component={WorkoutInProgressPage}
       />
       <Stack.Screen name="WorkoutTrends" component={WorkoutTrendsPage} />
+      <Stack.Screen name="AllWorkouts" component={AllWorkoutsPage} />
     </Stack.Navigator>
   );
 }

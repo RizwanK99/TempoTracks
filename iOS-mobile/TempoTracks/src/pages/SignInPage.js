@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, Pressable, Alert } from 'react-native';
 import { userLogIn } from '../api/User';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SignInPage = ({ navigation }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [textColor, setTextColor] = useState('#181818');
+    const [textColor, setTextColor] = useState('black');
 
     async function checkLogin() {
         // if (username == "admin" && password == "admin") {
@@ -20,18 +21,32 @@ const SignInPage = ({ navigation }) => {
         }
         else {
             let data = await userLogIn(username, password);
-            console.log(data);
+            console.log(data.data);
             console.log(data.data.length);
             if (data.data.length === 0) {
                 setTextColor('#ff5555')
                 console.log("Incorrect Username/Password");
             }
             else {
-                // save the userId to the global state
+
+                storeData(data.data[0]);
                 navigation.navigate('Root', { screen: 'Home' })
             }
         }
     }
+
+    async function storeData(input) {
+        try {
+            await AsyncStorage.setItem(
+                'user_data',
+                JSON.stringify(input)
+            );
+            console.log("Data Stored");
+            console.log(input);
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     return (
         <View style={styles.full}>
@@ -72,12 +87,12 @@ const styles = StyleSheet.create({
     full: {
         height: "100%",
         padding: 30,
-        backgroundColor: "#181818"
+        backgroundColor: "black"
     },
     container: {
         height: "90%",
         justifyContent: 'space-between',
-        backgroundColor: "#181818"
+        backgroundColor: "black"
     },
     helpContainer: {
         alignSelf: 'center',
