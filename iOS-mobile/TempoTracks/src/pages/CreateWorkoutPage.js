@@ -207,7 +207,8 @@ const WorkoutDetailsForm = ({ navigation }) => {
               formData.playlistId
             );
             if (isSwitchOn) {
-              navigation.navigate("WorkoutInProgress");
+              // Might need to gen workout ID from frontend for this use case
+              navigation.navigate("WorkoutInProgress", { undefined });
             }
             if (!isSwitchOn) {
               navigation.navigate("Workouts");
