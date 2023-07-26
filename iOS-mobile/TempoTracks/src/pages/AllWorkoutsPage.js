@@ -89,7 +89,8 @@ const AllWorkoutsPage = ({ navigation }) => {
         <View style={{ flex: 1, padding: 16 }}>
           {workouts?.userWorkouts?.map((w) => (
             <WorkoutCard
-              key={w.name}
+              key={w.workout_id}
+              id={w.workout_id}
               name={w.workout_name}
               duration={w.time_duration}
               caloriesBurnt={w.total_energy_burned}
@@ -104,6 +105,7 @@ const AllWorkoutsPage = ({ navigation }) => {
 };
 
 const WorkoutCard = ({
+  id,
   name,
   duration,
   caloriesBurnt,
@@ -115,6 +117,7 @@ const WorkoutCard = ({
       style={styles.card}
       onPress={() =>
         navigation.navigate("IndividualWorkout", {
+          workoutId: id,
           workoutName: name,
           workoutDuration: duration,
           caloriesBurnt: caloriesBurnt,

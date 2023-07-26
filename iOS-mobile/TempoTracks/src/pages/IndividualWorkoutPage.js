@@ -22,8 +22,13 @@ const universityOfWaterlooCoordinates = {
 
 const IndividualWorkoutPage = ({ route, navigation }) => {
   const [currentLocation, setCurrentLocation] = useState(null);
-  const { workoutName, workoutDuration, caloriesBurnt, workoutType } =
-    route.params;
+  const {
+    workoutId,
+    workoutName,
+    workoutDuration,
+    caloriesBurnt,
+    workoutType,
+  } = route.params;
 
   useEffect(() => {
     (async () => {
@@ -118,7 +123,9 @@ const IndividualWorkoutPage = ({ route, navigation }) => {
           <CustomButton
             label={"Start"}
             backgroundColor="#09BC8A"
-            handlePress={() => navigation.navigate("WorkoutInProgress")}
+            handlePress={() =>
+              navigation.navigate("WorkoutInProgress", { workoutId })
+            }
           />
         </View>
       </ScrollView>
