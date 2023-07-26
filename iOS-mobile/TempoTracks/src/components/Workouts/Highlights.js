@@ -66,7 +66,7 @@ const HighlightItem = () => {
         borderRadius: 8,
         padding: 8,
         borderWidth: 2,
-        borderColor: "#222222",
+        borderColor: "#FFF",
         borderRadius: 8,
         padding: 8,
         shadowColor: "#222222",

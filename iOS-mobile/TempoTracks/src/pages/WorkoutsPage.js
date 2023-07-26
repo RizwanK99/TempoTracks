@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import {
   TouchableOpacity,
   StyleSheet,
@@ -11,15 +11,38 @@ import PageHeading from "../components/Workouts/PageHeading";
 import SectionHeading from "../components/Workouts/SectionHeading";
 import PressableCardBanner from "../components/Workouts/PressableCardBanner";
 import PressableCard from "../components/Workouts/PressableCard";
+import { getUsersWorkouts } from "../api/Workouts";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+const recommendedWorkoutImage = require("../assets/recommended-workout.webp");
+const createWorkoutImage = require("../assets/create-workout.png");
+const weightLiftingFocusImage = require("../assets/weight-focus-training.webp");
+const weightLossFocusImage = require("../assets/weight-loss-focus.png");
+const cardioFocusImage = require("../assets/cardio-focus.png");
+const bulkingFocusImage = require("../assets/bulking-focus.png");
+const workoutProgressImage = require("../assets/workout-trends.png");
+
+async function retrieveData(user, setUser) {
+  try {
+    const value = await AsyncStorage.getItem("user_data");
+    if (value !== null) {
+      let userData = JSON.parse(value);
+      await setUser(userData);
+    }
+  } catch (error) {
+    console.log("Error retreiving user data", error);
+  }
+}
 
 const WorkoutsPage = ({ navigation }) => {
-  const recommendedWorkoutImage = require("../assets/recommended-workout.webp");
-  const createWorkoutImage = require("../assets/create-workout.png");
-  const weightLiftingFocusImage = require("../assets/weight-focus-training.webp");
-  const weightLossFocusImage = require("../assets/weight-loss-focus.png");
-  const cardioFocusImage = require("../assets/cardio-focus.png");
-  const bulkingFocusImage = require("../assets/bulking-focus.png");
-  const workoutProgressImage = require("../assets/workout-trends.png");
+  const [user, setUser] = useState({});
+  const [workouts, setWorkouts] = useState([]);
+  useEffect(() => {
+    async function fetchData() {
+      await retrieveData(user, setUser);
+      setWorkouts(await getUsersWorkouts(user.user_id));
+    }
+    fetchData();
+  }, [user.user_id]);
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "black" }}>
       <ScrollView>
@@ -46,7 +69,12 @@ const WorkoutsPage = ({ navigation }) => {
           <View style={{ marginTop: 16 }}>
             <PressableCardBanner
               title={"Designed By You"}
-              subtitle={"Create your perfect workout."}
+              subtitle={
+                "Create your perfect workout."
+                // workouts.length === 0
+                //   ? "Create your perfect workout."
+                //   : workouts.length + " created"
+              }
               imageUri={createWorkoutImage}
               onPress={() => navigation.navigate("CreateWorkout")}
             />
@@ -102,22 +130,20 @@ const WorkoutsPage = ({ navigation }) => {
               <PressableCard title={"Bulking"} imageUrl={bulkingFocusImage} />
             </View>
           </View>
-          <View
-            style={{
-              flex: 1,
-              alignItems: "center",
-              justifyContent: "center",
-            }}
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate("AllWorkouts")}
           >
-            <TouchableOpacity style={styles.button}>
-              <Text
-                style={{ fontWeight: "bold" }}
-                onPress={() => navigation.navigate("AllWorkouts")}
-              >
-                All Workouts
-              </Text>
-            </TouchableOpacity>
-          </View>
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Text style={{ fontWeight: "bold" }}>All Workouts</Text>
+            </View>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -126,7 +152,7 @@ const WorkoutsPage = ({ navigation }) => {
 const styles = StyleSheet.create({
   button: {
     alignItems: "center",
-    backgroundColor: "#FFF",
+    backgroundColor: "#09BC8A",
     padding: 10,
     width: 350,
     height: 40,

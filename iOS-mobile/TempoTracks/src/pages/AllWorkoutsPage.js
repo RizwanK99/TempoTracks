@@ -5,42 +5,36 @@ import {
   View,
   Text,
   SafeAreaView,
+  TouchableWithoutFeedback,
   ScrollView,
 } from "react-native";
 import PageHeading from "../components/Workouts/PageHeading";
-import SectionHeading from "../components/Workouts/SectionHeading";
-import PressableCardBanner from "../components/Workouts/PressableCardBanner";
-import PressableCard from "../components/Workouts/PressableCard";
-import { WorkoutObject } from "../components/Workouts/WorkoutObject";
+import { Card, Title, Paragraph } from "react-native-paper";
 import { getUsersWorkouts } from "../api/Workouts";
 import { useEffect, useState } from "react";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AntDesign } from "@expo/vector-icons";
+import { Searchbar } from "react-native-paper";
 
 async function retrieveData(user, setUser) {
   try {
-    const value = await AsyncStorage.getItem('user_data');
+    const value = await AsyncStorage.getItem("user_data");
     if (value !== null) {
-      // We have data!!
-      console.log(value);
-      let u = JSON.parse(value);
-      console.log(u);
-      await setUser(u);
-      console.log("poop")
-      console.log(user);
-
+      let userData = JSON.parse(value);
+      await setUser(userData);
     }
   } catch (error) {
-    // Error retrieving data
+    console.log("Error retreiving user data", error);
   }
-};
+}
 
 const AllWorkoutsPage = ({ navigation }) => {
   const [workouts, setWorkouts] = useState([]);
   const [user, setUser] = useState({});
+  const [searchQuery, setSearchQuery] = React.useState("");
 
-  
-  console.log(user.user_id);
-  
+  const onChangeSearch = (query) => setSearchQuery(query);
+  const [filteredData, setFilteredData] = useState({});
 
   useEffect(() => {
     async function fetchData() {
@@ -50,60 +44,100 @@ const AllWorkoutsPage = ({ navigation }) => {
     fetchData();
   }, [user.user_id]);
 
+  const handleSearch = () => {
+    const filteredData = workouts.filter(
+      (item) =>
+        item.workout_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.time_duration.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.total_energy_burned.toString().includes(searchQuery) ||
+        item.workout_type.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredData(filteredData);
+  };
+
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#000" }}>
+      <TouchableWithoutFeedback onPress={() => navigation.navigate("Workouts")}>
+        <View
+          style={{
+            flexDirection: "row",
+            marginLeft: 8,
+            marginTop: 8,
+            alignItems: "center",
+          }}
+        >
+          <>
+            <AntDesign name="left" size={20} color="#007AFF" />
+            <Text style={{ color: "#007AFF", fontSize: 16 }}>Back</Text>
+          </>
+        </View>
+      </TouchableWithoutFeedback>
+      <View style={{ marginTop: 30, marginLeft: 8 }}>
+        <PageHeading title={"Your Workouts"} />
+      </View>
+      <View
+        style={{ paddingHorizontal: 16, paddingVertical: 12, marginBottom: 8 }}
+      >
+        <Searchbar
+          style={{ borderRadius: 12 }}
+          placeholder="Search"
+          onChangeText={onChangeSearch}
+          value={searchQuery}
+          onSubmitEditing={() => handleSearch}
+        />
+      </View>
       <ScrollView>
         <View style={{ flex: 1, padding: 16 }}>
-          <View>
-            <PageHeading title={"All Your Workouts"} />
-          </View>
-
-          <View style={{ flex: 1 }}>
-            <ScrollView horizontal={false} style={styles.box}>
-              {workouts?.userWorkouts?.map(
-                w =>
-                  <View
-                    key={w.workout_id}
-                    style={{
-                      alignItems: "center",
-                      width: "100%",
-                      height: "auto",
-                      paddingTop: 8,
-                    }}
-                  >
-                    <View
-                      style={{
-                        backgroundColor: "rgba(230,230,230,1)",
-                        borderRadius: 15,
-                        padding: 15,
-                        width: "95%",
-                        height: "95%",
-                      }}
-                    >
-                      <Text style={{ fontSize: 25, fontWeight: "bold" }}>
-                        {w.workout_name}
-                      </Text>
-                      <Text>{"Duration: " + w.time_duration + " min"}</Text>
-                      <Text>{"Calories: " + w.total_energy_burned + " cal"}</Text>
-                      <Text>{"Type:" + w.workout_type} </Text>
-                    </View>
-                  </View>
-              )}
-            </ScrollView>
-          </View>
+          {workouts?.userWorkouts?.map((w) => (
+            <WorkoutCard
+              key={w.name}
+              name={w.workout_name}
+              duration={w.time_duration}
+              caloriesBurnt={w.total_energy_burned}
+              workoutType={w.workout_type}
+            />
+          ))}
         </View>
       </ScrollView>
     </SafeAreaView>
   );
 };
 
+const WorkoutCard = ({ name, duration, caloriesBurnt, workoutType }) => {
+  return (
+    <Card style={styles.card}>
+      <Card.Content>
+        <Title style={styles.title}>{name}</Title>
+        <Paragraph style={styles.details}>Duration: {duration}</Paragraph>
+        <Paragraph style={styles.details}>
+          Calories Burnt: {caloriesBurnt}
+        </Paragraph>
+        <Paragraph style={styles.details}>
+          Workout Type: {workoutType}
+        </Paragraph>
+      </Card.Content>
+    </Card>
+  );
+};
+
 const styles = StyleSheet.create({
-  box: {
-    backgroundColor: "rgba(213,218,223,1)",
-    borderRadius: 10,
-    width: "95%",
-    height: "100%",
-    alignSelf: "center",
+  card: {
+    backgroundColor: "#222",
+    marginBottom: 16,
+    elevation: 4,
+    borderRadius: 8,
+  },
+  title: {
+    color: "#fff",
+    fontSize: 22,
+    marginBottom: 8,
+    fontWeight: "bold",
+  },
+  details: {
+    color: "#74B3CE",
+    fontSize: 16,
+    marginBottom: 4,
   },
 });
+
 export default AllWorkoutsPage;
