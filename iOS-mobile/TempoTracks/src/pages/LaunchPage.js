@@ -35,12 +35,12 @@ const styles = StyleSheet.create({
     full: {
         height: "100%",
         padding: 30,
-        backgroundColor: "#181818"
+        backgroundColor: "black"
     },
     container: {
         height: "90%",
         justifyContent: 'space-between',
-        backgroundColor: "#181818"
+        backgroundColor: "black"
     },
     title: {
         fontSize: 40,
