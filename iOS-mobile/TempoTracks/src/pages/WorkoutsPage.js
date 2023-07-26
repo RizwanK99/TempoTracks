@@ -59,7 +59,7 @@ const WorkoutsPage = ({ navigation }) => {
               title={"Try a new workout"}
               subtitle={"Based on your preferences."}
               imageUri={recommendedWorkoutImage}
-              onPress={() => navigation.navigate("IndividualWorkout")}
+              onPress={() => navigation.navigate("UserPreferenceWorkout")}
             />
           </View>
           {/* CREATE WORKOUT */}

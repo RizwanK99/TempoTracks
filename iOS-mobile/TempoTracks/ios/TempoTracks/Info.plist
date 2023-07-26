@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Your description for using location</string>
 	<key>NSAppleMusicUsageDescription</key>
 	<string>Needs to access your music</string>
 	<key>CFBundleDevelopmentRegion</key>

@@ -5,12 +5,15 @@ import {
   TouchableOpacity,
   View,
   StyleSheet,
+  ScrollView,
 } from "react-native";
 import CountdownTimer from "../components/Workouts/CountDownTimer";
 import CustomButton from "../components/Button/CustomButton";
 import CustomDialog from "../components/Workouts/CustomDialog";
+import PageHeading from "../components/Workouts/PageHeading";
 
-const WorkoutInProgressPage = ({ navigation }) => {
+const WorkoutInProgressPage = ({ navigation, route }) => {
+  const { workoutId } = route.params;
   const countdownDuration = 5;
   const [isCountingDown, setIsCountingDown] = useState(true);
   const [isEndConfirmationVisible, setIsEndConfirmationVisible] =
@@ -81,24 +84,54 @@ const WorkoutInProgressPage = ({ navigation }) => {
           </View>
         </SafeAreaView>
       ) : (
-        <SafeAreaView style={{ flex: 1, paddingHorizontal: 12 }}>
-          <View>
-            <Text>Workout in Progress page</Text>
+        <SafeAreaView
+          style={{ flex: 1, paddingHorizontal: 12, backgroundColor: "black" }}
+        >
+          <View style={{ padding: 16 }}>
+            <PageHeading title="Workout In Progress" />
           </View>
-          <View>
-            <CustomButton
-              handlePress={() => {
-                setIsEndConfirmationVisible(true);
+          <ScrollView>
+            <View style={{ marginTop: 10 }}>
+              {/* Most cancer routing to get this id, fix in future */}
+              <Text style={{ color: "white" }}>
+                {"Workout ID: " + workoutId}
+              </Text>
+            </View>
+            <View
+              style={{
+                flex: 1,
+                flexDirection: "row",
+                paddingHorizontal: 16,
+                justifyContent: "space-between",
               }}
-              label="End Workout"
-            />
-          </View>
+            >
+              <View style={{ width: "45%" }}>
+                <CustomButton
+                  handlePress={() => {
+                    setIsEndConfirmationVisible(true);
+                  }}
+                  label="Pause Workout"
+                  backgroundColor="#09BC8A"
+                />
+              </View>
+              <View style={{ width: "45%" }}>
+                <CustomButton
+                  handlePress={() => {
+                    setIsEndConfirmationVisible(true);
+                  }}
+                  label="End Workout"
+                  backgroundColor="#09BC8A"
+                />
+              </View>
+            </View>
+          </ScrollView>
           {isEndConfirmationVisible && (
             <CustomDialog
               visible={isEndConfirmationVisible}
               onCancel={() =>
                 setIsEndConfirmationVisible(!isEndConfirmationVisible)
               }
+              // TODO: Call update workout to set the end time
               onConfirm={() => navigation.navigate("Workouts")}
               dialogTitle={"Confirm Workout End"}
               dialogMessage={"Are you sure you want to end your workout?"}

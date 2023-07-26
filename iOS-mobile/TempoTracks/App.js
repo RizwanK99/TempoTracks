@@ -8,6 +8,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
+// Main Screens
 import HomePage from "./src/pages/HomePage";
 import ProfilePage from "./src/pages/ProfilePage";
 import SettingsPage from "./src/pages/SettingsPage";
@@ -16,11 +17,14 @@ import MusicPage from "./src/pages/MusicPage";
 import SignInPage from "./src/pages/SignInPage";
 import LaunchPage from "./src/pages/LaunchPage";
 import RegisterPage from "./src/pages/RegisterPage";
+
+// Workout Screens
 import IndividualWorkoutPage from "./src/pages/IndividualWorkoutPage";
 import CreateWorkoutPage from "./src/pages/CreateWorkoutPage";
 import WorkoutInProgressPage from "./src/pages/WorkoutInProgressPage";
 import WorkoutTrendsPage from "./src/pages/WorkoutTrendsPage";
 import AllWorkoutsPage from "./src/pages/AllWorkoutsPage";
+import UserPreferenceWorkoutPage from "./src/pages/UserPreferenceWorkoutPage";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -40,7 +44,7 @@ function Root() {
         tabBarInactiveTintColor: "#ffffff",
         tabBarActiveBackgroundColor: "#000000",
         tabBarInactiveBackgroundColor: "#000000",
-        tabBarStyle: { borderTopWidth: 0, backgroundColor: 'black'},
+        tabBarStyle: { borderTopWidth: 0, backgroundColor: "black" },
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
           if (route.name === "HomeStack") {
@@ -171,6 +175,10 @@ function WorkoutsStack() {
       />
       <Stack.Screen name="WorkoutTrends" component={WorkoutTrendsPage} />
       <Stack.Screen name="AllWorkouts" component={AllWorkoutsPage} />
+      <Stack.Screen
+        name="UserPreferenceWorkout"
+        component={UserPreferenceWorkoutPage}
+      />
     </Stack.Navigator>
   );
 }
