@@ -10,6 +10,8 @@ async function updateSettings(dataStream, fade, mix, explicitContent, peakNormal
         high_bpm_warning: bpmWarning
     }
 
+    console.log(payload)
+
     let headers = new Headers();
     headers.append("Content-Type", "application/json");
     headers.append("Accept", "application/json");
