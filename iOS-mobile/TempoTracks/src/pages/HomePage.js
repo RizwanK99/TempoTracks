@@ -7,14 +7,21 @@ import {
   Text,
   SafeAreaView,
 } from "react-native";
+import { endOfDay, format } from "date-fns";
+import * as Progress from 'react-native-progress';
 import profileData from "../../mocks/profile_data.json";
 
 import WorkoutObject from "../components/Workouts/WorkoutObject";
 import { getUsersWorkouts } from "../api/Workouts";
+import { getSongLibrary } from "../module/MusicManager";
 
 const HomePage = ({ navigation }) => {
   let exercise = [];
   let workouts = [];
+
+  let workoutData = getUsersWorkouts(2);
+
+  var formattedDate = format(endOfDay(new Date()), "EEEE, MMMM do");
 
   workouts.push(
     new WorkoutObject("Run", 100, 10, "Cardio", [], "2021-10-01", "Notes", 1)
@@ -25,6 +32,12 @@ const HomePage = ({ navigation }) => {
   workouts.push(
     new WorkoutObject("Sprint", 300, 30, "Cardio", [], "2021-10-03", "Notes", 3)
   );
+  workouts.push(
+    new WorkoutObject("Run", 234, 30, "Cardio", [], "2021-10-03", "Notes", 3)
+  );
+  workouts.push(
+    new WorkoutObject("Swim", 567, 30, "Cardio", [], "2021-10-03", "Notes", 3)
+  );
 
   for (var w = 0; w < workouts.length; w++) {
     exercise.push(
@@ -33,24 +46,24 @@ const HomePage = ({ navigation }) => {
         style={{
           alignItems: "center",
           width: "100%",
-          height: 125,
-          paddingTop: 8,
+          height: 100,
         }}
       >
         <View
           style={{
-            backgroundColor: "rgba(230,230,230,1)",
-            borderRadius: 15,
-            padding: 15,
-            width: "95%",
-            height: "95%",
+            backgroundColor: "#222222",
+            padding: 7,
+            borderRadius: 10,
+            width: "100%",
+            height: "90%",
           }}
         >
-          <Text style={{ fontSize: 25, fontWeight: "bold" }}>
-            {workouts[w].name}
-          </Text>
-          <Text>{"Duration: " + workouts[w].duration + " min"}</Text>
-          <Text>{"Calories: " + workouts[w].calories + " cal"}</Text>
+          <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+            <Text style={{ fontSize: 25, color: 'white' }}>{workouts[w].name}</Text>
+            <Text style={{ fontSize: 13, color: 'grey', marginRight: 2 }}>{workouts[w].date}</Text>
+          </View>
+          <Text style={{ color: '#74B3CE' }}>{"Duration: " + workouts[w].duration + " min"}</Text>
+          <Text style={{ color: '#09BC8A' }}>{"Calories: " + workouts[w].calories + " cal"}</Text>
         </View>
       </View>
     );
@@ -58,130 +71,135 @@ const HomePage = ({ navigation }) => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <View style={styles.container}>
-        <View style={styles.progress}>
-          <View style={styles.title_box}>
-            <Text style={styles.title}>Today's Progress!</Text>
+      <View style={styles.full}>
+        <View style={styles.container}>
+          <View style={[styles.topBar, { flex: 2 }]}>
+            <View style={{ flexDirection: "column" }}>
+              <Text style={styles.welcome}>{formattedDate}</Text>
+              <Text style={{ color: 'white', fontSize: 32 }}>Today's Progress</Text>
+            </View>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Profile", { ...profileData })}
+              style={[styles.btn_shape, { marginHorizontal: 10 }]}
+            >
+              <Text style={{ color: '#004346', fontSize: 26, alignSelf: "center", }}>{profileData.name[0]}</Text>
+            </TouchableOpacity>
           </View>
-          <View style={styles.progress_container}>
-            <View style={styles.progress_box}>
-              <Text style={styles.progress_title}>Current Goal</Text>
-              <Text style={styles.progress_value}>{"10 min"}</Text>
+          <View style={[styles.progressContainer, { flex: 2 }]}>
+            <View style={{ flexDirection: "column", justifyContent: "center", width: "100%" }}>
+              <Text style={{ fontSize: 14, color: '#09BC8A', }}>Calories: 234/350</Text>
+              <Progress.Bar progress={0.7} width={null} color={'#09BC8A'} />
+              <Text style={{ marginTop: 6, fontSize: 14, color: '#74B3CE', }}>Activity: 10/20 Minutes</Text>
+              <Progress.Bar progress={0.5} width={null} color={'#74B3CE'} />
+              <Text style={{ marginTop: 6, fontSize: 14, color: '#508991', }}>Distance: 3/10 Km</Text>
+              <Progress.Bar progress={0.3} width={null} color={'#508991'} />
             </View>
-            <View style={styles.progress_box}>
-              <Text style={styles.progress_title}>Current Total</Text>
-              <Text style={styles.progress_value}>{"15 min"}</Text>
-            </View>
+          </View>
+          <View style={[styles.historyText, { flex: 1 }]}>
+            <Text style={{ color: 'white', fontSize: 22, }}>History</Text>
+          </View>
+
+
+          <ScrollView horizontal={false} style={[styles.box, { flex: 8 }]} >
+            <View>{exercise}</View>
+          </ScrollView>
+          <View style={[styles.startButtonContainer, { flex: 1 }]}>
+            <TouchableOpacity
+              // onPress={() => {
+              //   this.props.navigation.navigate("Exercise", {
+              //     username: this.props.navigation.state.params.username,
+              //     token: this.props.navigation.state.params.token,
+              //   });
+              // }}
+              style={styles.startButton}
+            >
+              <Text style={{ color: '#004346', fontSize: 16, fontWeight: "bold"}}>New Exercise</Text>
+            </TouchableOpacity>
           </View>
         </View>
-        <ScrollView horizontal={false} style={styles.box}>
-          <View>{exercise}</View>
-        </ScrollView>
-      </View>
-      <View style={styles.btn_box}>
-        <TouchableOpacity
-          // onPress={() => {
-          //   this.props.navigation.navigate("Exercise", {
-          //     username: this.props.navigation.state.params.username,
-          //     token: this.props.navigation.state.params.token,
-          //   });
-          // }}
-          style={[styles.btn_shape, { marginHorizontal: 10 }]}
-        >
-          <Text style={styles.btn_text}>Add Exercise</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => navigation.navigate("Profile", { ...profileData })}
-          style={[styles.btn_shape, { marginHorizontal: 10 }]}
-        >
-          <Text style={styles.btn_text}>View Profile</Text>
-        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  full: {
+    backgroundColor: 'black',
+    height: "100%"
+  },
   container: {
     flex: 1,
     flexDirection: "column",
     justifyContent: "flex-start",
     alignItems: "center",
+    backgroundColor: 'black',
+    marginHorizontal: 20,
+    height: "100%"
   },
-  progress: {
-    width: "95%",
-    height: 125,
-    marginTop: 15,
-    alignItems: "center",
+  topBar: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+    alignItems: "center"
   },
-  title_box: {
-    backgroundColor: "#74b3ce",
-    borderRadius: 10,
-    width: "95%",
-    height: 40,
+  welcome: {
+    width: "100%",
+    color: 'grey',
+    fontSize: 12,
+    textTransform: "uppercase"
+  },
+  progressContainer: {
+    width: "100%",
     justifyContent: "center",
+    backgroundColor: "#222222",
+    padding: 10,
+    borderRadius: 10,
+  },
+  historyText: {
+    alignSelf: "flex-start",
+    justifyContent: "center"
   },
   title: {
-    color: "rgba(255,255,255,1)",
+    color: "white",
     fontSize: 22,
-    alignSelf: "center",
-  },
-  progress_container: {
-    flexDirection: "row",
-    width: "100%",
-    marginTop: 20,
-    justifyContent: "center",
-  },
-  progress_box: {
-    backgroundColor: "rgba(213,218,223,1)",
-    width: "40%",
-    height: 55,
-    borderRadius: 10,
-    marginHorizontal: 25,
-  },
-  progress_title: {
-    color: "#121212",
-    alignSelf: "center",
-    marginVertical: 4,
-  },
-  progress_value: {
-    color: "#121212",
-    fontSize: 20,
-    fontWeight: "bold",
-    alignSelf: "center",
-  },
-  exercise_container: {
-    width: "95%",
-    height: 400,
-    alignItems: "center",
   },
   box: {
-    backgroundColor: "rgba(213,218,223,1)",
+    backgroundColor: "black",
     borderRadius: 10,
-    width: "95%",
-    height: 275,
+    width: "100%",
+    height: "100%",
     alignSelf: "center",
   },
   btn_box: {
     flexDirection: "row",
     justifyContent: "center",
-    margin: 30,
+    margin: 2,
     alignContent: "center",
+  },
+  startButton: {
+    backgroundColor: "#09bc8a",
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: "#004346",
+    margin: 10,
+    width: 100,
+    height: 30,
+    justifyContent: "center"
+  },
+  startButtonContainer: {
+    justifyContent: "center",
+    textAlign: "center",
   },
   btn_shape: {
     backgroundColor: "#09bc8a",
-    borderRadius: 10,
-    width: "50%",
-    height: 40,
-    marginTop: 10,
-    justifyContent: "center",
-  },
-  btn_text: {
-    color: "rgba(255,255,255,1)",
-    fontSize: 16,
+    borderRadius: 50,
+    borderWidth: 2,
+    borderColor: "#004346",
+    margin: 10,
+    height: 30,
+    width: 30,
     textAlign: "center",
-    fontWeight: "bold",
-  },
+  }
 });
 
 export default HomePage;
