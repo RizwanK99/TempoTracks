@@ -36,7 +36,10 @@ function Root() {
         headerTintColor: "#fff",
         headerTitleStyle: { fontWeight: "bold" },
         tabBarActiveTintColor: "#74b3ce",
-        tabBarInactiveTintColor: "#172a3a",
+        tabBarInactiveTintColor: "#ffffff",
+        tabBarActiveBackgroundColor: "#000000",
+        tabBarInactiveBackgroundColor: "#000000",
+        tabBarStyle: { borderTopWidth: 0 },
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
           if (route.name === "HomeStack") {

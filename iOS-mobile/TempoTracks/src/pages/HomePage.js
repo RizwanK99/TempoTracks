@@ -70,7 +70,6 @@ const HomePage = ({ navigation }) => {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.full}>
         <View style={styles.container}>
           <View style={[styles.topBar, { flex: 2 }]}>
@@ -118,7 +117,6 @@ const HomePage = ({ navigation }) => {
           </View>
         </View>
       </View>
-    </SafeAreaView>
   );
 };
 
@@ -182,8 +180,8 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "#004346",
     margin: 10,
-    width: 100,
-    height: 30,
+    width: "100%",
+    height: "60%",
     justifyContent: "center"
   },
   startButtonContainer: {
