@@ -1,6 +1,6 @@
 // React Native Bottom Navigation
 // https://aboutreact.com/react-native-bottom-navigation/
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Switch, TextInput, Button, ToggleButton  } from 'react-native-paper';
 import { Slider } from 'react-native-elements';
 import {
@@ -14,6 +14,15 @@ import {
 const SettingsPage = ({ route, navigation }) => {
   const [dataStream, setDataStream] = useState(false);
   const [fade, setFade] = useState(20);
+  const [mix, setMix] = useState(20);
+  const [explicitContent, setExplicitContent] = useState(false);
+  const [peakNormalize, setPeakNormalize] = useState(1);
+  const [bpmWarning, setBPMWarning] = useState(true);
+
+  useEffect(() => {
+    console.log('State changed!')
+  });
+
 
   const onToggleSwitch = () =>{
     setDataStream(!dataStream);
@@ -22,6 +31,19 @@ const SettingsPage = ({ route, navigation }) => {
   const onFade = (value) => {
     setFade(value);
     console.log(value);
+  }
+
+  const onMix = (value) => {
+    setMix(value);
+    console.log(value);
+  }
+
+  const onExplicitContent = () => {
+    setExplicitContent(!explicitContent);
+  }
+
+  const onBPMWarning = () => {
+    setBPMWarning(!bpmWarning)
   }
 
   return (
@@ -101,9 +123,10 @@ const SettingsPage = ({ route, navigation }) => {
         <Slider
           style={{
             width: '50%',
+            marginLeft: '5%'
           }}
-          value={fade}
-          onValueChange={onFade}
+          value={mix}
+          onValueChange={onMix}
           step={0.25}
           minimumValue={0}
           maximumValue={100}
@@ -117,7 +140,7 @@ const SettingsPage = ({ route, navigation }) => {
         <Text style={styles.settingText}>
           Explicit Content
         </Text>
-        <Switch/>
+        <Switch color="#09BC8A" value={explicitContent} onValueChange={onExplicitContent}/>
         </View>
       </View>
       <View>
@@ -145,7 +168,7 @@ const SettingsPage = ({ route, navigation }) => {
           <Text style={styles.settingText}>
             High BPM Warning
           </Text>
-          <Switch/>
+          <Switch color="#09BC8A" value={bpmWarning} onValueChange={onBPMWarning}/>
         </View>
       </View>
     </SafeAreaView>
