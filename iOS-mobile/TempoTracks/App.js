@@ -25,7 +25,7 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const getIsLoggedIn = () => {
-  return false;
+  return true;
 };
 
 function Root() {
@@ -62,6 +62,7 @@ function Root() {
         options={{
           tabBarLabel: "Home",
           title: "TempoTracks Home",
+          headerShown: false
         }}
       />
       <Tab.Screen
@@ -70,6 +71,7 @@ function Root() {
         options={{
           tabBarLabel: "Music",
           title: "Music",
+          headerShown: false
         }}
       />
       <Tab.Screen
@@ -77,7 +79,8 @@ function Root() {
         component={WorkoutsStack}
         options={{
           tabBarLabel: "Workouts",
-          title: "Workouts",
+          title: null,
+          headerShown: false
         }}
       />
       <Tab.Screen
@@ -86,6 +89,7 @@ function Root() {
         options={{
           tabBarLabel: "Settings",
           title: "Setting",
+          headerShown: false
         }}
       />
     </Tab.Navigator>
