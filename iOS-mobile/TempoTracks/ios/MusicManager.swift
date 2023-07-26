@@ -251,7 +251,10 @@ class MusicManager: NSObject {
     Task {
       switch nextPlayerState {
       case "PLAY":
+        // have to re-update playback rate since playing will reset it back to 1.0
+        let currentPlaybackRate = musicPlayer.state.playbackRate
         try await musicPlayer.play()
+        musicPlayer.state.playbackRate = currentPlaybackRate
       case "PAUSE":
         musicPlayer.pause()
       case "SKIP_FORWARD":

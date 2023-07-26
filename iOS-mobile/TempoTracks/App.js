@@ -1,6 +1,6 @@
 // React Native Bottom Navigation
 // https://aboutreact.com/react-native-bottom-navigation/
-import * as React from "react";
+import { useEffect } from "react";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
@@ -34,6 +34,7 @@ const getIsLoggedIn = () => {
 };
 
 function Root() {
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
