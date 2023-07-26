@@ -22,7 +22,6 @@ const HomePage = ({ navigation }) => {
 
   var formattedDate = format(endOfDay(new Date()), "EEEE, MMMM do");
 
-
   workouts.push(
     new WorkoutObject("Run", 100, 10, "Cardio", [], "2021-10-01", "Notes", 1)
   );
@@ -182,8 +181,8 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "#004346",
     margin: 10,
-    width: "100pt",
-    height: "30pt",
+    width: 100,
+    height: 30,
     justifyContent: "center"
   },
   startButtonContainer: {
@@ -196,8 +195,8 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "#004346",
     margin: 10,
-    height: "30pt",
-    width: "30pt",
+    height: 30,
+    width: 30,
     textAlign: "center",
   }
 });
