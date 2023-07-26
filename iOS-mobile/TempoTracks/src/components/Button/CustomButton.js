@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 
-const CustomButton = ({ handlePress, label }) => {
+const CustomButton = ({ handlePress, label, backgroundColor }) => {
   return (
     <TouchableOpacity style={styles.button} onPress={handlePress}>
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 20,
     border: "2px solid #222222",
-    backgroundColor: "#222222",
+    backgroundColor: backgroundColor,
     width: "100%",
     height: 60,
     alignitems: "flex-end",

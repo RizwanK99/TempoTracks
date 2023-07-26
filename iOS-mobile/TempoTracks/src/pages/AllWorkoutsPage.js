@@ -95,6 +95,7 @@ const AllWorkoutsPage = ({ navigation }) => {
               duration={w.time_duration}
               caloriesBurnt={w.total_energy_burned}
               workoutType={w.workout_type}
+              navigation={navigation}
             />
           ))}
         </View>
@@ -103,9 +104,25 @@ const AllWorkoutsPage = ({ navigation }) => {
   );
 };
 
-const WorkoutCard = ({ name, duration, caloriesBurnt, workoutType }) => {
+const WorkoutCard = ({
+  name,
+  duration,
+  caloriesBurnt,
+  workoutType,
+  navigation,
+}) => {
   return (
-    <Card style={styles.card}>
+    <Card
+      style={styles.card}
+      onPress={() =>
+        navigation.navigate("IndividualWorkout", {
+          workoutName: name,
+          workoutDuration: duration,
+          caloriesBurnt: caloriesBurnt,
+          workoutType: workoutType,
+        })
+      }
+    >
       <Card.Content>
         <Title style={styles.title}>{name}</Title>
         <Paragraph style={styles.details}>Duration: {duration}</Paragraph>

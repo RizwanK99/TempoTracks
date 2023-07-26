@@ -91,6 +91,7 @@ const WorkoutInProgressPage = ({ navigation }) => {
                 setIsEndConfirmationVisible(true);
               }}
               label="End Workout"
+              backgroundColor="#222222"
             />
           </View>
           {isEndConfirmationVisible && (
