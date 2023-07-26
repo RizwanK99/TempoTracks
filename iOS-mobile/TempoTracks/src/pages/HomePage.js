@@ -45,33 +45,19 @@ const HomePage = ({ navigation }) => {
 
 
   useEffect(() => {
-
+    console.log("useEffect");
     console.log(workouts);
     let workouts1 = [];
     if (workouts) {
       workouts1 = [...workouts];
     }
+    console.log(workouts1);
+    let newExercise = [];
     for (var w = 0; w < workouts1.length; w++) {
       console.log("for");
-      let newExercise = [...exerciseList];
       newExercise.push(
-        <View
-          key={workouts1[w].workout_id}
-          style={{
-            alignItems: "center",
-            width: "100%",
-            height: 100,
-          }}
-        >
-          <View
-            style={{
-              backgroundColor: "#222222",
-              padding: 7,
-              borderRadius: 10,
-              width: "100%",
-              height: "90%",
-            }}
-          >
+        <View key={workouts1[w].workout_id} style={{ alignItems: "center", width: "100%", height: 100, }}>
+          <View style={{ backgroundColor: "#222222", padding: 7, borderRadius: 10, width: "100%", height: "90%", }}>
             <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
               <Text style={{ fontSize: 25, color: 'white' }}>{workouts1[w].workout_name}</Text>
               <Text style={{ fontSize: 13, color: 'grey', marginRight: 2 }}>{workouts1[w].date}</Text>
@@ -81,8 +67,8 @@ const HomePage = ({ navigation }) => {
           </View>
         </View>
       );
-      setExerciseList(newExercise);
     }
+    setExerciseList(newExercise);
 
   }, [workouts]);
 
@@ -114,13 +100,16 @@ const HomePage = ({ navigation }) => {
               <Progress.Bar progress={0.3} width={null} color={'#508991'} />
             </View>
           </View>
-          <View style={[styles.historyText, { flex: 1 }]}>
-            <Text style={{ color: 'white', fontSize: 22, }}>History</Text>
+          <View style={[styles.box, { flex: 8 }]}>
+            <View style={[styles.historyText, { width:"100%" }]}>
+              <Text style={{ color: 'white', fontSize: 22, padding:10  }}>History</Text>
+              <ScrollView style={{ width:"100%" }}>
+                <View style={{ width:"100%" }}>{exerciseList}</View>
+              </ScrollView>
+            </View>
           </View>
 
-          <ScrollView horizontal={false} style={[styles.box, { flex: 8 }]} >
-            <View>{exerciseList}</View>
-          </ScrollView>
+
           <View style={[styles.startButtonContainer, { flex: 1 }]}>
             <TouchableOpacity
               // onPress={() => {
@@ -175,7 +164,7 @@ const styles = StyleSheet.create({
   },
   historyText: {
     alignSelf: "flex-start",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   title: {
     color: "white",
@@ -193,6 +182,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     margin: 2,
     alignContent: "center",
+    width: "100%",
   },
   startButton: {
     backgroundColor: "#09bc8a",
