@@ -19,7 +19,6 @@ const MusicPage = ({ route, navigation }) => {
     <SafeAreaView style={{ backgroundColor: 'black'  }}>
       <View style={styles.full}>
         <View style={styles.container}>
-
           <View style={[styles.topBar, { flex: 2 }]}>
             <View style={{ flexDirection: "column" }}>
               <Text style={styles.welcome}>{formattedDate}</Text>

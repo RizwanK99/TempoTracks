@@ -70,7 +70,7 @@ const HomePage = ({ navigation }) => {
   }
 
   return (
-    <SafeAreaView style={{ backgroundColor: 'black' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: 'black' }}>
       <View style={styles.full}>
         <View style={styles.container}>
           <View style={[styles.topBar, { flex: 2 }]}>
