@@ -17,7 +17,7 @@ const PressableCardBanner = ({ title, subtitle, imageUri, onPress }) => {
 
 const styles = StyleSheet.create({
   cardContainer: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#222",
     borderRadius: 8,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
@@ -40,11 +40,13 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "#333",
+    //color: "#333",
+    color: "#FFF",
   },
   subtitle: {
     fontSize: 16,
-    color: "#666",
+    //color: "#666",
+    color: "#FFF",
   },
 });
 
