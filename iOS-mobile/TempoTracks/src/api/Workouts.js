@@ -21,20 +21,21 @@ async function createWorkout(
     const timeStart = 0;
     const timeEnd = timeStart + timeDuration;
     const payload = {
-        workout_id: uuid(),
-        user_id: uuid(),
+        user_id: 2,
         status: status,
-        time_start: timeStart,
-        time_end: timeEnd,
-        time_duration: timeDuration,
+        // time_start: timeStart,
+        // time_end: timeEnd,
+        // time_duration: timeDuration,
         workout_type: workoutType,
         total_distance: totalDistance,
         total_energy_burned: totalEnergyBurned,
         total_elevation_change: totalElevationChange,
         training_intervals: trainingIntervals,
         workout_name: workoutName,
-        playlist_id: playlistId,
+        // playlist_id: playlistId,
     };
+
+    console.log("payload:", payload);
 
     let headers = new Headers();
     headers.append("Content-Type", "application/json");
