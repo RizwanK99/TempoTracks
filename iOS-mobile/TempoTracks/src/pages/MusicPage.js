@@ -1,7 +1,7 @@
 // React Native Bottom Navigation
 // https://aboutreact.com/react-native-bottom-navigation/
 import * as React from 'react';
-import Playlist from './Playlist';
+import Playlist from '../components/Music/Playlist';
 import {
   TouchableOpacity,
   StyleSheet,

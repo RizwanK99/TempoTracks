@@ -48,7 +48,7 @@ const SettingsPage = ({ route, navigation }) => {
         />
         </View>
       </View>
-      <Button style={{width: '45%', justifyContent: 'flex-start', margin: '5%'}} icon="delete" mode="contained" onPress={() => console.log('Pressed')}>
+      <Button style={{width: '45%', justifyContent: 'flex-start', margin: '5%', }} buttonColor="#09BC8A" icon="delete" mode="contained" onPress={() => console.log('Pressed')}>
        Delete Account
       </Button>
       <View>
@@ -57,9 +57,9 @@ const SettingsPage = ({ route, navigation }) => {
         </Text>
         <View style={styles.setting}>
         <Text style={styles.settingText}>
-          Use Data When Streaming
+          Turn Off Data Streaming
         </Text>
-        <Switch value={dataStream} onValueChange={onToggleSwitch} />
+        <Switch color="#09BC8A" value={dataStream} onValueChange={onToggleSwitch} />
         </View>
       </View>
       <View>
@@ -82,9 +82,10 @@ const SettingsPage = ({ route, navigation }) => {
           step={0.25}
           minimumValue={0}
           maximumValue={100}
+          minimumTrackTintColor={"09BC8A"}
           trackStyle={styles.trackStyle}
           thumbStyle={styles.thumbStyle}
-          thumbTintColor="#004346"
+          thumbTintColor="#09BC8A"
         />
         <Text>
             15s
@@ -106,6 +107,7 @@ const SettingsPage = ({ route, navigation }) => {
           step={0.25}
           minimumValue={0}
           maximumValue={100}
+          minimumTrackTintColor={"09BC8A"}
           trackStyle={styles.trackStyle}
           thumbStyle={styles.thumbStyle}
           thumbTintColor="#004346"
@@ -176,13 +178,13 @@ const styles = StyleSheet.create({
   trackStyle: {
     height: 10,
     borderRadius: 5,
-    backgroundColor: '#004346'
+    backgroundColor: '#09BC8A'
   },
   thumbStyle: {
     width: 24,
     height: 24,
     borderRadius: 12,
-    backgroundColor: '#004346'
+    backgroundColor: '#09BC8A'
   }
 });
 export default SettingsPage;

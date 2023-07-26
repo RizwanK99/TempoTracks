@@ -2,7 +2,7 @@ import * as React from 'react';
 import {  TouchableOpacity,  StyleSheet,  View,  Text,  SafeAreaView,  Image,} from 'react-native';
 import { IconButton } from 'react-native-paper';
 
-const playFocusImage = require("../assets/play-button.png");
+const playFocusImage = require("../../assets/play-button.png");
 
 const Playlist = props => {
   return (
