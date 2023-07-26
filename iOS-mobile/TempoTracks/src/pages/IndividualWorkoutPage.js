@@ -118,7 +118,7 @@ const IndividualWorkoutPage = ({ route, navigation }) => {
           <CustomButton
             label={"Start"}
             backgroundColor="#09BC8A"
-            handlePress={() => console.log("pressed")}
+            handlePress={() => navigation.navigate("WorkoutInProgress")}
           />
         </View>
       </ScrollView>
