@@ -13,8 +13,8 @@
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
 		96905EF65AED1B983A6B3ABC /* libPods-TempoTracks.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58EEBF8E8E6FB1BC6CAF49B5 /* libPods-TempoTracks.a */; };
 		B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */; };
-		B34849FA2A704BDA00A72539 /* Counter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34849F92A704BDA00A72539 /* Counter.swift */; };
-		B34849FC2A704BEB00A72539 /* Counter.m in Sources */ = {isa = PBXBuildFile; fileRef = B34849FB2A704BEB00A72539 /* Counter.m */; };
+		B34849FA2A704BDA00A72539 /* MusicManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34849F92A704BDA00A72539 /* MusicManager.swift */; };
+		B34849FC2A704BEB00A72539 /* MusicManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B34849FB2A704BEB00A72539 /* MusicManager.m */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
 		E3F347EB9A134689BE441F5D /* noop-file.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA1E1F5B44D474A89715281 /* noop-file.swift */; };
 /* End PBXBuildFile section */
@@ -31,8 +31,8 @@
 		6C2E3173556A471DD304B334 /* Pods-TempoTracks.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TempoTracks.debug.xcconfig"; path = "Target Support Files/Pods-TempoTracks/Pods-TempoTracks.debug.xcconfig"; sourceTree = "<group>"; };
 		7A4D352CD337FB3A3BF06240 /* Pods-TempoTracks.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TempoTracks.release.xcconfig"; path = "Target Support Files/Pods-TempoTracks/Pods-TempoTracks.release.xcconfig"; sourceTree = "<group>"; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = TempoTracks/SplashScreen.storyboard; sourceTree = "<group>"; };
-		B34849F92A704BDA00A72539 /* Counter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Counter.swift; sourceTree = "<group>"; };
-		B34849FB2A704BEB00A72539 /* Counter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Counter.m; sourceTree = "<group>"; };
+		B34849F92A704BDA00A72539 /* MusicManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicManager.swift; sourceTree = "<group>"; };
+		B34849FB2A704BEB00A72539 /* MusicManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MusicManager.m; sourceTree = "<group>"; };
 		B34849FD2A704C0000A72539 /* TempoTracks-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TempoTracks-Bridging-Header.h"; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
 		BDA1E1F5B44D474A89715281 /* noop-file.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; name = "noop-file.swift"; path = "TempoTracks/noop-file.swift"; sourceTree = "<group>"; };
@@ -64,8 +64,8 @@
 				13B07FB71A68108700A75B9A /* main.m */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
 				BDA1E1F5B44D474A89715281 /* noop-file.swift */,
-				B34849F92A704BDA00A72539 /* Counter.swift */,
-				B34849FB2A704BEB00A72539 /* Counter.m */,
+				B34849F92A704BDA00A72539 /* MusicManager.swift */,
+				B34849FB2A704BEB00A72539 /* MusicManager.m */,
 				B34849FD2A704C0000A72539 /* TempoTracks-Bridging-Header.h */,
 			);
 			name = TempoTracks;
@@ -315,11 +315,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B34849FA2A704BDA00A72539 /* Counter.swift in Sources */,
+				B34849FA2A704BDA00A72539 /* MusicManager.swift in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */,
-				B34849FC2A704BEB00A72539 /* Counter.m in Sources */,
+				B34849FC2A704BEB00A72539 /* MusicManager.m in Sources */,
 				E3F347EB9A134689BE441F5D /* noop-file.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

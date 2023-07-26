@@ -9,6 +9,16 @@ import {
   ScrollView
 } from 'react-native';
 import { NativeModules } from 'react-native'
+import { 
+  getSongLibrary,
+  play, 
+  requestMusicAuthorization,
+  pause,
+  changePlaybackRate,
+  playSongWithId,
+  getCurrentQueue,
+  searchMusicCatalog
+} from '../module/MusicManager';
 // import Slider from '@react-native-community/slider';
 
 const PocPage = () => {
@@ -16,46 +26,32 @@ const PocPage = () => {
   const [songs, setSongs] = useState([])
 
   useEffect(() => {
-    console.log("fetching")
-    requestAuth()
+    requestMusicAuthorization()
+    .then(async () => {
+      const songLibraryData = await getSongLibrary()
+      const songs = songLibraryData[0]
+      setSongs(songs)
+    })
   }, [])
 
-  const requestAuth = async () => {
-    NativeModules.Counter.requestAuthorization()
-      .then(res => {
-        console.log("auth response", res)
-        getSongLibrary()
-      })
-      .catch(e => console.log(e.message, e.code))
+  // get current queue
+  const getQueue = async () => {
+    const currentQueue = await getCurrentQueue()
+    console.log('currentQueue', currentQueue)
   }
 
-  const getSongLibrary = () => {
-    NativeModules.Counter.getSongLibrary()
-      .then(res => {
-        console.log("songs", res[0])
-        setSongs(res[0])
-      })
-      .catch(e => console.log(e.message, e.code))
+  // add to queue
+  const addToQueue = async () => {
+    const songIds = songs.map(song => song.id)
+    const addedToQueue = await addSongsToQueue(songIds)
+    console.log('addedToQueue', addedToQueue)
   }
 
-  const playSong = (songId) => {
-    NativeModules.Counter.playSongWithId(songId)
-  }
-
-  const play = () => {
-    NativeModules.Counter.changePlayerPlayback("PLAY")
-  }
-
-  const pause = () => {
-    NativeModules.Counter.changePlayerPlayback("PAUSE")
-  }
-
-  const changePlayerState = (playbackRate) => {
-    NativeModules.Counter.changePlayerState(
-      playbackRate,
-      "",
-      ""
-    )
+  // search music searchMusicCatalog
+  const searchMusicCat = async () => {
+    const searchTerm = 'Sprinter'
+    const searchResults = await searchMusicCatalog(searchTerm)
+    console.log('searchResults', searchResults)
   }
 
   return (
@@ -70,25 +66,20 @@ const PocPage = () => {
             borderWidth: 1,
             margin: 5
           }}
-          onPress={() => playSong(song.id)}
+          onPress={() => playSongWithId(song.id)}
         >
             {song.title} - {song.artistName}
         </Text>
       ))}
 
       <View style={{ marginTop: 15 }}>
-        <Button title="Go Back" onPress={() => changePlayerState(0.75)}/>
+        <Button title="Go Back" onPress={() => changePlaybackRate(0.75)}/>
         <Button title="Play" onPress={play}/>
         <Button title="Pause" onPress={pause}/>
-        <Button title="Go Forward" onPress={() => changePlayerState(1.5)}/>
-
-        {/* <Slider
-          style={{width: 200, height: 40}}
-          minimumValue={0}
-          maximumValue={1}
-          minimumTrackTintColor="#FFFFFF"
-          maximumTrackTintColor="#000000"
-        /> */}
+        <Button title="Go Forward" onPress={() => changePlaybackRate(1.5)}/>
+        <Button title="Add to queue" onPress={addToQueue}/>
+        <Button title="Search Catalogue" onPress={searchMusicCat}/>
+        <Button title="Get Queue" onPress={getQueue}/>
       </View>
     </View>
   );
