@@ -19,13 +19,8 @@ const HomePage = ({ navigation }) => {
   let exercise = [];
   let workouts = [];
 
-  let workoutData = getUsersWorkouts(2);
-
   var formattedDate = format(endOfDay(new Date()), "EEEE, MMMM do");
 
-  workouts.push(
-    new WorkoutObject("Run", 100, 10, "Cardio", [], "2021-10-01", "Notes", 1)
-  );
   workouts.push(
     new WorkoutObject("Biking", 200, 20, "Biking", [], "2021-10-02", "Notes", 2)
   );

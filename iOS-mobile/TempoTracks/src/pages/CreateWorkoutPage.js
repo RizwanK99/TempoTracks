@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Switch } from "react-native-paper";
 import {
   Button,
@@ -12,8 +12,21 @@ import {
 } from "react-native";
 import { RadioButton } from "react-native-paper";
 import { createWorkout } from "../api/Workouts";
-import { Slider } from "react-native-elements";
 import CustomCarousel from "../components/Workouts/CustomCarousel";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Slider } from 'react-native-elements';
+
+async function retrieveData(user, setUser) {
+  try {
+    const value = await AsyncStorage.getItem("user_data");
+    if (value !== null) {
+      let userData = JSON.parse(value);
+      await setUser(userData);
+    }
+  } catch (error) {
+    console.log("Error retreiving user data", error);
+  }
+}
 
 const CreateWorkoutPage = ({ navigation }) => {
   return (
@@ -52,6 +65,17 @@ const Header = ({ navigation }) => {
 };
 
 const WorkoutDetailsForm = ({ navigation }) => {
+
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    async function fetchData() {
+      await retrieveData(user, setUser);
+    }
+    fetchData();
+  }, [user.user_id]);
+
+
   const [formData, setFormData] = useState({
     workoutName: "",
     description: "",
@@ -198,6 +222,7 @@ const WorkoutDetailsForm = ({ navigation }) => {
           style={styles.button}
           onPress={() => {
             createWorkout(
+              user.user_id,
               formData.status,
               formData.timeDuration,
               formData.workoutType,
