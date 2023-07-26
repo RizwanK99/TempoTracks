@@ -12,7 +12,7 @@ import Highlights from "../components/Workouts/Highlights";
 
 const WorkoutTrendsPage = ({ navigation }) => {
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#000" }}>
       <TouchableWithoutFeedback onPress={() => navigation.navigate("Workouts")}>
         <View
           style={{
@@ -32,7 +32,7 @@ const WorkoutTrendsPage = ({ navigation }) => {
         <View style={{ flex: 1 }}>
           <CustomBarChart />
         </View>
-        <View style={{ marginTop: 20 }}>
+        <View style={{ backgroundColor: "#000" }}>
           <Highlights />
         </View>
       </ScrollView>

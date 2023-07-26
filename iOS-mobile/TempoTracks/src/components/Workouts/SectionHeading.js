@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 22,
     fontWeight: "bold",
-    color: "#333",
+    color: "#FFF",
   },
 });
 
