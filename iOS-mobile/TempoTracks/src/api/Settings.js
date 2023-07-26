@@ -1,5 +1,6 @@
 async function updateSettings(dataStream, fade, mix, explicitContent, peakNormalize, bpmWarning) {
-
+    console.log('In api settings call')
+    
     const payload = {
         data_saver: dataStream,
         crossfade: fade,
@@ -19,6 +20,7 @@ async function updateSettings(dataStream, fade, mix, explicitContent, peakNormal
         body: JSON.stringify({
             payload: payload,
         }),
+    })
+}
 
-
-    });
+export default updateSettings
