@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Playlist from './Playlist';
+import Playlist from '../components/Music/Playlist';
 import {
   TouchableOpacity,
   StyleSheet,

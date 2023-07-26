@@ -1,6 +1,6 @@
 // React Native Bottom Navigation
 // https://aboutreact.com/react-native-bottom-navigation/
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Switch, TextInput, Button, ToggleButton  } from 'react-native-paper';
 import { Slider } from 'react-native-elements';
 import {
@@ -14,6 +14,15 @@ import {
 const SettingsPage = ({ route, navigation }) => {
   const [dataStream, setDataStream] = useState(false);
   const [fade, setFade] = useState(20);
+  const [mix, setMix] = useState(20);
+  const [explicitContent, setExplicitContent] = useState(false);
+  const [peakNormalize, setPeakNormalize] = useState(1);
+  const [bpmWarning, setBPMWarning] = useState(true);
+
+  useEffect(() => {
+    console.log('State changed!')
+  });
+
 
   const onToggleSwitch = () =>{
     setDataStream(!dataStream);
@@ -22,6 +31,19 @@ const SettingsPage = ({ route, navigation }) => {
   const onFade = (value) => {
     setFade(value);
     console.log(value);
+  }
+
+  const onMix = (value) => {
+    setMix(value);
+    console.log(value);
+  }
+
+  const onExplicitContent = () => {
+    setExplicitContent(!explicitContent);
+  }
+
+  const onBPMWarning = () => {
+    setBPMWarning(!bpmWarning)
   }
 
   return (
@@ -48,7 +70,7 @@ const SettingsPage = ({ route, navigation }) => {
         />
         </View>
       </View>
-      <Button style={{width: '45%', justifyContent: 'flex-start', margin: '5%'}} icon="delete" mode="contained" onPress={() => console.log('Pressed')}>
+      <Button style={{width: '45%', justifyContent: 'flex-start', margin: '5%', }} buttonColor="#09BC8A" icon="delete" mode="contained" onPress={() => console.log('Pressed')}>
        Delete Account
       </Button>
       <View>
@@ -57,9 +79,9 @@ const SettingsPage = ({ route, navigation }) => {
         </Text>
         <View style={styles.setting}>
         <Text style={styles.settingText}>
-          Use Data When Streaming
+          Turn Off Data Streaming
         </Text>
-        <Switch value={dataStream} onValueChange={onToggleSwitch} />
+        <Switch color="#09BC8A" value={dataStream} onValueChange={onToggleSwitch} />
         </View>
       </View>
       <View>
@@ -82,9 +104,10 @@ const SettingsPage = ({ route, navigation }) => {
           step={0.25}
           minimumValue={0}
           maximumValue={100}
+          minimumTrackTintColor={"09BC8A"}
           trackStyle={styles.trackStyle}
           thumbStyle={styles.thumbStyle}
-          thumbTintColor="#004346"
+          thumbTintColor="#09BC8A"
         />
         <Text>
             15s
@@ -100,12 +123,14 @@ const SettingsPage = ({ route, navigation }) => {
         <Slider
           style={{
             width: '50%',
+            marginLeft: '5%'
           }}
-          value={fade}
-          onValueChange={onFade}
+          value={mix}
+          onValueChange={onMix}
           step={0.25}
           minimumValue={0}
           maximumValue={100}
+          minimumTrackTintColor={"09BC8A"}
           trackStyle={styles.trackStyle}
           thumbStyle={styles.thumbStyle}
           thumbTintColor="#004346"
@@ -115,7 +140,7 @@ const SettingsPage = ({ route, navigation }) => {
         <Text style={styles.settingText}>
           Explicit Content
         </Text>
-        <Switch/>
+        <Switch color="#09BC8A" value={explicitContent} onValueChange={onExplicitContent}/>
         </View>
       </View>
       <View>
@@ -143,7 +168,7 @@ const SettingsPage = ({ route, navigation }) => {
           <Text style={styles.settingText}>
             High BPM Warning
           </Text>
-          <Switch/>
+          <Switch color="#09BC8A" value={bpmWarning} onValueChange={onBPMWarning}/>
         </View>
       </View>
     </SafeAreaView>
@@ -176,13 +201,13 @@ const styles = StyleSheet.create({
   trackStyle: {
     height: 10,
     borderRadius: 5,
-    backgroundColor: '#004346'
+    backgroundColor: '#09BC8A'
   },
   thumbStyle: {
     width: 24,
     height: 24,
     borderRadius: 12,
-    backgroundColor: '#004346'
+    backgroundColor: '#09BC8A'
   }
 });
 export default SettingsPage;
