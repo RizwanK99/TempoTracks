@@ -16,8 +16,6 @@ const HomePage = ({ navigation }) => {
   let exercise = [];
   let workouts = [];
 
-  let workoutData = getUsersWorkouts(2);
-
   workouts.push(
     new WorkoutObject("Run", 100, 10, "Cardio", [], "2021-10-01", "Notes", 1)
   );

@@ -92,6 +92,7 @@ async function getUsersWorkouts(user_id) {
 
     const data = await response.json();
     console.log(data);
+    return data;
 }
 
 export { createWorkout, deleteWorkout, getUsersWorkouts };
