@@ -115,7 +115,11 @@ const IndividualWorkoutPage = ({ route, navigation }) => {
           </MapView>
         </View>
         <View style={{ marginTop: 24, marginBottom: 12 }}>
-          <CustomButton label={"Start"} backgroundColor="#09BC8A" />
+          <CustomButton
+            label={"Start"}
+            backgroundColor="#09BC8A"
+            handlePress={() => console.log("pressed")}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>
