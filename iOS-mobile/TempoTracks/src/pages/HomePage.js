@@ -13,6 +13,7 @@ import profileData from "../../mocks/profile_data.json";
 
 import WorkoutObject from "../components/Workouts/WorkoutObject";
 import { getUsersWorkouts } from "../api/Workouts";
+import { getSongLibrary } from "../module/MusicManager";
 
 const HomePage = ({ navigation }) => {
   let exercise = [];
@@ -86,11 +87,11 @@ const HomePage = ({ navigation }) => {
           </View>
           <View style={[styles.progressContainer, { flex: 2 }]}>
             <View style={{ flexDirection: "column", justifyContent: "center", width: "100%" }}>
-              <Text style={{ fontSize: "14px", color: '#09BC8A', }}>Calories: 234/350</Text>
+              <Text style={{ fontSize: 14, color: '#09BC8A', }}>Calories: 234/350</Text>
               <Progress.Bar progress={0.7} width={null} color={'#09BC8A'} />
-              <Text style={{ marginTop: 6, fontSize: "14px", color: '#74B3CE', }}>Activity: 10/20 Minutes</Text>
+              <Text style={{ marginTop: 6, fontSize: 14, color: '#74B3CE', }}>Activity: 10/20 Minutes</Text>
               <Progress.Bar progress={0.5} width={null} color={'#74B3CE'} />
-              <Text style={{ marginTop: 6, fontSize: "14px", color: '#508991', }}>Distance: 3/10 Km</Text>
+              <Text style={{ marginTop: 6, fontSize: 14, color: '#508991', }}>Distance: 3/10 Km</Text>
               <Progress.Bar progress={0.3} width={null} color={'#508991'} />
             </View>
           </View>
@@ -191,7 +192,7 @@ const styles = StyleSheet.create({
   },
   btn_shape: {
     backgroundColor: "#09bc8a",
-    borderRadius: "50%",
+    borderRadius: 50,
     borderWidth: 2,
     borderColor: "#004346",
     margin: 10,
