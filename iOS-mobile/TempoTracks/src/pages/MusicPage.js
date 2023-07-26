@@ -16,7 +16,7 @@ const MusicPage = ({ route, navigation }) => {
   var formattedDate = format(endOfDay(new Date()), "EEEE, MMMM do");
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#000000'  }}>
+    <SafeAreaView style={{ backgroundColor: 'black'  }}>
       <View style={styles.full}>
         <View style={styles.container}>
 
