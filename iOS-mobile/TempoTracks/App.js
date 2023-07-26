@@ -26,7 +26,7 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const getIsLoggedIn = () => {
-  return false;
+  return true;
 };
 
 function Root() {
@@ -37,7 +37,10 @@ function Root() {
         headerTintColor: "#fff",
         headerTitleStyle: { fontWeight: "bold" },
         tabBarActiveTintColor: "#74b3ce",
-        tabBarInactiveTintColor: "#172a3a",
+        tabBarInactiveTintColor: "#ffffff",
+        tabBarActiveBackgroundColor: "#000000",
+        tabBarInactiveBackgroundColor: "#000000",
+        tabBarStyle: { borderTopWidth: 0, backgroundColor: 'black'},
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
           if (route.name === "HomeStack") {
