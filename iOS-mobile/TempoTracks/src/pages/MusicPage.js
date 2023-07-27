@@ -10,12 +10,13 @@ import {
   SafeAreaView,
   ScrollView
 } from 'react-native';
-import { getSongLibrary, requestMusicAuthorization } from '../module/MusicManager';
+import { addSongsToQueue, getCurrentQueue, getSongLibrary, requestMusicAuthorization } from '../module/MusicManager';
 import Song from '../components/Music/Song';
 import { styles } from '../styles/Stylesheet';
 import PlayerControls from '../components/Music/PlayerControls';
 import LiveGraph from '../components/Music/LiveGraph';
 import { changePlaybackRate } from '../module/MusicManager';
+import { Button, Divider } from 'react-native-elements';
 
 const MusicPage = ({ route, navigation }) => {
 
@@ -66,17 +67,19 @@ const MusicPage = ({ route, navigation }) => {
             >
               Your Library
             </Text>
-            <ScrollView >
+            <ScrollView>
               {songs.map((song, index) => (
                 <Song key={index} song={song} handlePlaybackRateChange={handlePlaybackRateChange} setIsPlaying={setIsPlaying}/>
               ))}
+              <Button style={{ marginTop: 4 }} type="outline" title="Queue all songs" onPress={() => addSongsToQueue(songs.map(s => s.id))}/>
             </ScrollView >
-
+            <Divider style={{ backgroundColor: 'white', marginVertical: 10 }} />
             <LiveGraph
               isPlaying={isPlaying}
               playbackRate={playbackRate}
               handlePlaybackRateChange={handlePlaybackRateChange}
             />
+            <Divider style={{ backgroundColor: 'white', marginVertical: 10 }} />
             <PlayerControls 
               isPlaying={isPlaying}
               setIsPlaying={setIsPlaying}

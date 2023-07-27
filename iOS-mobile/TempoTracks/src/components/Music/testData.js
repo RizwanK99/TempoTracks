@@ -8,3 +8,75 @@ export const PLAYBACK_TEST_DATA = [
   0.575, 0.5, 0.5, 0.5, 0.525, 0.55, 0.575, 0.6, 0.625, 0.65, 0.675, 0.7, 0.725, 0.75, 0.775, 0.8,
   0.825, 0.85, 0.875, 0.9, 0.925, 0.95, 0.975, 
 ]
+
+export const HITT_TEST_DATA = {
+  name: 'HITT',
+  description: 'High Intensity Interval Training',
+  exerciseResetTime: 30,
+  exercises: [
+    {
+      name: 'Jumping Jacks',
+      duration: 5,
+      rest: 5,
+      sets: 3,
+      tempo: 1.25,
+      restTempo: 0.75,
+    },
+    {
+      name: 'Push Ups',
+      duration: 10,
+      rest: 5,
+      sets: 3,
+      tempo: 1.25,
+      restTempo: 0.75,
+    },
+    {
+      name: 'Squats',
+      duration: 10,
+      rest: 5,
+      sets: 3,
+      tempo: 1.25,
+      restTempo: 0.75,
+    },
+    {
+      name: 'Sit Ups',
+      duration: 10,
+      rest: 5,
+      sets: 3,
+      tempo: 1.25,
+      restTempo: 0.75,
+    }
+  ]
+}
+
+export const RUN_TEST_DATA = {
+  name: 'Run',
+  description: 'Run for 30 minutes',
+  exerciseResetTime: -1, // no rest between exercises
+  exercises: [
+    {
+      name: 'Warmup',
+      duration: 30,
+      rest: -1, // no rest between sets
+      sets: 1,
+      tempo: 1.25,
+      restTempo: 1,
+    },
+    {
+      name: 'Run',
+      duration: 60,
+      rest: 15,
+      sets: 3,
+      tempo: 1.5,
+      restTempo: 0.75,
+    },
+    {
+      name: 'Cooldown',
+      duration: 30,
+      rest: -1, // no rest between sets
+      set: 1,
+      tempo: 0.8,
+      restTempo: 1
+    }
+  ]
+}

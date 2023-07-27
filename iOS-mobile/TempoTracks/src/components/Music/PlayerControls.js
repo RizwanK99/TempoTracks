@@ -5,8 +5,7 @@ import {
 } from "react-native"
 import AntDesignIcons from "react-native-vector-icons/AntDesign";
 import { musicStyles } from "./styles"
-import { changePlaybackRate, pause, play } from "../../module/MusicManager";
-import { Slider } from 'react-native-elements';
+import { changePlaybackRate, pause, play, skipForward, restartSong } from "../../module/MusicManager";
 
 const PlayerControls = ({
   isPlaying,
@@ -33,7 +32,7 @@ const PlayerControls = ({
   return (
     <View style={musicStyles.playerContainer}>
       <View style={musicStyles.playerControls}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => restartSong()}>
           <AntDesignIcons name="banckward" size={48} color="white" />
         </TouchableOpacity>
         
@@ -45,7 +44,7 @@ const PlayerControls = ({
           )}
         </TouchableOpacity>
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => skipForward()}>
           <AntDesignIcons name="forward" size={48} color="white" />
         </TouchableOpacity>
       </View>
