@@ -11,8 +11,8 @@ import { AntDesign } from "@expo/vector-icons";
 import PageHeading from "../components/Workouts/PageHeading";
 import SectionHeading from "../components/Workouts/SectionHeading";
 import { Ionicons } from "@expo/vector-icons";
-import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
-import * as Location from "expo-location";
+//import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
+//import * as Location from "expo-location";
 import CustomButton from "../components/Button/CustomButton";
 
 const universityOfWaterlooCoordinates = {
@@ -30,7 +30,7 @@ const IndividualWorkoutPage = ({ route, navigation }) => {
     workoutType,
   } = route.params;
 
-  useEffect(() => {
+  /*useEffect(() => {
     (async () => {
       // Check for permissions
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -45,7 +45,7 @@ const IndividualWorkoutPage = ({ route, navigation }) => {
         longitude: location.coords.longitude,
       });
     })();
-  }, []);
+  }, []);*/
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#000" }}>
@@ -82,7 +82,7 @@ const IndividualWorkoutPage = ({ route, navigation }) => {
           <SectionHeading title={"Track Session"} />
         </View>
         <View style={{ marginTop: 8 }}>
-          <MapView
+          {/*<MapView
             style={{ height: 250, borderRadius: 8, overflow: "hidden" }}
             provider={PROVIDER_GOOGLE}
             initialRegion={{
@@ -117,7 +117,7 @@ const IndividualWorkoutPage = ({ route, navigation }) => {
                 }}
               />
             )}
-          </MapView>
+              </MapView>*/}
         </View>
         <View style={{ marginTop: 24, marginBottom: 12 }}>
           <CustomButton
