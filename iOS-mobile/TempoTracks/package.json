@@ -38,6 +38,7 @@
     "react-native-svg": "^13.10.0",
     "react-native-tab-view": "^3.5.2",
     "react-native-uuid": "^2.0.1",
+    "react-native-watch-connectivity": "^1.1.0",
     "react-native-web": "^0.18.12",
     "typescript": "^4.9.4"
   },
