@@ -4,18 +4,11 @@
 
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
-import { corsHeaders } from '../_shared/cors.ts'
+import { corsHeaders } from '../_shared/cors.js'
 import { Buffer } from "https://deno.land/std@0.139.0/node/buffer.ts";
 import _ from "https://raw.githubusercontent.com/lodash/lodash/4.17.21-es/lodash.js"
 
 console.log("Hello from Functions!")
-
-// Supabase env variables
-const SUPABASE_URL = Deno.env.get('SUPABASE_URL')
-const SUPABASE_ANON_KEY = Deno.env.get('SUPABASE_ANON_KEY')
-
-// create supabase client
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
@@ -32,19 +25,12 @@ serve(async (req) => {
     console.log(payload)
 
     const settings = {
-      id: 2,
-      data_saver: payload.data_saver,
-      crossfade: payload.crossfade,
-      auto_mix: payload.auto_mix,
-      explicit_content: payload.explicit_content,
-      bpm_normalization: payload.bpm_normalization,
-      high_bpm_warning: payload.high_bpm_warning,
+      id: 2
     };
 
     const { data: userSettings, error: userSettingsError } = await supabase
       .from('user_settings')
-      .upsert(settings)
-      .select()
+      .select('*')
     if (userSettingsError) {
       return new Response(
         JSON.stringify({ error: userSettingsError }),
