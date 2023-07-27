@@ -28,7 +28,7 @@ export const getNextExerciseState = (workout, currentExerciseState, currentTime)
         // if we need to move to the next set, check if we need to move to the next exercise
         if (currentExerciseState.exerciseIndex + 1 >= workout.exercises.length) {
           // if no more exercises, workout is complete
-          console.log('workout complete')
+          // console.log('workout complete')
           return {
             currentTempo: 1,
             exerciseIndex: -1, 
@@ -40,7 +40,7 @@ export const getNextExerciseState = (workout, currentExerciseState, currentTime)
           }
         } else {
           // move on to the next exercise
-          console.log('moving to next exercise')
+          // console.log('moving to next exercise')
           const nextExercise = workout.exercises[currentExerciseState.exerciseIndex + 1]
           return {
             currentTempo: nextExercise.tempo,
@@ -54,7 +54,7 @@ export const getNextExerciseState = (workout, currentExerciseState, currentTime)
         }
       } else {
         // resting between sets
-        console.log('resting between sets')
+        // console.log('resting between sets')
         return {
           ...currentExerciseState,
           isResting: true,
@@ -65,7 +65,7 @@ export const getNextExerciseState = (workout, currentExerciseState, currentTime)
       }
     } else {
       // if we don't need to rest, keep exercising
-      console.log('keep exercising')
+      // console.log('keep exercising')
       return {
         ...currentExerciseState,
         timeLeftInSet: currentExerciseState.timeLeftInSet - TIME_STEP_SECONDS,
@@ -80,7 +80,7 @@ export const getNextExerciseState = (workout, currentExerciseState, currentTime)
         // need to move to next exercise
         if (currentExerciseState.exerciseIndex + 1 >= workout.exercises.length) {
           // if no more exercises, workout is complete
-          console.log('workout complete after rest')
+          // console.log('workout complete after rest')
           return {
             currentTempo: 1,
             exerciseIndex: -1,
@@ -92,7 +92,7 @@ export const getNextExerciseState = (workout, currentExerciseState, currentTime)
           }
         } else {
           // move to next workout
-          console.log('moving to next exercise after rest')
+          // console.log('moving to next exercise after rest')
           const nextExercise = workout.exercises[currentExerciseState.exerciseIndex + 1]
           return {
             currentTempo: nextExercise.tempo,
@@ -106,7 +106,7 @@ export const getNextExerciseState = (workout, currentExerciseState, currentTime)
         }
       } else {
         // get ready for next set
-        console.log('getting ready for next set', currentExerciseState.isResting)
+        // console.log('getting ready for next set', currentExerciseState.isResting)
         return {
           ...currentExerciseState,
           isResting: false,
@@ -118,7 +118,7 @@ export const getNextExerciseState = (workout, currentExerciseState, currentTime)
       }
     } else {
       // if we don't need to exercise, keep resting
-      console.log('keep resting')
+      // console.log('keep resting')
       return {
         ...currentExerciseState,
         timeLeftInSet: currentExerciseState.timeLeftInSet - TIME_STEP_SECONDS,

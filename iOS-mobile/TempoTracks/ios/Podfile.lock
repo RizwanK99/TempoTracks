@@ -381,11 +381,8 @@ PODS:
     - React-jsi (= 0.71.8)
     - React-logger (= 0.71.8)
     - React-perflogger (= 0.71.8)
-<<<<<<< HEAD
   - RNCAsyncStorage (1.19.1):
     - React-Core
-  - RNScreens (3.22.1):
-=======
   - RNGestureHandler (1.10.3):
     - React-Core
   - RNReanimated (2.17.0):
@@ -416,7 +413,6 @@ PODS:
     - ReactCommon/turbomodule/core
     - Yoga
   - RNScreens (3.23.0):
->>>>>>> 3efcf0d (base-demo)
     - React-Core
     - React-RCTImage
   - RNSVG (13.10.0):
@@ -475,12 +471,9 @@ DEPENDENCIES:
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
-<<<<<<< HEAD
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
-=======
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
->>>>>>> 3efcf0d (base-demo)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - RNWatch (from `../node_modules/react-native-watch-connectivity`)
@@ -586,15 +579,12 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/runtimeexecutor"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
-<<<<<<< HEAD
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
-=======
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
->>>>>>> 3efcf0d (base-demo)
   RNScreens:
     :path: "../node_modules/react-native-screens"
   RNSVG:
@@ -654,14 +644,10 @@ SPEC CHECKSUMS:
   React-RCTVibration: 43ffd976a25f6057a7cf95ea3648ba4e00287f89
   React-runtimeexecutor: 7c51ae9d4b3e9608a2366e39ccaa606aa551b9ed
   ReactCommon: 85c98ab0a509e70bf5ee5d9715cf68dbf495b84c
-<<<<<<< HEAD
   RNCAsyncStorage: f47fe18526970a69c34b548883e1aeceb115e3e1
-  RNScreens: 50ffe2fa2342eabb2d0afbe19f7c1af286bc7fb3
-=======
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNReanimated: f186e85d9f28c9383d05ca39e11dd194f59093ec
   RNScreens: 6a8a3c6b808aa48dca1780df7b73ea524f602c63
->>>>>>> 3efcf0d (base-demo)
   RNSVG: 80584470ff1ffc7994923ea135a3e5ad825546b9
   RNWatch: fd30ca40a5b5ef58dcbc195638e68219bc455236
   Yoga: 065f0b74dba4832d6e328238de46eb72c5de9556

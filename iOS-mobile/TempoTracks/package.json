@@ -27,23 +27,16 @@
     "react-native": "0.71.8",
     "react-native-chart-kit": "^6.12.0",
     "react-native-elements": "^3.4.3",
-<<<<<<< HEAD
     "react-native-geolocation-service": "^5.3.1",
-    "react-native-maps": "^1.7.1",
-=======
     "react-native-gesture-handler": "^1.10.3",
->>>>>>> 3efcf0d (base-demo)
+    "react-native-maps": "^1.7.1",
     "react-native-modal": "^13.0.1",
     "react-native-paper": "^5.9.1",
     "react-native-progress": "^5.0.0",
     "react-native-reanimated": "^2.17.0",
     "react-native-safe-area-context": "^4.7.1",
-<<<<<<< HEAD
-    "react-native-screens": "^3.22.1",
-    "react-native-stopwatch-timer": "^0.0.21",
-=======
     "react-native-screens": "^3.23.0",
->>>>>>> 3efcf0d (base-demo)
+    "react-native-stopwatch-timer": "^0.0.21",
     "react-native-svg": "^13.10.0",
     "react-native-tab-view": "^3.5.2",
     "react-native-uuid": "^2.0.1",
