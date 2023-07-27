@@ -135,7 +135,7 @@ const updateWorkoutEnd = async (workoutId, startTime) => {
       .from("workouts")
       .update({
         time_end: endTime,
-        status: "completed",
+        status: "complete",
         time_duration: workoutDuration,
       })
       .eq("workout_id", workoutId);
