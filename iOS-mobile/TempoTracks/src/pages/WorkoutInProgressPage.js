@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   SafeAreaView,
   Text,
@@ -11,18 +11,50 @@ import CountdownTimer from "../components/Workouts/CountDownTimer";
 import CustomButton from "../components/Button/CustomButton";
 import CustomDialog from "../components/Workouts/CustomDialog";
 import PageHeading from "../components/Workouts/PageHeading";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { updateWorkoutStart, updateWorkoutEnd } from "../api/Workouts";
+
+async function retrieveData(user, setUser) {
+  try {
+    const value = await AsyncStorage.getItem("user_data");
+    if (value !== null) {
+      let userData = JSON.parse(value);
+      await setUser(userData);
+    }
+  } catch (error) {
+    console.log("Error retreiving user data", error);
+  }
+}
 
 const WorkoutInProgressPage = ({ navigation, route }) => {
   const { workoutId } = route.params;
   const countdownDuration = 5;
+  const [user, setUser] = useState({});
+  const [workoutEnded, setWorkoutEnded] = useState(false);
   const [isCountingDown, setIsCountingDown] = useState(true);
   const [isEndConfirmationVisible, setIsEndConfirmationVisible] =
     useState(false);
+
+  const startTime = new Date();
+
   const handleCountdownComplete = () => {
     setTimeout(() => {
       setIsCountingDown(false);
     }, 500);
   };
+
+  useEffect(() => {
+    async function postWorkoutStart() {
+      await updateWorkoutStart(workoutId, startTime);
+    }
+    postWorkoutStart();
+  }, []);
+
+  const handleWorkoutEnd = async () => {
+    await updateWorkoutEnd(workoutId, startTime);
+    navigation.navigate("Workouts");
+  };
+
   return (
     <>
       {isCountingDown ? (
@@ -132,7 +164,7 @@ const WorkoutInProgressPage = ({ navigation, route }) => {
                 setIsEndConfirmationVisible(!isEndConfirmationVisible)
               }
               // TODO: Call update workout to set the end time
-              onConfirm={() => navigation.navigate("Workouts")}
+              onConfirm={handleWorkoutEnd}
               dialogTitle={"Confirm Workout End"}
               dialogMessage={"Are you sure you want to end your workout?"}
             />

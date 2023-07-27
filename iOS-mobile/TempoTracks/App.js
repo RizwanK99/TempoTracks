@@ -1,6 +1,5 @@
-// React Native Bottom Navigation
-// https://aboutreact.com/react-native-bottom-navigation/
-import * as React from "react";
+import React, { useEffect, useState } from "react";
+import { Session } from "@supabase/supabase-js";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
@@ -25,6 +24,7 @@ import WorkoutInProgressPage from "./src/pages/WorkoutInProgressPage";
 import WorkoutTrendsPage from "./src/pages/WorkoutTrendsPage";
 import AllWorkoutsPage from "./src/pages/AllWorkoutsPage";
 import UserPreferenceWorkoutPage from "./src/pages/UserPreferenceWorkoutPage";
+import { supabase } from "./src/lib/supabase";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -105,6 +105,15 @@ function Root() {
 }
 
 function App() {
+  const [session, setSession] = useState(null);
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+    });
+    supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+  }, []);
   const isLoggedIn = getIsLoggedIn();
   return (
     <NavigationContainer>
