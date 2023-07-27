@@ -16,6 +16,7 @@ import { getUsersWorkouts } from "../api/Workouts";
 import { getSongLibrary } from "../module/MusicManager";
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { updateApplicationContext } from "react-native-watch-connectivity";
 
 async function retrieveData(user, setUser) {
   try {
@@ -37,6 +38,7 @@ const HomePage = ({ navigation }) => {
   useEffect(() => {
     async function fetchData() {
       await retrieveData(user, setUser);
+      updateApplicationContext(user);
       let w = await getUsersWorkouts(user.user_id, "complete");
       setWorkouts(w.userWorkouts);
     }
