@@ -38,7 +38,7 @@ const AllWorkoutsPage = ({ navigation }) => {
   useEffect(() => {
     async function fetchData() {
       await retrieveData(user, setUser);
-      setWorkouts(await getUsersWorkouts(user.user_id));
+      setWorkouts(await getUsersWorkouts(user.user_id, null));
     }
     fetchData();
   }, [user.user_id]);

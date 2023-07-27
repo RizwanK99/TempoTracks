@@ -18,27 +18,57 @@ serve(async (req) => {
   }
 
   try {
-    const { user_id } = await req.json()
+    const { payload } = await req.json()
+
+    const user_id = payload.user_id;
+    const status = payload.status;
 
     console.log("Hello from Functions!")
     console.log(user_id)
 
-    const { data: userWorkouts, error: userWorkoutsError } = await supabase
-      .from('workouts')
-      .select()
-      .filter('user_id', 'eq', user_id)
-    if (userWorkoutsError) {
-      return new Response(
-        JSON.stringify({ error: userWorkoutsError }),
-        { headers: { ...corsHeaders, "Content-Type": "application/json" } },
-      )
+    if (status == null) {
+
+      const { data: userWorkouts, error: userWorkoutsError } = await supabase
+        .from('workouts')
+        .select()
+        .filter('user_id', 'eq', user_id)
+
+        if (userWorkoutsError) {
+          return new Response(
+            JSON.stringify({ error: userWorkoutsError }),
+            { headers: { ...corsHeaders, "Content-Type": "application/json" } },
+          )
+        }
+    
+        return new Response(
+          JSON.stringify({ userWorkouts }),
+          { headers: { ...corsHeaders, "Content-Type": "application/json" } },
+          { body: JSON.stringify({ userWorkouts }) },
+        )
+    }
+    else {
+      const { data: userWorkouts, error: userWorkoutsError } = await supabase
+        .from('workouts')
+        .select()
+        .filter('user_id', 'eq', user_id)
+        .filter('status', 'eq', status)
+
+        if (userWorkoutsError) {
+          return new Response(
+            JSON.stringify({ error: userWorkoutsError }),
+            { headers: { ...corsHeaders, "Content-Type": "application/json" } },
+          )
+        }
+    
+        return new Response(
+          JSON.stringify({ userWorkouts }),
+          { headers: { ...corsHeaders, "Content-Type": "application/json" } },
+          { body: JSON.stringify({ userWorkouts }) },
+        )
     }
 
-    return new Response(
-      JSON.stringify({ userWorkouts }),
-      { headers: { ...corsHeaders, "Content-Type": "application/json" } },
-      { body: JSON.stringify({ userWorkouts }) },
-    )
+    
+
   } catch (error) {
     return new Response(JSON.stringify({ error: error.message }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },

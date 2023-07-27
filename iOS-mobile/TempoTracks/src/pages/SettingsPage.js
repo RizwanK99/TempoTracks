@@ -23,7 +23,7 @@ const SettingsPage = ({ route, navigation }) => {
 
   useEffect(() => {
     console.log("State changed!");
-    async function fetchData() {
+    /*async function fetchData() {
       await updateSettings(
         dataStream,
         fade,
@@ -33,7 +33,7 @@ const SettingsPage = ({ route, navigation }) => {
         bpmWarning
       );
     }
-    fetchData();
+    fetchData();*/
   });
 
   const onToggleSwitch = () => {
