@@ -4,7 +4,7 @@
 
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
-import { corsHeaders } from '../_shared/cors.js'
+import { corsHeaders } from '../_shared/cors.ts'
 import { Buffer } from "https://deno.land/std@0.139.0/node/buffer.ts";
 import _ from "https://raw.githubusercontent.com/lodash/lodash/4.17.21-es/lodash.js"
 
@@ -32,7 +32,7 @@ serve(async (req) => {
     console.log(payload)
 
     const settings = {
-      id: 2,
+      id: payload.id,
       data_saver: payload.data_saver,
       crossfade: payload.crossfade,
       auto_mix: payload.auto_mix,
@@ -65,8 +65,6 @@ serve(async (req) => {
     })
   }
 })
-
-// To invoke:
 // curl -i --location --request POST 'http://localhost:54321/functions/v1/' \
 //   --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0' \
 //   --header 'Content-Type: application/json' \

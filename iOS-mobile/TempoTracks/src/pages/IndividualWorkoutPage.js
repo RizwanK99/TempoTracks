@@ -117,7 +117,7 @@ const IndividualWorkoutPage = ({ route, navigation }) => {
                 }}
               />
             )}
-          </MapView>
+              </MapView>
         </View>
         <View style={{ marginTop: 24, marginBottom: 12 }}>
           <CustomButton

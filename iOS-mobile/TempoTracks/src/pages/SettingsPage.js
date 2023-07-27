@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import updateSettings from "../api/Settings";
 import { Switch, TextInput, Button, ToggleButton } from "react-native-paper";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Slider } from "react-native-elements";
 import {
   TouchableOpacity,
@@ -13,7 +14,20 @@ import {
 } from "react-native";
 import { ScrollView } from "react-native";
 
+async function retrieveData(user, setUser) {
+  try {
+    const value = await AsyncStorage.getItem("user_data");
+    if (value !== null) {
+      let userData = JSON.parse(value);
+      await setUser(userData);
+    }
+  } catch (error) {
+    console.log("Error retreiving user data", error);
+  }
+}
+
 const SettingsPage = ({ route, navigation }) => {
+  const [user, setUser] = useState({});
   const [dataStream, setDataStream] = useState(false);
   const [fade, setFade] = useState(20);
   const [mix, setMix] = useState(20);
@@ -22,9 +36,18 @@ const SettingsPage = ({ route, navigation }) => {
   const [bpmWarning, setBPMWarning] = useState(true);
 
   useEffect(() => {
+    async function fetchData() {
+      await retrieveData(user, setUser);
+    }
+    fetchData();
+  }, [user.user_id]);
+
+  useEffect(() => {
     console.log("State changed!");
-    /*async function fetchData() {
+    async function fetchData() {
+      console.log("in async");
       await updateSettings(
+        user.user_id,
         dataStream,
         fade,
         mix,
@@ -33,7 +56,7 @@ const SettingsPage = ({ route, navigation }) => {
         bpmWarning
       );
     }
-    fetchData();*/
+    fetchData();
   });
 
   const onToggleSwitch = () => {

@@ -1,7 +1,9 @@
-async function updateSettings(dataStream, fade, mix, explicitContent, peakNormalize, bpmWarning) {
+async function updateSettings(user_id, dataStream, fade, mix, explicitContent, peakNormalize, bpmWarning) {
+
     console.log('In api settings call')
     
     const payload = {
+        id: user_id,
         data_saver: dataStream,
         crossfade: fade,
         auto_mix: mix,
@@ -26,7 +28,7 @@ async function updateSettings(dataStream, fade, mix, explicitContent, peakNormal
 }
 
 async function getSettings() {
-    console.log('In api settings call')
+    /*console.log('In api settings call')
     
     const payload = {
         data_saver: dataStream,
@@ -43,13 +45,13 @@ async function getSettings() {
     headers.append("Content-Type", "application/json");
     headers.append("Accept", "application/json");
 
-    let response = await fetch('https://kbgiqwyohojnejjlkwae.supabase.co/functions/v1/get-settings', {
+    let response = await fetch('https://kbgiqwyohojnejjlkwae.supabase.co/functions/v1/get_settings', {
         method: 'GET',
         headers: headers,
         body: JSON.stringify({
             payload: payload,
         }),
-    })
+    })*/
 }
 
-export default getSettings
+export default updateSettings
