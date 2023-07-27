@@ -1,5 +1,3 @@
-// React Native Bottom Navigation
-// https://aboutreact.com/react-native-bottom-navigation/
 import React, { useEffect, useState } from "react";
 import { Session } from "@supabase/supabase-js";
 
