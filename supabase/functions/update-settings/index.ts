@@ -5,7 +5,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 import { corsHeaders } from '../_shared/cors.js'
-import { Buffer } from "https://deno.land/std@0.139.0/node/buffer.ts";
 import _ from "https://raw.githubusercontent.com/lodash/lodash/4.17.21-es/lodash.js"
 
 console.log("Hello from Functions!")
