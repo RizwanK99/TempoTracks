@@ -96,31 +96,23 @@ const HomePage = ({ navigation }) => {
               <Progress.Bar progress={0.7} width={null} color={'#09BC8A'} />
               <Text style={{ marginTop: 6, fontSize: 14, color: '#74B3CE', }}>Activity: 10/20 Minutes</Text>
               <Progress.Bar progress={0.5} width={null} color={'#74B3CE'} />
-              <Text style={{ marginTop: 6, fontSize: 14, color: '#508991', }}>Distance: 3/10 Km</Text>
+              <Text style={{ marginTop: 6, fontSize: 14, color: '#508991', }}>Steps: 3024/10,000</Text>
               <Progress.Bar progress={0.3} width={null} color={'#508991'} />
             </View>
           </View>
+
           <View style={[styles.box, { flex: 8 }]}>
-            <View style={[styles.historyText, { width:"100%" }]}>
-              <Text style={{ color: 'white', fontSize: 22, padding:10  }}>History</Text>
-              <ScrollView style={{ width:"100%" }}>
-                <View style={{ width:"100%" }}>{exerciseList}</View>
+            <View style={[styles.historyText, { width: "100%" }]}>
+              <Text style={{ color: 'white', fontSize: 22, padding: 10 }}>History</Text>
+              <ScrollView style={{ width: "100%" }}>
+                <View style={{ width: "100%" }}>{exerciseList}</View>
               </ScrollView>
             </View>
           </View>
 
-
-          <View style={[styles.startButtonContainer, { flex: 1 }]}>
-            <TouchableOpacity
-              // onPress={() => {
-              //   this.props.navigation.navigate("Exercise", {
-              //     username: this.props.navigation.state.params.username,
-              //     token: this.props.navigation.state.params.token,
-              //   });
-              // }}
-              style={styles.startButton}
-            >
-              <Text style={{ color: '#004346', fontSize: 16, fontWeight: "bold" }}>New Exercise</Text>
+          <View style={[styles.box, { flex: 2 }]}>
+            <TouchableOpacity style={styles.startButton} onPress={() => { navigation.navigate("CreateWorkout"); }}>
+              <Text style={{ color: '#004346', fontSize: 16, fontWeight: "bold", textAlign: "center" }}>Create New Workout</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -189,14 +181,15 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 2,
     borderColor: "#004346",
-    margin: 10,
     width: "100%",
-    height: "60%",
-    justifyContent: "center"
+    height: 60,
+    justifyContent: "center",
+    textAlign: "center",
   },
   startButtonContainer: {
     justifyContent: "center",
     textAlign: "center",
+    width: "100%",
   },
   btn_shape: {
     backgroundColor: "#09bc8a",

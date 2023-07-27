@@ -21,7 +21,7 @@ const RegisterPage = ({ navigation }) => {
         }
         else {
             createUser(username, firstName, lastName, email, phoneNumber, password1);
-            navigation.navigate('Login')
+            navigation.navigate('SignIn')
         }
     }
 

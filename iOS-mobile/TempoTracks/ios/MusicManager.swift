@@ -184,9 +184,16 @@ class MusicManager: NSObject {
     resolver resolve: @escaping RCTPromiseResolveBlock,
     rejecter reject: @escaping RCTPromiseRejectBlock
   ) {
-    let songIdsArray = songIds as? [String]
-    
+    let songIdsArray = songIds as? Array<String>
     Task {
+      var actualSongIdArray: [MusicItemID] = []
+      
+      print(songIdsArray)
+      
+      for songId in songIdsArray ?? [] {
+        actualSongIdArray.append(MusicItemID(stringLiteral: songId))
+      }
+      
       var indexMap = [Int: String]()
       
       // create index mapping
@@ -200,11 +207,14 @@ class MusicManager: NSObject {
         memberOfArray.append(MusicItemID(stringLiteral: songId))
       }
       
-      let request = MusicCatalogResourceRequest<Song>(matching: \.id, memberOf: memberOfArray)
+      var request = MusicLibraryRequest<Song>()
+      request.filter(matching: \.id, memberOf: actualSongIdArray)
       let response = try await request.response()
       
       // create songId -> song mapping
       var songMapping = [String: Song]()
+      
+      print(response.items)
       
       for song in response.items {
         songMapping[song.id.rawValue] = song
@@ -217,6 +227,9 @@ class MusicManager: NSObject {
           finalSongArray.append(song)
         }
       }
+      
+      print("finalSongArray")
+      print(finalSongArray)
       
       musicPlayer.queue = ApplicationMusicPlayer.Queue.init(for: finalSongArray)
       

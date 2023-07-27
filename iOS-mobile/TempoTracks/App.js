@@ -34,6 +34,7 @@ const getIsLoggedIn = () => {
 };
 
 function Root() {
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -140,6 +141,8 @@ function HomeStack() {
     >
       <Stack.Screen name="Home" component={HomePage} />
       <Stack.Screen name="Profile" component={ProfilePage} />
+      <Stack.Screen name="CreateWorkout" component={CreateWorkoutPage} />
+      <Stack.Screen name="Workouts" component={WorkoutsPage} />
     </Stack.Navigator>
   );
 }
