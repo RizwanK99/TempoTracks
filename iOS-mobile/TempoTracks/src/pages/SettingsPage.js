@@ -1,7 +1,7 @@
 // React Native Bottom Navigation
 // https://aboutreact.com/react-native-bottom-navigation/
 import React, { useState, useEffect } from "react";
-import updateSettings from "../api/Settings";
+import  updateSettings from "../api/Settings";
 import { Switch, TextInput, Button, ToggleButton } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Slider } from "react-native-elements";
@@ -35,6 +35,19 @@ const SettingsPage = ({ route, navigation }) => {
   const [peakNormalize, setPeakNormalize] = useState(1);
   const [bpmWarning, setBPMWarning] = useState(true);
 
+  async function applySettings() {
+    console.log("in async");
+        await updateSettings(
+          user.user_id,
+          dataStream,
+          fade,
+          mix,
+          explicitContent,
+          peakNormalize,
+          bpmWarning
+        );
+  }
+
   useEffect(() => {
     async function fetchData() {
       await retrieveData(user, setUser);
@@ -44,19 +57,9 @@ const SettingsPage = ({ route, navigation }) => {
 
   useEffect(() => {
     console.log("State changed!");
-    async function fetchData() {
-      console.log("in async");
-      await updateSettings(
-        user.user_id,
-        dataStream,
-        fade,
-        mix,
-        explicitContent,
-        peakNormalize,
-        bpmWarning
-      );
+    /*async function fetchData() {
     }
-    fetchData();
+    fetchData();*/
   });
 
   const onToggleSwitch = () => {
@@ -88,8 +91,8 @@ const SettingsPage = ({ route, navigation }) => {
           color: "#FFFFFF",
           fontWeight: "bold",
           marginTop: "5%",
-          marginLeft: "35%",
-          fontSize: 25,
+          marginLeft: "3%",
+          fontSize: 30,
         }}
       >
         Settings
@@ -99,7 +102,9 @@ const SettingsPage = ({ route, navigation }) => {
           <Text style={styles.settingGroup}>Account</Text>
           <View style={styles.setting}>
             <Text style={styles.settingText}>Email</Text>
-            <TextInput label="Email" />
+            <TextInput label="Email" style={{
+              width: "60%"
+            }}/>
           </View>
         </View>
         <Button
@@ -186,6 +191,18 @@ const SettingsPage = ({ route, navigation }) => {
               onValueChange={onBPMWarning}
             />
           </View>
+        </View>
+        <View style={{
+          display: "flex"
+        }}>
+          <Button
+          style={{ width: "25%", justifyContent: "flex-end", margin: "5%", marginLeft: "70%"}}
+          buttonColor="#09BC8A"
+          mode="contained"
+          onPress={applySettings}
+        >
+          Apply
+        </Button>
         </View>
       </ScrollView>
     </SafeAreaView>
