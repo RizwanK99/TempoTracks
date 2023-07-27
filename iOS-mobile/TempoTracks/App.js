@@ -34,6 +34,7 @@ const getIsLoggedIn = () => {
 };
 
 function Root() {
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
