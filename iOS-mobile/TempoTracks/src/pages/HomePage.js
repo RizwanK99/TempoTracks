@@ -16,7 +16,7 @@ import { getUsersWorkouts } from "../api/Workouts";
 import { getSongLibrary } from "../module/MusicManager";
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { updateApplicationContext } from "react-native-watch-connectivity";
+import { updateApplicationContext, getReachability, getIsPaired, getIsWatchAppInstalled } from "react-native-watch-connectivity";
 
 async function retrieveData(user, setUser) {
   try {
@@ -38,7 +38,13 @@ const HomePage = ({ navigation }) => {
   useEffect(() => {
     async function fetchData() {
       await retrieveData(user, setUser);
-      updateApplicationContext(user);
+      const paired = await getIsPaired();
+      console.log(paired);
+      const installed = await getIsWatchAppInstalled();
+      console.log(installed);
+      const reachable = await getReachability();
+      console.log('reachable?', reachable);
+      updateApplicationContext({userId: user.user_id});
       let w = await getUsersWorkouts(user.user_id, "complete");
       setWorkouts(w.userWorkouts);
     }

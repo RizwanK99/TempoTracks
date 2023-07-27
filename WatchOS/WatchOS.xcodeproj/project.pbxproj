@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		81A7F6462A7213B700D355EE /* WatchConnectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A7F6452A7213B700D355EE /* WatchConnectionManager.swift */; };
 		B32526702A3C066D003A9507 /* SessionPagingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B325266F2A3C066D003A9507 /* SessionPagingView.swift */; };
 		B32526722A3C075E003A9507 /* MetricsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32526712A3C075E003A9507 /* MetricsView.swift */; };
 		B32526742A3C0A45003A9507 /* ElapsedTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32526732A3C0A45003A9507 /* ElapsedTimeView.swift */; };
@@ -74,6 +75,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		81A7F6452A7213B700D355EE /* WatchConnectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchConnectionManager.swift; sourceTree = "<group>"; };
 		B325266F2A3C066D003A9507 /* SessionPagingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionPagingView.swift; sourceTree = "<group>"; };
 		B32526712A3C075E003A9507 /* MetricsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricsView.swift; sourceTree = "<group>"; };
 		B32526732A3C0A45003A9507 /* ElapsedTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElapsedTimeView.swift; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 				B38992B42A65BAA000A4A9C7 /* ActivityRingsView.swift */,
 				B38992B62A65BDBF00A4A9C7 /* WorkoutManager.swift */,
 				B38992B82A65BE7900A4A9C7 /* NotificationController.swift */,
+				81A7F6452A7213B700D355EE /* WatchConnectionManager.swift */,
 			);
 			path = "WatchOS Watch App";
 			sourceTree = "<group>";
@@ -355,6 +358,7 @@
 				B3860B4F2A3BC86400CA3C02 /* WatchOSApp.swift in Sources */,
 				B32526742A3C0A45003A9507 /* ElapsedTimeView.swift in Sources */,
 				B32526722A3C075E003A9507 /* MetricsView.swift in Sources */,
+				81A7F6462A7213B700D355EE /* WatchConnectionManager.swift in Sources */,
 				B38992B52A65BAA000A4A9C7 /* ActivityRingsView.swift in Sources */,
 				B38992B12A65B66D00A4A9C7 /* ControlsView.swift in Sources */,
 				B32526702A3C066D003A9507 /* SessionPagingView.swift in Sources */,
