@@ -11,12 +11,58 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
+		81EBD4232B6D566C0076613D /* CompanionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81EBD4222B6D566C0076613D /* CompanionApp.swift */; };
+		81EBD4252B6D566C0076613D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81EBD4242B6D566C0076613D /* ContentView.swift */; };
+		81EBD4272B6D566E0076613D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 81EBD4262B6D566E0076613D /* Assets.xcassets */; };
+		81EBD42A2B6D566E0076613D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 81EBD4292B6D566E0076613D /* Preview Assets.xcassets */; };
+		81EBD4342B6D566E0076613D /* Companion_Watch_AppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81EBD4332B6D566E0076613D /* Companion_Watch_AppTests.swift */; };
+		81EBD43E2B6D566E0076613D /* Companion_Watch_AppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81EBD43D2B6D566E0076613D /* Companion_Watch_AppUITests.swift */; };
+		81EBD4402B6D566E0076613D /* Companion_Watch_AppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81EBD43F2B6D566E0076613D /* Companion_Watch_AppUITestsLaunchTests.swift */; };
+		81EBD4432B6D566E0076613D /* Companion Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 81EBD4202B6D566C0076613D /* Companion Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */; };
 		B3484A022A70C21800A72539 /* MusicManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3484A012A70C21800A72539 /* MusicManager.swift */; };
 		B3484A042A70C22A00A72539 /* MusicManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B3484A032A70C22A00A72539 /* MusicManager.m */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
 		C6DA6892D42B001938D86480 /* libPods-TempoTracks.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58EEBF8E8E6FB1BC6CAF49B5 /* libPods-TempoTracks.a */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		81EBD4302B6D566E0076613D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 81EBD41F2B6D566C0076613D;
+			remoteInfo = "Companion Watch App";
+		};
+		81EBD43A2B6D566E0076613D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 81EBD41F2B6D566C0076613D;
+			remoteInfo = "Companion Watch App";
+		};
+		81EBD4412B6D566E0076613D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 81EBD41F2B6D566C0076613D;
+			remoteInfo = "Companion Watch App";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		81EBD4122B6D55CC0076613D /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				81EBD4432B6D566E0076613D /* Companion Watch App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
@@ -29,6 +75,16 @@
 		58EEBF8E8E6FB1BC6CAF49B5 /* libPods-TempoTracks.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TempoTracks.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C2E3173556A471DD304B334 /* Pods-TempoTracks.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TempoTracks.debug.xcconfig"; path = "Target Support Files/Pods-TempoTracks/Pods-TempoTracks.debug.xcconfig"; sourceTree = "<group>"; };
 		7A4D352CD337FB3A3BF06240 /* Pods-TempoTracks.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TempoTracks.release.xcconfig"; path = "Target Support Files/Pods-TempoTracks/Pods-TempoTracks.release.xcconfig"; sourceTree = "<group>"; };
+		81EBD4202B6D566C0076613D /* Companion Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Companion Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		81EBD4222B6D566C0076613D /* CompanionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanionApp.swift; sourceTree = "<group>"; };
+		81EBD4242B6D566C0076613D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		81EBD4262B6D566E0076613D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		81EBD4292B6D566E0076613D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		81EBD42F2B6D566E0076613D /* Companion Watch AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Companion Watch AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		81EBD4332B6D566E0076613D /* Companion_Watch_AppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Companion_Watch_AppTests.swift; sourceTree = "<group>"; };
+		81EBD4392B6D566E0076613D /* Companion Watch AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Companion Watch AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		81EBD43D2B6D566E0076613D /* Companion_Watch_AppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Companion_Watch_AppUITests.swift; sourceTree = "<group>"; };
+		81EBD43F2B6D566E0076613D /* Companion_Watch_AppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Companion_Watch_AppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = TempoTracks/SplashScreen.storyboard; sourceTree = "<group>"; };
 		B34849FE2A70C15B00A72539 /* TempoTracks-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TempoTracks-Bridging-Header.h"; sourceTree = "<group>"; };
 		B3484A012A70C21800A72539 /* MusicManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicManager.swift; sourceTree = "<group>"; };
@@ -44,6 +100,27 @@
 			buildActionMask = 2147483647;
 			files = (
 				C6DA6892D42B001938D86480 /* libPods-TempoTracks.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		81EBD41D2B6D566C0076613D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		81EBD42C2B6D566E0076613D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		81EBD4362B6D566E0076613D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,6 +154,42 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		81EBD4212B6D566C0076613D /* Companion Watch App */ = {
+			isa = PBXGroup;
+			children = (
+				81EBD4222B6D566C0076613D /* CompanionApp.swift */,
+				81EBD4242B6D566C0076613D /* ContentView.swift */,
+				81EBD4262B6D566E0076613D /* Assets.xcassets */,
+				81EBD4282B6D566E0076613D /* Preview Content */,
+			);
+			path = "Companion Watch App";
+			sourceTree = "<group>";
+		};
+		81EBD4282B6D566E0076613D /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				81EBD4292B6D566E0076613D /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		81EBD4322B6D566E0076613D /* Companion Watch AppTests */ = {
+			isa = PBXGroup;
+			children = (
+				81EBD4332B6D566E0076613D /* Companion_Watch_AppTests.swift */,
+			);
+			path = "Companion Watch AppTests";
+			sourceTree = "<group>";
+		};
+		81EBD43C2B6D566E0076613D /* Companion Watch AppUITests */ = {
+			isa = PBXGroup;
+			children = (
+				81EBD43D2B6D566E0076613D /* Companion_Watch_AppUITests.swift */,
+				81EBD43F2B6D566E0076613D /* Companion_Watch_AppUITestsLaunchTests.swift */,
+			);
+			path = "Companion Watch AppUITests";
+			sourceTree = "<group>";
+		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
@@ -89,6 +202,9 @@
 			children = (
 				13B07FAE1A68108700A75B9A /* TempoTracks */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
+				81EBD4212B6D566C0076613D /* Companion Watch App */,
+				81EBD4322B6D566E0076613D /* Companion Watch AppTests */,
+				81EBD43C2B6D566E0076613D /* Companion Watch AppUITests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				D65327D7A22EEC0BE12398D9 /* Pods */,
@@ -103,6 +219,9 @@
 			isa = PBXGroup;
 			children = (
 				13B07F961A680F5B00A75B9A /* TempoTracks.app */,
+				81EBD4202B6D566C0076613D /* Companion Watch App.app */,
+				81EBD42F2B6D566E0076613D /* Companion Watch AppTests.xctest */,
+				81EBD4392B6D566E0076613D /* Companion Watch AppUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -157,15 +276,70 @@
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */,
 				2F29461804B66C3926D004BD /* [CP] Embed Pods Frameworks */,
+				81EBD4122B6D55CC0076613D /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				81EBD4422B6D566E0076613D /* PBXTargetDependency */,
 			);
 			name = TempoTracks;
 			productName = TempoTracks;
 			productReference = 13B07F961A680F5B00A75B9A /* TempoTracks.app */;
 			productType = "com.apple.product-type.application";
+		};
+		81EBD41F2B6D566C0076613D /* Companion Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 81EBD4442B6D566E0076613D /* Build configuration list for PBXNativeTarget "Companion Watch App" */;
+			buildPhases = (
+				81EBD41C2B6D566C0076613D /* Sources */,
+				81EBD41D2B6D566C0076613D /* Frameworks */,
+				81EBD41E2B6D566C0076613D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Companion Watch App";
+			productName = "Companion Watch App";
+			productReference = 81EBD4202B6D566C0076613D /* Companion Watch App.app */;
+			productType = "com.apple.product-type.application";
+		};
+		81EBD42E2B6D566E0076613D /* Companion Watch AppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 81EBD4472B6D566E0076613D /* Build configuration list for PBXNativeTarget "Companion Watch AppTests" */;
+			buildPhases = (
+				81EBD42B2B6D566E0076613D /* Sources */,
+				81EBD42C2B6D566E0076613D /* Frameworks */,
+				81EBD42D2B6D566E0076613D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				81EBD4312B6D566E0076613D /* PBXTargetDependency */,
+			);
+			name = "Companion Watch AppTests";
+			productName = "Companion Watch AppTests";
+			productReference = 81EBD42F2B6D566E0076613D /* Companion Watch AppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		81EBD4382B6D566E0076613D /* Companion Watch AppUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 81EBD44A2B6D566E0076613D /* Build configuration list for PBXNativeTarget "Companion Watch AppUITests" */;
+			buildPhases = (
+				81EBD4352B6D566E0076613D /* Sources */,
+				81EBD4362B6D566E0076613D /* Frameworks */,
+				81EBD4372B6D566E0076613D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				81EBD43B2B6D566E0076613D /* PBXTargetDependency */,
+			);
+			name = "Companion Watch AppUITests";
+			productName = "Companion Watch AppUITests";
+			productReference = 81EBD4392B6D566E0076613D /* Companion Watch AppUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
@@ -173,11 +347,27 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 1430;
 				LastUpgradeCheck = 1130;
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = FG3F5G2D7L;
 						LastSwiftMigration = 1250;
+					};
+					81EBD41F2B6D566C0076613D = {
+						CreatedOnToolsVersion = 14.3.1;
+						DevelopmentTeam = FG3F5G2D7L;
+						ProvisioningStyle = Automatic;
+					};
+					81EBD42E2B6D566E0076613D = {
+						CreatedOnToolsVersion = 14.3.1;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 81EBD41F2B6D566C0076613D;
+					};
+					81EBD4382B6D566E0076613D = {
+						CreatedOnToolsVersion = 14.3.1;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 81EBD41F2B6D566C0076613D;
 					};
 				};
 			};
@@ -195,6 +385,9 @@
 			projectRoot = "";
 			targets = (
 				13B07F861A680F5B00A75B9A /* TempoTracks */,
+				81EBD41F2B6D566C0076613D /* Companion Watch App */,
+				81EBD42E2B6D566E0076613D /* Companion Watch AppTests */,
+				81EBD4382B6D566E0076613D /* Companion Watch AppUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -207,6 +400,29 @@
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		81EBD41E2B6D566C0076613D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				81EBD42A2B6D566E0076613D /* Preview Assets.xcassets in Resources */,
+				81EBD4272B6D566E0076613D /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		81EBD42D2B6D566E0076613D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		81EBD4372B6D566E0076613D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -340,13 +556,58 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		81EBD41C2B6D566C0076613D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				81EBD4252B6D566C0076613D /* ContentView.swift in Sources */,
+				81EBD4232B6D566C0076613D /* CompanionApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		81EBD42B2B6D566E0076613D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				81EBD4342B6D566E0076613D /* Companion_Watch_AppTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		81EBD4352B6D566E0076613D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				81EBD43E2B6D566E0076613D /* Companion_Watch_AppUITests.swift in Sources */,
+				81EBD4402B6D566E0076613D /* Companion_Watch_AppUITestsLaunchTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		81EBD4312B6D566E0076613D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 81EBD41F2B6D566C0076613D /* Companion Watch App */;
+			targetProxy = 81EBD4302B6D566E0076613D /* PBXContainerItemProxy */;
+		};
+		81EBD43B2B6D566E0076613D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 81EBD41F2B6D566C0076613D /* Companion Watch App */;
+			targetProxy = 81EBD43A2B6D566E0076613D /* PBXContainerItemProxy */;
+		};
+		81EBD4422B6D566E0076613D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 81EBD41F2B6D566C0076613D /* Companion Watch App */;
+			targetProxy = 81EBD4412B6D566E0076613D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6C2E3173556A471DD304B334 /* Pods-TempoTracks.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -378,6 +639,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7A4D352CD337FB3A3BF06240 /* Pods-TempoTracks.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -396,6 +658,213 @@
 				PRODUCT_NAME = TempoTracks;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
+		81EBD4452B6D566E0076613D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_ASSET_PATHS = "\"Companion Watch App/Preview Content\"";
+				DEVELOPMENT_TEAM = FG3F5G2D7L;
+				ENABLE_PREVIEWS = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Companion;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = org.name.TempoTracks;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = org.name.TempoTracks.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 9.4;
+			};
+			name = Debug;
+		};
+		81EBD4462B6D566E0076613D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_ASSET_PATHS = "\"Companion Watch App/Preview Content\"";
+				DEVELOPMENT_TEAM = FG3F5G2D7L;
+				ENABLE_PREVIEWS = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Companion;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = org.name.TempoTracks;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = org.name.TempoTracks.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 9.4;
+			};
+			name = Release;
+		};
+		81EBD4482B6D566E0076613D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "tempotracks.Companion-Watch-AppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Companion Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Companion Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 9.4;
+			};
+			name = Debug;
+		};
+		81EBD4492B6D566E0076613D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "tempotracks.Companion-Watch-AppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Companion Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Companion Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 9.4;
+			};
+			name = Release;
+		};
+		81EBD44B2B6D566E0076613D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "tempotracks.Companion-Watch-AppUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_TARGET_NAME = "Companion Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 9.4;
+			};
+			name = Debug;
+		};
+		81EBD44C2B6D566E0076613D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "tempotracks.Companion-Watch-AppUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_TARGET_NAME = "Companion Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 9.4;
 			};
 			name = Release;
 		};
@@ -518,6 +987,33 @@
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
 				13B07F951A680F5B00A75B9A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		81EBD4442B6D566E0076613D /* Build configuration list for PBXNativeTarget "Companion Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				81EBD4452B6D566E0076613D /* Debug */,
+				81EBD4462B6D566E0076613D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		81EBD4472B6D566E0076613D /* Build configuration list for PBXNativeTarget "Companion Watch AppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				81EBD4482B6D566E0076613D /* Debug */,
+				81EBD4492B6D566E0076613D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		81EBD44A2B6D566E0076613D /* Build configuration list for PBXNativeTarget "Companion Watch AppUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				81EBD44B2B6D566E0076613D /* Debug */,
+				81EBD44C2B6D566E0076613D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
