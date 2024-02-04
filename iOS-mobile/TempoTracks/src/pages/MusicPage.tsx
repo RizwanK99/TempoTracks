@@ -7,41 +7,40 @@ import {
   View,
   Text,
   SafeAreaView,
-  ScrollView
+  ScrollView,
 } from 'react-native';
-import { addSongsToQueue, getCurrentQueue, getSongLibrary, requestMusicAuthorization } from '../module/MusicManager';
-import Song from '../components/Music/Song';
+import { SongItem } from '../components/Music/Song';
 import { styles } from '../styles/Stylesheet';
 import PlayerControls from '../components/Music/PlayerControls';
 import LiveGraph from '../components/Music/LiveGraph';
-import { changePlaybackRate } from '../module/MusicManager';
+import { MusicManager } from '../module/MusicManager';
 import { Button, Divider } from 'react-native-elements';
+import { MusicPlayerSong } from '../module/MusicManager.types';
 
 const MusicPage = ({ route, navigation }) => {
-
   const [authorized, setAuthorized] = useState(false);
-  const [songs, setSongs] = useState([]);
+  const [songs, setSongs] = useState<MusicPlayerSong[]>([]);
 
   // Player Controls
-  const [isPlaying, setIsPlaying] = useState(false)
-  const [playbackRate, setPlaybackRate] = useState(1)
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [playbackRate, setPlaybackRate] = useState(1);
 
   const loadLibrary = async () => {
-    const songData = await getSongLibrary();
-    const songs = songData[0]
+    const songs = await MusicManager.getSongLibrary();
+    console.log('songs', songs);
     setSongs(songs);
-  }
+  };
 
   const loadAuthorization = async () => {
-    await requestMusicAuthorization();
+    await MusicManager.requestMusicAuthorization();
     setAuthorized(true);
-  }
+  };
 
-  const handlePlaybackRateChange = (newPlaybackRate) => {
-    setIsPlaying(true)
-    setPlaybackRate(newPlaybackRate)
-    changePlaybackRate(newPlaybackRate)
-  }
+  const handlePlaybackRateChange = (newPlaybackRate: number) => {
+    setIsPlaying(true);
+    setPlaybackRate(newPlaybackRate);
+    MusicManager.changePlaybackRate(newPlaybackRate);
+  };
 
   useEffect(() => {
     loadAuthorization();
@@ -52,7 +51,7 @@ const MusicPage = ({ route, navigation }) => {
   }, [authorized]);
 
   return (
-    <SafeAreaView style={styles.safeAreaView}>
+    <SafeAreaView>
       <View style={styles.full}>
         <View style={styles.container}>
           <View style={styles.box}>
@@ -61,17 +60,29 @@ const MusicPage = ({ route, navigation }) => {
                 fontSize: 25,
                 color: 'white',
                 fontWeight: 'bold',
-                marginBottom: 10
+                marginBottom: 10,
               }}
             >
               Your Library
             </Text>
             <ScrollView>
               {songs.map((song, index) => (
-                <Song key={index} song={song} handlePlaybackRateChange={handlePlaybackRateChange} setIsPlaying={setIsPlaying}/>
+                <SongItem
+                  key={index}
+                  song={song}
+                  handlePlaybackRateChange={handlePlaybackRateChange}
+                  setIsPlaying={setIsPlaying}
+                />
               ))}
-              <Button style={{ marginTop: 4 }} type="outline" title="Queue all songs" onPress={() => addSongsToQueue(songs.map(s => s.id))}/>
-            </ScrollView >
+              <Button
+                style={{ marginTop: 4 }}
+                type='outline'
+                title='Queue all songs'
+                onPress={() =>
+                  MusicManager.addSongsToQueue(songs.map((s) => s.id))
+                }
+              />
+            </ScrollView>
             <Divider style={{ backgroundColor: 'white', marginVertical: 10 }} />
             <LiveGraph
               isPlaying={isPlaying}
@@ -79,7 +90,7 @@ const MusicPage = ({ route, navigation }) => {
               handlePlaybackRateChange={handlePlaybackRateChange}
             />
             <Divider style={{ backgroundColor: 'white', marginVertical: 10 }} />
-            <PlayerControls 
+            <PlayerControls
               isPlaying={isPlaying}
               setIsPlaying={setIsPlaying}
               playbackRate={playbackRate}
@@ -90,5 +101,5 @@ const MusicPage = ({ route, navigation }) => {
       </View>
     </SafeAreaView>
   );
-}
+};
 export default MusicPage;
