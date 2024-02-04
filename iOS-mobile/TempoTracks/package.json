@@ -44,7 +44,8 @@
     "react-native-uuid": "^2.0.1",
     "react-native-watch-connectivity": "^1.1.0",
     "react-native-web": "^0.18.12",
-    "typescript": "^4.9.4"
+    "typescript": "^4.9.4",
+    "zustand": "^4.5.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

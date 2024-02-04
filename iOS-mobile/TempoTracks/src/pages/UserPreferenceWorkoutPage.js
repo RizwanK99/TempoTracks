@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import PageHeading from "../components/Workouts/PageHeading";
+import ThemeSwitch from "../components/ThemeSwitch";
 
 const UserPreferenceWorkoutPage = ({ navigation }) => {
   return (
@@ -30,6 +31,7 @@ const UserPreferenceWorkoutPage = ({ navigation }) => {
       </TouchableWithoutFeedback>
       <View style={{ marginTop: 30, marginLeft: 8 }}>
         <PageHeading title={"A Workout For You"} />
+        <ThemeSwitch />
       </View>
     </SafeAreaView>
   );
