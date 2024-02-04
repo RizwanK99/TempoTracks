@@ -16,6 +16,7 @@ import LiveGraph from '../components/Music/LiveGraph';
 import { MusicManager } from '../module/MusicManager';
 import { Button, Divider } from 'react-native-elements';
 import { MusicPlayerSong } from '../module/MusicManager.types';
+import { MusicPlayer } from '../components/Music/MusicPlayer';
 
 const MusicPage = ({ route, navigation }) => {
   const [authorized, setAuthorized] = useState(false);
@@ -52,7 +53,8 @@ const MusicPage = ({ route, navigation }) => {
 
   return (
     <SafeAreaView>
-      <View style={styles.full}>
+      <MusicPlayer />
+      {/* <View style={styles.full}>
         <View style={styles.container}>
           <View style={styles.box}>
             <Text
@@ -84,12 +86,11 @@ const MusicPage = ({ route, navigation }) => {
               />
             </ScrollView>
             <Divider style={{ backgroundColor: 'white', marginVertical: 10 }} />
-            <LiveGraph
+            {/* <LiveGraph
               isPlaying={isPlaying}
               playbackRate={playbackRate}
               handlePlaybackRateChange={handlePlaybackRateChange}
             />
-            <Divider style={{ backgroundColor: 'white', marginVertical: 10 }} />
             <PlayerControls
               isPlaying={isPlaying}
               setIsPlaying={setIsPlaying}
@@ -98,7 +99,8 @@ const MusicPage = ({ route, navigation }) => {
             />
           </View>
         </View>
-      </View>
+      </View> 
+    */}
     </SafeAreaView>
   );
 };
