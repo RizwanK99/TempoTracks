@@ -51,7 +51,7 @@ const WorkoutInProgressPage = ({ navigation, route }) => {
   }, []);
 
   const handleWorkoutEnd = async () => {
-    await updateWorkoutEnd(workoutId, startTime);
+    await updateWorkoutEnd(workoutId);
     navigation.navigate("Workouts");
   };
 

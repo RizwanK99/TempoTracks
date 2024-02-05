@@ -126,24 +126,35 @@ const updateWorkoutStart = async (workoutId, startTime) => {
   }
 };
 
-const updateWorkoutEnd = async (workoutId, startTime) => {
+const getWorkoutStartTime = async (workoutId) => {
+  try {
+    const { data, error } = await supabase
+      .from("workouts")
+      .select("time_start")
+      .eq("workout_id", workoutId);
+
+    return data[0].time_start;
+  } catch (error) {
+    console.error("Error", error.message);
+    return null;
+  }
+};
+
+const updateWorkoutEnd = async (workoutId) => {
   try {
     const endTime = new Date();
-    // const workoutDuration = timeDifference(endTime, startTime);
-    const workoutDuration = endTime - startTime;
+    const startTime = await getWorkoutStartTime(workoutId);
+    const workoutDurationInMinutes =
+      (endTime - new Date(startTime)) / (1000 * 60);
+
     const { data, error } = await supabase
       .from("workouts")
       .update({
         time_end: endTime,
         status: "complete",
-        time_duration: workoutDuration,
+        time_duration: workoutDurationInMinutes.toFixed(2),
       })
       .eq("workout_id", workoutId);
-
-    if (error) {
-      console.error(error);
-      return null;
-    }
   } catch (error) {
     console.error("Error", error.message);
     return null;
@@ -153,6 +164,7 @@ const updateWorkoutEnd = async (workoutId, startTime) => {
 export {
   createWorkout,
   deleteWorkout,
+  getWorkoutStartTime,
   getUsersWorkouts,
   updateWorkoutStart,
   updateWorkoutEnd,
