@@ -9,10 +9,12 @@ import {
 import CustomBarChart from "../components/Charts/CustomBarChart";
 import { AntDesign } from "@expo/vector-icons";
 import Highlights from "../components/Workouts/Highlights";
+import { useTheme } from "@emotion/react";
 
 const WorkoutTrendsPage = ({ navigation }) => {
+  const theme = useTheme();
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#000" }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <TouchableWithoutFeedback onPress={() => navigation.navigate("Workouts")}>
         <View
           style={{
@@ -32,7 +34,7 @@ const WorkoutTrendsPage = ({ navigation }) => {
         <View style={{ flex: 1 }}>
           <CustomBarChart />
         </View>
-        <View style={{ backgroundColor: "#000" }}>
+        <View style={{ backgroundColor: theme.colors.background }}>
           <Highlights />
         </View>
       </ScrollView>
