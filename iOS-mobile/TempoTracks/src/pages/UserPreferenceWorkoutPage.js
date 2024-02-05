@@ -11,6 +11,7 @@ import { AntDesign } from "@expo/vector-icons";
 import PageHeading from "../components/Workouts/PageHeading";
 import { Button } from "@mui/material";
 import { useTheme } from "@emotion/react";
+import ThemeSwitch from "../components/ThemeSwitch";
 
 const UserPreferenceWorkoutPage = ({ navigation }) => {
   const theme = useTheme();
@@ -34,6 +35,7 @@ const UserPreferenceWorkoutPage = ({ navigation }) => {
       <View style={{ marginTop: 30, marginLeft: 8 }}>
         <PageHeading title={"A Workout For You"} />
         <Text style={{ color: theme.colors.primary }}>Here is theme test</Text>
+        <ThemeSwitch />
       </View>
     </SafeAreaView>
   );
