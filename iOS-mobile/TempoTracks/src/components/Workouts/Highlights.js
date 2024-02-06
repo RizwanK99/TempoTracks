@@ -2,19 +2,23 @@ import React from "react";
 import { Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Divider, ProgressBar } from "react-native-paper";
+import { useTheme } from "@emotion/react";
 
 const Highlights = () => {
+  const theme = useTheme();
   return (
     <View
       style={{
-        backgroundColor: "#000",
+        backgroundColor: theme.colors.background,
         flex: 1,
         width: "100%",
         paddingHorizontal: 16,
         paddingVertical: 8,
       }}
     >
-      <Text style={{ fontWeight: "bold", fontSize: 28, color: "#FFF" }}>
+      <Text
+        style={{ fontWeight: "bold", fontSize: 28, color: theme.colors.text }}
+      >
         Summary
       </Text>
       <View style={{ marginTop: 12 }}>

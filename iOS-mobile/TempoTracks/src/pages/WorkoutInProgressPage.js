@@ -12,7 +12,14 @@ import CustomButton from "../components/Button/CustomButton";
 import CustomDialog from "../components/Workouts/CustomDialog";
 import PageHeading from "../components/Workouts/PageHeading";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { updateWorkoutStart, updateWorkoutEnd } from "../api/Workouts";
+import {
+  updateWorkoutStart,
+  updateWorkoutEnd,
+  pauseWorkout,
+  unpauseWorkout,
+  getWorkoutById,
+} from "../api/Workouts";
+import useTimingEngine from "../hooks/useTimingEngine.ts";
 
 async function retrieveData(user, setUser) {
   try {
@@ -29,11 +36,14 @@ async function retrieveData(user, setUser) {
 const WorkoutInProgressPage = ({ navigation, route }) => {
   const { workoutId } = route.params;
   const countdownDuration = 5;
+
+  const { startTimer, stopTimer } = useTimingEngine();
   const [user, setUser] = useState({});
   const [workoutEnded, setWorkoutEnded] = useState(false);
   const [isCountingDown, setIsCountingDown] = useState(true);
   const [isEndConfirmationVisible, setIsEndConfirmationVisible] =
     useState(false);
+  const [paused, setPaused] = useState(false);
 
   const startTime = new Date();
 
@@ -48,11 +58,25 @@ const WorkoutInProgressPage = ({ navigation, route }) => {
       await updateWorkoutStart(workoutId, startTime);
     }
     postWorkoutStart();
+    startTimer();
   }, []);
 
   const handleWorkoutEnd = async () => {
+    stopTimer();
     await updateWorkoutEnd(workoutId);
     navigation.navigate("Workouts");
+  };
+
+  const handlePauseWorkout = async () => {
+    setPaused(true);
+    stopTimer();
+    await pauseWorkout(workoutId);
+  };
+
+  const handleUnpauseWorkout = async () => {
+    setPaused(false);
+    stopTimer();
+    await unpauseWorkout(workoutId);
   };
 
   return (
@@ -138,13 +162,24 @@ const WorkoutInProgressPage = ({ navigation, route }) => {
               }}
             >
               <View style={{ width: "45%" }}>
-                <CustomButton
-                  handlePress={() => {
-                    setIsEndConfirmationVisible(true);
-                  }}
-                  label="Pause Workout"
-                  backgroundColor="#09BC8A"
-                />
+                {!paused && (
+                  <CustomButton
+                    handlePress={() => {
+                      handlePauseWorkout();
+                    }}
+                    label="Pause Workout"
+                    backgroundColor="#09BC8A"
+                  />
+                )}
+                {paused && (
+                  <CustomButton
+                    handlePress={() => {
+                      handleUnpauseWorkout();
+                    }}
+                    label="Resume Workout"
+                    backgroundColor="#09BC8A"
+                  />
+                )}
               </View>
               <View style={{ width: "45%" }}>
                 <CustomButton
