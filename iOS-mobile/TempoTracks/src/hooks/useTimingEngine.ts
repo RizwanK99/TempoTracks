@@ -1,6 +1,15 @@
 import create from "zustand";
 
 const useTimingEngine = create((set, get) => ({
+  workout_id: "",
+  created_at: new Date(),
+  status: "",
+  time_start: new Date(),
+  time_end: new Date(),
+  time_duration: "",
+  workout_type: "",
+  playlist_id: "",
+  workout_name: "",
   intervalId: null,
   isPaused: false,
   startTimer: () => {
