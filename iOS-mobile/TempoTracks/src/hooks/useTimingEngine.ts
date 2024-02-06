@@ -1,11 +1,5 @@
 import create from "zustand";
 
-const useThemeStore = create((set) => ({
-  theme: "light",
-  toggleTheme: () =>
-    set((state) => ({ theme: state.theme === "light" ? "dark" : "light" })),
-}));
-
 const useTimingEngine = create((set, get) => ({
   intervalId: null,
   isPaused: false,
