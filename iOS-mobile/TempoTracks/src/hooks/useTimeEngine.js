@@ -1,5 +1,6 @@
 import create from "zustand";
 import workoutModel from "./model/workoutModel";
+import StatusEnum from "./enum/StatusEnum";
 
 const useTimeEngine = create((set) => ({
   workout_id: "",
@@ -10,7 +11,9 @@ const useTimeEngine = create((set) => ({
   time_duration: "",
   workout_type: "",
   playlist_id: "",
-  workout_name: ""
+  workout_name: "",
+  setPause: () =>
+    set((state) => ({ status: state.status == StatusEnum.STARTED ? StatusEnum.PAUSED : StatusEnum.STARTED })),
 }));
 
 export default useTimeEngine;
