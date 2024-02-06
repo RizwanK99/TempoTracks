@@ -19,6 +19,7 @@ import {
   unpauseWorkout,
   getWorkoutById,
 } from "../api/Workouts";
+import useTimingEngine from "../hooks/useTimingEngine.ts";
 
 async function retrieveData(user, setUser) {
   try {
@@ -35,6 +36,8 @@ async function retrieveData(user, setUser) {
 const WorkoutInProgressPage = ({ navigation, route }) => {
   const { workoutId } = route.params;
   const countdownDuration = 5;
+
+  const { startTimer, stopTimer } = useTimingEngine();
   const [user, setUser] = useState({});
   const [workoutEnded, setWorkoutEnded] = useState(false);
   const [isCountingDown, setIsCountingDown] = useState(true);
@@ -55,20 +58,24 @@ const WorkoutInProgressPage = ({ navigation, route }) => {
       await updateWorkoutStart(workoutId, startTime);
     }
     postWorkoutStart();
+    startTimer();
   }, []);
 
   const handleWorkoutEnd = async () => {
+    stopTimer();
     await updateWorkoutEnd(workoutId);
     navigation.navigate("Workouts");
   };
 
   const handlePauseWorkout = async () => {
     setPaused(true);
+    stopTimer();
     await pauseWorkout(workoutId);
   };
 
   const handleUnpauseWorkout = async () => {
     setPaused(false);
+    stopTimer();
     await unpauseWorkout(workoutId);
   };
 
