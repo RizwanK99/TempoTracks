@@ -86,7 +86,7 @@ const MusicPage = ({ route, navigation }) => {
               />
             </ScrollView>
             <Divider style={{ backgroundColor: 'white', marginVertical: 10 }} />
-            {/* <LiveGraph
+            <LiveGraph
               isPlaying={isPlaying}
               playbackRate={playbackRate}
               handlePlaybackRateChange={handlePlaybackRateChange}
@@ -99,8 +99,7 @@ const MusicPage = ({ route, navigation }) => {
             />
           </View>
         </View>
-      </View> 
-    */}
+      </View> */}
     </SafeAreaView>
   );
 };
