@@ -53,6 +53,11 @@ RCT_EXTERN_METHOD(
   shuffle: (NSString)shuffleMode
 )
 
+RCT_EXTERN_METHOD(
+  getPlayerState: (RCTPromiseResolveBlock)resolve
+  rejecter: (RCTPromiseRejectBlock)reject
+)
+
 RCT_EXTERN_METHOD(getCount: (RCTResponseSenderBlock)callback)
 
 @end

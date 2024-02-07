@@ -47,7 +47,7 @@ class MusicManager: NSObject {
         ])
       }
       
-      resolve([serailizedSongs])
+      resolve(serailizedSongs)
     }
   }
   
@@ -75,7 +75,7 @@ class MusicManager: NSObject {
         ])
       }
       
-      resolve([serailizedSongs])
+      resolve(serailizedSongs)
     }
   }
   
@@ -91,17 +91,30 @@ class MusicManager: NSObject {
       // serialize into json
       var serailizedSongs: [[String: Any]] = []
       for song in response.items {
-        serailizedSongs.append([
-          "title": song.title,
-          "artistName": song.artistName,
-          "artwork": song.artwork?.url(width: 500, height: 500) ?? "",
-          "duration": Int(song.duration?.rounded() ?? 0),
-          "id": song.id.rawValue,
-          "url": song.url?.absoluteString ?? "",
-        ])
+        var serializedSong: [String: Any] = [:]
+
+        serializedSong["title"] = song.title
+        serializedSong["artistName"] = song.artistName
+        serializedSong["duration"] = Int(song.duration?.rounded() ?? 0)
+        serializedSong["id"] = song.id.rawValue
+        
+//        print("song", song.artwork);
+//        serailizedSongs.append([
+//          "title": song.title,
+//          "artistName": song.artistName,
+//          "artwork": song.artwork != nil ? [
+//            "url": song.artwork.url(width: 500, height: 500) ?? "",
+//            "backgroundColor": song.artwork.backgroundColor,
+//            "textColor": song.artwork.primaryTextColor,
+//          ] : NSNull,
+//          "duration": Int(song.duration?.rounded() ?? 0),
+//          "id": song.id.rawValue,
+//          "url": song.url?.absoluteString ?? "",
+//        ])
+        serailizedSongs.append(serializedSong)
       }
 
-      resolve([serailizedSongs])
+      resolve(serailizedSongs)
     }
   }
   
@@ -132,10 +145,8 @@ class MusicManager: NSObject {
           serializedTracks.append([
             "title": track.title,
             "artistName": track.artistName,
-            "artwork": track.artwork?.url(width: 500, height: 500) ?? "",
             "duration": Int(track.duration?.rounded() ?? 0),
             "id": track.id.rawValue,
-            "url": track.url?.absoluteString ?? "",
           ])
         }
         
@@ -154,7 +165,7 @@ class MusicManager: NSObject {
         ])
       }
 
-      resolve([serailizedPlaylists])
+      resolve(serailizedPlaylists)
     }
   }
   
@@ -187,8 +198,6 @@ class MusicManager: NSObject {
     let songIdsArray = songIds as? Array<String>
     Task {
       var actualSongIdArray: [MusicItemID] = []
-      
-      print(songIdsArray)
       
       for songId in songIdsArray ?? [] {
         actualSongIdArray.append(MusicItemID(stringLiteral: songId))
@@ -300,24 +309,72 @@ class MusicManager: NSObject {
     
     // set repeatMode if not empty string
     switch repeatMode {
-    case "ALL":
-      musicPlayer.state.repeatMode = MusicPlayer.RepeatMode.all
-    case "NONE":
-      musicPlayer.state.repeatMode = MusicPlayer.RepeatMode.none
-    case "ONE":
-      musicPlayer.state.repeatMode = MusicPlayer.RepeatMode.one
-    default:
-      break
+      case "all":
+        musicPlayer.state.repeatMode = MusicPlayer.RepeatMode.all
+      case "none":
+        musicPlayer.state.repeatMode = MusicPlayer.RepeatMode.none
+      case "one":
+        musicPlayer.state.repeatMode = MusicPlayer.RepeatMode.one
+      default:
+        break
     }
     
     // set shuffleMode if not empty string
     switch shuffleMode {
-    case "OFF":
-      musicPlayer.state.shuffleMode = MusicPlayer.ShuffleMode.off
-    case "SONGS":
-      musicPlayer.state.shuffleMode = MusicPlayer.ShuffleMode.songs
-    default:
-      break
+      case "off":
+        musicPlayer.state.shuffleMode = MusicPlayer.ShuffleMode.off
+      case "songs":
+        musicPlayer.state.shuffleMode = MusicPlayer.ShuffleMode.songs
+      default:
+        break
+    }
+  }
+  
+  @objc
+  func getPlayerState(
+    _ resolve: @escaping RCTPromiseResolveBlock,
+    rejecter reject: @escaping RCTPromiseRejectBlock
+  ) -> Void {
+    Task {
+    resolve([
+      "playbackRate": musicPlayer.state.playbackRate as Float,
+      "repeatMode": musicPlayer.state.repeatMode ?? "off" as String,
+      "shuffleMode": musicPlayer.state.shuffleMode ?? "off" as String,
+      "playbackTime": musicPlayer.playbackTime.rounded() as Double,
+      "nowPlayingItem": musicPlayer.queue.currentEntry != nil ? [
+          "title": musicPlayer.queue.currentEntry?.title ?? "Unknown" as String,
+          "artistName": {
+              switch musicPlayer.queue.currentEntry?.item {
+              case .musicVideo(let video):
+                  return video.artistName as String
+              case .song(let song):
+                  return song.artistName as String
+              default:
+                  return "Unknown" as String
+              }
+          }(),
+          "duration": {
+            switch musicPlayer.queue.currentEntry?.item {
+            case .musicVideo(let video):
+              return Int(video.duration?.rounded() ?? 0)
+            case .song(let song):
+              return Int(song.duration?.rounded() ?? 0)
+            default:
+                return 0
+            }
+          }() as Int,
+          "id": {
+              switch musicPlayer.queue.currentEntry?.item {
+              case .musicVideo(let video):
+                  return video.id.rawValue
+              case .song(let song):
+                  return song.id.rawValue 
+              default:
+                  return "Unknown"
+              }
+          }() ?? "" as String
+      ] as [String:Any] : nil
+    ] as [String:Any])
     }
   }
   
