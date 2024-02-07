@@ -120,7 +120,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		81E69FA02B7083CC00EE29A4 /* Companion Watch App */ = {
+		81E69FA02B7083CC00EE29A4 /* CompanionWatchApp */ = {
 			isa = PBXGroup;
 			children = (
 				81E69FA12B7083CC00EE29A4 /* CompanionApp.swift */,
@@ -128,7 +128,7 @@
 				81E69FA52B7083CE00EE29A4 /* Assets.xcassets */,
 				81E69FA72B7083CE00EE29A4 /* Preview Content */,
 			);
-			path = "Companion Watch App";
+			path = CompanionWatchApp;
 			sourceTree = "<group>";
 		};
 		81E69FA72B7083CE00EE29A4 /* Preview Content */ = {
@@ -151,7 +151,7 @@
 			children = (
 				13B07FAE1A68108700A75B9A /* TempoTracks */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
-				81E69FA02B7083CC00EE29A4 /* Companion Watch App */,
+				81E69FA02B7083CC00EE29A4 /* CompanionWatchApp */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				D65327D7A22EEC0BE12398D9 /* Pods */,
@@ -536,7 +536,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_ASSET_PATHS = "\"Companion Watch App/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"CompanionWatchApp/Preview Content\"";
 				DEVELOPMENT_TEAM = FG3F5G2D7L;
 				ENABLE_PREVIEWS = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -582,7 +582,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_ASSET_PATHS = "\"Companion Watch App/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"CompanionWatchApp/Preview Content\"";
 				DEVELOPMENT_TEAM = FG3F5G2D7L;
 				ENABLE_PREVIEWS = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
