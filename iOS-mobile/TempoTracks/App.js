@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Session } from "@supabase/supabase-js";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { ThemeProvider } from "@emotion/react";
+import theme from "./src/styles/theme";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -34,7 +36,6 @@ const getIsLoggedIn = () => {
 };
 
 function Root() {
-
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -116,19 +117,22 @@ function App() {
     });
   }, []);
   const isLoggedIn = getIsLoggedIn();
+
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        {isLoggedIn ? (
-          <Stack.Group screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="Root" component={Root} />
-          </Stack.Group>
-        ) : (
-          <Stack.Group screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="Launch" component={LaunchStack} />
-          </Stack.Group>
-        )}
-      </Stack.Navigator>
+      <ThemeProvider theme={theme}>
+        <Stack.Navigator>
+          {isLoggedIn ? (
+            <Stack.Group screenOptions={{ headerShown: false }}>
+              <Stack.Screen name="Root" component={Root} />
+            </Stack.Group>
+          ) : (
+            <Stack.Group screenOptions={{ headerShown: false }}>
+              <Stack.Screen name="Launch" component={LaunchStack} />
+            </Stack.Group>
+          )}
+        </Stack.Navigator>
+      </ThemeProvider>
     </NavigationContainer>
   );
 }
