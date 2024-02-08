@@ -19,9 +19,6 @@ import {
   unpauseWorkout,
   getWorkoutById,
 } from "../api/Workouts";
-// import useTimingEngine from "../hooks/useTimingEngine.ts";
-// import { useWorkoutStore, setTimingData } from "../hooks/useTimingEngine.ts";
-import useTimingEngine from "../hooks/useTimingEngine.ts";
 import { usePlaybackRateSetter } from "../hooks/usePlaybackRateSetter.ts";
 
 async function retrieveData(user, setUser) {
