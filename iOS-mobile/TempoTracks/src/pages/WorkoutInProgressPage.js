@@ -19,7 +19,10 @@ import {
   unpauseWorkout,
   getWorkoutById,
 } from "../api/Workouts";
+// import useTimingEngine from "../hooks/useTimingEngine.ts";
+// import { useWorkoutStore, setTimingData } from "../hooks/useTimingEngine.ts";
 import useTimingEngine from "../hooks/useTimingEngine.ts";
+import { usePlaybackRateSetter } from "../hooks/usePlaybackRateSetter.ts";
 
 async function retrieveData(user, setUser) {
   try {
@@ -36,8 +39,8 @@ async function retrieveData(user, setUser) {
 const WorkoutInProgressPage = ({ navigation, route }) => {
   const { workoutId } = route.params;
   const countdownDuration = 5;
+  const startTime = new Date();
 
-  const { startTimer, stopTimer } = useTimingEngine();
   const [user, setUser] = useState({});
   const [workoutEnded, setWorkoutEnded] = useState(false);
   const [isCountingDown, setIsCountingDown] = useState(true);
@@ -45,7 +48,74 @@ const WorkoutInProgressPage = ({ navigation, route }) => {
     useState(false);
   const [paused, setPaused] = useState(false);
 
-  const startTime = new Date();
+  const mockTimingData = [
+    { duration: 2000, playbackRate: 1 },
+    { duration: 1500, playbackRate: 1.5 },
+    { duration: 2000, playbackRate: 2 },
+    { duration: 1000, playbackRate: 1 },
+    { duration: 1500, playbackRate: 1.5 },
+    { duration: 3000, playbackRate: 2 },
+    { duration: 4000, playbackRate: 2 },
+    { duration: 1000, playbackRate: 2 },
+    { duration: 1000, playbackRate: 2 },
+    { duration: 1000, playbackRate: 2 },
+    { duration: 1000, playbackRate: 2 },
+    { duration: 1000, playbackRate: 2 },
+    { duration: 1000, playbackRate: 2 },
+    { duration: 1000, playbackRate: 2 },
+    { duration: 1000, playbackRate: 2 },
+    { duration: 1000, playbackRate: 2 },
+    { duration: 3000, playbackRate: 2 },
+    { duration: 1000, playbackRate: 2 },
+    { duration: 1000, playbackRate: 2 },
+    { duration: 1000, playbackRate: 2 },
+    { duration: 1000, playbackRate: 2 },
+    { duration: 1000, playbackRate: 2 },
+    { duration: 1000, playbackRate: 2 },
+    { duration: 1000, playbackRate: 2 },
+    { duration: 1000, playbackRate: 2 },
+    { duration: 1000, playbackRate: 2 },
+    { duration: 2000, playbackRate: 2 },
+    { duration: 1000, playbackRate: 2 },
+    { duration: 1000, playbackRate: 2 },
+    { duration: 1000, playbackRate: 2 },
+    { duration: 1000, playbackRate: 2 },
+    { duration: 1000, playbackRate: 2 },
+    { duration: 1000, playbackRate: 2 },
+    { duration: 1000, playbackRate: 2 },
+    { duration: 1000, playbackRate: 2 },
+    { duration: 1000, playbackRate: 2 },
+    { duration: 2000, playbackRate: 2 },
+    { duration: 1000, playbackRate: 2 },
+    { duration: 1000, playbackRate: 2 },
+    { duration: 1000, playbackRate: 2 },
+    { duration: 1000, playbackRate: 2 },
+    { duration: 1000, playbackRate: 2 },
+    { duration: 1000, playbackRate: 2 },
+    { duration: 1000, playbackRate: 2 },
+    { duration: 1000, playbackRate: 2 },
+    { duration: 1000, playbackRate: 2 },
+    { duration: 2000, playbackRate: 1 },
+    { duration: 1500, playbackRate: 1.5 },
+    { duration: 2000, playbackRate: 2 },
+    { duration: 1000, playbackRate: 1 },
+    { duration: 1500, playbackRate: 1.5 },
+    { duration: 3000, playbackRate: 2 },
+    { duration: 4000, playbackRate: 2 },
+    { duration: 1000, playbackRate: 2 },
+    { duration: 1000, playbackRate: 2 },
+    { duration: 2000, playbackRate: 1 },
+    { duration: 1500, playbackRate: 1.5 },
+    { duration: 2000, playbackRate: 2 },
+    { duration: 1000, playbackRate: 1 },
+    { duration: 1500, playbackRate: 1.5 },
+    { duration: 3000, playbackRate: 2 },
+    { duration: 4000, playbackRate: 2 },
+    { duration: 1000, playbackRate: 2 },
+    { duration: 1000, playbackRate: 2 },
+  ];
+  const { endPlayback, resumePlayback, pausePlayback } =
+    usePlaybackRateSetter(mockTimingData);
 
   const handleCountdownComplete = () => {
     setTimeout(() => {
@@ -57,25 +127,27 @@ const WorkoutInProgressPage = ({ navigation, route }) => {
     async function postWorkoutStart() {
       await updateWorkoutStart(workoutId, startTime);
     }
-    postWorkoutStart();
-    startTimer();
-  }, []);
+    if (!isCountingDown) {
+      postWorkoutStart();
+      // console.log("paused value", paused);
+      resumePlayback();
+    }
+  }, [isCountingDown, paused]);
 
   const handleWorkoutEnd = async () => {
-    stopTimer();
     await updateWorkoutEnd(workoutId);
+    endPlayback();
     navigation.navigate("Workouts");
   };
 
   const handlePauseWorkout = async () => {
     setPaused(true);
-    stopTimer();
+    pausePlayback();
     await pauseWorkout(workoutId);
   };
 
   const handleUnpauseWorkout = async () => {
     setPaused(false);
-    stopTimer();
     await unpauseWorkout(workoutId);
   };
 
@@ -171,7 +243,7 @@ const WorkoutInProgressPage = ({ navigation, route }) => {
                     backgroundColor="#09BC8A"
                   />
                 )}
-                {paused && (
+                {paused === true && (
                   <CustomButton
                     handlePress={() => {
                       handleUnpauseWorkout();
@@ -217,7 +289,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#222222",
     width: "100%",
     height: 60,
-    alignitems: "flex-end",
+    alignItems: "flex-end",
   },
 });
 

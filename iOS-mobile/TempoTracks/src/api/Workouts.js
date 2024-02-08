@@ -113,7 +113,12 @@ const updateWorkoutStart = async (workoutId, startTime) => {
   try {
     const { data, error } = await supabase
       .from("workouts")
-      .update({ time_start: startTime, status: "started" })
+      .update({
+        time_start: startTime,
+        status: "started",
+        is_paused: false,
+        paused_at: null,
+      })
       .eq("workout_id", workoutId);
 
     if (error) {
@@ -167,6 +172,8 @@ const updateWorkoutEnd = async (workoutId) => {
         time_end: endTime,
         status: "complete",
         time_duration: workoutDurationInMinutes.toFixed(2),
+        paused_at: null,
+        is_paused: false,
       })
       .eq("workout_id", workoutId);
   } catch (error) {
