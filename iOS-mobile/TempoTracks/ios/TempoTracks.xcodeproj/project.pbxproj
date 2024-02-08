@@ -16,6 +16,15 @@
 		81E69FA62B7083CE00EE29A4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 81E69FA52B7083CE00EE29A4 /* Assets.xcassets */; };
 		81E69FA92B7083CE00EE29A4 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 81E69FA82B7083CE00EE29A4 /* Preview Assets.xcassets */; };
 		81E69FAC2B7083CE00EE29A4 /* Companion Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 81E69F9F2B7083CC00EE29A4 /* Companion Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		81E69FB92B747BA400EE29A4 /* SessionPagingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E69FB02B747BA300EE29A4 /* SessionPagingView.swift */; };
+		81E69FBA2B747BA400EE29A4 /* SummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E69FB12B747BA300EE29A4 /* SummaryView.swift */; };
+		81E69FBB2B747BA400EE29A4 /* ElapsedTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E69FB22B747BA400EE29A4 /* ElapsedTimeView.swift */; };
+		81E69FBC2B747BA400EE29A4 /* ActivityRingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E69FB32B747BA400EE29A4 /* ActivityRingsView.swift */; };
+		81E69FBD2B747BA400EE29A4 /* MetricsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E69FB42B747BA400EE29A4 /* MetricsView.swift */; };
+		81E69FBE2B747BA400EE29A4 /* StartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E69FB52B747BA400EE29A4 /* StartView.swift */; };
+		81E69FBF2B747BA400EE29A4 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E69FB62B747BA400EE29A4 /* NotificationController.swift */; };
+		81E69FC02B747BA400EE29A4 /* WorkoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E69FB72B747BA400EE29A4 /* WorkoutManager.swift */; };
+		81E69FC12B747BA400EE29A4 /* ControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E69FB82B747BA400EE29A4 /* ControlsView.swift */; };
 		B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */; };
 		B3484A022A70C21800A72539 /* MusicManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3484A012A70C21800A72539 /* MusicManager.swift */; };
 		B3484A042A70C22A00A72539 /* MusicManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B3484A032A70C22A00A72539 /* MusicManager.m */; };
@@ -65,6 +74,15 @@
 		81E69FA32B7083CC00EE29A4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		81E69FA52B7083CE00EE29A4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		81E69FA82B7083CE00EE29A4 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		81E69FB02B747BA300EE29A4 /* SessionPagingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionPagingView.swift; sourceTree = "<group>"; };
+		81E69FB12B747BA300EE29A4 /* SummaryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SummaryView.swift; sourceTree = "<group>"; };
+		81E69FB22B747BA400EE29A4 /* ElapsedTimeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ElapsedTimeView.swift; sourceTree = "<group>"; };
+		81E69FB32B747BA400EE29A4 /* ActivityRingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityRingsView.swift; sourceTree = "<group>"; };
+		81E69FB42B747BA400EE29A4 /* MetricsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetricsView.swift; sourceTree = "<group>"; };
+		81E69FB52B747BA400EE29A4 /* StartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartView.swift; sourceTree = "<group>"; };
+		81E69FB62B747BA400EE29A4 /* NotificationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
+		81E69FB72B747BA400EE29A4 /* WorkoutManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutManager.swift; sourceTree = "<group>"; };
+		81E69FB82B747BA400EE29A4 /* ControlsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlsView.swift; sourceTree = "<group>"; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = TempoTracks/SplashScreen.storyboard; sourceTree = "<group>"; };
 		B3484A012A70C21800A72539 /* MusicManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicManager.swift; sourceTree = "<group>"; };
 		B3484A032A70C22A00A72539 /* MusicManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MusicManager.m; sourceTree = "<group>"; };
@@ -123,6 +141,15 @@
 		81E69FA02B7083CC00EE29A4 /* CompanionWatchApp */ = {
 			isa = PBXGroup;
 			children = (
+				81E69FB32B747BA400EE29A4 /* ActivityRingsView.swift */,
+				81E69FB82B747BA400EE29A4 /* ControlsView.swift */,
+				81E69FB22B747BA400EE29A4 /* ElapsedTimeView.swift */,
+				81E69FB42B747BA400EE29A4 /* MetricsView.swift */,
+				81E69FB62B747BA400EE29A4 /* NotificationController.swift */,
+				81E69FB02B747BA300EE29A4 /* SessionPagingView.swift */,
+				81E69FB52B747BA400EE29A4 /* StartView.swift */,
+				81E69FB12B747BA300EE29A4 /* SummaryView.swift */,
+				81E69FB72B747BA400EE29A4 /* WorkoutManager.swift */,
 				81E69FA12B7083CC00EE29A4 /* CompanionApp.swift */,
 				81E69FA32B7083CC00EE29A4 /* ContentView.swift */,
 				81E69FA52B7083CE00EE29A4 /* Assets.xcassets */,
@@ -442,7 +469,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				81E69FA42B7083CC00EE29A4 /* ContentView.swift in Sources */,
+				81E69FBD2B747BA400EE29A4 /* MetricsView.swift in Sources */,
+				81E69FBA2B747BA400EE29A4 /* SummaryView.swift in Sources */,
+				81E69FBE2B747BA400EE29A4 /* StartView.swift in Sources */,
+				81E69FBB2B747BA400EE29A4 /* ElapsedTimeView.swift in Sources */,
+				81E69FBC2B747BA400EE29A4 /* ActivityRingsView.swift in Sources */,
+				81E69FBF2B747BA400EE29A4 /* NotificationController.swift in Sources */,
+				81E69FC02B747BA400EE29A4 /* WorkoutManager.swift in Sources */,
 				81E69FA22B7083CC00EE29A4 /* CompanionApp.swift in Sources */,
+				81E69FB92B747BA400EE29A4 /* SessionPagingView.swift in Sources */,
+				81E69FC12B747BA400EE29A4 /* ControlsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -542,6 +578,8 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = Companion;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "TempoTracks wants to access health data";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "TempoTracks wants to access health data";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = org.name.TempoTracks;
 				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = NO;
@@ -552,6 +590,7 @@
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
+				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = org.name.TempoTracks.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -588,6 +627,8 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = Companion;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "TempoTracks wants to access health data";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "TempoTracks wants to access health data";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = org.name.TempoTracks;
 				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = NO;
@@ -597,6 +638,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				MTL_FAST_MATH = YES;
+				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
 				PRODUCT_BUNDLE_IDENTIFIER = org.name.TempoTracks.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
