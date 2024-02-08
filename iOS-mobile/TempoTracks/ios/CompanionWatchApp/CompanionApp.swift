@@ -6,12 +6,24 @@
 //
 
 import SwiftUI
+import HealthKit
 
 @main
-struct Companion_Watch_AppApp: App {
-    var body: some Scene {
+struct WatchOS_Watch_AppApp: App {
+    @StateObject var workoutManager = WorkoutManager()
+    var selectedWorkout: HKWorkoutActivityType?
+    
+    @SceneBuilder var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationView {
+                StartView()
+            }
+            .sheet(isPresented: $workoutManager.showingSummaryView) {
+                SummaryView()
+            }
+            .environmentObject(workoutManager)
         }
+        
+        // WKNotificationScene(controller: NotificationController.self, category: "myCategory")
     }
 }

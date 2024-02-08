@@ -418,8 +418,10 @@ PODS:
   - RNScreens (3.23.0):
     - React-Core
     - React-RCTImage
-  - RNSVG (13.14.0):
+  - RNSVG (13.10.0):
     - React-Core
+  - RNWatch (1.1.0):
+    - React
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -478,6 +480,7 @@ DEPENDENCIES:
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
+  - RNWatch (from `../node_modules/react-native-watch-connectivity`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -592,6 +595,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-screens"
   RNSVG:
     :path: "../node_modules/react-native-svg"
+  RNWatch:
+    :path: "../node_modules/react-native-watch-connectivity"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -650,7 +655,8 @@ SPEC CHECKSUMS:
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNReanimated: f186e85d9f28c9383d05ca39e11dd194f59093ec
   RNScreens: 6a8a3c6b808aa48dca1780df7b73ea524f602c63
-  RNSVG: d00c8f91c3cbf6d476451313a18f04d220d4f396
+  RNSVG: 80584470ff1ffc7994923ea135a3e5ad825546b9
+  RNWatch: fd30ca40a5b5ef58dcbc195638e68219bc455236
   Yoga: 065f0b74dba4832d6e328238de46eb72c5de9556
 
 PODFILE CHECKSUM: 1d3f02eedbd02809ba123e8e736730cfa0b9435d
