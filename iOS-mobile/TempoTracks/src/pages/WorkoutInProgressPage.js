@@ -126,7 +126,7 @@ const WorkoutInProgressPage = ({ navigation, route }) => {
     }
     if (!isCountingDown) {
       postWorkoutStart();
-      // console.log("paused value", paused);
+      console.log("paused value", paused);
       resumePlayback();
     }
   }, [isCountingDown, paused]);
@@ -240,7 +240,7 @@ const WorkoutInProgressPage = ({ navigation, route }) => {
                     backgroundColor="#09BC8A"
                   />
                 )}
-                {paused === true && (
+                {paused && (
                   <CustomButton
                     handlePress={() => {
                       handleUnpauseWorkout();
