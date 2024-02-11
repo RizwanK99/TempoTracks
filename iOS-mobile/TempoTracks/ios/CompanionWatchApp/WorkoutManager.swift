@@ -103,6 +103,7 @@ class WorkoutManager: NSObject, ObservableObject {
     }
 
     func togglePause() {
+        WatchConnectivityHandler.shared.send("Hello World!\n\(Date().ISO8601Format())")
         if running == true {
             pause()
         } else {
