@@ -14,10 +14,15 @@ import HomePage from "./src/pages/HomePage";
 import ProfilePage from "./src/pages/ProfilePage";
 import SettingsPage from "./src/pages/SettingsPage";
 import WorkoutsPage from "./src/pages/WorkoutsPage";
-import MusicPage from "./src/pages/MusicPage";
 import SignInPage from "./src/pages/SignInPage";
 import LaunchPage from "./src/pages/LaunchPage";
 import RegisterPage from "./src/pages/RegisterPage";
+
+
+// Music Screens
+import MusicLibraryPage from "./src/pages/MusicLibraryPage";
+import MusicHomePage from "./src/pages/MusicHomePage";
+import MusicPage from "./src/pages/MusicPage";
 
 // Workout Screens
 import IndividualWorkoutPage from "./src/pages/IndividualWorkoutPage";
@@ -165,10 +170,12 @@ function SettingsStack() {
 function MusicStack() {
   return (
     <Stack.Navigator
-      initialRouteName="Music"
+      initialRouteName="MusicHomePage"
       screenOptions={{ headerShown: false }}
     >
-      <Stack.Screen name="Music" component={MusicPage} />
+      <Stack.Screen name="MusicHomePage" component={MusicHomePage} />
+      <Stack.Screen name="MusicLibraryPage" component={MusicLibraryPage} />
+      <Stack.Screen name="MusicPage" component={MusicPage} />
     </Stack.Navigator>
   );
 }
