@@ -57,7 +57,7 @@ const WorkoutsPage = ({ navigation }) => {
           <View style={{ marginTop: 16 }}>
             <PressableCardBanner
               title={"Let's Go!"}
-              subtitle={"Slect from your custom list of workouts."}
+              subtitle={"Select from your custom list of workouts."}
               imageUri={recommendedWorkoutImage}
               onPress={() => navigation.navigate("WorkoutInProgress", { undefined })}
             />
