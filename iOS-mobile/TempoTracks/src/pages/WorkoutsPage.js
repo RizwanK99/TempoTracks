@@ -52,14 +52,14 @@ const WorkoutsPage = ({ navigation }) => {
             <PageHeading title={"Workouts"} />
           </View>
           <View style={{ marginTop: 24 }}>
-            <SectionHeading title={"Quick Starter"} />
+            <SectionHeading title={"Start A Workout"} />
           </View>
           <View style={{ marginTop: 16 }}>
             <PressableCardBanner
-              title={"Try a new workout"}
-              subtitle={"Based on your preferences."}
+              title={"Let's Go!"}
+              subtitle={"Slect from your custom list of workouts."}
               imageUri={recommendedWorkoutImage}
-              onPress={() => navigation.navigate("UserPreferenceWorkout")}
+              onPress={() => navigation.navigate("WorkoutInProgress", { undefined })}
             />
           </View>
           {/* CREATE WORKOUT */}
@@ -68,7 +68,7 @@ const WorkoutsPage = ({ navigation }) => {
           </View>
           <View style={{ marginTop: 16 }}>
             <PressableCardBanner
-              title={"Designed By You"}
+              title={"Create A Workout"}
               subtitle={
                 "Create your perfect workout."
                 // workouts.length === 0
@@ -79,6 +79,20 @@ const WorkoutsPage = ({ navigation }) => {
               onPress={() => navigation.navigate("CreateWorkout")}
             />
           </View>
+          <View style={{ marginTop: 16 }}>
+            <PressableCardBanner
+              title={"View Your Creations"}
+              subtitle={
+                "Edit or view you previously created workouts."
+                // workouts.length === 0
+                //   ? "Create your perfect workout."
+                //   : workouts.length + " created"
+              }
+              imageUri={createWorkoutImage}
+              onPress={() => navigation.navigate("WorkoutListPage")}
+            />
+          </View>
+
           {/* WORKOUT HISTORY */}
           <View style={{ marginTop: 28 }}>
             <SectionHeading title={"Progress"} />
@@ -92,7 +106,7 @@ const WorkoutsPage = ({ navigation }) => {
             />
           </View>
           {/* FOCUS */}
-          <View style={{ marginTop: 28 }}>
+          {/* <View style={{ marginTop: 28 }}>
             <SectionHeading title={"Focus"} />
           </View>
           <View style={{ flex: 1 }}>
@@ -143,7 +157,7 @@ const WorkoutsPage = ({ navigation }) => {
             >
               <Text style={{ fontWeight: "bold" }}>All Workouts</Text>
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </ScrollView>
     </SafeAreaView>

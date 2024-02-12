@@ -146,26 +146,6 @@ const HomePage = ({ navigation }) => {
               </ScrollView>
             </View>
           </View>
-
-          <View style={[styles.box, { flex: 2 }]}>
-            <TouchableOpacity
-              style={styles.startButton}
-              onPress={() => {
-                navigation.navigate('CreateWorkout');
-              }}
-            >
-              <Text
-                style={{
-                  color: '#004346',
-                  fontSize: 16,
-                  fontWeight: 'bold',
-                  textAlign: 'center',
-                }}
-              >
-                Create New Workout
-              </Text>
-            </TouchableOpacity>
-          </View>
         </View>
       </View>
     </SafeAreaView>

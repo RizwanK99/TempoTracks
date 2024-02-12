@@ -59,7 +59,13 @@ const WorkoutInProgressPage = ({ navigation, route }) => {
 
   const handleWorkoutEnd = async () => {
     await updateWorkoutEnd(workoutId);
-    navigation.navigate("Workouts");
+    navigation.navigate("WorkoutEndSummary", {
+      workoutId: workoutId,
+      workoutName: "HARD",
+      workoutDuration: 60,
+      caloriesBurnt: 650,
+      workoutType: 'cardio',
+    })
   };
 
   const handlePauseWorkout = async () => {
@@ -108,7 +114,7 @@ const WorkoutInProgressPage = ({ navigation, route }) => {
             <TouchableOpacity
               style={styles.button}
               onPress={() => {
-                navigation.navigate("Workouts");
+                navigation.navigate("Workout");
               }}
             >
               <View
