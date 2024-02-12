@@ -14,18 +14,18 @@ struct SessionPagingView: View {
     @State private var selection: Tab = .metrics
     
     enum Tab {
-        case controls, metrics, nowPlaying
+        case controls, metrics, music
     }
     
     var body: some View {
         TabView(selection: $selection) {
             ControlsView().tag(Tab.controls)
-            MetricsView().tag(Tab.controls)
-            NowPlayingView().tag(Tab.controls)
+            MetricsView().tag(Tab.metrics)
+            NowPlayingView().tag(Tab.music)
         }
         .navigationTitle(workoutManager.selectedWorkout?.name ?? "")
         .navigationBarBackButtonHidden(true)
-        .navigationBarHidden(selection == .nowPlaying)
+        .navigationBarHidden(selection == .music)
         .onChange(of: workoutManager.running) { _ in
             displayMetricsView()
         }
