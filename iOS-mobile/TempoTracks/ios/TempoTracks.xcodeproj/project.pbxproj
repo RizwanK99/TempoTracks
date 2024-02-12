@@ -13,6 +13,9 @@
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
 		81C996D02B76EA2B00A9C0A3 /* WatchConnectivityHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C996CF2B76EA2B00A9C0A3 /* WatchConnectivityHandler.swift */; };
 		81C996D22B798E0700A9C0A3 /* Theming.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C996D12B798E0700A9C0A3 /* Theming.swift */; };
+		81C996DC2B79E9A200A9C0A3 /* MusicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C996DB2B79E9A200A9C0A3 /* MusicView.swift */; };
+		81C996DE2B79EA4F00A9C0A3 /* SongView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C996DD2B79EA4F00A9C0A3 /* SongView.swift */; };
+		81C996E02B79EB2300A9C0A3 /* MovingBarsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C996DF2B79EB2300A9C0A3 /* MovingBarsView.swift */; };
 		81E69FA22B7083CC00EE29A4 /* CompanionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E69FA12B7083CC00EE29A4 /* CompanionApp.swift */; };
 		81E69FA62B7083CE00EE29A4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 81E69FA52B7083CE00EE29A4 /* Assets.xcassets */; };
 		81E69FA92B7083CE00EE29A4 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 81E69FA82B7083CE00EE29A4 /* Preview Assets.xcassets */; };
@@ -70,6 +73,9 @@
 		81C996CF2B76EA2B00A9C0A3 /* WatchConnectivityHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchConnectivityHandler.swift; sourceTree = "<group>"; };
 		81C996D12B798E0700A9C0A3 /* Theming.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theming.swift; sourceTree = "<group>"; };
 		81C996D32B79D0B800A9C0A3 /* Companion Watch AppDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Companion Watch AppDebug.entitlements"; sourceTree = "<group>"; };
+		81C996DB2B79E9A200A9C0A3 /* MusicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicView.swift; sourceTree = "<group>"; };
+		81C996DD2B79EA4F00A9C0A3 /* SongView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongView.swift; sourceTree = "<group>"; };
+		81C996DF2B79EB2300A9C0A3 /* MovingBarsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovingBarsView.swift; sourceTree = "<group>"; };
 		81E69F982B707F6D00EE29A4 /* libReact-Core.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libReact-Core.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81E69F9A2B70833000EE29A4 /* TempoTracks-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TempoTracks-Bridging-Header.h"; sourceTree = "<group>"; };
 		81E69F9F2B7083CC00EE29A4 /* TempoTracks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TempoTracks.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -154,22 +160,17 @@
 				81E69FB42B747BA400EE29A4 /* MetricsView.swift */,
 				81E69FB82B747BA400EE29A4 /* ControlsView.swift */,
 				81E69FB02B747BA300EE29A4 /* SessionPagingView.swift */,
+				81C996DB2B79E9A200A9C0A3 /* MusicView.swift */,
 			);
 			path = SessionViews;
-			sourceTree = "<group>";
-		};
-		81C996D62B79E6B700A9C0A3 /* WatchConnectivity */ = {
-			isa = PBXGroup;
-			children = (
-				81C996CF2B76EA2B00A9C0A3 /* WatchConnectivityHandler.swift */,
-			);
-			path = WatchConnectivity;
 			sourceTree = "<group>";
 		};
 		81C996D72B79E6C900A9C0A3 /* Components */ = {
 			isa = PBXGroup;
 			children = (
 				81E69FB22B747BA400EE29A4 /* ElapsedTimeView.swift */,
+				81C996DD2B79EA4F00A9C0A3 /* SongView.swift */,
+				81C996DF2B79EB2300A9C0A3 /* MovingBarsView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -177,6 +178,7 @@
 		81C996D82B79E6EF00A9C0A3 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				81C996CF2B76EA2B00A9C0A3 /* WatchConnectivityHandler.swift */,
 				81E69FB72B747BA400EE29A4 /* WorkoutManager.swift */,
 			);
 			path = Services;
@@ -204,7 +206,6 @@
 			children = (
 				81C996D92B79E73300A9C0A3 /* SummaryView */,
 				81C996D82B79E6EF00A9C0A3 /* Services */,
-				81C996D62B79E6B700A9C0A3 /* WatchConnectivity */,
 				81C996D52B79E69800A9C0A3 /* SessionViews */,
 				81C996D42B79E67000A9C0A3 /* Theme */,
 				81E69FB52B747BA400EE29A4 /* StartView.swift */,
@@ -530,12 +531,15 @@
 				81E69FBD2B747BA400EE29A4 /* MetricsView.swift in Sources */,
 				81E69FBA2B747BA400EE29A4 /* SummaryView.swift in Sources */,
 				81E69FBE2B747BA400EE29A4 /* StartView.swift in Sources */,
+				81C996E02B79EB2300A9C0A3 /* MovingBarsView.swift in Sources */,
 				81E69FBB2B747BA400EE29A4 /* ElapsedTimeView.swift in Sources */,
 				81E69FBC2B747BA400EE29A4 /* ActivityRingsView.swift in Sources */,
 				81E69FC02B747BA400EE29A4 /* WorkoutManager.swift in Sources */,
 				81E69FA22B7083CC00EE29A4 /* CompanionApp.swift in Sources */,
 				81C996D02B76EA2B00A9C0A3 /* WatchConnectivityHandler.swift in Sources */,
 				81E69FB92B747BA400EE29A4 /* SessionPagingView.swift in Sources */,
+				81C996DE2B79EA4F00A9C0A3 /* SongView.swift in Sources */,
+				81C996DC2B79E9A200A9C0A3 /* MusicView.swift in Sources */,
 				81E69FC12B747BA400EE29A4 /* ControlsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
