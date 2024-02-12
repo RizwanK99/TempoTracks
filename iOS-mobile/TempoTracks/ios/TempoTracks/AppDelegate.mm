@@ -12,6 +12,12 @@
   // You can add your custom initial props in the dictionary below.
   // They will be passed down to the ViewController used by React Native.
   self.initialProps = @{};
+  
+  if ([WCSession isSupported]) {
+      WCSession *session = [WCSession defaultSession];
+      session.delegate = self;
+      [session activateSession];
+  }
 
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
@@ -62,6 +68,37 @@
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
   return [super application:application didReceiveRemoteNotification:userInfo fetchCompletionHandler:completionHandler];
+}
+
+- (void)session:(WCSession *)session activationDidCompleteWithState:(WCSessionActivationState)activationState error:(NSError *)error {
+  if (activationState == WCSessionActivationStateActivated) {
+      NSLog(@"IOS WCSession activated successfully.");
+      // You can now safely send data to the watch or receive data
+  } else if (error) {
+      NSLog(@"IOS WCSession activation failed with error: %@", error.localizedDescription);
+      // Handle the error, maybe try to activate the session again or inform the user
+  }
+}
+
+- (void)sessionDidBecomeInactive:(WCSession *)session {
+  NSLog(@"IOS WCSession did become inactive.");
+  // Optional: Update UI or internal state to reflect inactive session
+}
+
+- (void)sessionDidDeactivate:(WCSession *)session {
+  NSLog(@"WCSession did deactivate.");
+  // Reactivate the session to ensure it's ready for further communication
+  [[WCSession defaultSession] activateSession];
+  // Optional: Update UI or internal state to reflect deactivated session
+}
+
+- (void)session:(WCSession *)session didReceiveMessage:(NSDictionary<NSString *,id> *)message replyHandler:(void (^)(NSDictionary<NSString *,id> *replyMessage))replyHandler {
+    // Handle the received message from the watch
+    NSLog(@"Received message from watch: %@", message);
+  
+    // Optionally, send a reply back to the watch
+    NSDictionary *response = @{@"Response": @"Message received"};
+    replyHandler(response);
 }
 
 @end
