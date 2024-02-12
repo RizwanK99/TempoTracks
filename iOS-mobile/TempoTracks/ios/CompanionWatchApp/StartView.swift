@@ -32,7 +32,7 @@ struct StartView: View {
             .padding(
                 EdgeInsets(top: 15, leading: 5, bottom: 15, trailing: 5)
             )
-            .background(Color(hex: "#09BC8A", opacity: 0.5))
+            .background(Color(hex: ColorHex.primary.rawValue, opacity: 0.5))
             .cornerRadius(20)
             .listRowBackground(Color.clear)
         }

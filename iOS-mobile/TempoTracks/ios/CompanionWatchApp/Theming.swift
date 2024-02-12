@@ -7,6 +7,10 @@
 
 import SwiftUI
 
+enum ColorHex: String {
+    case primary = "#09BC8A"
+}
+
 extension Color {
   init(hex: String, opacity: Double = 1.0) {
       let scanner = Scanner(string: hex)

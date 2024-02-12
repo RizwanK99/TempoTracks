@@ -17,7 +17,7 @@
 		81E69FA42B7083CC00EE29A4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E69FA32B7083CC00EE29A4 /* ContentView.swift */; };
 		81E69FA62B7083CE00EE29A4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 81E69FA52B7083CE00EE29A4 /* Assets.xcassets */; };
 		81E69FA92B7083CE00EE29A4 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 81E69FA82B7083CE00EE29A4 /* Preview Assets.xcassets */; };
-		81E69FAC2B7083CE00EE29A4 /* Companion Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 81E69F9F2B7083CC00EE29A4 /* Companion Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		81E69FAC2B7083CE00EE29A4 /* TempoTracks.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 81E69F9F2B7083CC00EE29A4 /* TempoTracks.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		81E69FB92B747BA400EE29A4 /* SessionPagingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E69FB02B747BA300EE29A4 /* SessionPagingView.swift */; };
 		81E69FBA2B747BA400EE29A4 /* SummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E69FB12B747BA300EE29A4 /* SummaryView.swift */; };
 		81E69FBB2B747BA400EE29A4 /* ElapsedTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E69FB22B747BA400EE29A4 /* ElapsedTimeView.swift */; };
@@ -51,7 +51,7 @@
 			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
 			dstSubfolderSpec = 16;
 			files = (
-				81E69FAC2B7083CE00EE29A4 /* Companion Watch App.app in Embed Watch Content */,
+				81E69FAC2B7083CE00EE29A4 /* TempoTracks.app in Embed Watch Content */,
 			);
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -71,9 +71,10 @@
 		7A4D352CD337FB3A3BF06240 /* Pods-TempoTracks.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TempoTracks.release.xcconfig"; path = "Target Support Files/Pods-TempoTracks/Pods-TempoTracks.release.xcconfig"; sourceTree = "<group>"; };
 		81C996CF2B76EA2B00A9C0A3 /* WatchConnectivityHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchConnectivityHandler.swift; sourceTree = "<group>"; };
 		81C996D12B798E0700A9C0A3 /* Theming.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theming.swift; sourceTree = "<group>"; };
+		81C996D32B79D0B800A9C0A3 /* Companion Watch AppDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Companion Watch AppDebug.entitlements"; sourceTree = "<group>"; };
 		81E69F982B707F6D00EE29A4 /* libReact-Core.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libReact-Core.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81E69F9A2B70833000EE29A4 /* TempoTracks-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TempoTracks-Bridging-Header.h"; sourceTree = "<group>"; };
-		81E69F9F2B7083CC00EE29A4 /* Companion Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Companion Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		81E69F9F2B7083CC00EE29A4 /* TempoTracks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TempoTracks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		81E69FA12B7083CC00EE29A4 /* CompanionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanionApp.swift; sourceTree = "<group>"; };
 		81E69FA32B7083CC00EE29A4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		81E69FA52B7083CE00EE29A4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -182,6 +183,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				81C996D32B79D0B800A9C0A3 /* Companion Watch AppDebug.entitlements */,
 				13B07FAE1A68108700A75B9A /* TempoTracks */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				81E69FA02B7083CC00EE29A4 /* CompanionWatchApp */,
@@ -199,7 +201,7 @@
 			isa = PBXGroup;
 			children = (
 				13B07F961A680F5B00A75B9A /* TempoTracks.app */,
-				81E69F9F2B7083CC00EE29A4 /* Companion Watch App.app */,
+				81E69F9F2B7083CC00EE29A4 /* TempoTracks.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -280,7 +282,7 @@
 			);
 			name = "Companion Watch App";
 			productName = "Companion Watch App";
-			productReference = 81E69F9F2B7083CC00EE29A4 /* Companion Watch App.app */;
+			productReference = 81E69F9F2B7083CC00EE29A4 /* TempoTracks.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -577,6 +579,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = "Companion Watch AppDebug.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -585,7 +588,6 @@
 				ENABLE_PREVIEWS = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = Companion;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "TempoTracks wants to access health data";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "TempoTracks wants to access health data";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
@@ -600,7 +602,7 @@
 				MTL_FAST_MATH = YES;
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = org.name.TempoTracks.watchkitapp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = TempoTracks;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -634,7 +636,6 @@
 				ENABLE_PREVIEWS = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = Companion;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "TempoTracks wants to access health data";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "TempoTracks wants to access health data";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
@@ -648,7 +649,7 @@
 				MTL_FAST_MATH = YES;
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
 				PRODUCT_BUNDLE_IDENTIFIER = org.name.TempoTracks.watchkitapp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = TempoTracks;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;

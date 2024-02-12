@@ -30,7 +30,7 @@ struct SummaryView: View {
                     SummaryMetricView(
                         title: "Total Time",
                         value: workoutManager.displayTime
-                    ).accentColor(Color.yellow)
+                    ).accentColor(Color(hex: ColorHex.primary.rawValue))
                     SummaryMetricView(
                         title: "Total Distance",
                         value: Measurement(
@@ -43,7 +43,7 @@ struct SummaryView: View {
                                 usage: .road
                             )
                         )
-                    ).accentColor(Color.green)
+                    ).accentColor(Color(hex: ColorHex.primary.rawValue))
                     SummaryMetricView(
                         title: "Total Energy",
                         value: Measurement(
@@ -56,7 +56,7 @@ struct SummaryView: View {
                                 usage: .workout
                             )
                         )
-                    ).accentColor(Color.pink)
+                    ).accentColor(Color(hex: ColorHex.primary.rawValue))
                     SummaryMetricView(
                         title: "Avg. Heart Rate",
                         value: workoutManager.averageHeartRate
@@ -64,7 +64,7 @@ struct SummaryView: View {
                                 .number.precision(.fractionLength(0))
                             )
                         + " bpm"
-                    ).accentColor(Color.red)
+                    ).accentColor(Color(hex: ColorHex.primary.rawValue))
                     Text("Activity Rings")
                     ActivityRingsView(healthStore: workoutManager.healthStore)
                         .frame(width: 50, height: 50)
