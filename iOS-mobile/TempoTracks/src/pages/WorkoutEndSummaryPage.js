@@ -20,7 +20,7 @@ const universityOfWaterlooCoordinates = {
   longitude: -80.5449,
 };
 
-const IndividualWorkoutPage = ({ route, navigation }) => {
+const WorkoutEndSummaryPage = ({ route, navigation }) => {
   const [currentLocation, setCurrentLocation] = useState(null);
   const {
     workoutId,
@@ -120,13 +120,14 @@ const IndividualWorkoutPage = ({ route, navigation }) => {
               </MapView>
         </View>
         <View style={{ marginTop: 24, marginBottom: 12 }}>
-          <CustomButton
+          {/* THIS SHOULD BE DONE WORKOUTS ONLY */}
+          {/* <CustomButton
             label={"Start"}
             backgroundColor="#09BC8A"
             handlePress={() =>
               navigation.navigate("WorkoutInProgress", { workoutId })
             }
-          />
+          /> */}
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -209,4 +210,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default IndividualWorkoutPage;
+export default WorkoutEndSummaryPage;

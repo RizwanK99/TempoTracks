@@ -27,7 +27,7 @@ async function retrieveData(user, setUser) {
   }
 }
 
-const AllWorkoutsPage = ({ navigation }) => {
+const WorkoutHistoryPage = ({ navigation }) => {
   const [workouts, setWorkouts] = useState([]);
   const [user, setUser] = useState({});
   const [searchQuery, setSearchQuery] = React.useState("");
@@ -116,7 +116,7 @@ const WorkoutCard = ({
     <Card
       style={styles.card}
       onPress={() =>
-        navigation.navigate("IndividualWorkout", {
+        navigation.navigate("WorkoutEndSummary", {
           workoutId: id,
           workoutName: name,
           workoutDuration: duration,
@@ -159,4 +159,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AllWorkoutsPage;
+export default WorkoutHistoryPage;

@@ -25,12 +25,16 @@ import MusicHomePage from "./src/pages/MusicHomePage";
 import MusicPage from "./src/pages/MusicPage";
 
 // Workout Screens
-import IndividualWorkoutPage from "./src/pages/IndividualWorkoutPage";
+import IndividualWorkoutPage from "./src/pages/WorkoutEndSummaryPage";
 import CreateWorkoutPage from "./src/pages/CreateWorkoutPage";
 import WorkoutInProgressPage from "./src/pages/WorkoutInProgressPage";
 import WorkoutTrendsPage from "./src/pages/WorkoutTrendsPage";
-import AllWorkoutsPage from "./src/pages/AllWorkoutsPage";
+import WorkoutHistoryPage from "./src/pages/WorkoutHistoryPage";
 import UserPreferenceWorkoutPage from "./src/pages/UserPreferenceWorkoutPage";
+import WorkoutListPage from "./src/pages/WorkoutListPage";
+import WorkoutEndSummaryPage from "./src/pages/WorkoutEndSummaryPage";
+
+
 import { supabase } from "./src/lib/supabase";
 
 const Stack = createNativeStackNavigator();
@@ -187,21 +191,14 @@ function WorkoutsStack() {
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="Workouts" component={WorkoutsPage} />
-      <Stack.Screen
-        name="IndividualWorkout"
-        component={IndividualWorkoutPage}
-      />
       <Stack.Screen name="CreateWorkout" component={CreateWorkoutPage} />
-      <Stack.Screen
-        name="WorkoutInProgress"
-        component={WorkoutInProgressPage}
-      />
+      <Stack.Screen name="WorkoutInProgress" component={WorkoutInProgressPage} />
       <Stack.Screen name="WorkoutTrends" component={WorkoutTrendsPage} />
-      <Stack.Screen name="AllWorkouts" component={AllWorkoutsPage} />
-      <Stack.Screen
-        name="UserPreferenceWorkout"
-        component={UserPreferenceWorkoutPage}
-      />
+      <Stack.Screen name="WorkoutHistoryPage" component={WorkoutHistoryPage} />
+      <Stack.Screen name="WorkoutListPage" component={WorkoutListPage} />
+      <Stack.Screen name="UserPreferenceWorkout" component={UserPreferenceWorkoutPage} />
+      <Stack.Screen name="WorkoutEndSummary" component={WorkoutEndSummaryPage} />
+
     </Stack.Navigator>
   );
 }

@@ -10,6 +10,10 @@ import CustomBarChart from "../components/Charts/CustomBarChart";
 import { AntDesign } from "@expo/vector-icons";
 import Highlights from "../components/Workouts/Highlights";
 import { useTheme } from "@emotion/react";
+import PressableCardBanner from "../components/Workouts/PressableCardBanner";
+import SectionHeading from "../components/Workouts/SectionHeading";
+
+const createWorkoutImage = require("../assets/create-workout.png");
 
 const WorkoutTrendsPage = ({ navigation }) => {
   const theme = useTheme();
@@ -31,6 +35,22 @@ const WorkoutTrendsPage = ({ navigation }) => {
         </View>
       </TouchableWithoutFeedback>
       <ScrollView>
+      <View style={{ marginTop: 28 }}>
+            <SectionHeading title={"Your Workout History"} />
+          </View>
+        <View style={{ marginTop: 16 }}>
+          <PressableCardBanner
+            title={"Your Past Workouts"}
+            subtitle={
+              "View your workout history and trends."
+              // workouts.length === 0
+              //   ? "Create your perfect workout."
+              //   : workouts.length + " created"
+            }
+            imageUri={createWorkoutImage}
+            onPress={() => navigation.navigate("WorkoutHistoryPage")}
+          />
+        </View>
         <View style={{ flex: 1 }}>
           <CustomBarChart />
         </View>
