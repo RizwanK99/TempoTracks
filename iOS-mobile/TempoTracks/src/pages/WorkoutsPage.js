@@ -59,7 +59,9 @@ const WorkoutsPage = ({ navigation }) => {
               title={"Let's Go!"}
               subtitle={"Select from your custom list of workouts."}
               imageUri={recommendedWorkoutImage}
-              onPress={() => navigation.navigate("WorkoutInProgress", { undefined })}
+              onPress={() =>
+                navigation.navigate("WorkoutInProgress", { undefined })
+              }
             />
           </View>
           {/* CREATE WORKOUT */}
@@ -70,7 +72,7 @@ const WorkoutsPage = ({ navigation }) => {
             <PressableCardBanner
               title={"Create A Workout"}
               subtitle={
-                "Create your perfect workout."
+                "Craft your perfect workout."
                 // workouts.length === 0
                 //   ? "Create your perfect workout."
                 //   : workouts.length + " created"
