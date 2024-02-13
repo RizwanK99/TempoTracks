@@ -112,6 +112,7 @@ class WorkoutManager: NSObject, ObservableObject {
     }
 
     func endWorkout() {
+        pause()
         session?.end()
         showingSummaryView = true
     }
