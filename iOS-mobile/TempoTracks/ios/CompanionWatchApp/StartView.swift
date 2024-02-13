@@ -10,18 +10,31 @@ import HealthKit
 
 struct StartView: View {
     @EnvironmentObject var workoutManager: WorkoutManager
-    var workoutTypes: [HKWorkoutActivityType] = [.running, .walking, .highIntensityIntervalTraining, .stairs]
+    var workoutTypes: [HKWorkoutActivityType] = [.cycling, .running, .hiking, .highIntensityIntervalTraining]
     
     var body: some View {
         List(workoutTypes) { workoutType in
             NavigationLink(
-                workoutType.name,
                 destination: SessionPagingView(),
                 tag: workoutType,
                 selection: $workoutManager.selectedWorkout
-            ).padding(
+            ) {
+              VStack {
+                  Image(systemName: workoutType.iconName)
+                      .resizable()
+                      .scaledToFit()
+                      .frame(width: 30, height: 30)
+                  Text(workoutType.name)
+                      .foregroundColor(.white)
+              }
+              .frame(maxWidth: .infinity, minHeight: 50)
+            }
+            .padding(
                 EdgeInsets(top: 15, leading: 5, bottom: 15, trailing: 5)
             )
+            .background(Color(hex: ColorHex.primary.rawValue, opacity: 0.5))
+            .cornerRadius(20)
+            .listRowBackground(Color.clear)
         }
         .listStyle(.carousel)
         .navigationBarTitle("Workouts")
@@ -43,17 +56,32 @@ extension HKWorkoutActivityType: Identifiable {
     }
     
     var name: String {
-        switch self {
-            case.running:
-                    return "Run"
-            case.walking:
-                return "Walking"
-            case.highIntensityIntervalTraining:
-                return "HITT Training"
-            case.stairs:
-                return "Stairs"
-            default:
-                return ""
-        }
+      switch self {
+        case.cycling:
+          return "Biking"
+        case.running:
+          return "Jogging"
+        case.hiking:
+          return "Hiking"
+        case.highIntensityIntervalTraining:
+          return "HIIT Training"
+        default:
+          return ""
+      }
     }
+  
+  var iconName: String {
+    switch self {
+      case.cycling:
+        return "bicycle"
+      case.running:
+        return "figure.run"
+      case.hiking:
+        return "figure.walk"
+      case.highIntensityIntervalTraining:
+        return "flame"
+      default:
+        return ""
+    }
+  }
 }

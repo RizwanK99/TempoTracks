@@ -14,18 +14,27 @@ import HomePage from "./src/pages/HomePage";
 import ProfilePage from "./src/pages/ProfilePage";
 import SettingsPage from "./src/pages/SettingsPage";
 import WorkoutsPage from "./src/pages/WorkoutsPage";
-import MusicPage from "./src/pages/MusicPage";
 import SignInPage from "./src/pages/SignInPage";
 import LaunchPage from "./src/pages/LaunchPage";
 import RegisterPage from "./src/pages/RegisterPage";
 
+
+// Music Screens
+import MusicLibraryPage from "./src/pages/MusicLibraryPage";
+import MusicHomePage from "./src/pages/MusicHomePage";
+import MusicPage from "./src/pages/MusicPage";
+
 // Workout Screens
-import IndividualWorkoutPage from "./src/pages/IndividualWorkoutPage";
+import IndividualWorkoutPage from "./src/pages/WorkoutEndSummaryPage";
 import CreateWorkoutPage from "./src/pages/CreateWorkoutPage";
 import WorkoutInProgressPage from "./src/pages/WorkoutInProgressPage";
 import WorkoutTrendsPage from "./src/pages/WorkoutTrendsPage";
-import AllWorkoutsPage from "./src/pages/AllWorkoutsPage";
+import WorkoutHistoryPage from "./src/pages/WorkoutHistoryPage";
 import UserPreferenceWorkoutPage from "./src/pages/UserPreferenceWorkoutPage";
+import WorkoutListPage from "./src/pages/WorkoutListPage";
+import WorkoutEndSummaryPage from "./src/pages/WorkoutEndSummaryPage";
+
+
 import { supabase } from "./src/lib/supabase";
 
 const Stack = createNativeStackNavigator();
@@ -165,10 +174,12 @@ function SettingsStack() {
 function MusicStack() {
   return (
     <Stack.Navigator
-      initialRouteName="Music"
+      initialRouteName="MusicHomePage"
       screenOptions={{ headerShown: false }}
     >
-      <Stack.Screen name="Music" component={MusicPage} />
+      <Stack.Screen name="MusicHomePage" component={MusicHomePage} />
+      <Stack.Screen name="MusicLibraryPage" component={MusicLibraryPage} />
+      <Stack.Screen name="MusicPage" component={MusicPage} />
     </Stack.Navigator>
   );
 }
@@ -180,21 +191,14 @@ function WorkoutsStack() {
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="Workouts" component={WorkoutsPage} />
-      <Stack.Screen
-        name="IndividualWorkout"
-        component={IndividualWorkoutPage}
-      />
       <Stack.Screen name="CreateWorkout" component={CreateWorkoutPage} />
-      <Stack.Screen
-        name="WorkoutInProgress"
-        component={WorkoutInProgressPage}
-      />
+      <Stack.Screen name="WorkoutInProgress" component={WorkoutInProgressPage} />
       <Stack.Screen name="WorkoutTrends" component={WorkoutTrendsPage} />
-      <Stack.Screen name="AllWorkouts" component={AllWorkoutsPage} />
-      <Stack.Screen
-        name="UserPreferenceWorkout"
-        component={UserPreferenceWorkoutPage}
-      />
+      <Stack.Screen name="WorkoutHistoryPage" component={WorkoutHistoryPage} />
+      <Stack.Screen name="WorkoutListPage" component={WorkoutListPage} />
+      <Stack.Screen name="UserPreferenceWorkout" component={UserPreferenceWorkoutPage} />
+      <Stack.Screen name="WorkoutEndSummary" component={WorkoutEndSummaryPage} />
+
     </Stack.Navigator>
   );
 }
