@@ -17,6 +17,7 @@ import { MusicManager } from '../module/MusicManager';
 import { Button, Divider } from 'react-native-elements';
 import { MusicPlayerSong } from '../module/MusicManager.types';
 import { MusicPlayer } from '../components/Music/MusicPlayer';
+import { Tables } from '../lib/db.types';
 
 const MusicPage = ({ route, navigation }) => {
   const [authorized, setAuthorized] = useState(false);
