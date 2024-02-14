@@ -9,14 +9,13 @@ import {
   SafeAreaView,
   ScrollView,
 } from 'react-native';
-import { SongItem } from '../components/Music/Song';
 import { styles } from '../styles/Stylesheet';
-import PlayerControls from '../components/Music/PlayerControls';
+import PlayerControls from '../components/Music/Player/PlayerControls';
 import LiveGraph from '../components/Music/LiveGraph';
 import { MusicManager } from '../module/MusicManager';
 import { Button, Divider } from 'react-native-elements';
 import { MusicPlayerSong } from '../module/MusicManager.types';
-import { MusicPlayer } from '../components/Music/MusicPlayer';
+import { MusicPlayer } from '../components/Music/Player/MusicPlayer';
 import { Tables } from '../lib/db.types';
 
 const MusicPage = ({ route, navigation }) => {

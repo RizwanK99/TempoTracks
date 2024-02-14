@@ -1,7 +1,7 @@
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import AntDesignIcons from 'react-native-vector-icons/AntDesign';
 import FontAwesomeIcons from 'react-native-vector-icons/FontAwesome';
-import { MusicManager } from '../../module/MusicManager';
+import { MusicManager } from '../../../module/MusicManager';
 import { Slider } from 'react-native-elements';
 
 const PlayerControls = ({

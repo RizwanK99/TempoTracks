@@ -66,7 +66,7 @@ export type Database = {
       songs: {
         Row: {
           apple_music_id: string
-          artists: string[]
+          artist: string
           artwork_url: string
           duration_ms: number
           spotify_id: string
@@ -74,7 +74,7 @@ export type Database = {
         }
         Insert: {
           apple_music_id: string
-          artists: string[]
+          artist: string
           artwork_url: string
           duration_ms: number
           spotify_id: string
@@ -82,7 +82,7 @@ export type Database = {
         }
         Update: {
           apple_music_id?: string
-          artists?: string[]
+          artist?: string
           artwork_url?: string
           duration_ms?: number
           spotify_id?: string

@@ -128,12 +128,15 @@ class MusicManager: NSObject {
     Task {
       var request = MusicLibraryRequest<Playlist>.init()
       
+      print("fetching playlists")
+      
       if (playlistIdParam != "") {
         request.filter(matching: \.id, equalTo: MusicItemID(stringLiteral: playlistIdParam))
       }
       
       let response: MusicLibraryResponse<Playlist> = try await request.response()
       
+      print(response)
       // serialize into json
       
       var serailizedPlaylists: [[String: Any]] = []

@@ -42,87 +42,77 @@ export type Database = {
         }
         Relationships: []
       }
-      playlist: {
+      playlist_items: {
         Row: {
-          created_at: string | null
-          id: number
-          length: number | null
-          songs: Json | null
+          apple_music_id: string
+          playlist_id: string
         }
         Insert: {
-          created_at?: string | null
-          id?: number
-          length?: number | null
-          songs?: Json | null
+          apple_music_id: string
+          playlist_id: string
         }
         Update: {
-          created_at?: string | null
-          id?: number
-          length?: number | null
-          songs?: Json | null
+          apple_music_id?: string
+          playlist_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_playlist_items_playlist_id_fkey"
+            columns: ["playlist_id"]
+            isOneToOne: false
+            referencedRelation: "playlists"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      playlists: {
+        Row: {
+          artwork_url: string
+          created_at: string
+          id: string
+          length: number
+          name: string
+        }
+        Insert: {
+          artwork_url: string
+          created_at?: string
+          id?: string
+          length: number
+          name: string
+        }
+        Update: {
+          artwork_url?: string
+          created_at?: string
+          id?: string
+          length?: number
+          name?: string
         }
         Relationships: []
       }
       songs: {
         Row: {
-          acousticness: number | null
-          apple_music_id: string | null
-          artists: string[] | null
-          danceability: number | null
-          duration_ms: number | null
-          energy: number | null
-          id: string
-          instrumentalness: number | null
-          isrc: string | null
-          key: number | null
-          liveness: number | null
-          loudness: number | null
-          mode: number | null
-          speechiness: number | null
-          tempo: number | null
-          time_signature: number | null
-          title: string | null
-          valence: number | null
+          apple_music_id: string
+          artist: string
+          artwork_url: string
+          duration_ms: number
+          spotify_id: string
+          title: string
         }
         Insert: {
-          acousticness?: number | null
-          apple_music_id?: string | null
-          artists?: string[] | null
-          danceability?: number | null
-          duration_ms?: number | null
-          energy?: number | null
-          id: string
-          instrumentalness?: number | null
-          isrc?: string | null
-          key?: number | null
-          liveness?: number | null
-          loudness?: number | null
-          mode?: number | null
-          speechiness?: number | null
-          tempo?: number | null
-          time_signature?: number | null
-          title?: string | null
-          valence?: number | null
+          apple_music_id: string
+          artist: string
+          artwork_url: string
+          duration_ms: number
+          spotify_id: string
+          title: string
         }
         Update: {
-          acousticness?: number | null
-          apple_music_id?: string | null
-          artists?: string[] | null
-          danceability?: number | null
-          duration_ms?: number | null
-          energy?: number | null
-          id?: string
-          instrumentalness?: number | null
-          isrc?: string | null
-          key?: number | null
-          liveness?: number | null
-          loudness?: number | null
-          mode?: number | null
-          speechiness?: number | null
-          tempo?: number | null
-          time_signature?: number | null
-          title?: string | null
-          valence?: number | null
+          apple_music_id?: string
+          artist?: string
+          artwork_url?: string
+          duration_ms?: number
+          spotify_id?: string
+          title?: string
         }
         Relationships: []
       }
@@ -203,23 +193,41 @@ export type Database = {
       workout_templates: {
         Row: {
           created_at: string
+          description: string | null
+          expected_duration: number | null
           id: string
+          name: string
+          playlist_id: number | null
+          type: string | null
+          user_id: number | null
         }
         Insert: {
           created_at?: string
-          id: string
+          description?: string | null
+          expected_duration?: number | null
+          id?: string
+          name: string
+          playlist_id?: number | null
+          type?: string | null
+          user_id?: number | null
         }
         Update: {
           created_at?: string
+          description?: string | null
+          expected_duration?: number | null
           id?: string
+          name?: string
+          playlist_id?: number | null
+          type?: string | null
+          user_id?: number | null
         }
         Relationships: [
           {
-            foreignKeyName: "workout_templates_id_fkey"
-            columns: ["id"]
-            isOneToOne: true
-            referencedRelation: "workouts"
-            referencedColumns: ["workout_id"]
+            foreignKeyName: "workout_templates_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["user_id"]
           }
         ]
       }
@@ -236,7 +244,7 @@ export type Database = {
           total_distance: number | null
           total_elevation_change: number | null
           total_energy_burned: number | null
-          training_intervals: Json | null
+          training_intervals: string | null
           user_id: number | null
           workout_id: string
           workout_name: string | null
@@ -254,7 +262,7 @@ export type Database = {
           total_distance?: number | null
           total_elevation_change?: number | null
           total_energy_burned?: number | null
-          training_intervals?: Json | null
+          training_intervals?: string | null
           user_id?: number | null
           workout_id?: string
           workout_name?: string | null
@@ -272,7 +280,7 @@ export type Database = {
           total_distance?: number | null
           total_elevation_change?: number | null
           total_energy_burned?: number | null
-          training_intervals?: Json | null
+          training_intervals?: string | null
           user_id?: number | null
           workout_id?: string
           workout_name?: string | null
@@ -288,7 +296,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      workout_type: "biking" | "hiit" | "long_distance_run"
     }
     CompositeTypes: {
       [_ in never]: never

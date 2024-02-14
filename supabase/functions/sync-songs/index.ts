@@ -33,7 +33,7 @@ serve(async (req) => {
     songs: {
       id: string;
       title: string;
-      artists: string[];
+      artist: string;
     }[];
   };
 
@@ -67,7 +67,7 @@ serve(async (req) => {
     const acc = await prev;
 
     const trackSearch = await spotify.search(
-      `${rawSong.title}+${rawSong.artists.join(',')}`,
+      `${rawSong.title}+${rawSong.artist}`,
       ['track']
     );
 
@@ -89,7 +89,7 @@ serve(async (req) => {
 
     const song: TablesInsert<'songs'> = {
       title: track.name,
-      artists: track.artists.map((artist) => artist.name),
+      artist: track.artists.map((artist) => artist.name).join(', '),
       duration_ms: track.duration_ms,
       spotify_id: track.id, // track is from spotify
       apple_music_id: rawSong.id, // raw song is apple music
@@ -98,8 +98,6 @@ serve(async (req) => {
 
     return [...acc, song];
   }, Promise.resolve([] as TablesInsert<'songs'>[]));
-
-  // const songsToInsert = await getSpotifyTracks(missingSongIds);
 
   // insert missing songs into supabase
   const { error: insertError } = await supabase

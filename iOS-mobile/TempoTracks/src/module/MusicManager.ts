@@ -3,7 +3,7 @@ import {
   MusicPlayerState,
   RepeatMode,
   ShuffleMode,
-  Song,
+  MusicPlayerSong,
 } from './MusicManager.types';
 
 export const PlayerPlaybackState = {
@@ -107,18 +107,18 @@ export const MusicManager = {
   },
 
   // get Songs in Library
-  getSongLibrary: async (): Promise<Song[]> => {
+  getSongLibrary: async (): Promise<MusicPlayerSong[]> => {
     return NativeModules.MusicManager.getSongLibrary();
   },
 
   // get PlayList Library
-  getPlayListLibrary: async () => {
-    return NativeModules.MusicManager.getPlayListLibrary();
+  getPlaylistLibrary: async () => {
+    return NativeModules.MusicManager.getPlaylistLibrary('test');
   },
 
   // get Songs in PlayList
   getSongsInPlayList: async (playListId: string) => {
-    return NativeModules.MusicManager.getPlayListLibrary(playListId);
+    return NativeModules.MusicManager.getPlaylistLibrary(playListId);
   },
 
   // QUEUE METHODS
