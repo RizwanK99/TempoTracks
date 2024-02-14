@@ -653,7 +653,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
-				PRODUCT_BUNDLE_IDENTIFIER = org.name.TempoTracks.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = org.name.TempoTracks.watchkitapp1;
 				PRODUCT_NAME = TempoTracks;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;

@@ -1,0 +1,11 @@
+{
+  "name": "supabase",
+  "version": "1.0.0",
+  "scripts": {
+    "gen-types": "npx supabase gen types typescript --project-id kbgiqwyohojnejjlkwae --schema public > functions/_shared/db.types.ts"
+  },
+  "dependencies": {
+    "supabase": "^1.142.2",
+    "@spotify/web-api-ts-sdk": "1.2.0"
+  }
+}

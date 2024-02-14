@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { Text, View } from 'react-native';
-import { MusicPlayerSong } from '../../module/MusicManager.types';
-import { MusicManager } from '../../module/MusicManager';
+import { MusicPlayerSong } from '../../../module/MusicManager.types';
+import { MusicManager } from '../../../module/MusicManager';
 import { SongDuration } from './SongDuration';
 import PlayerControls from './PlayerControls';
 
