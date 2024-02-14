@@ -3,6 +3,7 @@ import { Session } from "@supabase/supabase-js";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { ThemeProvider } from "@emotion/react";
+import { PaperProvider } from "react-native-paper";
 import theme from "./src/styles/theme";
 
 import { NavigationContainer } from "@react-navigation/native";
@@ -129,7 +130,7 @@ function App() {
 
   return (
     <NavigationContainer>
-      <ThemeProvider theme={theme}>
+      <PaperProvider theme={theme}>
         <Stack.Navigator>
           {isLoggedIn ? (
             <Stack.Group screenOptions={{ headerShown: false }}>
@@ -141,7 +142,7 @@ function App() {
             </Stack.Group>
           )}
         </Stack.Navigator>
-      </ThemeProvider>
+      </PaperProvider>
     </NavigationContainer>
   );
 }
