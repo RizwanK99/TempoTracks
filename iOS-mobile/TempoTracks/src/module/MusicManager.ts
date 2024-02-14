@@ -129,7 +129,9 @@ export const MusicManager = {
   },
 
   // get current queue
-  getCurrentQueue: async () => {
+  getCurrentQueue: async (): Promise<
+    { title: string; subtitle: string; id: string }[]
+  > => {
     return NativeModules.MusicManager.getCurrentQueue();
   },
 };

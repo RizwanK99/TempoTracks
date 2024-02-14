@@ -260,12 +260,11 @@ class MusicManager: NSObject {
       queueArray.append([
         "title": queueItem.title,
         "subtitle": queueItem.subtitle ?? "",
-        "description": queueItem.description,
         "id": queueItem.id,
       ])
     }
     
-    resolve([queueArray])
+    resolve(queueArray)
   }
   
   @objc
@@ -340,6 +339,16 @@ class MusicManager: NSObject {
   ) -> Void {
     Task {
     resolve([
+      "playbackStatus": {
+        switch musicPlayer.state.playbackStatus {
+          case .playing:
+            return "playing"
+          case .paused:
+            return "paused"
+          default:
+            return "stopped"
+          }
+      }() as String,
       "playbackRate": musicPlayer.state.playbackRate as Float,
       "repeatMode": musicPlayer.state.repeatMode ?? "off" as String,
       "shuffleMode": musicPlayer.state.shuffleMode ?? "off" as String,
@@ -371,7 +380,7 @@ class MusicManager: NSObject {
               case .musicVideo(let video):
                   return video.id.rawValue
               case .song(let song):
-                  return song.id.rawValue 
+                  return song.id.rawValue
               default:
                   return "Unknown"
               }

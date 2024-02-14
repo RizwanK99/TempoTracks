@@ -1,5 +1,6 @@
 export type RepeatMode = 'all' | 'none' | 'one';
 export type ShuffleMode = 'off' | 'none';
+export type PlaybackStatus = 'playing' | 'paused' | 'stopped';
 
 /**
  * Song item gotten back from native module
@@ -12,6 +13,7 @@ export type MusicPlayerSong = {
 };
 
 export type MusicPlayerState = {
+  playbackStatus: PlaybackStatus;
   playbackRate: number;
   repeatMode: RepeatMode;
   shuffleMode: ShuffleMode;

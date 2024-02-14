@@ -37,8 +37,10 @@ serve(async (req) => {
     }[];
   };
 
+  console.log(songs);
+
   // get all song ids from supabase for user
-  const { data, error } = await supabase
+  const { data: existingSongs, error } = await supabase
     .from('songs')
     .select('apple_music_id')
     .in(
@@ -51,10 +53,14 @@ serve(async (req) => {
       headers: { 'Content-Type': 'application/json' },
     });
   }
-  const existingSongIds = new Set(data.map((song) => song.apple_music_id));
+  const existingSongIds = new Set(
+    existingSongs.map((song) => song.apple_music_id)
+  );
 
   // check if all song ids are in supabase
   const missingSongs = songs.filter((song) => !existingSongIds.has(song.id));
+
+  console.log('missing songs', missingSongs);
 
   if (missingSongs.length === 0) {
     return new Response(JSON.stringify({ shouldRefetch: 'no' }), {
@@ -67,7 +73,7 @@ serve(async (req) => {
     const acc = await prev;
 
     const trackSearch = await spotify.search(
-      `${rawSong.title}+${rawSong.artist}`,
+      `${rawSong.title} ${rawSong.artist}`,
       ['track']
     );
 
@@ -76,6 +82,8 @@ serve(async (req) => {
     }
 
     const track = trackSearch.tracks.items[0];
+
+    console.log('for song', rawSong, 'found track', track.name, track.artists);
 
     const artwork_url = (() => {
       // return the first image of the album

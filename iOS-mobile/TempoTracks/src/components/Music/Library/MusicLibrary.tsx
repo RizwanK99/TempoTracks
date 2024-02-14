@@ -5,11 +5,11 @@ import { supabase } from '../../../lib/supabase';
 import { MusicManager } from '../../../module/MusicManager';
 import { SongList } from './SongList';
 import { PlaylistList } from './PlaylistList';
-import { Divider } from 'react-native-paper';
+import { Button, Divider } from 'react-native-paper';
 import { CurrentSong } from '../CurrentSong';
 
 export const MusicLibrary = () => {
-  const { data: songs, refetch } = useSongs();
+  const { data: songs = [], refetch } = useSongs();
   const { data: playlists } = usePlaylists();
 
   const syncSongs = async () => {
@@ -19,7 +19,7 @@ export const MusicLibrary = () => {
       body: {
         songs: librarySongs.map((s) => ({
           id: s.id,
-          arist: s.artistName,
+          artist: s.artistName,
           title: s.title,
         })),
       },
@@ -46,7 +46,7 @@ export const MusicLibrary = () => {
         <SongList songs={songs ?? []} />
       </View>
 
-      {songs?.length > 0 ? <CurrentSong song={songs[1]} /> : null}
+      {songs.length > 0 ? <CurrentSong song={songs[1]} /> : null}
     </SafeAreaView>
   );
 };

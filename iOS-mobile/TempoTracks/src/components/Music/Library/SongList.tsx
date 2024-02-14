@@ -1,6 +1,7 @@
 import { Image, ScrollView, StyleSheet, View } from 'react-native';
 import { Divider, Text, TouchableRipple, useTheme } from 'react-native-paper';
 import { Tables } from '../../../lib/db.types';
+import { MusicManager } from '../../../module/MusicManager';
 
 interface Props {
   songs: Tables<'songs'>[];
@@ -25,8 +26,16 @@ export const SongList = ({ songs }: Props) => {
 const SongItem = ({ song }: { song: Tables<'songs'> }) => {
   const theme = useTheme();
 
+  const playSong = (id: string) => {
+    MusicManager.playSongWithId(id);
+  };
+
   return (
-    <TouchableRipple theme={theme} style={styles.container}>
+    <TouchableRipple
+      theme={theme}
+      style={styles.container}
+      onPress={() => playSong(song.apple_music_id)}
+    >
       <View style={styles.row}>
         <Image
           source={{ uri: song.artwork_url }}
