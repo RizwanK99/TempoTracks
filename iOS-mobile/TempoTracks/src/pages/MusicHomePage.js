@@ -1,15 +1,12 @@
 import * as React from 'react';
-import {
-  StyleSheet,
-  ScrollView,
-  View,
-  SafeAreaView,
-} from 'react-native';
-import PageHeading from "../components/Workouts/PageHeading";
-import SectionHeading from "../components/Workouts/SectionHeading";
-import PressableCardBanner from "../components/Workouts/PressableCardBanner";
+import { StyleSheet, ScrollView, View, SafeAreaView } from 'react-native';
+import PageHeading from '../components/Workouts/PageHeading';
+import SectionHeading from '../components/Workouts/SectionHeading';
+import PressableCardBanner from '../components/Workouts/PressableCardBanner';
 import { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { MusicLibrary } from '../components/Music/Library/MusicLibrary';
+import { CurrentSong } from '../components/Music/CurrentSong';
 
 async function retrieveData(user, setUser) {
   try {
@@ -22,68 +19,71 @@ async function retrieveData(user, setUser) {
     console.log('Error retreiving user data', error);
   }
 }
-const appleMusic = require("../assets/apple-music.png");
-const musicLib = require("../assets/music-lib.png");
-const playlist = require("../assets/playlist.png");
+const appleMusic = require('../assets/apple-music.png');
+const musicLib = require('../assets/music-lib.png');
+const playlist = require('../assets/playlist.png');
 const MusicHomePage = ({ navigation }) => {
+  return (
+    <SafeAreaView>
+      <MusicLibrary />
+    </SafeAreaView>
+  );
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "black" }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: 'black' }}>
       <ScrollView>
         {/* QUICK STARTER */}
         <View style={{ flex: 1, padding: 16 }}>
           <View>
-            <PageHeading title={"Music Home Page"} />
+            <PageHeading title={'Music Home Page'} />
           </View>
           <View style={{ marginTop: 24 }}>
-            <SectionHeading title={"View Your Music"} />
+            <SectionHeading title={'View Your Music'} />
           </View>
           <View style={{ marginTop: 16 }}>
             <PressableCardBanner
-              title={"Open Your Music Library"}
-              subtitle={"View your music library."}
+              title={'Open Your Music Library'}
+              subtitle={'View your music library.'}
               imageUri={musicLib}
-              onPress={() => navigation.navigate("MusicLibraryPage")}
+              onPress={() => navigation.navigate('MusicLibraryPage')}
             />
           </View>
 
           <View style={{ marginTop: 24 }}>
-            <SectionHeading title={"Create a Playlist"} />
+            <SectionHeading title={'Create a Playlist'} />
           </View>
           <View style={{ marginTop: 16 }}>
             <PressableCardBanner
-              title={"Open Your Music Library"}
-              subtitle={"View your music library."}
+              title={'Open Your Music Library'}
+              subtitle={'View your music library.'}
               imageUri={playlist}
               // onPress={() => navigation.navigate("MusicLibraryPage")}
             />
           </View>
 
           <View style={{ marginTop: 24 }}>
-            <SectionHeading title={"Import Songs"} />
+            <SectionHeading title={'Import Songs'} />
           </View>
           <View style={{ marginTop: 16 }}>
             <PressableCardBanner
-              title={"Add From Apple Music"}
-              subtitle={"Bring Your Songs to the Gym."}
+              title={'Add From Apple Music'}
+              subtitle={'Bring Your Songs to the Gym.'}
               imageUri={appleMusic}
               // onPress={() => navigation.navigate("MusicLibraryPage")}
             />
           </View>
 
           <View style={{ marginTop: 24 }}>
-            <SectionHeading title={"Music Player"} />
+            <SectionHeading title={'Music Player'} />
           </View>
           <View style={{ marginTop: 16 }}>
             <PressableCardBanner
-              title={"THIS NEEDS TO BE MOVED TO WHEN IN WORKOUT"}
-              subtitle={"Bring Your Songs to the Gym."}
+              title={'THIS NEEDS TO BE MOVED TO WHEN IN WORKOUT'}
+              subtitle={'Bring Your Songs to the Gym.'}
               imageUri={appleMusic}
-              onPress={() => navigation.navigate("MusicPage")}
+              onPress={() => navigation.navigate('MusicPage')}
             />
           </View>
-
-          
         </View>
       </ScrollView>
     </SafeAreaView>

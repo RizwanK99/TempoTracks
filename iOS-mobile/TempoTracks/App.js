@@ -3,7 +3,6 @@ import { Session } from "@supabase/supabase-js";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { ThemeProvider } from "@emotion/react";
-import { PaperProvider } from "react-native-paper";
 import theme from "./src/styles/theme";
 
 import { NavigationContainer } from "@react-navigation/native";
@@ -18,7 +17,6 @@ import WorkoutsPage from "./src/pages/WorkoutsPage";
 import SignInPage from "./src/pages/SignInPage";
 import LaunchPage from "./src/pages/LaunchPage";
 import RegisterPage from "./src/pages/RegisterPage";
-
 
 // Music Screens
 import MusicLibraryPage from "./src/pages/MusicLibraryPage";
@@ -35,8 +33,9 @@ import UserPreferenceWorkoutPage from "./src/pages/UserPreferenceWorkoutPage";
 import WorkoutListPage from "./src/pages/WorkoutListPage";
 import WorkoutEndSummaryPage from "./src/pages/WorkoutEndSummaryPage";
 
-
 import { supabase } from "./src/lib/supabase";
+import { QueryProvider } from "./src/provider/QueryClientProvider";
+import { PaperProviderWrapper } from "./src/provider/PaperProvider";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -129,21 +128,23 @@ function App() {
   const isLoggedIn = getIsLoggedIn();
 
   return (
-    <NavigationContainer>
-      <PaperProvider theme={theme}>
-        <Stack.Navigator>
-          {isLoggedIn ? (
-            <Stack.Group screenOptions={{ headerShown: false }}>
-              <Stack.Screen name="Root" component={Root} />
-            </Stack.Group>
-          ) : (
-            <Stack.Group screenOptions={{ headerShown: false }}>
-              <Stack.Screen name="Launch" component={LaunchStack} />
-            </Stack.Group>
-          )}
-        </Stack.Navigator>
-      </PaperProvider>
-    </NavigationContainer>
+    <QueryProvider>
+      <PaperProviderWrapper theme={theme}>
+        <NavigationContainer>
+          <Stack.Navigator>
+            {isLoggedIn ? (
+              <Stack.Group screenOptions={{ headerShown: false }}>
+                <Stack.Screen name="Root" component={Root} />
+              </Stack.Group>
+            ) : (
+              <Stack.Group screenOptions={{ headerShown: false }}>
+                <Stack.Screen name="Launch" component={LaunchStack} />
+              </Stack.Group>
+            )}
+          </Stack.Navigator>
+        </NavigationContainer>
+      </PaperProviderWrapper>
+    </QueryProvider>
   );
 }
 
@@ -193,13 +194,21 @@ function WorkoutsStack() {
     >
       <Stack.Screen name="Workouts" component={WorkoutsPage} />
       <Stack.Screen name="CreateWorkout" component={CreateWorkoutPage} />
-      <Stack.Screen name="WorkoutInProgress" component={WorkoutInProgressPage} />
+      <Stack.Screen
+        name="WorkoutInProgress"
+        component={WorkoutInProgressPage}
+      />
       <Stack.Screen name="WorkoutTrends" component={WorkoutTrendsPage} />
       <Stack.Screen name="WorkoutHistoryPage" component={WorkoutHistoryPage} />
       <Stack.Screen name="WorkoutListPage" component={WorkoutListPage} />
-      <Stack.Screen name="UserPreferenceWorkout" component={UserPreferenceWorkoutPage} />
-      <Stack.Screen name="WorkoutEndSummary" component={WorkoutEndSummaryPage} />
-
+      <Stack.Screen
+        name="UserPreferenceWorkout"
+        component={UserPreferenceWorkoutPage}
+      />
+      <Stack.Screen
+        name="WorkoutEndSummary"
+        component={WorkoutEndSummaryPage}
+      />
     </Stack.Navigator>
   );
 }

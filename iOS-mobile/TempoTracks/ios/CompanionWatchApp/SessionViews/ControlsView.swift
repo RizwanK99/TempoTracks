@@ -26,7 +26,7 @@ struct ControlsView: View {
                     workoutManager.togglePause()
                 }
                 label: { Image(systemName: workoutManager.running ? "pause" : "play") }
-                .tint(Color.yellow)
+                .tint(Color(hex: ColorHex.primary.rawValue))
                 .font(.title2)
                 Text(workoutManager.running ? "Pause" : "Resume")
             }
