@@ -138,7 +138,7 @@ const IndividualWorkoutTemplatePage = ({ route, navigation }) => {
                     key={index}
                     disabled
                     title={interval.title}
-                    index={interval.id}
+                    index={index + 1}
                     subTitle={`${interval.active} secs active, ${interval.rest} secs rest`}
                   />
                 ))}
