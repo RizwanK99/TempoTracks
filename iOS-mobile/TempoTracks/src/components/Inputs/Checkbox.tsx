@@ -18,6 +18,7 @@ interface CheckboxProps {
   title: string;
   subTitle: string;
   index?: number;
+  disabled?: boolean;
 }
 
 export const Checkbox: React.FC<CheckboxProps> = ({
@@ -27,11 +28,13 @@ export const Checkbox: React.FC<CheckboxProps> = ({
   title,
   subTitle,
   index,
+  disabled = false,
 }) => {
   const theme = useTheme();
   return (
     <TouchableOpacity
       onPress={onPress}
+      disabled={disabled}
       style={{ width: "100%" }}
       onLongPress={onLongPress ? onLongPress : null}
     >
@@ -76,9 +79,9 @@ export const Checkbox: React.FC<CheckboxProps> = ({
                 color={theme.colors.primary}
               />
             )}
-            {index && (
+            {index ? (
               <Text style={{ color: theme.colors.primary }}>{index}</Text>
-            )}
+            ) : null}
           </View>
           <View
             styles={{

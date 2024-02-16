@@ -3,7 +3,6 @@ import { Session } from "@supabase/supabase-js";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { ThemeProvider } from "@emotion/react";
-import theme from "./src/styles/theme";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -24,7 +23,7 @@ import MusicHomePage from "./src/pages/MusicHomePage";
 import MusicPage from "./src/pages/MusicPage";
 
 // Workout Screens
-import IndividualWorkoutPage from "./src/pages/WorkoutEndSummaryPage";
+import IndividualWorkoutTemplatePage from "./src/pages/IndividualWorkoutTemplatePage";
 import CreateWorkoutPage from "./src/pages/CreateWorkoutPage";
 import WorkoutInProgressPage from "./src/pages/WorkoutInProgressPage";
 import WorkoutTrendsPage from "./src/pages/WorkoutTrendsPage";
@@ -129,7 +128,7 @@ function App() {
 
   return (
     <QueryProvider>
-      <PaperProviderWrapper theme={theme}>
+      <PaperProviderWrapper>
         <NavigationContainer>
           <Stack.Navigator>
             {isLoggedIn ? (
@@ -208,6 +207,10 @@ function WorkoutsStack() {
       <Stack.Screen
         name="WorkoutEndSummary"
         component={WorkoutEndSummaryPage}
+      />
+      <Stack.Screen
+        name="IndividualWorkoutTemplatePage"
+        component={IndividualWorkoutTemplatePage}
       />
     </Stack.Navigator>
   );

@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import PageHeading from "../components/Workouts/PageHeading";
-import { Button } from "@mui/material";
 import { useTheme } from "@emotion/react";
 import ThemeSwitch from "../components/ThemeSwitch";
 

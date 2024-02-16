@@ -72,7 +72,7 @@ const Header = ({ navigation }) => {
         }}
       >
         <Text
-          style={{ fontSize: 18, fontWeight: "bold", color: theme.colors.text }}
+          style={{ fontSize: 20, fontWeight: "bold", color: theme.colors.text }}
         >
           Create Workout
         </Text>

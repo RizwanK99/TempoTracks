@@ -32,12 +32,17 @@ import { createWorkoutTemplate } from "../../api/WorkoutTemplate.ts";
 import { TextInput as CustomTextInput } from "../Inputs/TextInput";
 import { NumberInput } from "../Inputs/NumberInput";
 import { Checkbox } from "../Inputs/Checkbox";
+import { AntDesign } from "@expo/vector-icons";
 import {
   BottomSheetModal,
   BottomSheetModalProvider,
   BottomSheetTextInput,
 } from "@gorhom/bottom-sheet";
 import CustomCarousel from "../Workouts/CustomCarousel.js";
+import {
+  useCreateWorkoutTemplate,
+  useGetWorkoutTemplates,
+} from "../../api/WorkoutTemplate.ts";
 
 interface CreateWorkoutTemplateFormProps {
   userId: string;
@@ -49,7 +54,10 @@ interface StyledTextProps {
   text: string;
 }
 
-const StyledText: React.FC<StyledTextProps> = ({ fontSize = 16, text }) => {
+export const StyledText: React.FC<StyledTextProps> = ({
+  fontSize = 16,
+  text,
+}) => {
   const theme = useTheme();
   return (
     <Text
@@ -68,7 +76,9 @@ export const CreateWorkoutTemplateForm: React.FC<
   CreateWorkoutTemplateFormProps
 > = ({ userId, navigation }) => {
   const theme = useTheme();
+
   // const styles = makeStyles(theme);
+  const { data } = useGetWorkoutTemplates(Number(userId));
 
   // Select playlist
   const [carouselItem, setCarouselItem] = useState(0);
@@ -95,7 +105,7 @@ export const CreateWorkoutTemplateForm: React.FC<
   }, []);
 
   // Workout Type dropdown menu - will implement an endpoint if time permits
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState<boolean>(false);
   const items = [
     { label: "Biking", value: "Biking", icon: "bike" },
     { label: "Running", value: "Running", icon: "run" },
@@ -136,11 +146,14 @@ export const CreateWorkoutTemplateForm: React.FC<
       <Checkbox
         onLongPress={drag}
         title={item.title}
-        subTitle={`${item.active} mins active, ${item.rest} mins rest`}
+        subTitle={`${item.active} secs active, ${item.rest} secs rest`}
         index={index}
       />
     );
   };
+
+  const [numberOfSets, setNumberOfSets] = useState<number>(1);
+  const [inputtingSets, setInputtingSets] = useState<boolean>(false);
 
   // Bottom Sheet Modal tabs
   const [activeTab, setActiveTab] = useState(0);
@@ -155,6 +168,8 @@ export const CreateWorkoutTemplateForm: React.FC<
     setActiveTab(activeTab - 1);
     console.log(activeTab);
   };
+
+  const createTemplate = useCreateWorkoutTemplate();
 
   return (
     <SafeAreaView style={styles.container}>
@@ -171,18 +186,22 @@ export const CreateWorkoutTemplateForm: React.FC<
           mins: "",
           secs: "",
           playlist_id: "",
+          num_sets: 1,
+          intervals: [],
         }}
-        onSubmit={(values) =>
-          createWorkoutTemplate({
+        onSubmit={(values) => {
+          createTemplate.mutate({
             name: values.name,
-            user_id: userId,
+            user_id: Number(userId),
             description: values.description,
             expected_duration: Number(values.mins) * 60 + Number(values.secs),
             expected_distance: Number(values.expected_distance),
             type: values.type ? values.type : null,
             playlist_id: Number(values.playlist_id),
-          })
-        }
+            num_sets: values.num_sets,
+            interval_ids: values.intervals,
+          });
+        }}
       >
         {({
           handleChange,
@@ -365,7 +384,7 @@ export const CreateWorkoutTemplateForm: React.FC<
                           <Checkbox
                             key={index}
                             title={interval.title}
-                            subTitle={`${interval.active} mins active, ${interval.rest} min rest`}
+                            subTitle={`${interval.active} secs active, ${interval.rest} secs rest`}
                             onPress={() => handleCheckboxChange(interval.id)}
                             value={interval.isChecked}
                           />
@@ -381,7 +400,7 @@ export const CreateWorkoutTemplateForm: React.FC<
                           alignItems: "flex-start",
                           paddingHorizontal: 24,
                           paddingVertical: 18,
-                          gap: 16,
+                          gap: 24,
                         }}
                       >
                         <StyledText text="Create a set" fontSize={24} />
@@ -393,15 +412,63 @@ export const CreateWorkoutTemplateForm: React.FC<
                             data={checkedBoxes}
                             renderItem={renderItem}
                             keyExtractor={(item) => item.id}
-                            onDragEnd={({ data }) => setCheckedItems(data)}
+                            onDragEnd={({ data }) => {
+                              setCheckedItems(data);
+                              console.log(
+                                "here is fucking data",
+                                data.map((d) => d.id.toString())
+                              );
+                              setFieldValue(
+                                "intervals",
+                                data.map((d) => d.id.toString())
+                              );
+                            }}
                           />
                         </View>
                         <StyledText text="Number of Sets" />
-                        <NumberInput
-                          label="Number of Sets"
-                          placeholder="Enter number of sets"
-                          units="sets"
-                        />
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            gap: 24,
+                            alignSelf: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          <TouchableOpacity
+                            onPress={() => {
+                              if (numberOfSets > 1) {
+                                setNumberOfSets(numberOfSets - 1);
+                                setFieldValue("num_sets", numberOfSets);
+                              }
+                            }}
+                          >
+                            <AntDesign
+                              name="minuscircleo"
+                              size={28}
+                              color={theme.colors.primary}
+                            />
+                          </TouchableOpacity>
+                          <Text
+                            style={{
+                              color: theme.colors.foregroundMuted,
+                              fontSize: 34,
+                            }}
+                          >
+                            {numberOfSets}
+                          </Text>
+                          <TouchableOpacity
+                            onPress={() => {
+                              setNumberOfSets(numberOfSets + 1);
+                              setFieldValue("num_sets", numberOfSets);
+                            }}
+                          >
+                            <AntDesign
+                              name="pluscircleo"
+                              size={28}
+                              color={theme.colors.primary}
+                            />
+                          </TouchableOpacity>
+                        </View>
                       </View>
                     </NestableScrollContainer>
                   )}
@@ -463,7 +530,9 @@ export const CreateWorkoutTemplateForm: React.FC<
                         }}
                         textColor={theme.colors.primaryForeground}
                         labelStyle={{ fontSize: 16, fontWeight: "bold" }}
-                        onPress={() => bottomSheetModalRef?.current.close()}
+                        onPress={() => {
+                          bottomSheetModalRef?.current.close();
+                        }}
                       >
                         Finish
                       </PaperButton>

@@ -67,6 +67,7 @@ export type Database = {
       }
       playlists: {
         Row: {
+          apple_music_id: string
           artwork_url: string
           created_at: string
           id: string
@@ -74,6 +75,7 @@ export type Database = {
           name: string
         }
         Insert: {
+          apple_music_id?: string
           artwork_url: string
           created_at?: string
           id?: string
@@ -81,6 +83,7 @@ export type Database = {
           name: string
         }
         Update: {
+          apple_music_id?: string
           artwork_url?: string
           created_at?: string
           id?: string
@@ -190,35 +193,68 @@ export type Database = {
         }
         Relationships: []
       }
+      workout_intervals: {
+        Row: {
+          active: number | null
+          created_at: string
+          id: number
+          label: string | null
+          rest: number | null
+        }
+        Insert: {
+          active?: number | null
+          created_at?: string
+          id?: number
+          label?: string | null
+          rest?: number | null
+        }
+        Update: {
+          active?: number | null
+          created_at?: string
+          id?: number
+          label?: string | null
+          rest?: number | null
+        }
+        Relationships: []
+      }
       workout_templates: {
         Row: {
           created_at: string
           description: string | null
+          expected_distance: number | null
           expected_duration: number | null
           id: string
+          interval_ids: string[] | null
           name: string
+          num_sets: number | null
           playlist_id: number | null
-          type: string | null
+          type: Database["public"]["Enums"]["workout_type"] | null
           user_id: number | null
         }
         Insert: {
           created_at?: string
           description?: string | null
+          expected_distance?: number | null
           expected_duration?: number | null
           id?: string
+          interval_ids?: string[] | null
           name: string
+          num_sets?: number | null
           playlist_id?: number | null
-          type?: string | null
+          type?: Database["public"]["Enums"]["workout_type"] | null
           user_id?: number | null
         }
         Update: {
           created_at?: string
           description?: string | null
+          expected_distance?: number | null
           expected_duration?: number | null
           id?: string
+          interval_ids?: string[] | null
           name?: string
+          num_sets?: number | null
           playlist_id?: number | null
-          type?: string | null
+          type?: Database["public"]["Enums"]["workout_type"] | null
           user_id?: number | null
         }
         Relationships: [
@@ -296,7 +332,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      workout_type: "biking" | "hiit" | "long_distance_run"
+      workout_type: "Biking" | "Running" | "Walking" | "HIIT"
     }
     CompositeTypes: {
       [_ in never]: never

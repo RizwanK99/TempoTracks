@@ -35,9 +35,9 @@ const WorkoutTrendsPage = ({ navigation }) => {
         </View>
       </TouchableWithoutFeedback>
       <ScrollView>
-      <View style={{ marginTop: 28 }}>
-            <SectionHeading title={"Your Workout History"} />
-          </View>
+        <View style={{ marginTop: 28 }}>
+          <SectionHeading title={"Your Workout History"} />
+        </View>
         <View style={{ marginTop: 16 }}>
           <PressableCardBanner
             title={"Your Past Workouts"}
