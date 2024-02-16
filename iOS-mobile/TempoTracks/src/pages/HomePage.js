@@ -97,10 +97,10 @@ const HomePage = ({ navigation }) => {
         <View style={styles.container}>
           <View style={[styles.topBar, { flex: 2 }]}>
             <View style={{ flexDirection: 'column' }}>
-              <Text style={styles.welcome}>{formattedDate}</Text>
-              <Text style={{ color: 'white', fontSize: 32 }}>
-                Today's Progress
-              </Text>
+              <View style={styles.progressContainer}>
+                <Text style={{color: '#000000', fontSize: 14}}>Welcome to TempoTracks</Text>
+                <Text style={styles.hello}>Hello {user.first_name}</Text>
+              </View>
             </View>
             <TouchableOpacity
               onPress={() => navigation.navigate('Profile', { ...profileData })}
@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
     height: 30,
     width: 30,
     textAlign: 'center',
-  },
+  }
 });
 
 export default HomePage;
