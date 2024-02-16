@@ -42,7 +42,6 @@ const CurrentSong = () => {
 
   const loadLibrary = async () => {
     const songs = await MusicManager.getSongLibrary();
-    console.log('songs in new player', songs);
 
     if (songs.length > 0) {
       setCurrentSong(songs[2]);
@@ -84,6 +83,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#181a1c',
     height: '100%',
     width: '100%',
+    position: 'absolute',
+    top: 0,
+    zIndex: 50,
   },
   songContainer: {
     display: 'flex',
