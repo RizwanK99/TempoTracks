@@ -75,14 +75,32 @@ export const usePlaylists = () => {
   return useQuery({
     queryKey: ['playlists'],
     queryFn: async () => {
-      const { data, error } = await supabase.from('playlists').select('*');
+      const { data, error } = await supabase
+        .from('playlists')
+        .select('*, playlist_items(*, songs(*))');
+
+      // format playlist items
+      const formattedData = data?.map((playlist) => {
+        const formattedPlaylist = {
+          apple_music_id: playlist.apple_music_id,
+          name: playlist.name,
+          artwork_url: playlist.artwork_url,
+          length: playlist.length,
+          created_at: playlist.created_at,
+          songs: playlist.playlist_items
+            .map((item) => item.songs)
+            .filter((x) => !!x) as Tables<'songs'>[],
+        };
+
+        return formattedPlaylist;
+      });
 
       if (error) {
         console.error('error fetching playlists', error);
         return [];
       }
 
-      return data;
+      return formattedData;
     },
   });
 };

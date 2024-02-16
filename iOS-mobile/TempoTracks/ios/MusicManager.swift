@@ -10,7 +10,7 @@ import MusicKit
 
 @objc(MusicManager)
 class MusicManager: NSObject {
-  private var musicPlayer = ApplicationMusicPlayer.shared
+  private var musicPlayer = SystemMusicPlayer.shared
   
   @objc
   func requestAuthorization(
@@ -120,19 +120,11 @@ class MusicManager: NSObject {
   
   @objc
   func getPlaylistLibrary(
-    _ playlistId: NSString,
-    resolver resolve: @escaping RCTPromiseResolveBlock,
+    _ resolve: @escaping RCTPromiseResolveBlock,
     rejecter reject: @escaping RCTPromiseRejectBlock
   ) -> Void {
-    let playlistIdParam = playlistId as String
     Task {
-      var request = MusicLibraryRequest<Playlist>.init()
-      
-      print("fetching playlists")
-      
-      if (playlistIdParam != "") {
-        request.filter(matching: \.id, equalTo: MusicItemID(stringLiteral: playlistIdParam))
-      }
+      let request = MusicLibraryRequest<Playlist>.init()
       
       let response: MusicLibraryResponse<Playlist> = try await request.response()
       
@@ -141,10 +133,12 @@ class MusicManager: NSObject {
       
       var serailizedPlaylists: [[String: Any]] = []
       for playlist in response.items {
+        let withTracks = try await playlist.with(.tracks);
+        
         // serialize tracks
         var serializedTracks: [[String: Any]] = []
         
-        for track in playlist.tracks ?? [] {
+        for track in withTracks.tracks ?? [] {
           serializedTracks.append([
             "title": track.title,
             "artistName": track.artistName,
@@ -155,6 +149,7 @@ class MusicManager: NSObject {
         
         serailizedPlaylists.append([
           "id": playlist.id.rawValue,
+          "artwork_url": playlist.artwork?.url(width: 300, height: 300)?.absoluteURL ?? "https://www.wmhbradio.org/wp-content/uploads/2016/07/music-placeholder.png",
           "title": playlist.name,
           "description": playlist.description,
           "kind": (
@@ -162,7 +157,7 @@ class MusicManager: NSObject {
               playlist.kind == Playlist.Kind.personalMix ? "personalMix" :
               playlist.kind == Playlist.Kind.editorial ? "editorial" :
               playlist.kind == Playlist.Kind.replay ? "replay" :
-              playlist.kind == Playlist.Kind.userShared ? "userShared" : ""
+              playlist.kind == Playlist.Kind.userShared ? "userShared" : "n/a"
           ),
           "tracks": serializedTracks
         ])
@@ -256,13 +251,13 @@ class MusicManager: NSObject {
   ) -> Void {
     var queueArray: [[String: Any]] = []
     
-    for queueItem in musicPlayer.queue.entries {
-      queueArray.append([
-        "title": queueItem.title,
-        "subtitle": queueItem.subtitle ?? "",
-        "id": queueItem.id,
-      ])
-    }
+//    for queueItem in musicPlayer.queue. {
+//      queueArray.append([
+//        "title": queueItem.title,
+//        "subtitle": queueItem.subtitle ?? "",
+//        "id": queueItem.id,
+//      ])
+//    }
     
     resolve(queueArray)
   }

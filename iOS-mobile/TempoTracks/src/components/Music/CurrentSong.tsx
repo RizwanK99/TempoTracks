@@ -1,15 +1,24 @@
-import { Image, View } from 'react-native';
+import { Animated, Image, View } from 'react-native';
 import { Tables } from '../../lib/db.types';
 import { IconButton, Text, useTheme } from 'react-native-paper';
 import { StyleSheet } from 'react-native';
 import { MusicManager } from '../../module/MusicManager';
 import { usePlayerState, useSongs } from '../../api/Music';
+import { useRef } from 'react';
+import { MusicPlayer } from './Player/MusicPlayer';
 
-interface Props {
-  song: Tables<'songs'>;
-}
+export const CurrentSong = () => {
+  const heightAnim = useRef(new Animated.Value(0)).current;
 
-export const CurrentSong = ({ song }: Props) => {
+  return (
+    <View>
+      <MusicPlayer />
+      <CurrentSongFooter />
+    </View>
+  );
+};
+
+export const CurrentSongFooter = () => {
   const theme = useTheme();
 
   const { data: songs } = useSongs();
