@@ -5,8 +5,10 @@ import {
   Text,
   SafeAreaView,
   TouchableWithoutFeedback,
+  TouchableOpacity,
   ScrollView,
 } from "react-native";
+import { Divider } from "react-native-paper";
 import PageHeading from "../components/Workouts/PageHeading";
 import { Card, Title, Paragraph } from "react-native-paper";
 import { getUsersWorkouts } from "../api/Workouts";
@@ -14,6 +16,8 @@ import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AntDesign } from "@expo/vector-icons";
 import { Searchbar } from "react-native-paper";
+import { useGetWorkoutTemplates } from "../api/WorkoutTemplate.ts";
+import { useTheme } from "react-native-paper";
 
 async function retrieveData(user, setUser) {
   try {
@@ -31,9 +35,12 @@ const WorkoutListPage = ({ navigation }) => {
   const [workouts, setWorkouts] = useState([]);
   const [user, setUser] = useState({});
   const [searchQuery, setSearchQuery] = React.useState("");
+  const theme = useTheme();
 
   const onChangeSearch = (query) => setSearchQuery(query);
   const [filteredData, setFilteredData] = useState({});
+  const { data, error, loading } = useGetWorkoutTemplates(Number(1));
+  const [active, setActive] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -71,13 +78,8 @@ const WorkoutListPage = ({ navigation }) => {
           </>
         </View>
       </TouchableWithoutFeedback>
-      <View style={{ marginTop: 30, marginLeft: 8 }}>
+      <View style={{ marginTop: 30, marginLeft: 8, marginBottom: 16 }}>
         <PageHeading title={"Your Workouts"} />
-      </View>
-      <View>
-        <Text style={{ color: "#FFFFFF" }}>
-          this page should pull from the workout template table currently its the past workouts 
-        </Text>
       </View>
       <View
         style={{ paddingHorizontal: 16, paddingVertical: 12, marginBottom: 8 }}
@@ -91,8 +93,8 @@ const WorkoutListPage = ({ navigation }) => {
         />
       </View>
       <ScrollView>
-        <View style={{ flex: 1, padding: 16 }}>
-          {workouts?.userWorkouts?.map((w) => (
+        <View style={{ flex: 1, padding: 16, gap: 16 }}>
+          {/* {workouts?.userWorkouts?.map((w) => (
             <WorkoutCard
               key={w.workout_id}
               id={w.workout_id}
@@ -102,6 +104,79 @@ const WorkoutListPage = ({ navigation }) => {
               workoutType={w.workout_type}
               navigation={navigation}
             />
+          ))} */}
+          {data?.map((w) => (
+            <TouchableOpacity
+              key={w.id}
+              onPress={() =>
+                navigation.navigate("IndividualWorkoutTemplatePage", {
+                  templateId: w.id,
+                })
+              }
+            >
+              <View
+                style={{
+                  borderWidth: 1,
+                  borderColor:
+                    // active
+                    //   ? theme.colors.primary
+                    //   :
+                    theme.colors.border,
+                  padding: 16,
+                  borderRadius: 4,
+                  backgroundColor: theme.colors.card,
+                  gap: 10,
+                }}
+              >
+                <Text
+                  style={{
+                    color: theme.colors.text,
+                    fontSize: 20,
+                    fontWeight: "bold",
+                  }}
+                >
+                  {w.name}
+                </Text>
+                <Text
+                  style={{ color: theme.colors.foregroundMuted, fontSize: 14 }}
+                >
+                  {w.type}
+                </Text>
+                <Divider />
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    paddingHorizontal: 4,
+                  }}
+                >
+                  <Text
+                    style={{
+                      color: theme.colors.foregroundMuted,
+                      fontSize: 14,
+                    }}
+                  >
+                    {w.expected_distance} km
+                  </Text>
+                  <Text
+                    style={{
+                      color: theme.colors.foregroundMuted,
+                      fontSize: 14,
+                    }}
+                  >
+                    {Number(w.expected_duration) / 60} mins
+                  </Text>
+                  <Text
+                    style={{
+                      color: theme.colors.foregroundMuted,
+                      fontSize: 14,
+                    }}
+                  >
+                    {w.num_sets} sets
+                  </Text>
+                </View>
+              </View>
+            </TouchableOpacity>
           ))}
         </View>
       </ScrollView>
