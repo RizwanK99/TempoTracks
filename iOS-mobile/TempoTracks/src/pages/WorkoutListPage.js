@@ -131,13 +131,15 @@ const WorkoutListPage = ({ navigation }) => {
                 <Text
                   style={{
                     color: theme.colors.text,
-                    fontSize: 18,
+                    fontSize: 20,
                     fontWeight: "bold",
                   }}
                 >
                   {w.name}
                 </Text>
-                <Text style={{ color: theme.colors.text, fontSize: 14 }}>
+                <Text
+                  style={{ color: theme.colors.foregroundMuted, fontSize: 14 }}
+                >
                   {w.type}
                 </Text>
                 <Divider />
@@ -148,13 +150,28 @@ const WorkoutListPage = ({ navigation }) => {
                     paddingHorizontal: 4,
                   }}
                 >
-                  <Text style={{ color: theme.colors.text, fontSize: 14 }}>
+                  <Text
+                    style={{
+                      color: theme.colors.foregroundMuted,
+                      fontSize: 14,
+                    }}
+                  >
                     {w.expected_distance} km
                   </Text>
-                  <Text style={{ color: theme.colors.text, fontSize: 14 }}>
-                    {w.expected_duration} mins
+                  <Text
+                    style={{
+                      color: theme.colors.foregroundMuted,
+                      fontSize: 14,
+                    }}
+                  >
+                    {Number(w.expected_duration) / 60} mins
                   </Text>
-                  <Text style={{ color: theme.colors.text, fontSize: 14 }}>
+                  <Text
+                    style={{
+                      color: theme.colors.foregroundMuted,
+                      fontSize: 14,
+                    }}
+                  >
                     {w.num_sets} sets
                   </Text>
                 </View>

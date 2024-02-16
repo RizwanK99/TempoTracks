@@ -125,7 +125,7 @@ const IndividualWorkoutTemplatePage = ({ route, navigation }) => {
               />
               <Column
                 label="Duration"
-                value={template.expected_duration}
+                value={Number(template.expected_duration) / 60}
                 units="mins"
               />
               <Column label="Sets" value={template.num_sets} units="sets" />
@@ -220,7 +220,6 @@ const IndividualWorkoutTemplatePage = ({ route, navigation }) => {
                 />
               </View>
             </View>
-            {/* <Divider /> */}
             <View
               style={{
                 marginTop: 16,
