@@ -1,7 +1,6 @@
 import { supabase } from "../lib/supabase";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { Tables } from "../lib/db.types";
-import { WorkoutTemplate } from "./../models/WorkoutTemplate";
 
 interface WorkoutTemplate {
   workoutTemplate: Tables<"workout_templates">;
