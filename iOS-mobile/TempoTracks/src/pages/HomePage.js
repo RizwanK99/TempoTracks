@@ -14,6 +14,7 @@ import profileData from '../../mocks/profile_data.json';
 import { getUsersWorkouts } from '../api/Workouts';
 import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useTheme } from 'react-native-paper'
 
 async function retrieveData(user, setUser) {
   try {
@@ -31,6 +32,7 @@ const HomePage = ({ navigation }) => {
   const [workouts, setWorkouts] = useState([]);
   const [user, setUser] = useState({});
   const [exerciseList, setExerciseList] = useState([]);
+  const theme = useTheme();
 
   useEffect(() => {
     async function fetchData() {
@@ -92,7 +94,7 @@ const HomePage = ({ navigation }) => {
   var formattedDate = format(endOfDay(new Date()), 'EEEE, MMMM do');
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: 'black' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <View style={styles.full}>
         <View style={styles.container}>
           <View style={[styles.topBar, { flex: 2 }]}>
@@ -104,10 +106,10 @@ const HomePage = ({ navigation }) => {
             </View>
             <TouchableOpacity
               onPress={() => navigation.navigate('Profile', { ...profileData })}
-              style={[styles.btn_shape, { marginHorizontal: 15 }]}
+              style={styles.btn_shape}
             >
               <Text
-                style={{ color: '#004346', fontSize: 26, alignSelf: 'center' }}
+                style={{ color: '#004346', fontSize: 40, alignSelf: 'center' }}
               >
                 {user.first_name[0]}
               </Text>
@@ -172,29 +174,23 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
   },
-  welcome: {
-    width: '100%',
-    color: 'grey',
-    fontSize: 12,
-    textTransform: 'uppercase',
-  },
   progressContainer: {
     width: '100%',
     justifyContent: 'center',
     backgroundColor: '#222222',
     padding: 10,
     borderRadius: 10,
+    marginTop: 5
   },
   welcomeContainer: {
     width: '100%',
+    height: 75,
     justifyContent: 'center',
     backgroundColor: '#222222',
+    marginTop: 25,
     padding: 12,
-    borderRadius: 10,
-    marginTop: 15,
+    borderRadius: 5,
     fontSize: 20,
-    fontWeight: 'bold',
-    color: 'white'
   },
   historyText: {
     alignSelf: 'flex-start',
@@ -235,12 +231,13 @@ const styles = StyleSheet.create({
   },
   btn_shape: {
     backgroundColor: '#09bc8a',
-    borderRadius: 50,
+    borderRadius: 5,
     borderWidth: 2,
     borderColor: '#004346',
-    margin: 10,
-    height: 30,
-    width: 30,
+    marginLeft: 5,
+    marginTop: 25,
+    height: 65,
+    width: 65,
     textAlign: 'center',
   }
 });
