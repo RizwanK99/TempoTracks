@@ -97,19 +97,19 @@ const HomePage = ({ navigation }) => {
         <View style={styles.container}>
           <View style={[styles.topBar, { flex: 2 }]}>
             <View style={{ flexDirection: 'column' }}>
-              <View style={styles.progressContainer}>
-                <Text style={{color: '#000000', fontSize: 14}}>Welcome to TempoTracks</Text>
-                <Text style={styles.hello}>Hello {user.first_name}</Text>
+              <View style={styles.welcomeContainer}>
+                <Text style={{color: '#FFFFFF', fontSize: 20, fontWeight: 'bold'}}>Welcome to TempoTracks,</Text>
+                <Text style={{color: '#FFFFFF', fontSize: 20}}>{user.first_name}</Text>
               </View>
             </View>
             <TouchableOpacity
               onPress={() => navigation.navigate('Profile', { ...profileData })}
-              style={[styles.btn_shape, { marginHorizontal: 10 }]}
+              style={[styles.btn_shape, { marginHorizontal: 15 }]}
             >
               <Text
                 style={{ color: '#004346', fontSize: 26, alignSelf: 'center' }}
               >
-                {profileData.name[0]}
+                {user.first_name[0]}
               </Text>
             </TouchableOpacity>
           </View>
@@ -184,6 +184,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#222222',
     padding: 10,
     borderRadius: 10,
+  },
+  welcomeContainer: {
+    width: '100%',
+    justifyContent: 'center',
+    backgroundColor: '#222222',
+    padding: 12,
+    borderRadius: 10,
+    marginTop: 15,
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'white'
   },
   historyText: {
     alignSelf: 'flex-start',
