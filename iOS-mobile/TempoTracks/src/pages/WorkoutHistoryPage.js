@@ -8,12 +8,16 @@ import {
   ScrollView,
 } from "react-native";
 import PageHeading from "../components/Workouts/PageHeading";
-import { Card, Title, Paragraph } from "react-native-paper";
+import { Card, Title, Paragraph, Searchbar, Chip } from "react-native-paper";
 import { getUsersWorkouts } from "../api/Workouts";
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AntDesign } from "@expo/vector-icons";
-import { Searchbar } from "react-native-paper";
+
+import { Appbar, SegmentedButtons } from 'react-native-paper';
+import { useTheme } from "@emotion/react";
+import { ca } from "date-fns/locale";
+
 
 async function retrieveData(user, setUser) {
   try {
@@ -35,6 +39,10 @@ const WorkoutHistoryPage = ({ navigation }) => {
   const onChangeSearch = (query) => setSearchQuery(query);
   const [filteredData, setFilteredData] = useState({});
 
+  const theme = useTheme();
+
+  const [visible, setVisible] = React.useState(true);
+
   useEffect(() => {
     async function fetchData() {
       await retrieveData(user, setUser);
@@ -53,40 +61,34 @@ const WorkoutHistoryPage = ({ navigation }) => {
     );
     setFilteredData(filteredData);
   };
-
+ //TODO: Add Chips to database
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#000" }}>
-      <TouchableWithoutFeedback onPress={() => navigation.navigate("Workouts")}>
-        <View
-          style={{
-            flexDirection: "row",
-            marginLeft: 8,
-            marginTop: 8,
-            alignItems: "center",
-          }}
-        >
-          <>
-            <AntDesign name="left" size={20} color="#007AFF" />
-            <Text style={{ color: "#007AFF", fontSize: 16 }}>Back</Text>
-          </>
-        </View>
-      </TouchableWithoutFeedback>
-      <View style={{ marginTop: 30, marginLeft: 8 }}>
-        <PageHeading title={"Your Workouts"} />
-      </View>
-      <View
-        style={{ paddingHorizontal: 16, paddingVertical: 12, marginBottom: 8 }}
-      >
+    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
+      <Appbar.Header mode="small" statusBarHeight={0} elevated="true" style={{ backgroundColor: theme.colors.background}}>
+        <Appbar.BackAction onPress={() => navigation.navigate("WorkoutTrends")} />
+        <Appbar.Content title="History" />
+      </Appbar.Header>
+      
+      <View style={{ padding: 5, paddingHorizontal: 10 }}>
         <Searchbar
-          style={{ borderRadius: 12 }}
-          placeholder="Search"
+          elevation={4}
           onChangeText={onChangeSearch}
           value={searchQuery}
           onSubmitEditing={() => handleSearch}
         />
+        </View>
+      <View style={{ justifyContent: "center", paddingHorizontal: 5, paddingBottom: 5, flexDirection: 'row', flexWrap: 'wrap' }}>
+        <Chip icon="bike" style={{ width: 90, margin: 2 }} elevated="true" onPress={() => console.log('Pressed')}>Biking</Chip>
+        <Chip icon="run" style={{ width: 100, margin: 2 }} elevated="true" onPress={() => console.log('Pressed')}>Running</Chip>
+        <Chip icon="lightning-bolt" style={{ width: 75, margin: 2 }} elevated="true" onPress={() => console.log('Pressed')}>HIIT</Chip>
+        <Chip icon="walk" style={{ width: 95, margin: 2 }} elevated="true" onPress={() => console.log('Pressed')}>Walking</Chip>
       </View>
+      
+      
+      
+        
       <ScrollView>
-        <View style={{ flex: 1, padding: 16 }}>
+        <View style={{ paddingHorizontal: 5 }}>
           {workouts?.userWorkouts?.map((w) => (
             <WorkoutCard
               key={w.workout_id}
@@ -126,7 +128,9 @@ const WorkoutCard = ({
       }
     >
       <Card.Content>
+        {mapWorkoutsToChips(workoutType)}
         <Title style={styles.title}>{name}</Title>
+         
         <Paragraph style={styles.details}>Duration: {duration}</Paragraph>
         <Paragraph style={styles.details}>
           Calories Burnt: {caloriesBurnt}
@@ -158,5 +162,20 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
 });
+
+const mapWorkoutsToChips = (workoutType) => {
+  switch (workoutType) {
+    case "cardio":
+      return <Chip icon="run" style={{ width: 100, margin: 2 }} elevated="true" onPress={() => console.log('Pressed')}>Running</Chip>
+    case "biking":
+      return <Chip icon="bike" style={{ width: 90, margin: 2 }} elevated="true" onPress={() => console.log('Pressed')}>Biking</Chip>
+    case "hiit":
+      return <Chip icon="lightning-bolt" style={{ width: 75, margin: 2 }} elevated="true" onPress={() => console.log('Pressed')}>HIIT</Chip>
+    case "jogging":
+      return <Chip icon="walk" style={{ width: 95, margin: 2 }} elevated="true" onPress={() => console.log('Pressed')}>Walking</Chip>
+
+  }
+
+};
 
 export default WorkoutHistoryPage;
