@@ -126,15 +126,15 @@ const HomePage = ({ navigation }) => {
               <Text style={{ fontSize: 14, color: '#09BC8A' }}>
                 Calories: 234/350
               </Text>
-              <Progress.Bar progress={0.7} width={null} color={'#09BC8A'} />
+              <Progress.Circle  progress={0.7} size={50} borderWidth={5} color={'#09BC8A'} />
               <Text style={{ marginTop: 6, fontSize: 14, color: '#74B3CE' }}>
                 Activity: 10/20 Minutes
               </Text>
-              <Progress.Bar progress={0.5} width={null} color={'#74B3CE'} />
+              <Progress.Circle   progress={0.5} size={50} borderWidth={5} color={'#74B3CE'} />
               <Text style={{ marginTop: 6, fontSize: 14, color: '#508991' }}>
                 Steps: 3024/10,000
               </Text>
-              <Progress.Bar progress={0.3} width={null} color={'#508991'} />
+              <Progress.Circle  progress={0.3} size={50} borderWidth={5} color={'#508991'} />
             </View>
           </View>
 
@@ -176,11 +176,12 @@ const styles = StyleSheet.create({
   },
   progressContainer: {
     width: '100%',
+    height: 50,
     justifyContent: 'center',
     backgroundColor: '#222222',
-    padding: 10,
-    borderRadius: 10,
-    marginTop: 5
+    padding: 35,
+    borderRadius: 5,
+    marginTop: 10
   },
   welcomeContainer: {
     width: '100%',
