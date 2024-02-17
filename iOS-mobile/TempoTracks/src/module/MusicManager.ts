@@ -113,12 +113,7 @@ export const MusicManager = {
 
   // get PlayList Library
   getPlaylistLibrary: async () => {
-    return NativeModules.MusicManager.getPlaylistLibrary('test');
-  },
-
-  // get Songs in PlayList
-  getSongsInPlayList: async (playListId: string) => {
-    return NativeModules.MusicManager.getPlaylistLibrary(playListId);
+    return NativeModules.MusicManager.getPlaylistLibrary();
   },
 
   // QUEUE METHODS

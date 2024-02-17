@@ -5,25 +5,28 @@ import { supabase } from '../../../lib/supabase';
 import { MusicManager } from '../../../module/MusicManager';
 import { SongList } from './SongList';
 import { PlaylistList } from './PlaylistList';
-import { Button, Divider } from 'react-native-paper';
+import { Divider } from 'react-native-paper';
 import { CurrentSong } from '../CurrentSong';
 
 export const MusicLibrary = () => {
   const { data: songs = [], refetch } = useSongs();
-  const { data: playlists } = usePlaylists();
+  const { data: playlists = [], refetch: refetchPlaylists } = usePlaylists();
 
   const syncSongs = async () => {
     const librarySongs = await MusicManager.getSongLibrary();
 
-    const { data, error } = await supabase.functions.invoke('sync-songs', {
-      body: {
-        songs: librarySongs.map((s) => ({
-          id: s.id,
-          artist: s.artistName,
-          title: s.title,
-        })),
-      },
-    });
+    const { data, error } = await supabase.functions.invoke(
+      'music/sync-songs',
+      {
+        body: {
+          songs: librarySongs.map((s) => ({
+            id: s.id,
+            artist: s.artistName,
+            title: s.title,
+          })),
+        },
+      }
+    );
 
     if (error) {
       console.error('error syncing songs', error);
@@ -34,19 +37,43 @@ export const MusicLibrary = () => {
     }
   };
 
+  const syncPlaylists = async () => {
+    const libraryPlaylists = await MusicManager.getPlaylistLibrary();
+
+    console.log('libraryPlaylists', libraryPlaylists);
+
+    const { data, error } = await supabase.functions.invoke(
+      'music/sync-playlists',
+      {
+        body: {
+          playlists: libraryPlaylists,
+        },
+      }
+    );
+
+    if (error) {
+      console.error('error syncing playlists', error);
+    }
+
+    if (data.shouldRefetch === 'yes') {
+      refetchPlaylists();
+    }
+  };
+
   useEffect(() => {
-    syncSongs();
+    // syncSongs();
+    syncPlaylists();
   }, []);
 
   return (
     <SafeAreaView>
       <View style={styles.container}>
-        <PlaylistList playlists={playlists ?? []} />
+        <PlaylistList playlists={playlists} />
         <Divider style={{ marginVertical: -12 }} />
-        <SongList songs={songs ?? []} />
+        <SongList songs={songs} />
       </View>
 
-      {songs.length > 0 ? <CurrentSong song={songs[1]} /> : null}
+      <CurrentSong />
     </SafeAreaView>
   );
 };

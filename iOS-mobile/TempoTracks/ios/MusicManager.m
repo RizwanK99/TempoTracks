@@ -28,8 +28,7 @@ RCT_EXTERN_METHOD(
   rejecter: (RCTPromiseRejectBlock)reject
 )
 RCT_EXTERN_METHOD(
-  getPlaylistLibrary: (NSString)playlistId
-  resolver: (RCTPromiseResolveBlock)resolve
+  getPlaylistLibrary: (RCTPromiseResolveBlock)resolve
   rejecter: (RCTPromiseRejectBlock)reject
 )
 RCT_EXTERN_METHOD(

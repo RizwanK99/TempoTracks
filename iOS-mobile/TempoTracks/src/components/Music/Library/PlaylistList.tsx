@@ -31,7 +31,7 @@ export const PlaylistList = ({ playlists }: Props) => {
       <ScrollView style={{ maxHeight: dimensions.width / 2 + 12 }}>
         <View style={styles.scrollGrid}>
           {playlists.map((playlist) => (
-            <PlaylistItem key={playlist.id} playlist={playlist} />
+            <PlaylistItem key={playlist.apple_music_id} playlist={playlist} />
           ))}
         </View>
       </ScrollView>
