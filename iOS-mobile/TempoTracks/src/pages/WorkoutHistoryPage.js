@@ -2,19 +2,18 @@ import * as React from "react";
 import {
   StyleSheet,
   View,
-  Text,
   SafeAreaView,
   TouchableWithoutFeedback,
   ScrollView,
 } from "react-native";
 import PageHeading from "../components/Workouts/PageHeading";
-import { Card, Title, Paragraph, Searchbar, Chip } from "react-native-paper";
+import { Card, Title, Paragraph, Searchbar, Chip, DefaultTheme, IconButton, MD3Colors, Text } from "react-native-paper";
 import { getUsersWorkouts } from "../api/Workouts";
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AntDesign } from "@expo/vector-icons";
 
-import { Appbar, SegmentedButtons } from 'react-native-paper';
+import { Appbar, SegmentedButtons } from 'react-native-paper';  
 import { useTheme } from "@emotion/react";
 import { ca } from "date-fns/locale";
 
@@ -46,6 +45,7 @@ const WorkoutHistoryPage = ({ navigation }) => {
   useEffect(() => {
     async function fetchData() {
       await retrieveData(user, setUser);
+      console.log(user);
       setWorkouts(await getUsersWorkouts(user.user_id, null));
     }
     fetchData();
@@ -128,16 +128,23 @@ const WorkoutCard = ({
       }
     >
       <Card.Content>
-        {mapWorkoutsToChips(workoutType)}
-        <Title style={styles.title}>{name}</Title>
-         
-        <Paragraph style={styles.details}>Duration: {duration}</Paragraph>
-        <Paragraph style={styles.details}>
-          Calories Burnt: {caloriesBurnt}
-        </Paragraph>
-        <Paragraph style={styles.details}>
-          Workout Type: {workoutType}
-        </Paragraph>
+        
+          <Title style={{ top: 5, position: "absolute", left: 15 }}>{name}</Title>
+          <View style= {{ top: 5, right: 5, position: "absolute" }}>
+            {mapWorkoutsToChips(workoutType)}
+          </View>
+          
+        
+        <View style={{ flexDirection: "row", alignItems: 'center', justifyContent: "space-evenly", paddingTop: 20 }}>
+          <View style={{ flexDirection: "row", alignItems: 'center' }}>
+            <IconButton icon="fire" size={25} />
+            <Text variant="labelLarge">{duration} Cals</Text>
+          </View>
+          <View style={{ flexDirection: "row", alignItems: 'center' }}>
+            <IconButton icon="clock-time-four" size={25} />
+            <Text variant="labelLarge">{caloriesBurnt} Sec</Text>
+          </View>
+        </View>
       </Card.Content>
     </Card>
   );
@@ -166,13 +173,13 @@ const styles = StyleSheet.create({
 const mapWorkoutsToChips = (workoutType) => {
   switch (workoutType) {
     case "cardio":
-      return <Chip icon="run" style={{ width: 100, margin: 2 }} elevated="true" onPress={() => console.log('Pressed')}>Running</Chip>
+      return <Chip icon="run" style={{ width: 100, justifyContent:"center" }} elevated="true">Running</Chip>
     case "biking":
       return <Chip icon="bike" style={{ width: 90, margin: 2 }} elevated="true" onPress={() => console.log('Pressed')}>Biking</Chip>
     case "hiit":
       return <Chip icon="lightning-bolt" style={{ width: 75, margin: 2 }} elevated="true" onPress={() => console.log('Pressed')}>HIIT</Chip>
-    case "jogging":
-      return <Chip icon="walk" style={{ width: 95, margin: 2 }} elevated="true" onPress={() => console.log('Pressed')}>Walking</Chip>
+    case "walking":
+      return <Chip icon="walk" style={{ width: 95 }} onPress={() => console.log('Pressed')}>Walking</Chip>
 
   }
 
