@@ -23,7 +23,7 @@ export const SongList = ({ songs }: Props) => {
   );
 };
 
-const SongItem = ({ song }: { song: Tables<'songs'> }) => {
+export const SongItem = ({ song }: { song: Tables<'songs'> }) => {
   const theme = useTheme();
 
   const playSong = (id: string) => {

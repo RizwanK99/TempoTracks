@@ -3,6 +3,7 @@ import AntDesignIcons from 'react-native-vector-icons/AntDesign';
 import FontAwesomeIcons from 'react-native-vector-icons/FontAwesome';
 import { MusicManager } from '../../../module/MusicManager';
 import { Slider } from 'react-native-elements';
+import { Text } from 'react-native-paper';
 
 const PlayerControls = ({
   isPlaying,
@@ -68,6 +69,9 @@ const PlayerControls = ({
           style={{ marginTop: 8 }}
         />
       </View>
+
+      <Text>Shuffle</Text>
+      <Text>Repeat</Text>
     </View>
   );
 };

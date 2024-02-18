@@ -57,33 +57,40 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "public_playlist_items_apple_music_id_fkey"
+            columns: ["apple_music_id"]
+            isOneToOne: false
+            referencedRelation: "songs"
+            referencedColumns: ["apple_music_id"]
+          },
+          {
             foreignKeyName: "public_playlist_items_playlist_id_fkey"
             columns: ["playlist_id"]
             isOneToOne: false
             referencedRelation: "playlists"
-            referencedColumns: ["id"]
+            referencedColumns: ["apple_music_id"]
           }
         ]
       }
       playlists: {
         Row: {
+          apple_music_id: string
           artwork_url: string
           created_at: string
-          id: string
           length: number
           name: string
         }
         Insert: {
+          apple_music_id?: string
           artwork_url: string
           created_at?: string
-          id?: string
           length: number
           name: string
         }
         Update: {
+          apple_music_id?: string
           artwork_url?: string
           created_at?: string
-          id?: string
           length?: number
           name?: string
         }
@@ -91,28 +98,52 @@ export type Database = {
       }
       songs: {
         Row: {
+          acousticness: number | null
           apple_music_id: string
           artist: string
           artwork_url: string
+          danceability: number | null
           duration_ms: number
+          energy: number | null
+          instrumentalness: number | null
+          liveness: number | null
+          loudness: number | null
           spotify_id: string
+          tempo: number | null
           title: string
+          valence: number | null
         }
         Insert: {
+          acousticness?: number | null
           apple_music_id: string
           artist: string
           artwork_url: string
+          danceability?: number | null
           duration_ms: number
+          energy?: number | null
+          instrumentalness?: number | null
+          liveness?: number | null
+          loudness?: number | null
           spotify_id: string
+          tempo?: number | null
           title: string
+          valence?: number | null
         }
         Update: {
+          acousticness?: number | null
           apple_music_id?: string
           artist?: string
           artwork_url?: string
+          danceability?: number | null
           duration_ms?: number
+          energy?: number | null
+          instrumentalness?: number | null
+          liveness?: number | null
+          loudness?: number | null
           spotify_id?: string
+          tempo?: number | null
           title?: string
+          valence?: number | null
         }
         Relationships: []
       }
@@ -190,35 +221,68 @@ export type Database = {
         }
         Relationships: []
       }
+      workout_intervals: {
+        Row: {
+          active: number | null
+          created_at: string
+          id: number
+          label: string | null
+          rest: number | null
+        }
+        Insert: {
+          active?: number | null
+          created_at?: string
+          id?: number
+          label?: string | null
+          rest?: number | null
+        }
+        Update: {
+          active?: number | null
+          created_at?: string
+          id?: number
+          label?: string | null
+          rest?: number | null
+        }
+        Relationships: []
+      }
       workout_templates: {
         Row: {
           created_at: string
           description: string | null
+          expected_distance: number | null
           expected_duration: number | null
           id: string
+          interval_ids: string[] | null
           name: string
+          num_sets: number | null
           playlist_id: number | null
-          type: string | null
+          type: Database["public"]["Enums"]["workout_type"] | null
           user_id: number | null
         }
         Insert: {
           created_at?: string
           description?: string | null
+          expected_distance?: number | null
           expected_duration?: number | null
           id?: string
+          interval_ids?: string[] | null
           name: string
+          num_sets?: number | null
           playlist_id?: number | null
-          type?: string | null
+          type?: Database["public"]["Enums"]["workout_type"] | null
           user_id?: number | null
         }
         Update: {
           created_at?: string
           description?: string | null
+          expected_distance?: number | null
           expected_duration?: number | null
           id?: string
+          interval_ids?: string[] | null
           name?: string
+          num_sets?: number | null
           playlist_id?: number | null
-          type?: string | null
+          type?: Database["public"]["Enums"]["workout_type"] | null
           user_id?: number | null
         }
         Relationships: [
@@ -296,7 +360,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      workout_type: "biking" | "hiit" | "long_distance_run"
+      workout_type: "Biking" | "Running" | "Walking" | "HIIT"
     }
     CompositeTypes: {
       [_ in never]: never

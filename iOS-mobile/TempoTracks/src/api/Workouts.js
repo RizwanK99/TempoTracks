@@ -28,7 +28,7 @@ async function createWorkout(
     status: status,
     // time_start: timeStart,
     // time_end: timeEnd,
-    time_duration: timeDuration,
+    // time_duration: timeDuration,
     workout_type: workoutType,
     total_distance: totalDistance,
     total_energy_burned: totalEnergyBurned,
@@ -55,7 +55,6 @@ async function createWorkout(
     }
   );
   const data = await response.json();
-  console.log(data);
 }
 
 async function deleteWorkout(workout_id) {

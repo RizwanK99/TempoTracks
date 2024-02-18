@@ -30,7 +30,7 @@ const CustomCarousel = ({ carouselData, handleItemTap }) => {
     return (
       <TouchableWithoutFeedback
         onPress={() => {
-          handleItemTap(index);
+          handleItemTap(item.id);
           setCurrentlySelected(index);
         }}
       >
