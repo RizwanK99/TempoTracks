@@ -18,13 +18,13 @@ import { useTheme } from 'react-native-paper'
 
 async function retrieveData(user, setUser) {
   try {
-    const value = await AsyncStorage.getItem('user_data');
+    const value = await AsyncStorage.getItem("user_data");
     if (value !== null) {
       let userData = JSON.parse(value);
       await setUser(userData);
     }
   } catch (error) {
-    console.log('Error retreiving user data', error);
+    console.log("Error retreiving user data", error);
   }
 }
 
@@ -37,18 +37,17 @@ const HomePage = ({ navigation }) => {
   useEffect(() => {
     async function fetchData() {
       await retrieveData(user, setUser);
-      let w = await getUsersWorkouts(user.user_id, 'complete');
-      setWorkouts(w.userWorkouts);
+      setWorkouts(await getUsersWorkouts(user.user_id, null));
     }
     fetchData();
   }, [user.user_id]);
 
   useEffect(() => {
     console.log('useEffect');
-    console.log(workouts);
+    console.log(workouts.userWorkouts);
     let workouts1 = [];
-    if (workouts) {
-      workouts1 = [...workouts];
+    if (workouts.userWorkouts) {
+      workouts1 = [...workouts.userWorkouts];
     }
     console.log(workouts1);
     let newExercise = [];
@@ -97,7 +96,7 @@ const HomePage = ({ navigation }) => {
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <View style={styles.full}>
         <View style={styles.container}>
-          <View style={[styles.topBar, { flex: 2 }]}>
+          <View style={[styles.topBar, { flex: 3 }]}>
             <View style={{ flexDirection: 'column' }}>
               <View style={styles.welcomeContainer}>
                 <Text style={{color: '#FFFFFF', fontSize: 20, fontWeight: 'bold'}}>Welcome to TempoTracks,</Text>
@@ -106,44 +105,74 @@ const HomePage = ({ navigation }) => {
             </View>
             <TouchableOpacity
               onPress={() => navigation.navigate('Profile', { ...profileData })}
-              style={styles.btn_shape}
+              style={styles.user_icon}
             >
               <Text
                 style={{ color: '#004346', fontSize: 40, alignSelf: 'center' }}
               >
-                {user.first_name[0]}
+                
               </Text>
             </TouchableOpacity>
           </View>
-          <View style={[styles.progressContainer, { flex: 2 }]}>
+          <View style={[styles.progressContainer, { flex: 8}]}>
+              <Text style={{ fontSize: 22, color: '#FFFFFF', marginBottom: 10,  marginHorizontal: -22, fontWeight: 'bold', }}>
+                Daily Goals 
+              </Text>
             <View
               style={{
                 flexDirection: 'column',
                 justifyContent: 'center',
+                alignItems: 'center',
                 width: '100%',
               }}
             >
-              <Text style={{ fontSize: 14, color: '#09BC8A' }}>
-                Calories: 234/350
+              <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: '100%',
+              }}
+            >
+              <Text style={{ fontSize: 14, color: '#09BC8A'}}>
+                Calories: 234/350 
               </Text>
-              <Progress.Circle  progress={0.7} size={50} borderWidth={5} color={'#09BC8A'} />
+              <Progress.Circle  progress={0.7} size={75} borderWidth={8} color={'#09BC8A'}/>
+              </View>
+              <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: '100%',
+              }}
+            >
               <Text style={{ marginTop: 6, fontSize: 14, color: '#74B3CE' }}>
                 Activity: 10/20 Minutes
               </Text>
-              <Progress.Circle   progress={0.5} size={50} borderWidth={5} color={'#74B3CE'} />
+              <Progress.Circle   progress={0.5} size={75} borderWidth={5} color={'#74B3CE'} />
+              </View>
+              <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: '100%',
+              }}>
               <Text style={{ marginTop: 6, fontSize: 14, color: '#508991' }}>
                 Steps: 3024/10,000
               </Text>
-              <Progress.Circle  progress={0.3} size={50} borderWidth={5} color={'#508991'} />
+              <Progress.Circle  progress={0.3} size={75} borderWidth={5} color={'#508991'} />
+              </View>
             </View>
           </View>
 
           <View style={[styles.box, { flex: 8 }]}>
             <View style={[styles.historyText, { width: '100%' }]}>
-              <Text style={{ color: 'white', fontSize: 22, padding: 10 }}>
+              <Text style={{ color: 'white', fontSize: 22, padding: 10, fontWeight: 'bold' }}>
                 History
               </Text>
-              <ScrollView style={{ width: '100%' }}>
+              <ScrollView style={{ width: '100%', height: '100%'}}>
                 <View style={{ width: '100%' }}>{exerciseList}</View>
               </ScrollView>
             </View>
@@ -181,14 +210,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#222222',
     padding: 35,
     borderRadius: 5,
-    marginTop: 10
+    marginTop: 20
   },
   welcomeContainer: {
     width: '100%',
     height: 75,
     justifyContent: 'center',
     backgroundColor: '#222222',
-    marginTop: 25,
+    marginTop: 30,
     padding: 12,
     borderRadius: 5,
     fontSize: 20,
@@ -230,15 +259,15 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     width: '100%',
   },
-  btn_shape: {
+  user_icon: {
     backgroundColor: '#09bc8a',
     borderRadius: 5,
     borderWidth: 2,
     borderColor: '#004346',
     marginLeft: 5,
-    marginTop: 25,
+    marginTop: 30,
     height: 65,
-    width: 65,
+    width: 60,
     textAlign: 'center',
   }
 });
