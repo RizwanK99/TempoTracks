@@ -9,9 +9,18 @@ import WatchConnectivity
 
 class WatchConnectivityHandler: NSObject, WCSessionDelegate {
   static let shared = WatchConnectivityHandler()
+  
+  // Tight coupling
+  static let musicViewModel = MusicViewModel(songs: [
+    Song(apple_id: "1", title: "Song 1"),
+    Song(apple_id: "2", title: "Song 2"),
+  ])
 
   private override init() {
     super.init()
+  }
+  
+  func activateSession() {
     if WCSession.isSupported() {
       let session = WCSession.default
       session.delegate = self
@@ -30,6 +39,21 @@ class WatchConnectivityHandler: NSObject, WCSessionDelegate {
       default:
           break // No action needed for .inactive in watchOS
       }
+  }
+  
+  func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
+    guard let fn_name = message["functionName"] as? String else {
+      return
+    }
+      
+    if fn_name == "sendSongs" {
+      guard let songs = message["songs"] as? String else {
+        return
+      }
+      
+      let adaptedSongs = SongAdapter.adapter.adaptJsonToSong(json: songs)
+      WatchConnectivityHandler.musicViewModel.updateSongsState(with: adaptedSongs)
+    }
   }
   
   private let kMessageKey = "message"

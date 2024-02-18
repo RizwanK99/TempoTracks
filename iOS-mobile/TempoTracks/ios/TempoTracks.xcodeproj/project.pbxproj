@@ -11,11 +11,14 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
+		814375242B81D4B30086F53B /* SongAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814375232B81D4B30086F53B /* SongAdapter.swift */; };
 		81C996D02B76EA2B00A9C0A3 /* WatchConnectivityHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C996CF2B76EA2B00A9C0A3 /* WatchConnectivityHandler.swift */; };
 		81C996D22B798E0700A9C0A3 /* Theming.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C996D12B798E0700A9C0A3 /* Theming.swift */; };
 		81C996DC2B79E9A200A9C0A3 /* MusicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C996DB2B79E9A200A9C0A3 /* MusicView.swift */; };
 		81C996DE2B79EA4F00A9C0A3 /* SongView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C996DD2B79EA4F00A9C0A3 /* SongView.swift */; };
 		81C996E02B79EB2300A9C0A3 /* MovingBarsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C996DF2B79EB2300A9C0A3 /* MovingBarsView.swift */; };
+		81C996E22B81717800A9C0A3 /* WatchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C996E12B81717800A9C0A3 /* WatchManager.swift */; };
+		81C996E52B8171D400A9C0A3 /* WatchManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 81C996E42B8171D400A9C0A3 /* WatchManager.m */; };
 		81E69FA22B7083CC00EE29A4 /* CompanionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E69FA12B7083CC00EE29A4 /* CompanionApp.swift */; };
 		81E69FA62B7083CE00EE29A4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 81E69FA52B7083CE00EE29A4 /* Assets.xcassets */; };
 		81E69FA92B7083CE00EE29A4 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 81E69FA82B7083CE00EE29A4 /* Preview Assets.xcassets */; };
@@ -70,12 +73,15 @@
 		58EEBF8E8E6FB1BC6CAF49B5 /* libPods-TempoTracks.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TempoTracks.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C2E3173556A471DD304B334 /* Pods-TempoTracks.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TempoTracks.debug.xcconfig"; path = "Target Support Files/Pods-TempoTracks/Pods-TempoTracks.debug.xcconfig"; sourceTree = "<group>"; };
 		7A4D352CD337FB3A3BF06240 /* Pods-TempoTracks.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TempoTracks.release.xcconfig"; path = "Target Support Files/Pods-TempoTracks/Pods-TempoTracks.release.xcconfig"; sourceTree = "<group>"; };
+		814375232B81D4B30086F53B /* SongAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongAdapter.swift; sourceTree = "<group>"; };
 		81C996CF2B76EA2B00A9C0A3 /* WatchConnectivityHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchConnectivityHandler.swift; sourceTree = "<group>"; };
 		81C996D12B798E0700A9C0A3 /* Theming.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theming.swift; sourceTree = "<group>"; };
 		81C996D32B79D0B800A9C0A3 /* Companion Watch AppDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Companion Watch AppDebug.entitlements"; sourceTree = "<group>"; };
 		81C996DB2B79E9A200A9C0A3 /* MusicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicView.swift; sourceTree = "<group>"; };
 		81C996DD2B79EA4F00A9C0A3 /* SongView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongView.swift; sourceTree = "<group>"; };
 		81C996DF2B79EB2300A9C0A3 /* MovingBarsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovingBarsView.swift; sourceTree = "<group>"; };
+		81C996E12B81717800A9C0A3 /* WatchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchManager.swift; sourceTree = "<group>"; };
+		81C996E42B8171D400A9C0A3 /* WatchManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WatchManager.m; sourceTree = "<group>"; };
 		81E69F982B707F6D00EE29A4 /* libReact-Core.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libReact-Core.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81E69F9A2B70833000EE29A4 /* TempoTracks-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TempoTracks-Bridging-Header.h"; sourceTree = "<group>"; };
 		81E69F9F2B7083CC00EE29A4 /* TempoTracks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TempoTracks.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -131,6 +137,8 @@
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
 				B3484A012A70C21800A72539 /* MusicManager.swift */,
 				B3484A032A70C22A00A72539 /* MusicManager.m */,
+				81C996E12B81717800A9C0A3 /* WatchManager.swift */,
+				81C996E42B8171D400A9C0A3 /* WatchManager.m */,
 			);
 			name = TempoTracks;
 			sourceTree = "<group>";
@@ -143,6 +151,14 @@
 				58EEBF8E8E6FB1BC6CAF49B5 /* libPods-TempoTracks.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		814375222B81D4980086F53B /* Adapters */ = {
+			isa = PBXGroup;
+			children = (
+				814375232B81D4B30086F53B /* SongAdapter.swift */,
+			);
+			path = Adapters;
 			sourceTree = "<group>";
 		};
 		81C996D42B79E67000A9C0A3 /* Theme */ = {
@@ -204,6 +220,7 @@
 		81E69FA02B7083CC00EE29A4 /* CompanionWatchApp */ = {
 			isa = PBXGroup;
 			children = (
+				814375222B81D4980086F53B /* Adapters */,
 				81C996D92B79E73300A9C0A3 /* SummaryView */,
 				81C996D82B79E6EF00A9C0A3 /* Services */,
 				81C996D52B79E69800A9C0A3 /* SessionViews */,
@@ -517,9 +534,11 @@
 			files = (
 				B3484A042A70C22A00A72539 /* MusicManager.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
+				81C996E52B8171D400A9C0A3 /* WatchManager.m in Sources */,
 				B3484A022A70C21800A72539 /* MusicManager.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */,
+				81C996E22B81717800A9C0A3 /* WatchManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -540,6 +559,7 @@
 				81E69FB92B747BA400EE29A4 /* SessionPagingView.swift in Sources */,
 				81C996DE2B79EA4F00A9C0A3 /* SongView.swift in Sources */,
 				81C996DC2B79E9A200A9C0A3 /* MusicView.swift in Sources */,
+				814375242B81D4B30086F53B /* SongAdapter.swift in Sources */,
 				81E69FC12B747BA400EE29A4 /* ControlsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
