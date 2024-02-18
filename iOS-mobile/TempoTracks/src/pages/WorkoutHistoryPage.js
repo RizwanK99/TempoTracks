@@ -7,14 +7,13 @@ import {
   ScrollView,
 } from "react-native";
 import PageHeading from "../components/Workouts/PageHeading";
-import { Card, Title, Paragraph, Searchbar, Chip, DefaultTheme, IconButton, MD3Colors, Text } from "react-native-paper";
+import { Card, Title, Paragraph, Searchbar, Chip, DefaultTheme, IconButton, MD3Colors, Text, useTheme } from "react-native-paper";
 import { getUsersWorkouts } from "../api/Workouts";
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AntDesign } from "@expo/vector-icons";
 
 import { Appbar, SegmentedButtons } from 'react-native-paper';  
-import { useTheme } from "@emotion/react";
 import { ca } from "date-fns/locale";
 
 

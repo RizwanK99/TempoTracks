@@ -7,11 +7,10 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 
-import { Appbar, SegmentedButtons } from 'react-native-paper';
+import { Appbar, SegmentedButtons, useTheme } from 'react-native-paper';
 import CustomBarChart from "../components/Charts/CustomBarChart";
 import { AntDesign } from "@expo/vector-icons";
 import Highlights from "../components/Workouts/Highlights";
-import { useTheme } from "@emotion/react";
 import PressableCardBanner from "../components/Workouts/PressableCardBanner";
 import SectionHeading from "../components/Workouts/SectionHeading";
 
