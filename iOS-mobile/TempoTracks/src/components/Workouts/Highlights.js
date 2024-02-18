@@ -1,8 +1,7 @@
 import React from "react";
 import { Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { Divider, ProgressBar } from "react-native-paper";
-import { useTheme } from "@emotion/react";
+import { Divider, ProgressBar, useTheme } from "react-native-paper";
 
 const Highlights = () => {
   const theme = useTheme();
