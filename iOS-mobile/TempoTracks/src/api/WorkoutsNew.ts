@@ -30,3 +30,67 @@ export const useCreateWorkout = (workout: Workout) => {
     },
   });
 };
+
+export const usePauseWorkout = (workoutId: string) => {
+  return useMutation({
+    mutationFn: async (workoutId: string) => {
+      const { data, error } = await supabase
+        .from("workouts")
+        .update({
+          is_paused: true,
+          paused_at: new Date(),
+          status: "PAUSED",
+        })
+        .eq("workout_id", workoutId);
+
+      if (error) {
+        console.log("Error pausing workout", error);
+        return null;
+      }
+      return data;
+    },
+  });
+};
+
+export const useResumeWorkout = (workoutId: string) => {
+  return useMutation({
+    mutationFn: async (workoutId: string) => {
+      const { data, error } = await supabase
+        .from("workouts")
+        .update({
+          is_paused: false,
+          paused_at: null,
+          status: "IN_PROGRESS",
+        })
+        .eq("workout_id", workoutId);
+
+      if (error) {
+        console.log("Error pausing workout", error);
+        return null;
+      }
+      return data;
+    },
+  });
+};
+
+export const useEndWorkout = (workoutId: string) => {
+  return useMutation({
+    mutationFn: async (workoutId: string) => {
+      const { data, error } = await supabase
+        .from("workouts")
+        .update({
+          is_paused: false,
+          paused_at: null,
+          status: "COMPLETED",
+          time_end: new Date(),
+        })
+        .eq("workout_id", workoutId);
+
+      if (error) {
+        console.log("Error pausing workout", error);
+        return null;
+      }
+      return data;
+    },
+  });
+};

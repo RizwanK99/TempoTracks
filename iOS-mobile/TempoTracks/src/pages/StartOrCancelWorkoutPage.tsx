@@ -31,7 +31,7 @@ const StartOrCancelWorkoutPage = ({ route, navigation }) => {
         workout_name: name,
         workout_type: type,
         playlist_id: playlistId,
-        status: "STARTED",
+        status: "IN_PROGRESS",
         is_paused: false,
       });
     }

@@ -21,6 +21,8 @@ const theme = {
     card: "#17171c",
     bar: "#11803a",
     barContrast: "#424247",
+    redPrimary: "#e11d48",
+    redPrimaryForeground: "#fadbe2",
   },
 };
 
