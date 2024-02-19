@@ -306,6 +306,7 @@ export type Database = {
           time_end: string | null
           time_start: string | null
           total_distance: number | null
+          total_duration: number | null
           total_elevation_change: number | null
           total_energy_burned: number | null
           training_intervals: string | null
@@ -324,6 +325,7 @@ export type Database = {
           time_end?: string | null
           time_start?: string | null
           total_distance?: number | null
+          total_duration?: number | null
           total_elevation_change?: number | null
           total_energy_burned?: number | null
           training_intervals?: string | null
@@ -342,6 +344,7 @@ export type Database = {
           time_end?: string | null
           time_start?: string | null
           total_distance?: number | null
+          total_duration?: number | null
           total_elevation_change?: number | null
           total_energy_burned?: number | null
           training_intervals?: string | null
@@ -368,7 +371,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      workout_status: "PAUSED" | "STARTED" | "COMPLETED"
+      workout_status: "PAUSED" | "IN_PROGRESS" | "COMPLETED"
       workout_type: "Biking" | "Running" | "Walking" | "HIIT"
     }
     CompositeTypes: {

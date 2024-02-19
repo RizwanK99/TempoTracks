@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { SafeAreaView, Text, View } from "react-native";
 import { useTheme, IconButton } from "react-native-paper";
 import { Button as PaperButton } from "react-native-paper";
@@ -7,6 +7,23 @@ import {
   useResumeWorkout,
   useEndWorkout,
 } from "../api/WorkoutsNew.ts";
+import { useStopwatch } from "react-timer-hook";
+
+interface TimeProps {
+  value: string;
+  unit: string;
+  showColon?: boolean;
+}
+
+const Time: React.FC<TimeProps> = ({ value, unit, showColon = true }) => {
+  const theme = useTheme();
+  return (
+    <Text style={{ color: theme.colors.primary, fontSize: 52 }} key={unit}>
+      {showColon && ":"}
+      {value < 10 ? `0${value}` : value}
+    </Text>
+  );
+};
 
 const WorkoutInProgressPage = ({ navigation, route }) => {
   const theme = useTheme();
@@ -15,6 +32,29 @@ const WorkoutInProgressPage = ({ navigation, route }) => {
   const { mutate: resumeWorkout } = useResumeWorkout();
   const { mutate: endWorkout } = useEndWorkout();
   const [paused, setPaused] = useState<boolean>(false);
+  const {
+    totalSeconds,
+    seconds,
+    minutes,
+    hours,
+    isRunning,
+    start,
+    pause,
+    reset,
+  } = useStopwatch({ autoStart: true });
+
+  // Needed since calling reset after mutation
+  const duration = useMemo(() => {
+    return totalSeconds;
+  }, [totalSeconds]);
+
+  const handleWorkoutEnd = () => {
+    endWorkout({ workoutId, duration });
+    reset();
+    navigation.navigate("WorkoutSummaryPage", {
+      workoutId: workoutId,
+    });
+  };
   return (
     <SafeAreaView
       style={{
@@ -26,6 +66,18 @@ const WorkoutInProgressPage = ({ navigation, route }) => {
         alignItems: "center",
       }}
     >
+      <Text style={{ color: theme.colors.text, fontSize: 24 }}>Total Time</Text>
+      <View
+        style={{
+          flexDirection: "row",
+          padding: 8,
+          alignSelf: "center",
+        }}
+      >
+        <Time unit="hours" value={hours} showColon={false} />
+        <Time unit="minutes" value={minutes} />
+        <Time unit="seconds" value={seconds} />
+      </View>
       <View style={{ flexDirection: "row", gap: 32 }}>
         <View
           style={{
@@ -41,6 +93,7 @@ const WorkoutInProgressPage = ({ navigation, route }) => {
               width: "100%",
               height: 48,
               backgroundColor: theme.colors.redPrimaryForeground,
+              opacity: 0.8,
               border: "none",
             }}
             textColor={theme.colors.redPrimary}
@@ -55,10 +108,7 @@ const WorkoutInProgressPage = ({ navigation, route }) => {
             contentStyle={{ color: theme.colors.text }}
             icon="stop"
             onPress={() => {
-              endWorkout(workoutId);
-              navigation.navigate("WorkoutSummaryPage", {
-                workoutId: workoutId,
-              });
+              handleWorkoutEnd();
             }}
           />
           <Text style={{ color: theme.colors.text, fontSize: 22 }}>Stop</Text>
@@ -94,6 +144,7 @@ const WorkoutInProgressPage = ({ navigation, route }) => {
                 icon="pause"
                 onPress={() => {
                   pauseWorkout(workoutId);
+                  pause();
                   setPaused(true);
                 }}
               />
@@ -124,6 +175,7 @@ const WorkoutInProgressPage = ({ navigation, route }) => {
                 icon="play"
                 onPress={() => {
                   resumeWorkout(workoutId);
+                  start();
                   setPaused(false);
                 }}
               />
