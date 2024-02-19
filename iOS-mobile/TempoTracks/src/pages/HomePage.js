@@ -110,7 +110,7 @@ const HomePage = ({ navigation }) => {
               <Text
                 style={{ color: '#004346', fontSize: 40, alignSelf: 'center' }}
               >
-                
+                {user.first_name ? user.first_name[0] : "..."}
               </Text>
             </TouchableOpacity>
           </View>
@@ -132,9 +132,10 @@ const HomePage = ({ navigation }) => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 width: '100%',
+                marginBottom: 4
               }}
             >
-              <Text style={{ fontSize: 14, color: '#09BC8A'}}>
+              <Text style={{ marginRight: 4, fontSize: 14, color: '#09BC8A'}}>
                 Calories: 234/350 
               </Text>
               <Progress.Circle  progress={0.7} size={75} borderWidth={8} color={'#09BC8A'}/>
@@ -145,9 +146,10 @@ const HomePage = ({ navigation }) => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 width: '100%',
+                marginBottom: 4
               }}
             >
-              <Text style={{ marginTop: 6, fontSize: 14, color: '#74B3CE' }}>
+              <Text style={{ marginTop: 6, marginRight: 4, fontSize: 14, color: '#74B3CE' }}>
                 Activity: 10/20 Minutes
               </Text>
               <Progress.Circle   progress={0.5} size={75} borderWidth={5} color={'#74B3CE'} />
@@ -159,7 +161,7 @@ const HomePage = ({ navigation }) => {
                 alignItems: 'center',
                 width: '100%',
               }}>
-              <Text style={{ marginTop: 6, fontSize: 14, color: '#508991' }}>
+              <Text style={{ marginTop: 6, marginRight: 4, fontSize: 14, color: '#508991' }}>
                 Steps: 3024/10,000
               </Text>
               <Progress.Circle  progress={0.3} size={75} borderWidth={5} color={'#508991'} />
