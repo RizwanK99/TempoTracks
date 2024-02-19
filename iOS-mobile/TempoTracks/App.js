@@ -24,6 +24,7 @@ import MusicPage from "./src/pages/MusicPage";
 
 // Workout Screens
 import IndividualWorkoutTemplatePage from "./src/pages/IndividualWorkoutTemplatePage";
+import StartOrCancelWorkoutPage from "./src/pages/StartOrCancelWorkoutPage";
 import CreateWorkoutPage from "./src/pages/CreateWorkoutPage";
 import WorkoutInProgressPage from "./src/pages/WorkoutInProgressPage";
 import WorkoutTrendsPage from "./src/pages/WorkoutTrendsPage";
@@ -211,6 +212,10 @@ function WorkoutsStack() {
       <Stack.Screen
         name="IndividualWorkoutTemplatePage"
         component={IndividualWorkoutTemplatePage}
+      />
+      <Stack.Screen
+        name="StartOrCancelWorkoutPage"
+        component={StartOrCancelWorkoutPage}
       />
     </Stack.Navigator>
   );
