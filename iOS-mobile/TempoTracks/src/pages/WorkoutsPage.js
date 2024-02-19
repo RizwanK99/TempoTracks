@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Modal, Portal, Button, PaperProvider, FAB } from 'react-native-paper';
 import {
   TouchableOpacity,
   StyleSheet,
@@ -36,6 +37,13 @@ async function retrieveData(user, setUser) {
 const WorkoutsPage = ({ navigation }) => {
   const [user, setUser] = useState({});
   const [workouts, setWorkouts] = useState([]);
+
+  const [state, setState] = React.useState({ open: false });
+
+  const onStateChange = ({ open }) => setState({ open });
+
+  const { open } = state;
+
   useEffect(() => {
     async function fetchData() {
       await retrieveData(user, setUser);
@@ -44,124 +52,40 @@ const WorkoutsPage = ({ navigation }) => {
     fetchData();
   }, [user.user_id]);
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "black" }}>
-      <ScrollView>
-        {/* QUICK STARTER */}
-        <View style={{ flex: 1, padding: 16 }}>
-          <View>
-            <PageHeading title={"Workouts"} />
-          </View>
-          <View style={{ marginTop: 24 }}>
-            <SectionHeading title={"Start A Workout"} />
-          </View>
-          <View style={{ marginTop: 16 }}>
-            <PressableCardBanner
-              title={"Let's Go!"}
-              subtitle={"Select from your custom list of workouts."}
-              imageUri={recommendedWorkoutImage}
-              onPress={() =>
-                navigation.navigate("WorkoutInProgress", { undefined })
-              }
-            />
-          </View>
-          {/* CREATE WORKOUT */}
-          <View style={{ marginTop: 28 }}>
-            <SectionHeading title={"Custom Made"} />
-          </View>
-          <View style={{ marginTop: 16 }}>
-            <PressableCardBanner
-              title={"Create A Workout"}
-              subtitle={
-                "Craft your perfect workout."
-                // workouts.length === 0
-                //   ? "Create your perfect workout."
-                //   : workouts.length + " created"
-              }
-              imageUri={createWorkoutImage}
-              onPress={() => navigation.navigate("CreateWorkout")}
-            />
-          </View>
-          <View style={{ marginTop: 16 }}>
-            <PressableCardBanner
-              title={"View Your Creations"}
-              subtitle={
-                "Edit or view you previously created workouts."
-                // workouts.length === 0
-                //   ? "Create your perfect workout."
-                //   : workouts.length + " created"
-              }
-              imageUri={createWorkoutImage}
-              onPress={() => navigation.navigate("WorkoutListPage")}
-            />
-          </View>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#181a1c" }}>
+        <FAB.Group
+          style={{ paddingBottom: 3, position: 'absolute' }}
+          open={open}
+          variant="surface"
+          icon={open ? 'lightning-bolt' : 'headphones'}
+          label={open ? 'Start A New Workout' : ''}
+          actions={[
+            {
+              icon: 'bookmark',
+              label: 'My Workouts',
+              onPress: () => navigation.navigate("WorkoutListPage"),
+            },
+            {
+              icon: 'plus',
+              label: 'Create New Workout',
+              onPress: () => navigation.navigate("CreateWorkout"),
+            },
+            {
+              icon: 'chart-timeline-variant',
+              label: 'Workout Trends',
+              onPress: () => navigation.navigate("WorkoutTrends"),
+            }
+          ]}
+          onStateChange={onStateChange}
+          onPress={() => {
+            if (open) {
+              // do something if the speed dial is open
+              navigation.navigate("WorkoutInProgress", { undefined })
+            }
+          }}
+        />
+      
 
-          {/* WORKOUT HISTORY */}
-          <View style={{ marginTop: 28 }}>
-            <SectionHeading title={"Progress"} />
-          </View>
-          <View style={{ marginTop: 16 }}>
-            <PressableCardBanner
-              title={"Track Your Progress"}
-              subtitle={"View your workout history."}
-              imageUri={workoutProgressImage}
-              onPress={() => navigation.navigate("WorkoutTrends")}
-            />
-          </View>
-          {/* FOCUS */}
-          {/* <View style={{ marginTop: 28 }}>
-            <SectionHeading title={"Focus"} />
-          </View>
-          <View style={{ flex: 1 }}>
-            <View
-              style={{
-                marginTop: 16,
-                flex: 1,
-                flexDirection: "row",
-                justifyContent: "space-between",
-                marginBottom: 10,
-              }}
-            >
-              <PressableCard
-                title={"Cardio Training"}
-                imageUrl={cardioFocusImage}
-              />
-              <PressableCard
-                title={"Weight Lifting"}
-                imageUrl={weightLiftingFocusImage}
-              />
-            </View>
-            <View
-              style={{
-                marginTop: 16,
-                flex: 1,
-                flexDirection: "row",
-                justifyContent: "space-between",
-                marginBottom: 10,
-              }}
-            >
-              <PressableCard
-                title={"Weight Loss"}
-                imageUrl={weightLossFocusImage}
-              />
-              <PressableCard title={"Bulking"} imageUrl={bulkingFocusImage} />
-            </View>
-          </View>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate("AllWorkouts")}
-          >
-            <View
-              style={{
-                flex: 1,
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Text style={{ fontWeight: "bold" }}>All Workouts</Text>
-            </View>
-          </TouchableOpacity> */}
-        </View>
-      </ScrollView>
     </SafeAreaView>
   );
 };
