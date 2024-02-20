@@ -8,8 +8,6 @@ import Carousel from "react-native-reanimated-carousel";
 import { useWindowDimensions, Dimensions } from "react-native";
 import { useSharedValue } from "react-native-reanimated";
 
-const { width } = Dimensions.get("window");
-
 const WorkoutInProgressPage = ({ navigation, route }) => {
   const theme = useTheme();
   const { workoutId } = route.params;
@@ -33,7 +31,7 @@ const WorkoutInProgressPage = ({ navigation, route }) => {
       <Carousel
         {...baseOptions}
         loop
-        enabled // Default is true, just for demo
+        enabled
         ref={ref}
         defaultScrollOffsetValue={scrollOffsetValue}
         testID={"workoutInProgess"}
