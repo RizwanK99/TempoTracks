@@ -2,6 +2,7 @@
 // https://aboutreact.com/react-native-bottom-navigation/
 import React, { useState, useEffect } from "react";
 import updateSettings from "../api/Settings";
+import { useTheme } from "react-native-paper";
 import { Switch, TextInput, Button, ToggleButton } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Slider } from "react-native-elements";
@@ -13,6 +14,7 @@ import {
   SafeAreaView,
 } from "react-native";
 import { ScrollView } from "react-native";
+import useThemeStore from "../hooks/useThemeStore";
 
 async function retrieveData(user, setUser) {
   try {
@@ -34,6 +36,9 @@ const SettingsPage = ({ route, navigation }) => {
   const [explicitContent, setExplicitContent] = useState(false);
   const [peakNormalize, setPeakNormalize] = useState(1);
   const [bpmWarning, setBPMWarning] = useState(true);
+  const [darkMode, setDarkMode] = useState(false);
+  const theme = useTheme();
+  const { toggleTheme } = useThemeStore();
 
   useEffect(() => {
     async function fetchData() {
@@ -81,14 +86,19 @@ const SettingsPage = ({ route, navigation }) => {
     setBPMWarning(!bpmWarning);
   };
 
+  const onDarkMode = () => {
+    setDarkMode(!darkMode)
+    toggleTheme()
+  }
+
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#000000" }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background}}>
       <Text
         style={{
-          color: "#FFFFFF",
+          color: theme.colors.text,
           fontWeight: "bold",
           marginTop: "5%",
-          marginLeft: "35%",
+          marginLeft: "2%",
           fontSize: 25,
         }}
       >
@@ -96,14 +106,14 @@ const SettingsPage = ({ route, navigation }) => {
       </Text>
       <ScrollView>
         <View>
-          <Text style={styles.settingGroup}>Account</Text>
+          <Text style={[styles.settingGroup, {color: theme.colors.text}]}>Account</Text>
           <View style={styles.setting}>
-            <Text style={styles.settingText}>Email</Text>
-            <TextInput label="Email" />
+            <Text style={[styles.settingText, {color: theme.colors.text}]}>Email</Text>
+            <TextInput label="Email" style={{width: '60%'}}/>
           </View>
         </View>
         <Button
-          style={{ width: "45%", justifyContent: "flex-start", margin: "5%" }}
+          style={{ width: "45%", justifyContent: "flex-start", margin: "5%", borderRadius: 6 }}
           buttonColor="#09BC8A"
           icon="delete"
           mode="contained"
@@ -112,9 +122,20 @@ const SettingsPage = ({ route, navigation }) => {
           Delete Account
         </Button>
         <View>
-          <Text style={styles.settingGroup}>Data Saver</Text>
+          <Text style={[styles.settingGroup, {color: theme.colors.text}]}>Dark Mode</Text>
           <View style={styles.setting}>
-            <Text style={styles.settingText}>Turn Off Data Streaming</Text>
+            <Text style={[styles.settingText, {color: theme.colors.text}]}>Turn On Dark Mode</Text>
+            <Switch
+              color="#09BC8A"
+              value={darkMode}
+              onValueChange={onDarkMode}
+            />
+          </View>
+        </View>
+        <View>
+          <Text style={[styles.settingGroup, {color: theme.colors.text}]}>Data Saver</Text>
+          <View style={styles.setting}>
+            <Text style={[styles.settingText, {color: theme.colors.text}]}>Turn Off Data Streaming</Text>
             <Switch
               color="#09BC8A"
               value={dataStream}
@@ -123,9 +144,9 @@ const SettingsPage = ({ route, navigation }) => {
           </View>
         </View>
         <View>
-          <Text style={styles.settingGroup}>Playback</Text>
+          <Text style={[styles.settingGroup, {color: theme.colors.text}]}>Playback</Text>
           <View style={styles.setting}>
-            <Text style={styles.settingText}>Crossfade</Text>
+            <Text style={[styles.settingText, {color: theme.colors.text}]}>Crossfade</Text>
             <Text>0s</Text>
             <Slider
               style={{
@@ -144,7 +165,7 @@ const SettingsPage = ({ route, navigation }) => {
             <Text>15s</Text>
           </View>
           <View style={styles.setting}>
-            <Text style={styles.settingText}>Automix</Text>
+            <Text style={[styles.settingText, {color: theme.colors.text}]}>Automix</Text>
             <Slider
               style={{
                 width: "50%",
@@ -162,7 +183,7 @@ const SettingsPage = ({ route, navigation }) => {
             />
           </View>
           <View style={styles.setting}>
-            <Text style={styles.settingText}>Explicit Content</Text>
+            <Text style={[styles.settingText, {color: theme.colors.text}]}>Explicit Content</Text>
             <Switch
               color="#09BC8A"
               value={explicitContent}
@@ -171,15 +192,15 @@ const SettingsPage = ({ route, navigation }) => {
           </View>
         </View>
         <View>
-          <Text style={styles.settingGroup}>Workouts</Text>
+          <Text style={[styles.settingGroup, {color: theme.colors.text}]}>Workouts</Text>
           <View style={styles.setting}>
-            <Text style={styles.settingText}>Peak Normalization</Text>
+            <Text style={[styles.settingText, {color: theme.colors.text}]}>Peak Normalization</Text>
             <ToggleButton icon="battery-low" value="low" />
             <ToggleButton icon="battery-medium" value="medium" />
             <ToggleButton icon="battery-high" value="high" />
           </View>
           <View style={styles.setting}>
-            <Text style={styles.settingText}>High BPM Warning</Text>
+            <Text style={[styles.settingText, {color: theme.colors.text}]}>High BPM Warning</Text>
             <Switch
               color="#09BC8A"
               value={bpmWarning}
@@ -206,14 +227,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   settingText: {
-    fontSize: 20,
+    fontSize: 16,
     margin: "5%",
-    color: "#FFFFFF",
   },
   settingGroup: {
     fontWeight: "bold",
-    fontSize: 22,
-    color: "#FFFFFF",
+    fontSize: 20,
     margin: 10,
   },
   trackStyle: {
