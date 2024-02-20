@@ -52,6 +52,9 @@ export const WorkoutInProgressDetails: React.FC<
   const { mutate: resumeWorkout } = useResumeWorkout();
   const { mutate: endWorkout } = useEndWorkout();
   const [paused, setPaused] = useState<boolean>(false);
+  const [calories, setCalories] = useState<number>(100);
+  const [bpm, setBpm] = useState<number>(120);
+  const [distance, setDistance] = useState<number>(5);
   const {
     totalSeconds,
     seconds,
@@ -73,6 +76,10 @@ export const WorkoutInProgressDetails: React.FC<
     reset();
     navigation.navigate("WorkoutSummaryPage", {
       workoutId: workoutId,
+      duration: duration,
+      calories: calories,
+      bpm: bpm,
+      distance: distance,
     });
   };
   return (
@@ -99,9 +106,9 @@ export const WorkoutInProgressDetails: React.FC<
         <Time unit="seconds" value={seconds} />
       </View>
       <View style={{ flexDirection: "column" }}>
-        <Stat unit="CAL" value={120} />
-        <Stat unit="BPM" value={122} />
-        <Stat unit="FT" value={0} />
+        <Stat unit="CAL" value={calories} />
+        <Stat unit="BPM" value={bpm} />
+        <Stat unit="FT" value={distance} />
       </View>
       <View style={{ flexDirection: "row", gap: 32, marginTop: "70%" }}>
         <View

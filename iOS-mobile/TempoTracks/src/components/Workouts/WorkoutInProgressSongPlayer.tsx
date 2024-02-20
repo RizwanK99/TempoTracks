@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from "react";
 import { SafeAreaView, Text, View } from "react-native";
-import { useTheme, IconButton } from "react-native-paper";
+import { useTheme } from "react-native-paper";
 
 export const WorkoutInProgressSongPlayer = () => {
   const theme = useTheme();

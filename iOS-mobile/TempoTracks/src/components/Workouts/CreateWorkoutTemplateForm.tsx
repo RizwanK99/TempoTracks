@@ -220,7 +220,7 @@ export const CreateWorkoutTemplateForm: React.FC<
                 borderRadius: 8,
                 backgroundColor: theme.colors.card,
                 marginTop: 8,
-                borderWidth: 0.5,
+                borderWidth: 1,
                 borderColor: theme.colors.border,
               }}
             >
@@ -548,7 +548,7 @@ export const CreateWorkoutTemplateForm: React.FC<
                   paddingHorizontal: 6,
                   backgroundColor: theme.colors.card,
                   paddingVertical: 16,
-                  borderWidth: 0.5,
+                  borderWidth: 1,
                   borderColor: theme.colors.border,
                   borderRadius: 8,
                 }}

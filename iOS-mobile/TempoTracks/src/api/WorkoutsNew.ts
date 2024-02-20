@@ -15,7 +15,6 @@ export const useCreateWorkout = (workout: Workout) => {
         .insert(workout)
         .select("*");
 
-      console.log("data in api", data);
       if (error) {
         console.log("Error creating workout", error);
         return null;
@@ -87,6 +86,25 @@ export const useEndWorkout = (workoutId: string, duration: number) => {
           total_duration: duration,
         })
         .eq("workout_id", workoutId);
+
+      if (error) {
+        console.log("Error ending workout", error);
+        return null;
+      }
+      return data;
+    },
+  });
+};
+
+export const useGetWorkoutById = (workoutId: string) => {
+  return useQuery({
+    queryKey: ["workout"],
+    queryFn: async (workoutId: string) => {
+      const { data, error } = await supabase
+        .from("workouts")
+        .select()
+        .eq("workout_id", workoutId.replace(/"/g, ""))
+        .single();
 
       if (error) {
         console.log("Error ending workout", error);
