@@ -9,14 +9,22 @@ import Foundation
 import WatchConnectivity
 
 @objcMembers class WatchManagerStrategy: NSObject {
+    static let music_manager = MusicManager()
     static let emitter = WatchManagerEmitter()
 
-    static func callFunction(withName functionName: String) -> String {
+    static func callFunction(withName functionName: String, withData data: String) -> String {
       if functionName == "pauseSong" {
-        return ""
+        music_manager.changePlayerPlayback("PAUSE");
+        
+        return "PAUSE SONG"
+      }
+      else if functionName == "playSong" {
+        music_manager.playSongWithId(NSString(string: data))
+        
+        return "PLAY SONG"
       }
       
-      return ""
+      return "DEFAULT"
     }
 }
 

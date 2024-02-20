@@ -72,9 +72,7 @@ class WatchConnectivityHandler: NSObject, WCSessionDelegate {
     }
   }
   
-  private let kMessageKey = "message"
-  
-  func send(_ message: String) {
+  func send(_ function_name: String, _ data: String) {
       guard WCSession.default.activationState == .activated else {
         print("Cannot send message 1")
         return
@@ -84,14 +82,16 @@ class WatchConnectivityHandler: NSObject, WCSessionDelegate {
         print("Cannot send message 2")
         return
       }
+    
+      print(WCSession.default.isReachable)
       
-      WCSession.default.sendMessage([kMessageKey : message], replyHandler: { (reply) in
+      WCSession.default.sendMessage(["functionName": function_name, "data": data], replyHandler: { (reply) in
           // Handle reply from iPhone here
           print(reply)
       }, errorHandler: { (error) in
           print("Cannot send message: \(String(describing: error))")
       })
     
-    print("END OF SENT MSG");
+      print("END OF SENT MSG");
   }
 }
