@@ -301,56 +301,67 @@ export type Database = {
           is_paused: boolean
           paused_at: string | null
           playlist_id: string | null
-          status: string | null
-          time_duration: number | null
+          status: Database["public"]["Enums"]["workout_status"] | null
+          template_id: string
           time_end: string | null
           time_start: string | null
           total_distance: number | null
+          total_duration: number | null
           total_elevation_change: number | null
           total_energy_burned: number | null
           training_intervals: string | null
           user_id: number | null
           workout_id: string
           workout_name: string | null
-          workout_type: string | null
+          workout_type: Database["public"]["Enums"]["workout_type"] | null
         }
         Insert: {
           created_at?: string | null
           is_paused?: boolean
           paused_at?: string | null
           playlist_id?: string | null
-          status?: string | null
-          time_duration?: number | null
+          status?: Database["public"]["Enums"]["workout_status"] | null
+          template_id: string
           time_end?: string | null
           time_start?: string | null
           total_distance?: number | null
+          total_duration?: number | null
           total_elevation_change?: number | null
           total_energy_burned?: number | null
           training_intervals?: string | null
           user_id?: number | null
           workout_id?: string
           workout_name?: string | null
-          workout_type?: string | null
+          workout_type?: Database["public"]["Enums"]["workout_type"] | null
         }
         Update: {
           created_at?: string | null
           is_paused?: boolean
           paused_at?: string | null
           playlist_id?: string | null
-          status?: string | null
-          time_duration?: number | null
+          status?: Database["public"]["Enums"]["workout_status"] | null
+          template_id?: string
           time_end?: string | null
           time_start?: string | null
           total_distance?: number | null
+          total_duration?: number | null
           total_elevation_change?: number | null
           total_energy_burned?: number | null
           training_intervals?: string | null
           user_id?: number | null
           workout_id?: string
           workout_name?: string | null
-          workout_type?: string | null
+          workout_type?: Database["public"]["Enums"]["workout_type"] | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "public_workouts_template_id_fkey"
+            columns: ["template_id"]
+            isOneToOne: false
+            referencedRelation: "workout_templates"
+            referencedColumns: ["id"]
+          }
+        ]
       }
     }
     Views: {
@@ -360,6 +371,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
+      workout_status: "PAUSED" | "IN_PROGRESS" | "COMPLETED"
       workout_type: "Biking" | "Running" | "Walking" | "HIIT"
     }
     CompositeTypes: {

@@ -24,6 +24,7 @@ import MusicPage from "./src/pages/MusicPage";
 
 // Workout Screens
 import IndividualWorkoutTemplatePage from "./src/pages/IndividualWorkoutTemplatePage";
+import StartOrCancelWorkoutPage from "./src/pages/StartOrCancelWorkoutPage";
 import CreateWorkoutPage from "./src/pages/CreateWorkoutPage";
 import WorkoutInProgressPage from "./src/pages/WorkoutInProgressPage";
 import WorkoutTrendsPage from "./src/pages/WorkoutTrendsPage";
@@ -31,6 +32,7 @@ import WorkoutHistoryPage from "./src/pages/WorkoutHistoryPage";
 import UserPreferenceWorkoutPage from "./src/pages/UserPreferenceWorkoutPage";
 import WorkoutListPage from "./src/pages/WorkoutListPage";
 import WorkoutEndSummaryPage from "./src/pages/WorkoutEndSummaryPage";
+import WorkoutSummaryPage from "./src/pages/WorkoutSummaryPage";
 
 import { supabase } from "./src/lib/supabase";
 import { QueryProvider } from "./src/provider/QueryClientProvider";
@@ -212,6 +214,11 @@ function WorkoutsStack() {
         name="IndividualWorkoutTemplatePage"
         component={IndividualWorkoutTemplatePage}
       />
+      <Stack.Screen
+        name="StartOrCancelWorkoutPage"
+        component={StartOrCancelWorkoutPage}
+      />
+      <Stack.Screen name="WorkoutSummaryPage" component={WorkoutSummaryPage} />
     </Stack.Navigator>
   );
 }

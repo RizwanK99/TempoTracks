@@ -18,6 +18,7 @@ import { Checkbox } from "../components/Inputs/Checkbox";
 import { useGetWorkoutIntervals } from "../api/WorkoutTemplate.ts";
 import { BarChart } from "react-native-gifted-charts";
 import { Button as PaperButton } from "react-native-paper";
+import { useCreateWorkout } from "../api/WorkoutsNew.ts";
 
 const intervalConstants = [
   { id: 1, title: "Recovery", active: 30, rest: 90, isChecked: false },
@@ -35,6 +36,7 @@ const IndividualWorkoutTemplatePage = ({ route, navigation }) => {
   const theme = useTheme();
   const { templateId } = route.params;
   const { data, loading, error } = useGetWorkoutTemplateById(templateId);
+  const createWorkout = useCreateWorkout();
   const template = data[0];
   const numericIds = template.interval_ids.map((id) => Number(id));
   //   const { data: intervalsQuery } = useGetWorkoutIntervals(numericIds);
@@ -239,10 +241,12 @@ const IndividualWorkoutTemplatePage = ({ route, navigation }) => {
                 labelStyle={{ fontSize: 20, fontWeight: "bold" }}
                 contentStyle={{ color: theme.colors.text }}
                 onPress={() => {
-                  handleSubmit();
-                  if (!isSwitchOn) {
-                    navigation.navigate("Workouts");
-                  }
+                  navigation.navigate("StartOrCancelWorkoutPage", {
+                    templateId: templateId,
+                    name: template.name,
+                    type: template.type,
+                    playlistId: template.playlist_id,
+                  });
                 }}
               >
                 Start
