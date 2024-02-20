@@ -93,7 +93,7 @@ const HomePage = ({ navigation }) => {
   var formattedDate = format(endOfDay(new Date()), 'EEEE, MMMM do');
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background}}>
       <View style={styles.full}>
         <View style={styles.container}>
           <View style={[styles.topBar, { flex: 3 }]}>
@@ -114,8 +114,8 @@ const HomePage = ({ navigation }) => {
               </Text>
             </TouchableOpacity>
           </View>
-          <View style={[styles.progressContainer, { flex: 8}]}>
-              <Text style={{ fontSize: 22, color: '#FFFFFF', marginBottom: 10,  marginHorizontal: -22, fontWeight: 'bold', }}>
+          <View style={[styles.progressContainer, { flex: 8, }]}>
+              <Text style={{ fontSize: 22, color: '#FFFFFF', marginBottom: 10,  fontWeight: 'bold', }}>
                 Daily Goals 
               </Text>
             <View
@@ -129,49 +129,49 @@ const HomePage = ({ navigation }) => {
               <View
               style={{
                 flexDirection: 'row',
-                justifyContent: 'center',
+                justifyContent: 'space-around',
                 alignItems: 'center',
                 width: '100%',
                 marginBottom: 4
               }}
             >
-              <Text style={{ marginRight: 4, fontSize: 14, color: '#09BC8A'}}>
+              <Text style={{ marginRight: 4, fontSize: 18, color: '#09BC8A'}}>
                 Calories: 234/350 
               </Text>
-              <Progress.Circle  progress={0.7} size={75} borderWidth={8} color={'#09BC8A'}/>
+              <Progress.Circle  progress={0.7} size={75} borderWidth={6} color={'#09BC8A'}/>
               </View>
               <View
               style={{
                 flexDirection: 'row',
-                justifyContent: 'center',
+                justifyContent: 'space-around',
                 alignItems: 'center',
                 width: '100%',
                 marginBottom: 4
               }}
             >
-              <Text style={{ marginTop: 6, marginRight: 4, fontSize: 14, color: '#74B3CE' }}>
-                Activity: 10/20 Minutes
+              <Text style={{ marginTop: 6, marginRight: 4, fontSize: 18, color: '#74B3CE' }}>
+                Activity: 10/20 Min
               </Text>
-              <Progress.Circle   progress={0.5} size={75} borderWidth={5} color={'#74B3CE'} />
+              <Progress.Circle   progress={0.5} size={75} borderWidth={6} color={'#74B3CE'} />
               </View>
               <View
               style={{
                 flexDirection: 'row',
-                justifyContent: 'center',
+                justifyContent: 'space-around',
                 alignItems: 'center',
                 width: '100%',
               }}>
-              <Text style={{ marginTop: 6, marginRight: 4, fontSize: 14, color: '#508991' }}>
+              <Text style={{ marginTop: 6, marginRight: 4, fontSize: 18, color: '#508991' }}>
                 Steps: 3024/10,000
               </Text>
-              <Progress.Circle  progress={0.3} size={75} borderWidth={5} color={'#508991'} />
+              <Progress.Circle  progress={0.3} size={75} borderWidth={6} color={'#508991'} style={{justifyContent: 'flex-end'}}/>
               </View>
             </View>
           </View>
 
           <View style={[styles.box, { flex: 8 }]}>
             <View style={[styles.historyText, { width: '100%' }]}>
-              <Text style={{ color: 'white', fontSize: 22, padding: 10, fontWeight: 'bold' }}>
+              <Text style={{ color: 'white', fontSize: 22, padding: 10, marginLeft: -10, fontWeight: 'bold' }}>
                 History
               </Text>
               <ScrollView style={{ width: '100%', height: '100%'}}>
@@ -207,19 +207,19 @@ const styles = StyleSheet.create({
   },
   progressContainer: {
     width: '100%',
-    height: 50,
+    height: 10,
     justifyContent: 'center',
-    backgroundColor: '#222222',
-    padding: 35,
+    backgroundColor: '#000000',
     borderRadius: 5,
+    padding: 10,
     marginTop: 20
   },
   welcomeContainer: {
     width: '100%',
-    height: 75,
+    height: 65,
     justifyContent: 'center',
     backgroundColor: '#222222',
-    marginTop: 30,
+    marginTop: 40,
     padding: 12,
     borderRadius: 5,
     fontSize: 20,
@@ -227,6 +227,7 @@ const styles = StyleSheet.create({
   historyText: {
     alignSelf: 'flex-start',
     justifyContent: 'center',
+    padding: 10
   },
   title: {
     color: 'white',
@@ -266,10 +267,10 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderWidth: 2,
     borderColor: '#004346',
-    marginLeft: 5,
-    marginTop: 30,
+    marginLeft: 3,
+    marginTop: 40,
     height: 65,
-    width: 60,
+    width: 65,
     textAlign: 'center',
   }
 });
