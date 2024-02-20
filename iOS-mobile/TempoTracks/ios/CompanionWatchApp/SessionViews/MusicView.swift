@@ -8,31 +8,41 @@
 import Foundation
 import SwiftUI
 
+class MusicViewModel: ObservableObject {
+  @Published var songs: [Song]
+  var currentSongId: UUID? = nil
+  
+  init(songs: [Song] = []) {
+    self.songs = songs
+  }
+  
+  func updateSongsState(with newSongs: [Song]) {
+    self.songs = newSongs
+  }
+}
+
+
 struct MusicView: View {
-  @State private var songs = [
-      Song(title: "Song 1"),
-      Song(title: "Song 2"),
-  ]
-  @State private var currentSongId: UUID? = nil
+  @StateObject var viewModel = WatchConnectivityHandler.musicViewModel
   
   var body: some View {
     List {
-      ForEach($songs) { $song in
+      ForEach($viewModel.songs) { $song in
         SongRow(song: song, playAction: {
-            withAnimation {
-              song.isPlaying.toggle()
-              
-              if song.id == currentSongId {
-                currentSongId = nil
-                return
-              }
-
-              if let currentSongIndex = songs.firstIndex(where: { $0.id == currentSongId }) {
-                songs[currentSongIndex].isPlaying = false
-              }
-              
-              currentSongId = song.id
+          withAnimation {
+            song.isPlaying.toggle()
+            
+            if song.id == viewModel.currentSongId {
+              viewModel.currentSongId = nil
+              return
             }
+
+            if let currentSongIndex = viewModel.songs.firstIndex(where: { $0.id == viewModel.currentSongId }) {
+              viewModel.songs[currentSongIndex].isPlaying = false
+            }
+            
+            viewModel.currentSongId = song.id
+          }
         })
         .listRowBackground(Color.clear)
       }

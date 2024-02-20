@@ -38,6 +38,9 @@ import { supabase } from "./src/lib/supabase";
 import { QueryProvider } from "./src/provider/QueryClientProvider";
 import { PaperProviderWrapper } from "./src/provider/PaperProvider";
 
+// Watch Hooks
+import { sendSongsToWatch } from "./src/module/WatchManager";
+
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -46,6 +49,8 @@ const getIsLoggedIn = () => {
 };
 
 function Root() {
+  sendSongsToWatch();
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({

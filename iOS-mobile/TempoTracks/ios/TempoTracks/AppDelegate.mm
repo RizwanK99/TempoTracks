@@ -93,12 +93,16 @@
 }
 
 - (void)session:(WCSession *)session didReceiveMessage:(NSDictionary<NSString *,id> *)message replyHandler:(void (^)(NSDictionary<NSString *,id> *replyMessage))replyHandler {
-    // Handle the received message from the watch
-    NSLog(@"Received message from watch: %@", message);
+    // Extract the function name from the message
+    NSString *functionName = message[@"functionName"];
   
-    // Optionally, send a reply back to the watch
-    NSDictionary *response = @{@"Response": @"Message received"};
-    replyHandler(response);
+    NSLog(@"Received message from watch: %@", message);
+    
+    // Assuming you have a method to handle the call to React Native
+    //NSString *result = [WatchManagerStrategy callFunctionWithName:functionName];
+    
+    // Send back the result
+    //replyHandler(@{@"result": result});
 }
 
 @end

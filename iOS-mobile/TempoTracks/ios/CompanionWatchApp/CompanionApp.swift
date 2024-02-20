@@ -12,6 +12,10 @@ import HealthKit
 struct WatchOS_Watch_AppApp: App {
     @StateObject var workoutManager = WorkoutManager()
     var selectedWorkout: HKWorkoutActivityType?
+  
+    init() {
+        WatchConnectivityHandler.shared.activateSession()
+    }
     
     @SceneBuilder var body: some Scene {
         WindowGroup {
