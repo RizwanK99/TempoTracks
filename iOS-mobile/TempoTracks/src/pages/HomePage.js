@@ -35,8 +35,8 @@ const HomePage = ({ navigation }) => {
   const [user, setUser] = useState({});
   const [exerciseList, setExerciseList] = useState([]);
 
-  //sendSongsToWatch();
-  //sendWorkoutTemplatesToWatch();
+  sendSongsToWatch();
+  sendWorkoutTemplatesToWatch();
 
   useEffect(() => {
     async function fetchData() {
