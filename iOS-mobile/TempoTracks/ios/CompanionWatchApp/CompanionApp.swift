@@ -11,7 +11,6 @@ import HealthKit
 @main
 struct WatchOS_Watch_AppApp: App {
     @StateObject var workoutManager = WorkoutManager()
-    var selectedWorkout: HKWorkoutActivityType?
   
     init() {
         WatchConnectivityHandler.shared.activateSession()

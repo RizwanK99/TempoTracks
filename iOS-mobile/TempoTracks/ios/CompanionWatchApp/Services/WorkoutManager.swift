@@ -9,10 +9,10 @@ import Foundation
 import HealthKit
 
 class WorkoutManager: NSObject, ObservableObject {
-    var selectedWorkout: HKWorkoutActivityType? {
+    var selectedWorkout: Workout? {
         didSet {
             guard let selectedWorkout = selectedWorkout else { return }
-            startWorkout(workoutType: selectedWorkout)
+            startWorkout(workoutType: selectedWorkout.hk_type)
         }
     }
     

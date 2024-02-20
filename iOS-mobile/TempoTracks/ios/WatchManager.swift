@@ -50,4 +50,26 @@ class WatchManagerListener: NSObject {
   
     resolve(nil)
   }
+  
+  @objc
+  func sendWorkouts(
+    _ workouts: String,
+    resolver resolve: @escaping RCTPromiseResolveBlock,
+    rejecter reject: @escaping RCTPromiseRejectBlock
+  ) {
+    guard WCSession.default.isPaired && WCSession.default.isWatchAppInstalled else {
+        print("sendWorkouts - Watch app is not installed or not paired")
+        return
+    }
+    var dataDictionary: [String: Any] = [:]
+    
+    // Add the function name to the dictionary
+    dataDictionary["workouts"] = workouts
+    dataDictionary["functionName"] = "sendWorkouts"
+    
+    WCSession.default.sendMessage(dataDictionary, replyHandler: nil, errorHandler: {
+      (error) in
+      print("sendWorkouts - Sending message failed with error: \(error)")
+    })
+  }
 }

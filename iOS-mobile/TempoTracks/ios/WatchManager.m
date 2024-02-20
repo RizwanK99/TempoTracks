@@ -13,4 +13,8 @@ RCT_EXTERN_METHOD(sendSongs:(NSString *)songs
     resolver:(RCTPromiseResolveBlock)resolve
     rejecter:(RCTPromiseRejectBlock)reject
 )
+RCT_EXTERN_METHOD(sendWorkouts:(NSString *)workouts
+    resolver:(RCTPromiseResolveBlock)resolve
+    rejecter:(RCTPromiseRejectBlock)reject
+)
 @end

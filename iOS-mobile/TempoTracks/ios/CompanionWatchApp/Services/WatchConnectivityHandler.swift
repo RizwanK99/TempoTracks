@@ -15,6 +15,13 @@ class WatchConnectivityHandler: NSObject, WCSessionDelegate {
     Song(apple_id: "1", title: "Song 1"),
     Song(apple_id: "2", title: "Song 2"),
   ])
+  
+  static let workoutViewModel = WorkoutViewModel(workouts: [
+    Workout(workout_id: "cycling", name: "Biking", hk_type: .cycling),
+    Workout(workout_id: "running", name: "Running", hk_type: .running),
+    Workout(workout_id: "hiking", name: "Hiking", hk_type: .hiking),
+    Workout(workout_id: "HIIT", name: "HIIT", hk_type: .highIntensityIntervalTraining)
+  ])
 
   private override init() {
     super.init()
@@ -53,6 +60,15 @@ class WatchConnectivityHandler: NSObject, WCSessionDelegate {
       
       let adaptedSongs = SongAdapter.adapter.adaptJsonToSong(json: songs)
       WatchConnectivityHandler.musicViewModel.updateSongsState(with: adaptedSongs)
+    }
+    else if fn_name == "sendWorkouts" {
+      guard let workouts = message["workouts"] as? String else {
+        return
+      }
+      
+      let adaptedWorkout = WorkoutAdapter.adapter.adaptJsonToWorkout(json: workouts)
+      
+      //TODO: do something with adapted workouts once workout page is done
     }
   }
   
