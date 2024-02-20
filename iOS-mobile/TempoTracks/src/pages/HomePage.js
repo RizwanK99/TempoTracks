@@ -10,11 +10,11 @@ import {
 import { endOfDay, format } from 'date-fns';
 import * as Progress from 'react-native-progress';
 import profileData from '../../mocks/profile_data.json';
-
+import Svg, { Circle } from "react-native-svg";
 import { getUsersWorkouts } from '../api/Workouts';
 import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useTheme } from 'react-native-paper'
+import { useTheme, ActivityIndicator } from 'react-native-paper'
 
 async function retrieveData(user, setUser) {
   try {
@@ -98,9 +98,9 @@ const HomePage = ({ navigation }) => {
         <View style={styles.container}>
           <View style={[styles.topBar, { flex: 3 }]}>
             <View style={{ flexDirection: 'column' }}>
-              <View style={styles.welcomeContainer}>
-                <Text style={{color: '#FFFFFF', fontSize: 20, fontWeight: 'bold'}}>Welcome to TempoTracks,</Text>
-                <Text style={{color: '#FFFFFF', fontSize: 20}}>{user.first_name}</Text>
+              <View style={[styles.welcomeContainer, {backgroundColor: theme.colors.barContrast}]}>
+                <Text style={{color: theme.colors.text, fontSize: 20, fontWeight: 'bold'}}>Welcome to TempoTracks,</Text>
+                <Text style={{color: theme.colors.text, fontSize: 20}}>{user.first_name}</Text>
               </View>
             </View>
             <TouchableOpacity
@@ -115,7 +115,7 @@ const HomePage = ({ navigation }) => {
             </TouchableOpacity>
           </View>
           <View style={[styles.progressContainer, { flex: 8, }]}>
-              <Text style={{ fontSize: 22, color: '#FFFFFF', marginBottom: 10,  fontWeight: 'bold', }}>
+              <Text style={{ fontSize: 22, color: theme.colors.text, marginBottom: 10,  fontWeight: 'bold', }}>
                 Daily Goals 
               </Text>
             <View
@@ -132,13 +132,13 @@ const HomePage = ({ navigation }) => {
                 justifyContent: 'space-around',
                 alignItems: 'center',
                 width: '100%',
-                marginBottom: 4
+                marginBottom: 4,
               }}
             >
               <Text style={{ marginRight: 4, fontSize: 18, color: '#09BC8A'}}>
                 Calories: 234/350 
               </Text>
-              <Progress.Circle  progress={0.7} size={75} borderWidth={6} color={'#09BC8A'}/>
+              <Progress.Circle  progress={0.7} size={75} thickness={12} color={'#09BC8A'} borderColor={'#222222'}/>
               </View>
               <View
               style={{
@@ -152,7 +152,7 @@ const HomePage = ({ navigation }) => {
               <Text style={{ marginTop: 6, marginRight: 4, fontSize: 18, color: '#74B3CE' }}>
                 Activity: 10/20 Min
               </Text>
-              <Progress.Circle   progress={0.5} size={75} borderWidth={6} color={'#74B3CE'} />
+              <Progress.Circle progress={0.5} size={75} thickness={12} color={'#74B3CE'} borderColor={'#222222'}/>
               </View>
               <View
               style={{
@@ -164,14 +164,14 @@ const HomePage = ({ navigation }) => {
               <Text style={{ marginTop: 6, marginRight: 4, fontSize: 18, color: '#508991' }}>
                 Steps: 3024/10,000
               </Text>
-              <Progress.Circle  progress={0.3} size={75} borderWidth={6} color={'#508991'} style={{justifyContent: 'flex-end'}}/>
+              <Progress.Circle  progress={0.3} size={75} thickness={12} color={'#508991'} borderColor={'#222222'}/>
               </View>
             </View>
           </View>
 
           <View style={[styles.box, { flex: 8 }]}>
             <View style={[styles.historyText, { width: '100%' }]}>
-              <Text style={{ color: 'white', fontSize: 22, padding: 10, marginLeft: -10, fontWeight: 'bold' }}>
+              <Text style={{ color: 'white', fontSize: 22, padding: 10, fontWeight: 'bold' }}>
                 History
               </Text>
               <ScrollView style={{ width: '100%', height: '100%'}}>
@@ -212,14 +212,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#000000',
     borderRadius: 5,
     padding: 10,
-    marginTop: 20
+    marginTop: 30
   },
   welcomeContainer: {
     width: '100%',
     height: 65,
     justifyContent: 'center',
-    backgroundColor: '#222222',
-    marginTop: 40,
+    marginTop: 60,
     padding: 12,
     borderRadius: 5,
     fontSize: 20,
@@ -227,7 +226,6 @@ const styles = StyleSheet.create({
   historyText: {
     alignSelf: 'flex-start',
     justifyContent: 'center',
-    padding: 10
   },
   title: {
     color: 'white',
@@ -268,7 +266,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#004346',
     marginLeft: 3,
-    marginTop: 40,
+    marginTop: 60,
     height: 65,
     width: 65,
     textAlign: 'center',
