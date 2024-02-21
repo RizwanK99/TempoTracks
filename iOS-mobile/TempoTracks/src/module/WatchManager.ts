@@ -12,10 +12,10 @@ export const WatchManager = {
         return NativeModules.WatchManager.sendWorkouts(workoutTemplates);
     },
     updateWorkoutId: (workoutId: string, templateId: string) => {
-        console.log('WORKOUT AND TEMPLATE IDS')
-        console.log(`${workoutId} ${templateId}`)
-        console.log('WORKOUT AND TEMPLATE IDS')
         return NativeModules.WatchManager.updateWorkoutId(workoutId, templateId);
+    },
+    togglePauseWorkout: (workoutId: string) => {
+        return NativeModules.WatchManager.togglePauseWorkout(workoutId);
     }
 };
 

@@ -87,6 +87,15 @@ class WatchConnectivityHandler: NSObject, WCSessionDelegate {
         WatchConnectivityHandler.workoutViewModel.updateWorkoutId(workout_id: workout_id, template_id: template_id)
       }
     }
+    else if fn_name == "togglePauseWorkout" {
+      guard let workout_id = message["workout_id"] as? String else {
+        return
+      }
+      
+      DispatchQueue.main.async {
+        WatchConnectivityHandler.workoutViewModel.togglePause(workout_id: workout_id)
+      }
+    }
   }
   
   func send(_ function_name: String, _ data: String) {

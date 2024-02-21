@@ -9,6 +9,9 @@ import {
 } from "../../api/WorkoutsNew";
 import { useStopwatch } from "react-timer-hook";
 
+// Watch Manager
+import { WatchManager } from "../../module/WatchManager"
+
 interface TimeProps {
   value: string;
   unit: string;
@@ -168,6 +171,7 @@ export const WorkoutInProgressDetails: React.FC<
                 contentStyle={{ color: theme.colors.text }}
                 icon="pause"
                 onPress={() => {
+                  WatchManager.togglePauseWorkout(workoutId);
                   pauseWorkout(workoutId);
                   pause();
                   setPaused(true);
@@ -199,6 +203,7 @@ export const WorkoutInProgressDetails: React.FC<
                 contentStyle={{ color: theme.colors.text }}
                 icon="play"
                 onPress={() => {
+                  WatchManager.togglePauseWorkout(workoutId);
                   resumeWorkout(workoutId);
                   start();
                   setPaused(false);
