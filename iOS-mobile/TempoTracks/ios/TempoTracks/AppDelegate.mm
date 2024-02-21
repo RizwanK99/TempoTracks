@@ -94,8 +94,8 @@
   // Optional: Update UI or internal state to reflect deactivated session
 }
 
-- (void)session:(WCSession *)session didReceiveMessage:(NSDictionary<NSString *,id> *)message replyHandler:(void (^)(NSDictionary<NSString *,id> *replyMessage))replyHandler {
-    replyHandler(@{@"result": message});
+- (void)session:(WCSession *)session didReceiveMessage:(NSDictionary<NSString *,id> *)message {
+  NSLog(@"SUCCESSFUL");
 
 }
 

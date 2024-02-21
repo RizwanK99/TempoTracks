@@ -120,10 +120,7 @@ class WatchConnectivityHandler: NSObject, WCSessionDelegate {
     
       print(WCSession.default.isReachable)
       
-      WCSession.default.sendMessage(["functionName": function_name, "data": data], replyHandler: { (reply) in
-          // Handle reply from iPhone here
-          print(reply)
-      }, errorHandler: { (error) in
+      WCSession.default.sendMessage(["functionName": function_name, "data": data], replyHandler: nil, errorHandler: { (error) in
           print("Cannot send message: \(String(describing: error))")
       })
     
