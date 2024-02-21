@@ -41,12 +41,13 @@ const Stat: React.FC<StatProps> = ({ unit, value }) => {
 
 interface WorkoutInProgressDetailsProps {
   workoutId: string;
+  templateId: string;
   navigation: any;
 }
 
 export const WorkoutInProgressDetails: React.FC<
   WorkoutInProgressDetailsProps
-> = ({ workoutId, navigation }) => {
+> = ({ workoutId, templateId, navigation }) => {
   const theme = useTheme();
   const { mutate: pauseWorkout } = usePauseWorkout();
   const { mutate: resumeWorkout } = useResumeWorkout();
@@ -72,7 +73,7 @@ export const WorkoutInProgressDetails: React.FC<
   }, [totalSeconds]);
 
   const handleWorkoutEnd = () => {
-    endWorkout({ workoutId, duration });
+    endWorkout({ workoutId, templateId, duration });
     reset();
     navigation.navigate("WorkoutSummaryPage", {
       workoutId: workoutId,

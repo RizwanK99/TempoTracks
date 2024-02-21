@@ -107,6 +107,25 @@ const IndividualWorkoutTemplatePage = ({ route, navigation }) => {
             <Text style={{ color: theme.colors.foregroundMuted }}>
               {template.description}
             </Text>
+            {template.last_completed && (
+              <Text
+                style={{
+                  color: theme.colors.foregroundMuted,
+                  fontSize: 12,
+                  fontStyle: "italic",
+                }}
+              >
+                Last completed:{" "}
+                {new Date(template.last_completed).toLocaleString("en-US", {
+                  month: "long",
+                  day: "numeric",
+                  year: "numeric",
+                  hour: "numeric",
+                  minute: "numeric",
+                  hour12: true,
+                })}
+              </Text>
+            )}
             <Divider />
             <View
               style={{

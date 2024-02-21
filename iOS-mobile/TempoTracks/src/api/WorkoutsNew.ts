@@ -72,10 +72,14 @@ export const useResumeWorkout = (workoutId: string) => {
   });
 };
 
-export const useEndWorkout = (workoutId: string, duration: number) => {
+export const useEndWorkout = (
+  workoutId: string,
+  templateId: string,
+  duration: number
+) => {
   return useMutation({
     mutationFn: async (object: any) => {
-      const { workoutId, duration } = object;
+      const { workoutId, templateId, duration } = object;
       const { data, error } = await supabase
         .from("workouts")
         .update({
@@ -86,6 +90,15 @@ export const useEndWorkout = (workoutId: string, duration: number) => {
           total_duration: duration,
         })
         .eq("workout_id", workoutId);
+
+      console.log(templateId);
+
+      const { data: updatedTemplate } = await supabase
+        .from("workout_templates")
+        .update({
+          last_completed: new Date(),
+        })
+        .eq("id", templateId);
 
       if (error) {
         console.log("Error ending workout", error);

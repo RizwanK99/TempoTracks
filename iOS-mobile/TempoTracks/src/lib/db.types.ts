@@ -253,6 +253,7 @@ export type Database = {
           expected_duration: number | null
           id: string
           interval_ids: string[] | null
+          last_completed: string | null
           name: string
           num_sets: number | null
           playlist_id: number | null
@@ -266,6 +267,7 @@ export type Database = {
           expected_duration?: number | null
           id?: string
           interval_ids?: string[] | null
+          last_completed?: string | null
           name: string
           num_sets?: number | null
           playlist_id?: number | null
@@ -279,6 +281,7 @@ export type Database = {
           expected_duration?: number | null
           id?: string
           interval_ids?: string[] | null
+          last_completed?: string | null
           name?: string
           num_sets?: number | null
           playlist_id?: number | null
