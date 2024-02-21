@@ -92,7 +92,7 @@ const WorkoutSummaryPage = ({ navigation, route }) => {
           <Stat label="Calories Burnt" value={calories} units="cals" />
           <Stat label="Distance" value={distance} units="km" />
         </View>
-        <View style={{ marginTop: "80%", alignSelf: "center", width: "40%" }}>
+        <View style={{ marginTop: "80%", alignSelf: "center", width: "100%" }}>
           <Button
             onPress={() => navigation.navigate("Workouts")}
             style={{
