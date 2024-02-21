@@ -55,9 +55,13 @@ class WorkoutViewModel: ObservableObject {
     }
   }
   
-  // When workout manager is a singleton remove this function and call it direct
+  // When workout manager is a singleton remove these functions and call it direct
   func togglePause(workout_id: String){
     workout_manager!.togglePause()
+  }
+  
+  func endWorkout(workout_id: String){
+    workout_manager!.endWorkout()
   }
 }
 

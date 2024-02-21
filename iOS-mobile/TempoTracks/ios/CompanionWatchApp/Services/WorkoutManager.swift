@@ -34,7 +34,6 @@ class WorkoutManager: NSObject, ObservableObject {
     }
     
     func startWorkout(workoutType: HKWorkoutActivityType) {
-        print("HERE HERE")
         let configuration = HKWorkoutConfiguration()
         configuration.activityType = workoutType
         configuration.locationType = .outdoor

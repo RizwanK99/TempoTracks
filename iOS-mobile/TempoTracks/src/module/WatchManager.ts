@@ -16,6 +16,9 @@ export const WatchManager = {
     },
     togglePauseWorkout: (workoutId: string) => {
         return NativeModules.WatchManager.togglePauseWorkout(workoutId);
+    },
+    endWorkout: (workoutId: string) => {
+        return NativeModules.WatchManager.endWorkout(workoutId);
     }
 };
 

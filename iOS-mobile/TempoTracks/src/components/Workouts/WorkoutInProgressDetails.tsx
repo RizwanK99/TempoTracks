@@ -72,6 +72,7 @@ export const WorkoutInProgressDetails: React.FC<
   }, [totalSeconds]);
 
   const handleWorkoutEnd = () => {
+    WatchManager.endWorkout(workoutId);
     endWorkout({ workoutId, duration });
     reset();
     navigation.navigate("WorkoutSummaryPage", {

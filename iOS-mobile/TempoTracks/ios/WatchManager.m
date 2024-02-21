@@ -26,4 +26,8 @@ RCT_EXTERN_METHOD(togglePauseWorkout:(NSString *)workout_id
     resolver:(RCTPromiseResolveBlock)resolve
     rejecter:(RCTPromiseRejectBlock)reject
 )
+RCT_EXTERN_METHOD(endWorkout:(NSString *)workout_id
+    resolver:(RCTPromiseResolveBlock)resolve
+    rejecter:(RCTPromiseRejectBlock)reject
+)
 @end

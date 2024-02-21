@@ -126,4 +126,26 @@ class WatchManagerListener: NSObject {
       print("togglePauseWorkout - Sending message failed with error: \(error)")
     })
   }
+  
+  @objc
+  func endWorkout(
+    _ workout_id: String,
+    resolver resolve: @escaping RCTPromiseResolveBlock,
+    rejecter reject: @escaping RCTPromiseRejectBlock
+  ) {
+    guard WCSession.default.isPaired && WCSession.default.isWatchAppInstalled else {
+        print("endWorkout - Watch app is not installed or not paired")
+        return
+    }
+    var dataDictionary: [String: Any] = [:]
+    
+    // Add the function name to the dictionary
+    dataDictionary["workout_id"] = workout_id
+    dataDictionary["functionName"] = "endWorkout"
+    
+    WCSession.default.sendMessage(dataDictionary, replyHandler: nil, errorHandler: {
+      (error) in
+      print("endWorkout - Sending message failed with error: \(error)")
+    })
+  }
 }
