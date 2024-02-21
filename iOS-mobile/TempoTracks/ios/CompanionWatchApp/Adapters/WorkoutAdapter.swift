@@ -6,32 +6,21 @@
 //
 
 import Foundation
+import HealthKit
 
 struct WorkoutJson: Codable {
-    var createdAt: Date
     var description: String
-    var expectedDistance: Double
-    var expectedDuration: Int
     var id: String
-    var intervalIds: [String]
     var name: String
-    var numSets: Int
     var playlistId: Int
     var type: String?
-    var userId: Int
 
     enum CodingKeys: String, CodingKey {
-        case createdAt = "created_at"
         case description
-        case expectedDistance = "expected_distance"
-        case expectedDuration = "expected_duration"
         case id
-        case intervalIds = "interval_ids"
         case name
-        case numSets = "num_sets"
         case playlistId = "playlist_id"
         case type
-        case userId = "user_id"
     }
 }
 
@@ -52,7 +41,23 @@ class WorkoutAdapter {
         let workouts = try decoder.decode([WorkoutJson].self, from: jsonData)
         
         for workout in workouts {
-          adaptedWorkouts.append(Workout(workout_id: nil, template_id: workout.id, name: workout.name, hk_type: .cycling))
+          let type = workout.type
+          var hk_type: HKWorkoutActivityType = .cycling
+          
+          switch type {
+            case "Biking":
+              hk_type = .cycling
+            case "Running":
+              hk_type = .running
+            case "Walking":
+              hk_type = .walking
+            case "HIIT":
+              hk_type = .highIntensityIntervalTraining
+            default:
+              hk_type = .cycling
+          }
+
+          adaptedWorkouts.append(Workout(workout_id: nil, template_id: workout.id, name: workout.name, hk_type: hk_type))
         }
       } catch {
         print("Error decoding JSON: \(error)")

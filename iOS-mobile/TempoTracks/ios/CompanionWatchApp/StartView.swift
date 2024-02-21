@@ -22,7 +22,7 @@ struct Workout: Identifiable, Hashable {
         return "bicycle"
       case.running:
         return "figure.run"
-      case.hiking:
+      case.walking:
         return "figure.walk"
       case.highIntensityIntervalTraining:
         return "flame"
