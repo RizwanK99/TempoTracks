@@ -111,12 +111,12 @@ export const useEndWorkout = (
 
 export const useGetWorkoutById = (workoutId: string) => {
   return useQuery({
-    queryKey: ["workout"],
-    queryFn: async (workoutId: string) => {
+    queryKey: ["workoutId", workoutId],
+    queryFn: async () => {
       const { data, error } = await supabase
         .from("workouts")
         .select()
-        .eq("workout_id", workoutId.replace(/"/g, ""))
+        .eq("workout_id", workoutId)
         .single();
 
       if (error) {

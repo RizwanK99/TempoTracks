@@ -11,7 +11,7 @@ import {
   Dimensions,
 } from "react-native";
 import { useGetWorkoutTemplateById } from "../api/WorkoutTemplate.ts";
-import { useTheme, Divider } from "react-native-paper";
+import { useTheme, Divider, ActivityIndicator } from "react-native-paper";
 import { StyledText } from "../components/Workouts/CreateWorkoutTemplateForm";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Checkbox } from "../components/Inputs/Checkbox";
@@ -35,8 +35,26 @@ function copyListNTimes<T>(list: T[], n: number): T[] {
 const IndividualWorkoutTemplatePage = ({ route, navigation }) => {
   const theme = useTheme();
   const { templateId } = route.params;
-  const { data, loading, error } = useGetWorkoutTemplateById(templateId);
+  const { data, isPending, error } = useGetWorkoutTemplateById(templateId);
   const createWorkout = useCreateWorkout();
+
+  if (isPending) {
+    return (
+      <SafeAreaView
+        style={{
+          flex: 1,
+          paddingHorizontal: 12,
+          backgroundColor: theme.colors.background,
+          gap: 24,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <ActivityIndicator animating={true} color={theme.colors.primary} />
+      </SafeAreaView>
+    );
+  }
+
   const template = data[0];
   const numericIds = template.interval_ids.map((id) => Number(id));
   //   const { data: intervalsQuery } = useGetWorkoutIntervals(numericIds);

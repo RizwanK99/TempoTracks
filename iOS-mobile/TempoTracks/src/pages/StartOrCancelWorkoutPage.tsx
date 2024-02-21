@@ -30,6 +30,8 @@ const StartOrCancelWorkoutPage = ({ route, navigation }) => {
   useEffect(() => {
     if (!isCountingDown) {
       createWorkout({
+        // change this once we make hook for auth
+        // user_id: 1,
         template_id: templateId,
         workout_name: name,
         workout_type: type,
