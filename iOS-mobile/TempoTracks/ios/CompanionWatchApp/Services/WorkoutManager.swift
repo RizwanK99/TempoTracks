@@ -9,10 +9,10 @@ import Foundation
 import HealthKit
 
 class WorkoutManager: NSObject, ObservableObject {
-    var selectedWorkout: HKWorkoutActivityType? {
+    @Published var selectedWorkout: Workout? {
         didSet {
             guard let selectedWorkout = selectedWorkout else { return }
-            startWorkout(workoutType: selectedWorkout)
+            self.startWorkout(workoutType: selectedWorkout.hk_type)
         }
     }
     
@@ -28,8 +28,13 @@ class WorkoutManager: NSObject, ObservableObject {
     let healthStore = HKHealthStore()
     var session: HKWorkoutSession?
     var builder: HKLiveWorkoutBuilder?
+  
+    func selectWorkout(workout: Workout) {
+      selectedWorkout = workout;
+    }
     
     func startWorkout(workoutType: HKWorkoutActivityType) {
+        print("HERE HERE")
         let configuration = HKWorkoutConfiguration()
         configuration.activityType = workoutType
         configuration.locationType = .outdoor
@@ -103,7 +108,6 @@ class WorkoutManager: NSObject, ObservableObject {
     }
 
     func togglePause() {
-        WatchConnectivityHandler.shared.send("Hello World!\n\(Date().ISO8601Format())")
         if running == true {
             pause()
         } else {
