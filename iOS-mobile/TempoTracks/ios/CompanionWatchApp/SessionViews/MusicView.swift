@@ -32,6 +32,13 @@ struct MusicView: View {
           withAnimation {
             song.isPlaying.toggle()
             
+            if song.isPlaying {
+              WatchConnectivityHandler.shared.send("playSong", song.apple_id);
+            }
+            else {
+              WatchConnectivityHandler.shared.send("pauseSong", "");
+            }
+            
             if song.id == viewModel.currentSongId {
               viewModel.currentSongId = nil
               return

@@ -1,4 +1,6 @@
 #import "AppDelegate.h"
+#import "ExpoModulesCore-Swift.h"
+#import "TempoTracks-Swift.h"
 
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTLinkingManager.h>
@@ -93,16 +95,8 @@
 }
 
 - (void)session:(WCSession *)session didReceiveMessage:(NSDictionary<NSString *,id> *)message replyHandler:(void (^)(NSDictionary<NSString *,id> *replyMessage))replyHandler {
-    // Extract the function name from the message
-    NSString *functionName = message[@"functionName"];
-  
-    NSLog(@"Received message from watch: %@", message);
-    
-    // Assuming you have a method to handle the call to React Native
-    //NSString *result = [WatchManagerStrategy callFunctionWithName:functionName];
-    
-    // Send back the result
-    //replyHandler(@{@"result": result});
+    replyHandler(@{@"result": message});
+
 }
 
 @end

@@ -5,6 +5,9 @@ import { useCreateWorkout } from "../api/WorkoutsNew";
 import { CountDownTimer } from "../components/Workouts/CountDownTimer";
 import { useQuery } from "@tanstack/react-query";
 
+// Watch Manager
+import { WatchManager } from "../module/WatchManager"
+
 const StartOrCancelWorkoutPage = ({ route, navigation }) => {
   const theme = useTheme();
   const { templateId, name, type, playlistId } = route.params;
@@ -43,6 +46,8 @@ const StartOrCancelWorkoutPage = ({ route, navigation }) => {
 
   useEffect(() => {
     if (createdWorkout && !isCountingDown) {
+      WatchManager.updateWorkoutId(createdWorkout[0].workout_id, createdWorkout[0].template_id);
+
       navigation.navigate("WorkoutInProgress", {
         workoutId: createdWorkout[0].workout_id,
       });
