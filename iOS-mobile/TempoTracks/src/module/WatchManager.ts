@@ -4,13 +4,19 @@ import { useEffect } from 'react';
 import { useSongs } from '../api/Music';
 import { useGetWorkoutTemplates } from '../api/WorkoutTemplate';
 
-const WatchManager = {
+export const WatchManager = {
     sendSongs: (songs: string) => {
         return NativeModules.WatchManager.sendSongs(songs);
     },
     sendWorkoutTemplates: (workoutTemplates: string) => {
         return NativeModules.WatchManager.sendWorkouts(workoutTemplates);
     },
+    updateWorkoutId: (workoutId: string, templateId: string) => {
+        console.log('WORKOUT AND TEMPLATE IDS')
+        console.log(`${workoutId} ${templateId}`)
+        console.log('WORKOUT AND TEMPLATE IDS')
+        return NativeModules.WatchManager.updateWorkoutId(workoutId, templateId);
+    }
 };
 
 export const sendSongsToWatch = () => {

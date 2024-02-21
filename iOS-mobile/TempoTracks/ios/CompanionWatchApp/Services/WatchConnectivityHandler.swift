@@ -17,14 +17,18 @@ class WatchConnectivityHandler: NSObject, WCSessionDelegate {
   ])
   
   static let workoutViewModel = WorkoutViewModel(workouts: [
-    Workout(workout_id: "cycling", name: "Biking", hk_type: .cycling),
-    Workout(workout_id: "running", name: "Running", hk_type: .running),
-    Workout(workout_id: "hiking", name: "Hiking", hk_type: .hiking),
-    Workout(workout_id: "HIIT", name: "HIIT", hk_type: .highIntensityIntervalTraining)
+    Workout(workout_id: nil, template_id: "8ea28706-50f7-42a6-943c-a63a33f3a72f", name: "Biking", hk_type: .cycling),
+    Workout(workout_id: nil, template_id: "running", name: "Running", hk_type: .running),
+    Workout(workout_id: nil, template_id: "hiking", name: "Hiking", hk_type: .hiking),
+    Workout(workout_id: nil, template_id: "HIIT", name: "HIIT", hk_type: .highIntensityIntervalTraining)
   ])
 
   private override init() {
     super.init()
+  }
+  
+  func setWorkoutManager(workout_manager: WorkoutManager){
+    WatchConnectivityHandler.workoutViewModel.workout_manager = workout_manager
   }
   
   func activateSession() {
@@ -69,6 +73,19 @@ class WatchConnectivityHandler: NSObject, WCSessionDelegate {
       let adaptedWorkout = WorkoutAdapter.adapter.adaptJsonToWorkout(json: workouts)
       
       //TODO: do something with adapted workouts once workout page is done
+    }
+    else if fn_name == "updateWorkoutId" {
+      guard let workout_id = message["workout_id"] as? String else {
+        return
+      }
+      
+      guard let template_id = message["template_id"] as? String else {
+        return
+      }
+      
+      DispatchQueue.main.async {
+        WatchConnectivityHandler.workoutViewModel.updateWorkoutId(workout_id: workout_id, template_id: template_id)
+      }
     }
   }
   

@@ -52,7 +52,7 @@ class WorkoutAdapter {
         let workouts = try decoder.decode([WorkoutJson].self, from: jsonData)
         
         for workout in workouts {
-          adaptedWorkouts.append(Workout(workout_id: workout.id, name: workout.name, hk_type: .cycling))
+          adaptedWorkouts.append(Workout(workout_id: nil, template_id: workout.id, name: workout.name, hk_type: .cycling))
         }
       } catch {
         print("Error decoding JSON: \(error)")

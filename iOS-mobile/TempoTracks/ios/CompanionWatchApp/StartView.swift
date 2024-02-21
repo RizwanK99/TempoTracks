@@ -11,7 +11,8 @@ import HealthKit
 
 struct Workout: Identifiable, Hashable {
   let id = UUID()
-  let workout_id: String
+  var workout_id: String?
+  let template_id: String
   let name: String
   let hk_type: HKWorkoutActivityType
   
@@ -34,7 +35,8 @@ struct Workout: Identifiable, Hashable {
 
 class WorkoutViewModel: ObservableObject {
   @Published var workouts: [Workout]
-
+  var workout_manager: WorkoutManager? = nil
+  
   init(workouts: [Workout] = []) {
     self.workouts = workouts
   }
@@ -42,14 +44,22 @@ class WorkoutViewModel: ObservableObject {
   func updateWorkoutsState(with newWorkouts: [Workout]) {
     self.workouts = newWorkouts
   }
+  
+  func updateWorkoutId(workout_id: String, template_id: String){
+    for i in workouts.indices {
+      if workouts[i].template_id == template_id {
+        workouts[i].workout_id = workout_id;
+        workout_manager!.selectWorkout(workout: workouts[i])
+        break
+      }
+    }
+  }
 }
 
 
 struct StartView: View {
-    @EnvironmentObject var workoutManager: WorkoutManager
-  
     @StateObject var viewModel = WatchConnectivityHandler.workoutViewModel
-    var workoutTypes: [HKWorkoutActivityType] = [.cycling, .running, .hiking, .highIntensityIntervalTraining]
+    @EnvironmentObject var workoutManager: WorkoutManager
     
     var body: some View {
         List(viewModel.workouts) { workout in
@@ -78,7 +88,7 @@ struct StartView: View {
         .listStyle(.carousel)
         .navigationBarTitle("Workouts")
         .onAppear{
-            workoutManager.requestAuthorization()
+          workoutManager.requestAuthorization()
         }
     }
 }

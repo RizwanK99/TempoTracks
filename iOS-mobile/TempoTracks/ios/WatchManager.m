@@ -17,4 +17,9 @@ RCT_EXTERN_METHOD(sendWorkouts:(NSString *)workouts
     resolver:(RCTPromiseResolveBlock)resolve
     rejecter:(RCTPromiseRejectBlock)reject
 )
+RCT_EXTERN_METHOD(updateWorkoutId:(NSString *)workout_id
+    template_id: (NSString *)template_id
+    resolver:(RCTPromiseResolveBlock)resolve
+    rejecter:(RCTPromiseRejectBlock)reject
+)
 @end
