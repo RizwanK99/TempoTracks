@@ -112,30 +112,27 @@ export const useGetPlaylistById = (id: string) => {
       const { data, error } = await supabase
         .from("playlists")
         .select("*, playlist_items(*, songs(*))")
-        .eq("apple_music_id", id);
+        .eq("apple_music_id", id)
+        .single();
 
       // format playlist items
-      const formattedData = data?.map((playlist) => {
-        const formattedPlaylist = {
-          apple_music_id: playlist.apple_music_id,
-          name: playlist.name,
-          artwork_url: playlist.artwork_url,
-          length: playlist.length,
-          created_at: playlist.created_at,
-          songs: playlist.playlist_items
-            .map((item) => item.songs)
-            .filter((x) => !!x) as Tables<"songs">[],
-        };
-
-        return formattedPlaylist;
-      });
+      const formattedPlaylist = {
+        apple_music_id: data.apple_music_id,
+        name: data.name,
+        artwork_url: data.artwork_url,
+        length: data.length,
+        created_at: data.created_at,
+        songs: data.playlist_items
+          .map((item) => item.songs)
+          .filter((x) => !!x) as Tables<"songs">[],
+      };
 
       if (error) {
         console.error("error fetching playlists", error);
         return [];
       }
 
-      return formattedData[0];
+      return formattedPlaylist;
     },
   });
 };
