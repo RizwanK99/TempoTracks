@@ -55,6 +55,7 @@ const StartOrCancelWorkoutPage = ({ route, navigation }) => {
 
       navigation.navigate("WorkoutInProgress", {
         workoutId: createdWorkout[0].workout_id,
+        playlistId: createdWorkout[0].playlist_id,
         templateId: createdWorkout[0].template_id,
       });
     }

@@ -239,34 +239,38 @@ export const CreateWorkoutTemplateForm: React.FC<
                   onChangeText={handleChange("description")}
                 />
               </View>
-              <View style={{ gap: 8, marginBottom: 8 }}>
-                <StyledText text="Estimated Distance" />
-                <NumberInput
-                  placeholder="Enter"
-                  units="km"
-                  width={240}
-                  value={values.expected_distance}
-                  onChangeText={handleChange("expected_distance")}
-                  label="Estimated Distance"
-                />
-                <StyledText text="Training Duration" />
-                <View
-                  style={{ display: "flex", flexDirection: "row", gap: 16 }}
-                >
+              <View style={{ gap: 16, marginBottom: 8, marginTop: 2 }}>
+                <View style={{ gap: 8 }}>
+                  <StyledText text="Estimated Distance" />
                   <NumberInput
                     placeholder="Enter"
-                    units="mins"
-                    label="Mins"
-                    value={values.mins}
-                    onChangeText={handleChange("mins")}
+                    units="km"
+                    width={240}
+                    value={values.expected_distance}
+                    onChangeText={handleChange("expected_distance")}
+                    label="Estimated Distance"
                   />
-                  <NumberInput
-                    placeholder="Enter"
-                    units="secs"
-                    label="Secs"
-                    value={values.secs}
-                    onChangeText={handleChange("secs")}
-                  />
+                </View>
+                <View style={{ gap: 8 }}>
+                  <StyledText text="Training Duration" />
+                  <View
+                    style={{ display: "flex", flexDirection: "row", gap: 16 }}
+                  >
+                    <NumberInput
+                      placeholder="Enter"
+                      units="mins"
+                      label="Mins"
+                      value={values.mins}
+                      onChangeText={handleChange("mins")}
+                    />
+                    <NumberInput
+                      placeholder="Enter"
+                      units="secs"
+                      label="Secs"
+                      value={values.secs}
+                      onChangeText={handleChange("secs")}
+                    />
+                  </View>
                 </View>
               </View>
               <Menu

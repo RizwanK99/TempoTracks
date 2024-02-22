@@ -91,8 +91,6 @@ export const useEndWorkout = (
         })
         .eq("workout_id", workoutId);
 
-      console.log(templateId);
-
       const { data: updatedTemplate } = await supabase
         .from("workout_templates")
         .update({
