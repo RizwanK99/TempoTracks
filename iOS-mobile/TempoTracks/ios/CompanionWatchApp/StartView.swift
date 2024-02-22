@@ -13,6 +13,7 @@ struct Workout: Identifiable, Hashable {
   let id = UUID()
   var workout_id: String?
   let template_id: String
+  let playlist_id: String
   let name: String
   let hk_type: HKWorkoutActivityType
   

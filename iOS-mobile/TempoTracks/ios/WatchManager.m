@@ -7,6 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import <React/RCTBridgeModule.h>
+#import <React/RCTEventEmitter.h>
 
 @interface RCT_EXTERN_MODULE(WatchManager, NSObject)
 RCT_EXTERN_METHOD(sendSongs:(NSString *)songs
@@ -30,4 +31,8 @@ RCT_EXTERN_METHOD(endWorkout:(NSString *)workout_id
     resolver:(RCTPromiseResolveBlock)resolve
     rejecter:(RCTPromiseRejectBlock)reject
 )
+@end
+
+@interface RCT_EXTERN_MODULE(WatchManagerEmitter, RCTEventEmitter)
+RCT_EXTERN_METHOD(createWorkout: (NSString *)workout)
 @end

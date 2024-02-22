@@ -1,8 +1,19 @@
-import { NativeModules } from 'react-native';
+import { NativeModules, NativeEventEmitter } from 'react-native';
 import { useEffect } from 'react';
 
 import { useSongs } from '../api/Music';
 import { useGetWorkoutTemplates } from '../api/WorkoutTemplate';
+
+type GenericCallback = (...args: any[]) => void;
+
+const watchEventEmitter = new NativeEventEmitter(NativeModules.WatchManagerEmitter);
+
+export class EventListener {
+    static subscribe(name: string, callback: GenericCallback) {
+        const subscription = watchEventEmitter.addListener(name, callback);
+        return () => subscription.remove();
+    }
+};
 
 export const WatchManager = {
     sendSongs: (songs: string) => {

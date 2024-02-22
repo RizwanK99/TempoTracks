@@ -7,6 +7,7 @@ import { ThemeProvider } from "@emotion/react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { useNavigation } from '@react-navigation/native';
 
 // Main Screens
 import HomePage from "./src/pages/HomePage";
@@ -37,7 +38,10 @@ import WorkoutSummaryPage from "./src/pages/WorkoutSummaryPage";
 import { supabase } from "./src/lib/supabase";
 import { QueryProvider } from "./src/provider/QueryClientProvider";
 import { PaperProviderWrapper } from "./src/provider/PaperProvider";
+import { useCreateWorkout } from "./src/api/WorkoutsNew";
 
+//Watch Manager
+import { WatchManager, EventListener } from "./src/module/WatchManager";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -47,6 +51,50 @@ const getIsLoggedIn = () => {
 };
 
 function Root() {
+  const navigation = useNavigation();
+  const [eventData, setEventData] = useState(null);
+  const { mutateAsync: createWorkout } = useCreateWorkout();
+
+  useEffect(() => {
+    const unsubscribe = EventListener.subscribe('createWorkout', (data) => {
+      setEventData(data);
+    });
+
+    return unsubscribe;
+  }, []);
+
+  useEffect(() => {
+    let workout = "";
+
+    try {
+      workout = JSON.parse(eventData);
+    } catch (error) {
+      console.error("Error parsing JSON:", error);
+    }
+
+    const startWorkout = async (workout) => {
+      let createdWorkout = await createWorkout({
+        template_id: workout.id,
+        workout_name: workout.name,
+        workout_type: workout.type,
+        playlist_id: workout.playlist_id,
+        status: "IN_PROGRESS",
+        is_paused: false,
+      });
+
+      WatchManager.updateWorkoutId(createdWorkout[0].workout_id, createdWorkout[0].template_id);
+
+      navigation.navigate('WorkoutsStack', {
+        screen: 'WorkoutInProgress',
+        params: {
+          workoutId: createdWorkout[0].workout_id,
+        },
+      });
+    };
+
+    startWorkout(workout);
+  }, [eventData]);
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({

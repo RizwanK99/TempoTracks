@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
 		814375242B81D4B30086F53B /* SongAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814375232B81D4B30086F53B /* SongAdapter.swift */; };
 		814375262B8464AC0086F53B /* WorkoutAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814375252B8464AC0086F53B /* WorkoutAdapter.swift */; };
+		8143752A2B86C8940086F53B /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 814375292B86C8940086F53B /* AppDelegate.mm */; };
 		81C996D02B76EA2B00A9C0A3 /* WatchConnectivityHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C996CF2B76EA2B00A9C0A3 /* WatchConnectivityHandler.swift */; };
 		81C996D22B798E0700A9C0A3 /* Theming.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C996D12B798E0700A9C0A3 /* Theming.swift */; };
 		81C996DC2B79E9A200A9C0A3 /* MusicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C996DB2B79E9A200A9C0A3 /* MusicView.swift */; };
@@ -67,7 +67,6 @@
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* TempoTracks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TempoTracks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = TempoTracks/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = TempoTracks/AppDelegate.mm; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = TempoTracks/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = TempoTracks/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = TempoTracks/main.m; sourceTree = "<group>"; };
@@ -76,6 +75,7 @@
 		7A4D352CD337FB3A3BF06240 /* Pods-TempoTracks.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TempoTracks.release.xcconfig"; path = "Target Support Files/Pods-TempoTracks/Pods-TempoTracks.release.xcconfig"; sourceTree = "<group>"; };
 		814375232B81D4B30086F53B /* SongAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongAdapter.swift; sourceTree = "<group>"; };
 		814375252B8464AC0086F53B /* WorkoutAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutAdapter.swift; sourceTree = "<group>"; };
+		814375292B86C8940086F53B /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = TempoTracks/AppDelegate.mm; sourceTree = "<group>"; };
 		81C996CF2B76EA2B00A9C0A3 /* WatchConnectivityHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchConnectivityHandler.swift; sourceTree = "<group>"; };
 		81C996D12B798E0700A9C0A3 /* Theming.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theming.swift; sourceTree = "<group>"; };
 		81C996D32B79D0B800A9C0A3 /* Companion Watch AppDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Companion Watch AppDebug.entitlements"; sourceTree = "<group>"; };
@@ -132,7 +132,7 @@
 				BB2F792B24A3F905000567C9 /* Supporting */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
-				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
+				814375292B86C8940086F53B /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB71A68108700A75B9A /* main.m */,
@@ -536,7 +536,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B3484A042A70C22A00A72539 /* MusicManager.m in Sources */,
-				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
+				8143752A2B86C8940086F53B /* AppDelegate.mm in Sources */,
 				81C996E52B8171D400A9C0A3 /* WatchManager.m in Sources */,
 				B3484A022A70C21800A72539 /* MusicManager.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
@@ -797,10 +797,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_CPLUSPLUSFLAGS = "$(inherited)";
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "TempoTracks-Bridging-Header.h";
@@ -861,10 +858,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_CPLUSPLUSFLAGS = "$(inherited)";
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "TempoTracks-Bridging-Header.h";

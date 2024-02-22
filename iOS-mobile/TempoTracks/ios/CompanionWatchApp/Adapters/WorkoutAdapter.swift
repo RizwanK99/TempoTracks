@@ -9,22 +9,18 @@ import Foundation
 import HealthKit
 
 struct WorkoutJson: Codable {
-    var description: String
     var id: String
     var name: String
-    var playlistId: Int
     var type: String?
+    var playlist_id: String
 
     enum CodingKeys: String, CodingKey {
-        case description
         case id
         case name
-        case playlistId = "playlist_id"
         case type
+        case playlist_id
     }
 }
-
-
 
 
 class WorkoutAdapter {
@@ -57,7 +53,7 @@ class WorkoutAdapter {
               hk_type = .cycling
           }
 
-          adaptedWorkouts.append(Workout(workout_id: nil, template_id: workout.id, name: workout.name, hk_type: hk_type))
+          adaptedWorkouts.append(Workout(workout_id: nil, template_id: workout.id, playlist_id: workout.playlist_id, name: workout.name, hk_type: hk_type))
         }
       } catch {
         print("Error decoding JSON: \(error)")
@@ -65,5 +61,40 @@ class WorkoutAdapter {
     }
     
     return adaptedWorkouts
+  }
+  
+  func adaptWorkoutToJson(workout: Workout) -> String? {
+      var type = "Biking"
+    
+      switch workout.hk_type {
+        case .cycling:
+          type = "Biking"
+        case .running:
+          type = "Running"
+        case .walking:
+          type = "Walking"
+        case .highIntensityIntervalTraining:
+          type = "HIIT"
+        default:
+          type = "Biking"
+      }
+      
+      let workoutJson = WorkoutJson(id: workout.template_id,
+                                    name: workout.name,
+                                    type: type,
+                                    playlist_id: workout.playlist_id)
+      
+      let encoder = JSONEncoder()
+      encoder.outputFormatting = .prettyPrinted // Optional, for readable output
+      do {
+          let jsonData = try encoder.encode(workoutJson)
+          if let jsonString = String(data: jsonData, encoding: .utf8) {
+              return jsonString
+          }
+      } catch {
+          print("Error encoding JSON: \(error)")
+      }
+      
+      return nil
   }
 }

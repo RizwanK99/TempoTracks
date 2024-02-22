@@ -10,7 +10,6 @@ import WatchConnectivity
 
 @objcMembers class WatchManagerStrategy: NSObject {
     static let music_manager = MusicManager()
-    static let emitter = WatchManagerEmitter()
 
     static func callFunction(withName functionName: String, withData data: String){
       if functionName == "pauseSong" {
@@ -19,12 +18,32 @@ import WatchConnectivity
       else if functionName == "playSong" {
         music_manager.playSongWithId(NSString(string: data))
       }
+      else if functionName == "createWorkout" {
+        WatchManagerEmitter.emitter.createWorkout(data)
+      }
     }
 }
 
-class WatchManagerEmitter {
-  func pauseSong() {
-    
+@objc(WatchManagerEmitter)
+class WatchManagerEmitter: RCTEventEmitter {
+  public static var emitter: WatchManagerEmitter!
+
+  override init() {
+    super.init()
+    WatchManagerEmitter.emitter = self
+  }
+  
+  override func supportedEvents() -> [String]! {
+    return ["createWorkout"]
+  }
+
+  override static func requiresMainQueueSetup() -> Bool {
+    return true
+  }
+  
+  @objc
+  func createWorkout(_ workout: String) {
+    sendEvent(withName: "createWorkout", body: workout)
   }
 }
 

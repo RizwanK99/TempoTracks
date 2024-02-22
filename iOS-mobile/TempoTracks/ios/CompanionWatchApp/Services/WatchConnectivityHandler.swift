@@ -17,10 +17,10 @@ class WatchConnectivityHandler: NSObject, WCSessionDelegate {
   ])
   
   static let workoutViewModel = WorkoutViewModel(workouts: [
-    Workout(workout_id: nil, template_id: "8ea28706-50f7-42a6-943c-a63a33f3a72f", name: "Biking", hk_type: .cycling),
-    Workout(workout_id: nil, template_id: "running", name: "Running", hk_type: .running),
-    Workout(workout_id: nil, template_id: "walking", name: "Walking", hk_type: .walking),
-    Workout(workout_id: nil, template_id: "HIIT", name: "HIIT", hk_type: .highIntensityIntervalTraining)
+    Workout(workout_id: nil, template_id: "biking", playlist_id: "biking", name: "Biking", hk_type: .cycling),
+    Workout(workout_id: nil, template_id: "running", playlist_id: "running", name: "Running", hk_type: .running),
+    Workout(workout_id: nil, template_id: "walking", playlist_id: "walking", name: "Walking", hk_type: .walking),
+    Workout(workout_id: nil, template_id: "HIIT", playlist_id: "HIIT", name: "HIIT", hk_type: .highIntensityIntervalTraining)
   ])
 
   private override init() {
