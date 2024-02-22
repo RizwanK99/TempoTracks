@@ -253,9 +253,10 @@ export type Database = {
           expected_duration: number | null
           id: string
           interval_ids: string[] | null
+          last_completed: string | null
           name: string
           num_sets: number | null
-          playlist_id: number | null
+          playlist_id: string | null
           type: Database["public"]["Enums"]["workout_type"] | null
           user_id: number | null
         }
@@ -266,9 +267,10 @@ export type Database = {
           expected_duration?: number | null
           id?: string
           interval_ids?: string[] | null
+          last_completed?: string | null
           name: string
           num_sets?: number | null
-          playlist_id?: number | null
+          playlist_id?: string | null
           type?: Database["public"]["Enums"]["workout_type"] | null
           user_id?: number | null
         }
@@ -279,13 +281,21 @@ export type Database = {
           expected_duration?: number | null
           id?: string
           interval_ids?: string[] | null
+          last_completed?: string | null
           name?: string
           num_sets?: number | null
-          playlist_id?: number | null
+          playlist_id?: string | null
           type?: Database["public"]["Enums"]["workout_type"] | null
           user_id?: number | null
         }
         Relationships: [
+          {
+            foreignKeyName: "public_workout_templates_playlist_id_fkey"
+            columns: ["playlist_id"]
+            isOneToOne: false
+            referencedRelation: "playlists"
+            referencedColumns: ["apple_music_id"]
+          },
           {
             foreignKeyName: "workout_templates_user_id_fkey"
             columns: ["user_id"]
@@ -354,6 +364,13 @@ export type Database = {
           workout_type?: Database["public"]["Enums"]["workout_type"] | null
         }
         Relationships: [
+          {
+            foreignKeyName: "public_workouts_playlist_id_fkey"
+            columns: ["playlist_id"]
+            isOneToOne: false
+            referencedRelation: "playlists"
+            referencedColumns: ["apple_music_id"]
+          },
           {
             foreignKeyName: "public_workouts_template_id_fkey"
             columns: ["template_id"]

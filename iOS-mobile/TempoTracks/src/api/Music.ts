@@ -1,11 +1,11 @@
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '../lib/supabase';
-import { MusicManager } from '../module/MusicManager';
-import { RepeatMode, ShuffleMode } from '../module/MusicManager.types';
-import { Tables } from '../lib/db.types';
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "../lib/supabase";
+import { MusicManager } from "../module/MusicManager";
+import { RepeatMode, ShuffleMode } from "../module/MusicManager.types";
+import { Tables } from "../lib/db.types";
 
 interface SongProps {
-  songs: Tables<'songs'>[] | undefined;
+  songs: Tables<"songs">[] | undefined;
 }
 
 // export const useCurrentSong = ({ songs }: SongProps) => {
@@ -36,7 +36,7 @@ interface SongProps {
 
 export const usePlayerState = ({ songs }: SongProps) => {
   return useQuery({
-    queryKey: ['playerState'],
+    queryKey: ["playerState"],
     queryFn: async () => {
       const rawState = await MusicManager.getPlayerState();
 
@@ -57,12 +57,12 @@ export const usePlayerState = ({ songs }: SongProps) => {
 
 export const useSongs = () => {
   return useQuery({
-    queryKey: ['songs'],
+    queryKey: ["songs"],
     queryFn: async () => {
-      const { data, error } = await supabase.from('songs').select('*');
+      const { data, error } = await supabase.from("songs").select("*");
 
       if (error) {
-        console.error('error fetching songs', error);
+        console.error("error fetching songs", error);
         return [];
       }
 
@@ -73,11 +73,11 @@ export const useSongs = () => {
 
 export const usePlaylists = () => {
   return useQuery({
-    queryKey: ['playlists'],
+    queryKey: ["playlists"],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('playlists')
-        .select('*, playlist_items(*, songs(*))');
+        .from("playlists")
+        .select("*, playlist_items(*, songs(*))");
 
       // format playlist items
       const formattedData = data?.map((playlist) => {
@@ -89,18 +89,50 @@ export const usePlaylists = () => {
           created_at: playlist.created_at,
           songs: playlist.playlist_items
             .map((item) => item.songs)
-            .filter((x) => !!x) as Tables<'songs'>[],
+            .filter((x) => !!x) as Tables<"songs">[],
         };
 
         return formattedPlaylist;
       });
 
       if (error) {
-        console.error('error fetching playlists', error);
+        console.error("error fetching playlists", error);
         return [];
       }
 
       return formattedData;
+    },
+  });
+};
+
+export const useGetPlaylistById = (id: string) => {
+  return useQuery({
+    queryKey: ["playlist", id],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("playlists")
+        .select("*, playlist_items(*, songs(*))")
+        .eq("apple_music_id", id)
+        .single();
+
+      // format playlist items
+      const formattedPlaylist = {
+        apple_music_id: data.apple_music_id,
+        name: data.name,
+        artwork_url: data.artwork_url,
+        length: data.length,
+        created_at: data.created_at,
+        songs: data.playlist_items
+          .map((item) => item.songs)
+          .filter((x) => !!x) as Tables<"songs">[],
+      };
+
+      if (error) {
+        console.error("error fetching playlists", error);
+        return [];
+      }
+
+      return formattedPlaylist;
     },
   });
 };
