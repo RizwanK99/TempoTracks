@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { Divider } from "react-native-paper";
 import PageHeading from "../components/Workouts/PageHeading";
-import { Card, Title, Paragraph } from "react-native-paper";
+import { Card, Title, Paragraph, FAB, Appbar } from "react-native-paper";
 import { getUsersWorkouts } from "../api/Workouts";
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -42,6 +42,12 @@ const WorkoutListPage = ({ navigation }) => {
   const { data, error, loading } = useGetWorkoutTemplates(Number(1));
   const [active, setActive] = useState(false);
 
+  const [state, setState] = React.useState({ open: false });
+
+  const onStateChange = ({ open }) => setState({ open });
+
+  const { open } = state;
+
   useEffect(() => {
     async function fetchData() {
       await retrieveData(user, setUser);
@@ -63,24 +69,9 @@ const WorkoutListPage = ({ navigation }) => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#000" }}>
-      <TouchableWithoutFeedback onPress={() => navigation.navigate("Workouts")}>
-        <View
-          style={{
-            flexDirection: "row",
-            marginLeft: 8,
-            marginTop: 8,
-            alignItems: "center",
-          }}
-        >
-          <>
-            <AntDesign name="left" size={20} color="#007AFF" />
-            <Text style={{ color: "#007AFF", fontSize: 16 }}>Back</Text>
-          </>
-        </View>
-      </TouchableWithoutFeedback>
-      <View style={{ marginTop: 30, marginLeft: 8, marginBottom: 16 }}>
-        <PageHeading title={"Your Workouts"} />
-      </View>
+      <Appbar.Header mode="small" statusBarHeight={0} elevated="true" style={{ backgroundColor: theme.colors.background}}>
+        <Appbar.Content title="Workouts" />
+      </Appbar.Header>
       <View
         style={{ paddingHorizontal: 16, paddingVertical: 12, marginBottom: 8 }}
       >
@@ -180,6 +171,32 @@ const WorkoutListPage = ({ navigation }) => {
           ))}
         </View>
       </ScrollView>
+      <FAB.Group
+          style={{ paddingBottom: 3, position: 'absolute' }}
+          open={open}
+          variant="surface"
+          icon={open ? 'lightning-bolt' : 'headphones'}
+          label={open ? 'Start A New Workout' : ''}
+          actions={[
+            {
+              icon: 'plus',
+              label: 'Create New Workout',
+              onPress: () => navigation.navigate("CreateWorkout"),
+            },
+            {
+              icon: 'chart-timeline-variant',
+              label: 'Workout Trends',
+              onPress: () => navigation.navigate("WorkoutTrends"),
+            }
+          ]}
+          onStateChange={onStateChange}
+          onPress={() => {
+            if (open) {
+              // do something if the speed dial is open
+              navigation.navigate("WorkoutInProgress", { undefined })
+            }
+          }}
+        />
     </SafeAreaView>
   );
 };
