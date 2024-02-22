@@ -43,6 +43,7 @@ import {
   useCreateWorkoutTemplate,
   useGetWorkoutTemplates,
 } from "../../api/WorkoutTemplate.ts";
+import { usePlaylists } from "../../api/Music.ts";
 
 interface CreateWorkoutTemplateFormProps {
   userId: string;
@@ -77,10 +78,10 @@ export const CreateWorkoutTemplateForm: React.FC<
 > = ({ userId, navigation }) => {
   const theme = useTheme();
 
-  // const styles = makeStyles(theme);
   const { data } = useGetWorkoutTemplates(Number(userId));
 
   // Select playlist
+  const { data: playlists = [], isPending } = usePlaylists();
   const [carouselItem, setCarouselItem] = useState(0);
   const handleItemTap = (itemId: string, setFieldValue: Function) => {
     setCarouselItem(itemId);
@@ -185,7 +186,7 @@ export const CreateWorkoutTemplateForm: React.FC<
           training_intervals: "",
           mins: "",
           secs: "",
-          playlist_id: "",
+          playlist_id: !isPending ? playlists[0].apple_music_id : "",
           num_sets: 1,
           intervals: [],
         }}
@@ -197,7 +198,7 @@ export const CreateWorkoutTemplateForm: React.FC<
             expected_duration: Number(values.mins) * 60 + Number(values.secs),
             expected_distance: Number(values.expected_distance),
             type: values.type ? values.type : null,
-            playlist_id: Number(values.playlist_id),
+            playlist_id: values.playlist_id,
             num_sets: values.num_sets,
             interval_ids: values.intervals,
           });
@@ -541,6 +542,7 @@ export const CreateWorkoutTemplateForm: React.FC<
                 </ScrollView>
               </BottomSheetModal>
             </View>
+            {/* Playlist */}
             <View style={{ gap: 8, marginTop: 16 }}>
               <StyledText text="Choose a playlist" fontSize={18} />
               <View
@@ -554,10 +556,11 @@ export const CreateWorkoutTemplateForm: React.FC<
                 }}
               >
                 <CustomCarousel
-                  carouselData={playListMockData}
-                  handleItemTap={(itemId) =>
-                    handleItemTap(itemId, setFieldValue)
-                  }
+                  carouselData={playlists}
+                  handleItemTap={(itemId) => {
+                    handleItemTap(itemId, setFieldValue);
+                    setFieldValue("playlist_id", itemId);
+                  }}
                 />
               </View>
               <View style={{ gap: 32 }}>
@@ -625,25 +628,3 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
 });
-
-// Definitely need endpoint for this one
-const playListMockData = [
-  {
-    id: "1",
-    title: "Playlist 1",
-    image: require("../../assets/album-art-light.jpg"),
-    artists: "Test",
-  },
-  {
-    id: "2",
-    title: "Playlist 2",
-    image: require("../../assets/album-art-light.jpg"),
-    artists: "Test",
-  },
-  {
-    id: "3",
-    title: "Playlist 3",
-    image: require("../../assets/album-art-light.jpg"),
-    artists: "Test",
-  },
-];
