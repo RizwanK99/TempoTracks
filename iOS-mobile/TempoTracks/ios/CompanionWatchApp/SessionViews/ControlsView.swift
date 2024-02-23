@@ -14,7 +14,7 @@ struct ControlsView: View {
         HStack {
             VStack {
                 Button {
-                    workoutManager.endWorkout()
+                    workoutManager.endWorkout(false)
                 }
                 label: { Image(systemName: "xmark") }
                 .tint(Color.red)
@@ -23,7 +23,7 @@ struct ControlsView: View {
             }
             VStack {
                 Button {
-                    workoutManager.togglePause()
+                    workoutManager.togglePause(false)
                 }
                 label: { Image(systemName: workoutManager.running ? "pause" : "play") }
                 .tint(Color(hex: ColorHex.primary.rawValue))

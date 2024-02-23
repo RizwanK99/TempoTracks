@@ -17,10 +17,10 @@ class WatchConnectivityHandler: NSObject, WCSessionDelegate {
   ])
   
   static let workoutViewModel = WorkoutViewModel(workouts: [
-    Workout(workout_id: nil, template_id: "8ea28706-50f7-42a6-943c-a63a33f3a72f", name: "Biking", hk_type: .cycling),
-    Workout(workout_id: nil, template_id: "running", name: "Running", hk_type: .running),
-    Workout(workout_id: nil, template_id: "hiking", name: "Hiking", hk_type: .hiking),
-    Workout(workout_id: nil, template_id: "HIIT", name: "HIIT", hk_type: .highIntensityIntervalTraining)
+    Workout(workout_id: nil, template_id: "biking", playlist_id: "biking", name: "Biking", hk_type: .cycling),
+    Workout(workout_id: nil, template_id: "running", playlist_id: "running", name: "Running", hk_type: .running),
+    Workout(workout_id: nil, template_id: "walking", playlist_id: "walking", name: "Walking", hk_type: .walking),
+    Workout(workout_id: nil, template_id: "HIIT", playlist_id: "HIIT", name: "HIIT", hk_type: .highIntensityIntervalTraining)
   ])
 
   private override init() {
@@ -63,16 +63,21 @@ class WatchConnectivityHandler: NSObject, WCSessionDelegate {
       }
       
       let adaptedSongs = SongAdapter.adapter.adaptJsonToSong(json: songs)
-      WatchConnectivityHandler.musicViewModel.updateSongsState(with: adaptedSongs)
+      
+      DispatchQueue.main.async {
+        WatchConnectivityHandler.musicViewModel.updateSongsState(with: adaptedSongs)
+      }
     }
     else if fn_name == "sendWorkouts" {
       guard let workouts = message["workouts"] as? String else {
         return
       }
       
-      let adaptedWorkout = WorkoutAdapter.adapter.adaptJsonToWorkout(json: workouts)
+      let adaptedWorkouts = WorkoutAdapter.adapter.adaptJsonToWorkout(json: workouts)
       
-      //TODO: do something with adapted workouts once workout page is done
+      DispatchQueue.main.async {
+        WatchConnectivityHandler.workoutViewModel.updateWorkoutsState(with: adaptedWorkouts)
+      }
     }
     else if fn_name == "updateWorkoutId" {
       guard let workout_id = message["workout_id"] as? String else {
@@ -87,6 +92,24 @@ class WatchConnectivityHandler: NSObject, WCSessionDelegate {
         WatchConnectivityHandler.workoutViewModel.updateWorkoutId(workout_id: workout_id, template_id: template_id)
       }
     }
+    else if fn_name == "togglePauseWorkout" {
+      guard let workout_id = message["workout_id"] as? String else {
+        return
+      }
+      
+      DispatchQueue.main.async {
+        WatchConnectivityHandler.workoutViewModel.togglePause(workout_id: workout_id)
+      }
+    }
+    else if fn_name == "endWorkout" {
+      guard let workout_id = message["workout_id"] as? String else {
+        return
+      }
+      
+      DispatchQueue.main.async {
+        WatchConnectivityHandler.workoutViewModel.endWorkout(workout_id: workout_id)
+      }
+    }
   }
   
   func send(_ function_name: String, _ data: String) {
@@ -99,16 +122,9 @@ class WatchConnectivityHandler: NSObject, WCSessionDelegate {
         print("Cannot send message 2")
         return
       }
-    
-      print(WCSession.default.isReachable)
       
-      WCSession.default.sendMessage(["functionName": function_name, "data": data], replyHandler: { (reply) in
-          // Handle reply from iPhone here
-          print(reply)
-      }, errorHandler: { (error) in
+      WCSession.default.sendMessage(["functionName": function_name, "data": data], replyHandler: nil, errorHandler: { (error) in
           print("Cannot send message: \(String(describing: error))")
       })
-    
-      print("END OF SENT MSG");
   }
 }

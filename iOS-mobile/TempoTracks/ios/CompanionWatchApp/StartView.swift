@@ -13,6 +13,7 @@ struct Workout: Identifiable, Hashable {
   let id = UUID()
   var workout_id: String?
   let template_id: String
+  let playlist_id: String
   let name: String
   let hk_type: HKWorkoutActivityType
   
@@ -22,7 +23,7 @@ struct Workout: Identifiable, Hashable {
         return "bicycle"
       case.running:
         return "figure.run"
-      case.hiking:
+      case.walking:
         return "figure.walk"
       case.highIntensityIntervalTraining:
         return "flame"
@@ -53,6 +54,24 @@ class WorkoutViewModel: ObservableObject {
         break
       }
     }
+  }
+  
+  func setWorkoutIdToNil(workout_id: String){
+    for i in workouts.indices {
+      if workouts[i].workout_id == workout_id {
+        workouts[i].workout_id = nil;
+        break
+      }
+    }
+  }
+  
+  // When workout manager is a singleton remove these functions and call it direct
+  func togglePause(workout_id: String){
+    workout_manager!.togglePause(true)
+  }
+  
+  func endWorkout(workout_id: String){
+    workout_manager!.endWorkout(true)
   }
 }
 
