@@ -121,7 +121,11 @@ class WorkoutManager: NSObject, ObservableObject {
         session?.resume()
     }
 
-    func togglePause() {
+    func togglePause(_ external: Bool) {
+        if !external {
+          WatchConnectivityHandler.shared.send("togglePauseWorkout", String(running))
+        }
+      
         if running == true {
             pause()
         } else {
@@ -129,7 +133,12 @@ class WorkoutManager: NSObject, ObservableObject {
         }
     }
 
-    func endWorkout() {
+    func endWorkout(_ external: Bool) {
+        if !external {
+          WatchConnectivityHandler.shared.send("endWorkout", selectedWorkout!.workout_id!)
+        }
+        
+        WatchConnectivityHandler.workoutViewModel.setWorkoutIdToNil(workout_id: selectedWorkout!.workout_id!)
         pause()
         session?.end()
         showingSummaryView = true

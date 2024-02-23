@@ -13,6 +13,10 @@ export class EventListener {
         const subscription = watchEventEmitter.addListener(name, callback);
         return () => subscription.remove();
     }
+
+    static getCount(name: string) {
+        return watchEventEmitter.listenerCount(name);
+    }
 };
 
 export const WatchManager = {

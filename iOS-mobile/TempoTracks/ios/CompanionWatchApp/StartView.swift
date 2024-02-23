@@ -56,13 +56,22 @@ class WorkoutViewModel: ObservableObject {
     }
   }
   
+  func setWorkoutIdToNil(workout_id: String){
+    for i in workouts.indices {
+      if workouts[i].workout_id == workout_id {
+        workouts[i].workout_id = nil;
+        break
+      }
+    }
+  }
+  
   // When workout manager is a singleton remove these functions and call it direct
   func togglePause(workout_id: String){
-    workout_manager!.togglePause()
+    workout_manager!.togglePause(true)
   }
   
   func endWorkout(workout_id: String){
-    workout_manager!.endWorkout()
+    workout_manager!.endWorkout(true)
   }
 }
 

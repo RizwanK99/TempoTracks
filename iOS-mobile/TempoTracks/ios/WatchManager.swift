@@ -21,6 +21,12 @@ import WatchConnectivity
       else if functionName == "createWorkout" {
         WatchManagerEmitter.emitter.createWorkout(data)
       }
+      else if functionName == "togglePauseWorkout" {
+        WatchManagerEmitter.emitter.togglePauseWorkout(data)
+      }
+      else if functionName == "endWorkout" {
+        WatchManagerEmitter.emitter.endWorkout(data)
+      }
     }
 }
 
@@ -34,7 +40,7 @@ class WatchManagerEmitter: RCTEventEmitter {
   }
   
   override func supportedEvents() -> [String]! {
-    return ["createWorkout"]
+    return ["createWorkout", "togglePauseWorkout", "endWorkout"]
   }
 
   override static func requiresMainQueueSetup() -> Bool {
@@ -44,6 +50,16 @@ class WatchManagerEmitter: RCTEventEmitter {
   @objc
   func createWorkout(_ workout: String) {
     sendEvent(withName: "createWorkout", body: workout)
+  }
+  
+  @objc
+  func togglePauseWorkout(_ workout_id: String){
+    sendEvent(withName: "togglePauseWorkout", body: workout_id)
+  }
+  
+  @objc
+  func endWorkout(_ workout_id: String){
+    sendEvent(withName: "endWorkout", body: workout_id)
   }
 }
 

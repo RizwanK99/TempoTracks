@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { SafeAreaView, Text, View } from "react-native";
 import { useTheme, IconButton } from "react-native-paper";
 import { Button as PaperButton } from "react-native-paper";
@@ -10,7 +10,7 @@ import {
 import { useStopwatch } from "react-timer-hook";
 
 // Watch Manager
-import { WatchManager } from "../../module/WatchManager"
+import { EventListener, WatchManager } from "../../module/WatchManager"
 
 interface TimeProps {
   value: string;
@@ -72,13 +72,57 @@ export const WorkoutInProgressDetails: React.FC<
   }, [totalSeconds]);
 
   const handleWorkoutEnd = () => {
-    WatchManager.endWorkout(workoutId);
     endWorkout({ workoutId, duration });
     reset();
     navigation.navigate("WorkoutSummaryPage", {
       workoutId: workoutId,
     });
   };
+
+  // Watch Stuff
+
+  const [pauseEventData, setPauseEventData] = useState(null);
+  const [endEventData, setEndEventData] = useState(null);
+
+  useEffect(() => {
+    if (EventListener.getCount('togglePauseWorkout') == 0){
+      const unsubscribePause = EventListener.subscribe('togglePauseWorkout', (data) => {
+        setPauseEventData(data);
+      });
+      const unsubscribeStop = EventListener.subscribe('endWorkout', (data) => {
+        setEndEventData(data);
+      });
+
+      return () => {
+        unsubscribePause();
+        unsubscribeStop();
+      };
+    }
+
+    return;
+  }, []);
+
+  useEffect(() => {
+    if (!pauseEventData) return;
+
+    if (pauseEventData == "true") {
+      pauseWorkout(workoutId);
+      pause();
+      setPaused(true);
+    }
+    else {
+      resumeWorkout(workoutId);
+      start();
+      setPaused(false);
+    }
+  }, [pauseEventData])
+
+  useEffect(() => {
+    if (!endEventData) return;
+
+    handleWorkoutEnd();
+  }, [endEventData])
+
   return (
     <SafeAreaView
       style={{
@@ -137,6 +181,7 @@ export const WorkoutInProgressDetails: React.FC<
             contentStyle={{ color: theme.colors.text }}
             icon="stop"
             onPress={() => {
+              WatchManager.endWorkout(workoutId);
               handleWorkoutEnd();
             }}
           />

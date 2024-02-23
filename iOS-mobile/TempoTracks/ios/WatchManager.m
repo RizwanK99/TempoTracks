@@ -35,4 +35,6 @@ RCT_EXTERN_METHOD(endWorkout:(NSString *)workout_id
 
 @interface RCT_EXTERN_MODULE(WatchManagerEmitter, RCTEventEmitter)
 RCT_EXTERN_METHOD(createWorkout: (NSString *)workout)
+RCT_EXTERN_METHOD(togglePauseWorkout: (NSString *)workout_id)
+RCT_EXTERN_METHOD(endWorkout: (NSString *)workout_id)
 @end
