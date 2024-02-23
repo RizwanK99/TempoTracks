@@ -46,7 +46,7 @@ const StartOrCancelWorkoutPage = ({ route, navigation }) => {
 
   useEffect(() => {
     if (createdWorkout && !isCountingDown) {
-      WatchManager.updateWorkoutId(createdWorkout[0].workout_id, createdWorkout[0].template_id);
+      //WatchManager.updateWorkoutId(createdWorkout[0].workout_id, createdWorkout[0].template_id);
 
       navigation.navigate("WorkoutInProgress", {
         workoutId: createdWorkout[0].workout_id,

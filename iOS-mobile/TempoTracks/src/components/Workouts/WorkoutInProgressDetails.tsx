@@ -79,8 +79,9 @@ export const WorkoutInProgressDetails: React.FC<
     });
   };
 
-  // Watch Stuff
+  //COMMENT OUT FOR EXPO BUILDS (WATCH)
 
+  /*START
   const [pauseEventData, setPauseEventData] = useState(null);
   const [endEventData, setEndEventData] = useState(null);
 
@@ -122,6 +123,7 @@ export const WorkoutInProgressDetails: React.FC<
 
     handleWorkoutEnd();
   }, [endEventData])
+  END*/
 
   return (
     <SafeAreaView
@@ -181,7 +183,7 @@ export const WorkoutInProgressDetails: React.FC<
             contentStyle={{ color: theme.colors.text }}
             icon="stop"
             onPress={() => {
-              WatchManager.endWorkout(workoutId);
+              //WatchManager.endWorkout(workoutId);
               handleWorkoutEnd();
             }}
           />
@@ -217,7 +219,7 @@ export const WorkoutInProgressDetails: React.FC<
                 contentStyle={{ color: theme.colors.text }}
                 icon="pause"
                 onPress={() => {
-                  WatchManager.togglePauseWorkout(workoutId);
+                  //WatchManager.togglePauseWorkout(workoutId);
                   pauseWorkout(workoutId);
                   pause();
                   setPaused(true);
@@ -249,7 +251,7 @@ export const WorkoutInProgressDetails: React.FC<
                 contentStyle={{ color: theme.colors.text }}
                 icon="play"
                 onPress={() => {
-                  WatchManager.togglePauseWorkout(workoutId);
+                  //WatchManager.togglePauseWorkout(workoutId);
                   resumeWorkout(workoutId);
                   start();
                   setPaused(false);

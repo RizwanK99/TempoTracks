@@ -51,6 +51,9 @@ const getIsLoggedIn = () => {
 };
 
 function Root() {
+  //COMMENT OUT FOR EXPO BUILDS (WATCH)
+
+  /*START
   const navigation = useNavigation();
   const [eventData, setEventData] = useState(null);
   const { mutateAsync: createWorkout } = useCreateWorkout();
@@ -94,6 +97,7 @@ function Root() {
 
     startWorkout(workout);
   }, [eventData]);
+  END*/
 
   return (
     <Tab.Navigator

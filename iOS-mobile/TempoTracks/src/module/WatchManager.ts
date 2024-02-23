@@ -6,16 +6,16 @@ import { useGetWorkoutTemplates } from '../api/WorkoutTemplate';
 
 type GenericCallback = (...args: any[]) => void;
 
-const watchEventEmitter = new NativeEventEmitter(NativeModules.WatchManagerEmitter);
+//const watchEventEmitter = new NativeEventEmitter(NativeModules.WatchManagerEmitter);
 
 export class EventListener {
     static subscribe(name: string, callback: GenericCallback) {
-        const subscription = watchEventEmitter.addListener(name, callback);
-        return () => subscription.remove();
+        //const subscription = watchEventEmitter.addListener(name, callback);
+        //return () => subscription.remove();
     }
 
     static getCount(name: string) {
-        return watchEventEmitter.listenerCount(name);
+        //return watchEventEmitter.listenerCount(name);
     }
 };
 

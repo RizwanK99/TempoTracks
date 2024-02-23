@@ -35,8 +35,12 @@ const HomePage = ({ navigation }) => {
   const [user, setUser] = useState({});
   const [exerciseList, setExerciseList] = useState([]);
 
+  //COMMENT OUT FOR EXPO BUILDS (WATCH)
+
+  /*START
   sendSongsToWatch();
   sendWorkoutTemplatesToWatch();
+  END*/
 
   useEffect(() => {
     async function fetchData() {
