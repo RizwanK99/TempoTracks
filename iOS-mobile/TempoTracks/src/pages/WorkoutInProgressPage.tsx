@@ -10,7 +10,7 @@ import { useSharedValue } from "react-native-reanimated";
 
 const WorkoutInProgressPage = ({ navigation, route }) => {
   const theme = useTheme();
-  const { workoutId } = route.params;
+  const { workoutId, templateId, playlistId } = route.params;
   const [activeIndex, setActiveIndex] = useState<boolean>(false);
 
   const windowWidth = useWindowDimensions().width;
@@ -53,12 +53,13 @@ const WorkoutInProgressPage = ({ navigation, route }) => {
             <SafeAreaView style={{ flex: 1 }}>
               <WorkoutInProgressDetails
                 workoutId={workoutId}
+                templateId={templateId}
                 navigation={navigation}
               />
             </SafeAreaView>
           ) : (
             <SafeAreaView style={{ flex: 1 }}>
-              <WorkoutInProgressSongPlayer />
+              <WorkoutInProgressSongPlayer playlistId={playlistId} />
             </SafeAreaView>
           )
         }

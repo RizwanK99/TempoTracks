@@ -15,7 +15,6 @@ export const useCreateWorkout = (workout: Workout) => {
         .insert(workout)
         .select("*");
 
-      console.log("data in api", data);
       if (error) {
         console.log("Error creating workout", error);
         return null;
@@ -73,10 +72,14 @@ export const useResumeWorkout = (workoutId: string) => {
   });
 };
 
-export const useEndWorkout = (workoutId: string, duration: number) => {
+export const useEndWorkout = (
+  workoutId: string,
+  templateId: string,
+  duration: number
+) => {
   return useMutation({
     mutationFn: async (object: any) => {
-      const { workoutId, duration } = object;
+      const { workoutId, templateId, duration } = object;
       const { data, error } = await supabase
         .from("workouts")
         .update({
@@ -87,6 +90,32 @@ export const useEndWorkout = (workoutId: string, duration: number) => {
           total_duration: duration,
         })
         .eq("workout_id", workoutId);
+
+      const { data: updatedTemplate } = await supabase
+        .from("workout_templates")
+        .update({
+          last_completed: new Date(),
+        })
+        .eq("id", templateId);
+
+      if (error) {
+        console.log("Error ending workout", error);
+        return null;
+      }
+      return data;
+    },
+  });
+};
+
+export const useGetWorkoutById = (workoutId: string) => {
+  return useQuery({
+    queryKey: ["workoutId", workoutId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("workouts")
+        .select()
+        .eq("workout_id", workoutId)
+        .single();
 
       if (error) {
         console.log("Error ending workout", error);
