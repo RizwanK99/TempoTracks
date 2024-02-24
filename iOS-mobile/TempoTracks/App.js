@@ -243,7 +243,7 @@ function MusicStack() {
 function WorkoutsStack() {
   return (
     <Stack.Navigator
-      initialRouteName="Workouts"
+      initialRouteName="WorkoutListPage"
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="Workouts" component={WorkoutsPage} />
