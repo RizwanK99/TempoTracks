@@ -23,6 +23,10 @@ const theme = {
     barContrast: "#424247",
     redPrimary: "#e11d48",
     redPrimaryForeground: "#fadbe2",
+    foregroundMutedDark: "#555555",
+    mutedWhite: "#F8F8F8",
+    bluePrimary: "#1d4ed8",
+    bluePrimaryForeground: "#3b82f6",
   },
 };
 

@@ -10,7 +10,7 @@ import {
 import { useStopwatch } from "react-timer-hook";
 
 // Watch Manager
-import { EventListener, WatchManager } from "../../module/WatchManager"
+import { EventListener, WatchManager } from "../../module/WatchManager";
 
 interface TimeProps {
   value: string;
@@ -56,9 +56,9 @@ export const WorkoutInProgressDetails: React.FC<
   const { mutate: resumeWorkout } = useResumeWorkout();
   const { mutate: endWorkout } = useEndWorkout();
   const [paused, setPaused] = useState<boolean>(false);
-  const [calories, setCalories] = useState<number>(100);
-  const [bpm, setBpm] = useState<number>(120);
-  const [distance, setDistance] = useState<number>(5);
+  const [calories, setCalories] = useState<number>(6);
+  const [bpm, setBpm] = useState<number>(134);
+  const [distance, setDistance] = useState<number>(0.1);
   const {
     totalSeconds,
     seconds,
@@ -159,7 +159,7 @@ export const WorkoutInProgressDetails: React.FC<
       <View style={{ flexDirection: "column" }}>
         <Stat unit="CAL" value={calories} />
         <Stat unit="BPM" value={bpm} />
-        <Stat unit="FT" value={distance} />
+        <Stat unit="KM" value={distance} />
       </View>
       <View style={{ flexDirection: "row", gap: 32, marginTop: "70%" }}>
         <View
