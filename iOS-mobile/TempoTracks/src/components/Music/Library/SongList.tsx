@@ -1,16 +1,16 @@
-import { Image, ScrollView, StyleSheet, View } from 'react-native';
-import { Divider, Text, TouchableRipple, useTheme } from 'react-native-paper';
-import { Tables } from '../../../lib/db.types';
-import { MusicManager } from '../../../module/MusicManager';
+import { Image, ScrollView, StyleSheet, View } from "react-native";
+import { Divider, Text, TouchableRipple, useTheme } from "react-native-paper";
+import { Tables } from "../../../lib/db.types";
+import { MusicManager } from "../../../module/MusicManager";
 
 interface Props {
-  songs: Tables<'songs'>[];
+  songs: Tables<"songs">[];
 }
 
 export const SongList = ({ songs }: Props) => {
   return (
     <View>
-      <Text variant='headlineLarge' style={styles.title}>
+      <Text variant="headlineLarge" style={styles.title}>
         Song Library
       </Text>
 
@@ -23,7 +23,7 @@ export const SongList = ({ songs }: Props) => {
   );
 };
 
-export const SongItem = ({ song }: { song: Tables<'songs'> }) => {
+export const SongItem = ({ song }: { song: Tables<"songs"> }) => {
   const theme = useTheme();
 
   const playSong = (id: string) => {
@@ -52,12 +52,12 @@ export const SongItem = ({ song }: { song: Tables<'songs'> }) => {
             // borderBottomWidth: 1,
           }}
         >
-          <Text variant='bodyLarge'>{song.title}</Text>
+          <Text variant="bodyLarge">{song.title}</Text>
           <Text
-            variant='bodySmall'
+            variant="bodySmall"
             style={{
               color: theme.colors.secondary,
-              width: '100%',
+              width: "100%",
             }}
           >
             {song.artist}
@@ -77,12 +77,12 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   row: {
-    width: '100%',
-    flexDirection: 'row',
+    width: "100%",
+    flexDirection: "row",
   },
   content: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
     marginVertical: 6,
     paddingBottom: 4,
     marginHorizontal: 12,

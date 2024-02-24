@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "allowImportingTsExtensions": true
   },
   "extends": "expo/tsconfig.base"
 }

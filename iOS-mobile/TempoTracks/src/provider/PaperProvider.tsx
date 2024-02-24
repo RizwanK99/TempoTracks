@@ -1,10 +1,11 @@
 import { MD3DarkTheme, PaperProvider } from "react-native-paper";
+import { useTheme as usePaperTheme } from "react-native-paper";
 
 const theme = {
   ...MD3DarkTheme,
   colors: {
     ...MD3DarkTheme.colors,
-    secondary: "#6E6E6E",
+    // secondary: "#6E6E6E",
     // If primary, text, secondary etc are causing any issues
     // on music side, comment them out until we get time
     // to fix colours
@@ -23,7 +24,12 @@ const theme = {
     barContrast: "#424247",
     redPrimary: "#e11d48",
     redPrimaryForeground: "#fadbe2",
+    fadedBackground: "rgba(0, 0, 0, 0.95)",
   },
+};
+
+export const useAppTheme = () => {
+  return usePaperTheme<typeof theme>();
 };
 
 export const PaperProviderWrapper = ({

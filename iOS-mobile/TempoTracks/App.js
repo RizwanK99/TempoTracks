@@ -37,7 +37,7 @@ import WorkoutSummaryPage from "./src/pages/WorkoutSummaryPage";
 import { supabase } from "./src/lib/supabase";
 import { QueryProvider } from "./src/provider/QueryClientProvider";
 import { PaperProviderWrapper } from "./src/provider/PaperProvider";
-
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -132,19 +132,21 @@ function App() {
   return (
     <QueryProvider>
       <PaperProviderWrapper>
-        <NavigationContainer>
-          <Stack.Navigator>
-            {isLoggedIn ? (
-              <Stack.Group screenOptions={{ headerShown: false }}>
-                <Stack.Screen name="Root" component={Root} />
-              </Stack.Group>
-            ) : (
-              <Stack.Group screenOptions={{ headerShown: false }}>
-                <Stack.Screen name="Launch" component={LaunchStack} />
-              </Stack.Group>
-            )}
-          </Stack.Navigator>
-        </NavigationContainer>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <NavigationContainer>
+            <Stack.Navigator>
+              {isLoggedIn ? (
+                <Stack.Group screenOptions={{ headerShown: false }}>
+                  <Stack.Screen name="Root" component={Root} />
+                </Stack.Group>
+              ) : (
+                <Stack.Group screenOptions={{ headerShown: false }}>
+                  <Stack.Screen name="Launch" component={LaunchStack} />
+                </Stack.Group>
+              )}
+            </Stack.Navigator>
+          </NavigationContainer>
+        </GestureHandlerRootView>
       </PaperProviderWrapper>
     </QueryProvider>
   );
