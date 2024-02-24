@@ -11,7 +11,10 @@ import HealthKit
 @main
 struct WatchOS_Watch_AppApp: App {
     @StateObject var workoutManager = WorkoutManager()
-    var selectedWorkout: HKWorkoutActivityType?
+  
+    init() {
+      WatchConnectivityHandler.shared.activateSession()
+    }
     
     @SceneBuilder var body: some Scene {
         WindowGroup {
@@ -22,8 +25,10 @@ struct WatchOS_Watch_AppApp: App {
                 SummaryView()
             }
             .environmentObject(workoutManager)
+            .onAppear{
+              WatchConnectivityHandler.shared.setWorkoutManager(workout_manager: workoutManager)
+            }
         }
-        
         // WKNotificationScene(controller: NotificationController.self, category: "myCategory")
     }
 }

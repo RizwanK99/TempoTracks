@@ -43,6 +43,7 @@ import {
   useCreateWorkoutTemplate,
   useGetWorkoutTemplates,
 } from "../../api/WorkoutTemplate.ts";
+import { usePlaylists } from "../../api/Music.ts";
 
 interface CreateWorkoutTemplateFormProps {
   userId: string;
@@ -77,10 +78,10 @@ export const CreateWorkoutTemplateForm: React.FC<
 > = ({ userId, navigation }) => {
   const theme = useTheme();
 
-  // const styles = makeStyles(theme);
   const { data } = useGetWorkoutTemplates(Number(userId));
 
   // Select playlist
+  const { data: playlists = [], isPending } = usePlaylists();
   const [carouselItem, setCarouselItem] = useState(0);
   const handleItemTap = (itemId: string, setFieldValue: Function) => {
     setCarouselItem(itemId);
@@ -185,7 +186,7 @@ export const CreateWorkoutTemplateForm: React.FC<
           training_intervals: "",
           mins: "",
           secs: "",
-          playlist_id: "",
+          playlist_id: !isPending ? playlists[0].apple_music_id : "",
           num_sets: 1,
           intervals: [],
         }}
@@ -197,7 +198,7 @@ export const CreateWorkoutTemplateForm: React.FC<
             expected_duration: Number(values.mins) * 60 + Number(values.secs),
             expected_distance: Number(values.expected_distance),
             type: values.type ? values.type : null,
-            playlist_id: Number(values.playlist_id),
+            playlist_id: values.playlist_id,
             num_sets: values.num_sets,
             interval_ids: values.intervals,
           });
@@ -220,7 +221,7 @@ export const CreateWorkoutTemplateForm: React.FC<
                 borderRadius: 8,
                 backgroundColor: theme.colors.card,
                 marginTop: 8,
-                borderWidth: 0.5,
+                borderWidth: 1,
                 borderColor: theme.colors.border,
               }}
             >
@@ -238,34 +239,38 @@ export const CreateWorkoutTemplateForm: React.FC<
                   onChangeText={handleChange("description")}
                 />
               </View>
-              <View style={{ gap: 8, marginBottom: 8 }}>
-                <StyledText text="Estimated Distance" />
-                <NumberInput
-                  placeholder="Enter"
-                  units="km"
-                  width={240}
-                  value={values.expected_distance}
-                  onChangeText={handleChange("expected_distance")}
-                  label="Estimated Distance"
-                />
-                <StyledText text="Training Duration" />
-                <View
-                  style={{ display: "flex", flexDirection: "row", gap: 16 }}
-                >
+              <View style={{ gap: 16, marginBottom: 8, marginTop: 2 }}>
+                <View style={{ gap: 8 }}>
+                  <StyledText text="Estimated Distance" />
                   <NumberInput
                     placeholder="Enter"
-                    units="mins"
-                    label="Mins"
-                    value={values.mins}
-                    onChangeText={handleChange("mins")}
+                    units="km"
+                    width={240}
+                    value={values.expected_distance}
+                    onChangeText={handleChange("expected_distance")}
+                    label="Estimated Distance"
                   />
-                  <NumberInput
-                    placeholder="Enter"
-                    units="secs"
-                    label="Secs"
-                    value={values.secs}
-                    onChangeText={handleChange("secs")}
-                  />
+                </View>
+                <View style={{ gap: 8 }}>
+                  <StyledText text="Training Duration" />
+                  <View
+                    style={{ display: "flex", flexDirection: "row", gap: 16 }}
+                  >
+                    <NumberInput
+                      placeholder="Enter"
+                      units="mins"
+                      label="Mins"
+                      value={values.mins}
+                      onChangeText={handleChange("mins")}
+                    />
+                    <NumberInput
+                      placeholder="Enter"
+                      units="secs"
+                      label="Secs"
+                      value={values.secs}
+                      onChangeText={handleChange("secs")}
+                    />
+                  </View>
                 </View>
               </View>
               <Menu
@@ -541,6 +546,7 @@ export const CreateWorkoutTemplateForm: React.FC<
                 </ScrollView>
               </BottomSheetModal>
             </View>
+            {/* Playlist */}
             <View style={{ gap: 8, marginTop: 16 }}>
               <StyledText text="Choose a playlist" fontSize={18} />
               <View
@@ -548,16 +554,17 @@ export const CreateWorkoutTemplateForm: React.FC<
                   paddingHorizontal: 6,
                   backgroundColor: theme.colors.card,
                   paddingVertical: 16,
-                  borderWidth: 0.5,
+                  borderWidth: 1,
                   borderColor: theme.colors.border,
                   borderRadius: 8,
                 }}
               >
                 <CustomCarousel
-                  carouselData={playListMockData}
-                  handleItemTap={(itemId) =>
-                    handleItemTap(itemId, setFieldValue)
-                  }
+                  carouselData={playlists}
+                  handleItemTap={(itemId) => {
+                    handleItemTap(itemId, setFieldValue);
+                    setFieldValue("playlist_id", itemId);
+                  }}
                 />
               </View>
               <View style={{ gap: 32 }}>
@@ -625,25 +632,3 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
 });
-
-// Definitely need endpoint for this one
-const playListMockData = [
-  {
-    id: "1",
-    title: "Playlist 1",
-    image: require("../../assets/album-art-light.jpg"),
-    artists: "Test",
-  },
-  {
-    id: "2",
-    title: "Playlist 2",
-    image: require("../../assets/album-art-light.jpg"),
-    artists: "Test",
-  },
-  {
-    id: "3",
-    title: "Playlist 3",
-    image: require("../../assets/album-art-light.jpg"),
-    artists: "Test",
-  },
-];

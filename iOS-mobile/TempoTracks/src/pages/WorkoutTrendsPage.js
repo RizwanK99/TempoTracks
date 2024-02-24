@@ -22,7 +22,7 @@ const WorkoutTrendsPage = ({ navigation }) => {
   return (
     <SafeAreaView style={{ backgroundColor: theme.colors.background }}>
       <Appbar.Header mode="small" statusBarHeight={0} elevated="true" style={{ backgroundColor: theme.colors.background}}>
-        <Appbar.BackAction onPress={() => navigation.navigate("Workouts")} />
+        <Appbar.BackAction onPress={() => navigation.navigate("WorkoutListPage")} />
         <Appbar.Content title="Trends" />
         <Appbar.Action icon="history" onPress={() => navigation.navigate("WorkoutHistoryPage")} />
       </Appbar.Header>

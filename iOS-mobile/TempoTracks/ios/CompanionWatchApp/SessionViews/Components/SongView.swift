@@ -9,9 +9,10 @@ import Foundation
 import SwiftUI
 
 struct Song: Identifiable {
-    let id = UUID()
-    let title: String
-    var isPlaying: Bool = false
+  let id = UUID()
+  let apple_id: String
+  let title: String
+  var isPlaying: Bool = false
 }
 
 struct SongRow: View {

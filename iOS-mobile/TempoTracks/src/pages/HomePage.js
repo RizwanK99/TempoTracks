@@ -15,6 +15,9 @@ import { getUsersWorkouts } from '../api/Workouts';
 import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+// Watch Hooks
+import { sendSongsToWatch, sendWorkoutTemplatesToWatch } from "../module/WatchManager";
+
 async function retrieveData(user, setUser) {
   try {
     const value = await AsyncStorage.getItem('user_data');
@@ -31,6 +34,13 @@ const HomePage = ({ navigation }) => {
   const [workouts, setWorkouts] = useState([]);
   const [user, setUser] = useState({});
   const [exerciseList, setExerciseList] = useState([]);
+
+  //COMMENT OUT FOR EXPO BUILDS (WATCH)
+
+  /*START
+  sendSongsToWatch();
+  sendWorkoutTemplatesToWatch();
+  END*/
 
   useEffect(() => {
     async function fetchData() {

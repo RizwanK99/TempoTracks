@@ -7,6 +7,7 @@ import { ThemeProvider } from "@emotion/react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { useNavigation } from '@react-navigation/native';
 
 // Main Screens
 import HomePage from "./src/pages/HomePage";
@@ -24,6 +25,7 @@ import MusicPage from "./src/pages/MusicPage";
 
 // Workout Screens
 import IndividualWorkoutTemplatePage from "./src/pages/IndividualWorkoutTemplatePage";
+import StartOrCancelWorkoutPage from "./src/pages/StartOrCancelWorkoutPage";
 import CreateWorkoutPage from "./src/pages/CreateWorkoutPage";
 import WorkoutInProgressPage from "./src/pages/WorkoutInProgressPage";
 import WorkoutTrendsPage from "./src/pages/WorkoutTrendsPage";
@@ -31,10 +33,15 @@ import WorkoutHistoryPage from "./src/pages/WorkoutHistoryPage";
 import UserPreferenceWorkoutPage from "./src/pages/UserPreferenceWorkoutPage";
 import WorkoutListPage from "./src/pages/WorkoutListPage";
 import WorkoutEndSummaryPage from "./src/pages/WorkoutEndSummaryPage";
+import WorkoutSummaryPage from "./src/pages/WorkoutSummaryPage";
 
 import { supabase } from "./src/lib/supabase";
 import { QueryProvider } from "./src/provider/QueryClientProvider";
 import { PaperProviderWrapper } from "./src/provider/PaperProvider";
+import { useCreateWorkout } from "./src/api/WorkoutsNew";
+
+//Watch Manager
+import { WatchManager, EventListener } from "./src/module/WatchManager";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -44,6 +51,54 @@ const getIsLoggedIn = () => {
 };
 
 function Root() {
+  //COMMENT OUT FOR EXPO BUILDS (WATCH)
+
+  /*START
+  const navigation = useNavigation();
+  const [eventData, setEventData] = useState(null);
+  const { mutateAsync: createWorkout } = useCreateWorkout();
+
+  useEffect(() => {
+    const unsubscribe = EventListener.subscribe('createWorkout', (data) => {
+      setEventData(data);
+    });
+
+    return unsubscribe;
+  }, []);
+
+  useEffect(() => {
+    let workout = "";
+
+    try {
+      workout = JSON.parse(eventData);
+    } catch (error) {
+      console.error("Error parsing JSON:", error);
+    }
+
+    const startWorkout = async (workout) => {
+      let createdWorkout = await createWorkout({
+        template_id: workout.id,
+        workout_name: workout.name,
+        workout_type: workout.type,
+        playlist_id: workout.playlist_id,
+        status: "IN_PROGRESS",
+        is_paused: false,
+      });
+
+      WatchManager.updateWorkoutId(createdWorkout[0].workout_id, createdWorkout[0].template_id);
+
+      navigation.navigate('WorkoutsStack', {
+        screen: 'WorkoutInProgress',
+        params: {
+          workoutId: createdWorkout[0].workout_id,
+        },
+      });
+    };
+
+    startWorkout(workout);
+  }, [eventData]);
+  END*/
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -188,7 +243,7 @@ function MusicStack() {
 function WorkoutsStack() {
   return (
     <Stack.Navigator
-      initialRouteName="Workouts"
+      initialRouteName="WorkoutListPage"
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="Workouts" component={WorkoutsPage} />
@@ -212,6 +267,11 @@ function WorkoutsStack() {
         name="IndividualWorkoutTemplatePage"
         component={IndividualWorkoutTemplatePage}
       />
+      <Stack.Screen
+        name="StartOrCancelWorkoutPage"
+        component={StartOrCancelWorkoutPage}
+      />
+      <Stack.Screen name="WorkoutSummaryPage" component={WorkoutSummaryPage} />
     </Stack.Navigator>
   );
 }
