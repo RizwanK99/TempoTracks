@@ -7,7 +7,7 @@ import {
   ScrollView,
 } from "react-native";
 import PageHeading from "../components/Workouts/PageHeading";
-import { Card, Title, Paragraph, Searchbar, Chip, DefaultTheme, IconButton, MD3Colors, Text, useTheme } from "react-native-paper";
+import { Card, Title, Paragraph, Searchbar, Chip, DefaultTheme, IconButton, MD3Colors, Text, useTheme, Divider, ActivityIndicator } from "react-native-paper";
 import { getUsersWorkouts } from "../api/Workouts";
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -38,14 +38,16 @@ const WorkoutHistoryPage = ({ navigation }) => {
   const [filteredData, setFilteredData] = useState({});
 
   const theme = useTheme();
+  const [data, setData] = React.useState(false);
 
   const [visible, setVisible] = React.useState(true);
 
   useEffect(() => {
     async function fetchData() {
       await retrieveData(user, setUser);
-      console.log(user);
-      setWorkouts(await getUsersWorkouts(user.user_id, null));
+      setData(true);
+      setWorkouts(await getUsersWorkouts(2, null));
+      setData(false);
     }
     fetchData();
   }, [user.user_id]);
@@ -68,35 +70,39 @@ const WorkoutHistoryPage = ({ navigation }) => {
         <Appbar.Content title="History" />
       </Appbar.Header>
       
-      <View style={{ padding: 5, paddingHorizontal: 10 }}>
+      <View style={{ padding: 5 }}>
         <Searchbar
           elevation={4}
           onChangeText={onChangeSearch}
           value={searchQuery}
           onSubmitEditing={() => handleSearch}
+          style = {{ borderRadius: 12}}
         />
         </View>
-      <View style={{ justifyContent: "center", paddingHorizontal: 5, paddingBottom: 5, flexDirection: 'row', flexWrap: 'wrap' }}>
-        <Chip icon="bike" style={{ width: 90, margin: 2 }} elevated="true" onPress={() => console.log('Pressed')}>Biking</Chip>
-        <Chip icon="run" style={{ width: 100, margin: 2 }} elevated="true" onPress={() => console.log('Pressed')}>Running</Chip>
-        <Chip icon="lightning-bolt" style={{ width: 75, margin: 2 }} elevated="true" onPress={() => console.log('Pressed')}>HIIT</Chip>
-        <Chip icon="walk" style={{ width: 95, margin: 2 }} elevated="true" onPress={() => console.log('Pressed')}>Walking</Chip>
+    <View style= {{ height: 40 }}>
+      <ScrollView horizontal style={{ paddingHorizontal: 5, paddingBottom: 5 }}>
+        <Chip icon="bike" style={{ margin: 2 }} elevated="true" onPress={() => console.log('Pressed')}>Biking</Chip>
+        <Chip icon="run" style={{ margin: 2 }} elevated="true" onPress={() => console.log('Pressed')}>Running</Chip>
+        <Chip icon="lightning-bolt" style={{ margin: 2 }} elevated="true" onPress={() => console.log('Pressed')}>HIIT</Chip>
+        <Chip icon="walk" style={{ margin: 2 }} elevated="true" onPress={() => console.log('Pressed')}>Walking</Chip>
+      </ScrollView>
       </View>
       
       
-      
-        
       <ScrollView>
+        <ActivityIndicator animating={data} style= {{ position: 'absolute', zIndex: 1, alignSelf: 'center', paddingTop: 20}}/>
         <View style={{ paddingHorizontal: 5 }}>
           {workouts?.userWorkouts?.map((w) => (
             <WorkoutCard
               key={w.workout_id}
               id={w.workout_id}
               name={w.workout_name}
-              duration={w.time_duration}
+              duration={w.total_duration}
+              distance={w.total_distance}
               caloriesBurnt={w.total_energy_burned}
               workoutType={w.workout_type}
               navigation={navigation}
+              theme={theme}
             />
           ))}
         </View>
@@ -112,10 +118,12 @@ const WorkoutCard = ({
   caloriesBurnt,
   workoutType,
   navigation,
+  theme,
+  distance
 }) => {
   return (
     <Card
-      style={styles.card}
+      style={{ backgroundColor: theme.colors.card, borderColor: theme.colors.border, marginVertical: 5}}
       onPress={() =>
         navigation.navigate("WorkoutEndSummary", {
           workoutId: id,
@@ -125,25 +133,75 @@ const WorkoutCard = ({
           workoutType: workoutType,
         })
       }
+      mode="outlined"
+
     >
       <Card.Content>
         
-          <Title style={{ top: 5, position: "absolute", left: 15 }}>{name}</Title>
-          <View style= {{ top: 5, right: 5, position: "absolute" }}>
-            {mapWorkoutsToChips(workoutType)}
-          </View>
-          
-        
-        <View style={{ flexDirection: "row", alignItems: 'center', justifyContent: "space-evenly", paddingTop: 20 }}>
-          <View style={{ flexDirection: "row", alignItems: 'center' }}>
-            <IconButton icon="fire" size={25} />
-            <Text variant="labelLarge">{duration} Cals</Text>
-          </View>
-          <View style={{ flexDirection: "row", alignItems: 'center' }}>
-            <IconButton icon="clock-time-four" size={25} />
-            <Text variant="labelLarge">{caloriesBurnt} Sec</Text>
-          </View>
-        </View>
+      {/* <View
+                style={{
+                  borderWidth: 1,
+                  borderColor:
+                    // active
+                    //   ? theme.colors.primary
+                    //   :
+                    theme.colors.border,
+                  padding: 16,
+                  borderRadius: 4,
+                  backgroundColor: theme.colors.card,
+                  gap: 10,
+                }}
+              > */}
+                <Text
+                  style={{
+                    color: theme.colors.text,
+                    fontSize: 20,
+                    fontWeight: "bold",
+                    paddingBottom: 10
+                  }}
+                >
+                  {name}
+                </Text>
+                <Text
+                  style={{ color: theme.colors.foregroundMuted, fontSize: 14, paddingBottom: 10 }}
+                >
+                  {workoutType}
+                </Text>
+                <Divider />
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    paddingHorizontal: 4,
+                    paddingTop: 16
+                  }}
+                >
+                  <Text
+                    style={{
+                      color: theme.colors.foregroundMuted,
+                      fontSize: 14,
+                    }}
+                  >
+                    {distance} km
+                  </Text>
+                  <Text
+                    style={{
+                      color: theme.colors.foregroundMuted,
+                      fontSize: 14,
+                    }}
+                  >
+                    {Number(duration)} mins
+                  </Text>
+                  <Text
+                    style={{
+                      color: theme.colors.foregroundMuted,
+                      fontSize: 14,
+                    }}
+                  >
+                    {caloriesBurnt} sets
+                  </Text>
+                </View>
+              {/* </View> */}
       </Card.Content>
     </Card>
   );
@@ -168,20 +226,5 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
 });
-
-const mapWorkoutsToChips = (workoutType) => {
-  switch (workoutType) {
-    case "cardio":
-      return <Chip icon="run" style={{ width: 100, justifyContent:"center" }} elevated="true">Running</Chip>
-    case "biking":
-      return <Chip icon="bike" style={{ width: 90, margin: 2 }} elevated="true" onPress={() => console.log('Pressed')}>Biking</Chip>
-    case "hiit":
-      return <Chip icon="lightning-bolt" style={{ width: 75, margin: 2 }} elevated="true" onPress={() => console.log('Pressed')}>HIIT</Chip>
-    case "walking":
-      return <Chip icon="walk" style={{ width: 95 }} onPress={() => console.log('Pressed')}>Walking</Chip>
-
-  }
-
-};
 
 export default WorkoutHistoryPage;
