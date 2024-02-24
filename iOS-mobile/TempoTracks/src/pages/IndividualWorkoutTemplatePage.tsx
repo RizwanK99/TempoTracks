@@ -11,13 +11,14 @@ import {
   Dimensions,
 } from "react-native";
 import { useGetWorkoutTemplateById } from "../api/WorkoutTemplate.ts";
-import { useTheme, Divider } from "react-native-paper";
+import { useTheme, Divider, ActivityIndicator } from "react-native-paper";
 import { StyledText } from "../components/Workouts/CreateWorkoutTemplateForm";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Checkbox } from "../components/Inputs/Checkbox";
 import { useGetWorkoutIntervals } from "../api/WorkoutTemplate.ts";
 import { BarChart } from "react-native-gifted-charts";
 import { Button as PaperButton } from "react-native-paper";
+import { useCreateWorkout } from "../api/WorkoutsNew.ts";
 
 const intervalConstants = [
   { id: 1, title: "Recovery", active: 30, rest: 90, isChecked: false },
@@ -34,7 +35,26 @@ function copyListNTimes<T>(list: T[], n: number): T[] {
 const IndividualWorkoutTemplatePage = ({ route, navigation }) => {
   const theme = useTheme();
   const { templateId } = route.params;
-  const { data, loading, error } = useGetWorkoutTemplateById(templateId);
+  const { data, isPending, error } = useGetWorkoutTemplateById(templateId);
+  const createWorkout = useCreateWorkout();
+
+  if (isPending) {
+    return (
+      <SafeAreaView
+        style={{
+          flex: 1,
+          paddingHorizontal: 12,
+          backgroundColor: theme.colors.background,
+          gap: 24,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <ActivityIndicator animating={true} color={theme.colors.primary} />
+      </SafeAreaView>
+    );
+  }
+
   const template = data[0];
   const numericIds = template.interval_ids.map((id) => Number(id));
   //   const { data: intervalsQuery } = useGetWorkoutIntervals(numericIds);
@@ -105,6 +125,25 @@ const IndividualWorkoutTemplatePage = ({ route, navigation }) => {
             <Text style={{ color: theme.colors.foregroundMuted }}>
               {template.description}
             </Text>
+            {template.last_completed && (
+              <Text
+                style={{
+                  color: theme.colors.foregroundMuted,
+                  fontSize: 12,
+                  fontStyle: "italic",
+                }}
+              >
+                Last completed:{" "}
+                {new Date(template.last_completed).toLocaleString("en-US", {
+                  month: "long",
+                  day: "numeric",
+                  year: "numeric",
+                  hour: "numeric",
+                  minute: "numeric",
+                  hour12: true,
+                })}
+              </Text>
+            )}
             <Divider />
             <View
               style={{
@@ -239,10 +278,12 @@ const IndividualWorkoutTemplatePage = ({ route, navigation }) => {
                 labelStyle={{ fontSize: 20, fontWeight: "bold" }}
                 contentStyle={{ color: theme.colors.text }}
                 onPress={() => {
-                  handleSubmit();
-                  if (!isSwitchOn) {
-                    navigation.navigate("Workouts");
-                  }
+                  navigation.navigate("StartOrCancelWorkoutPage", {
+                    templateId: templateId,
+                    name: template.name,
+                    type: template.type,
+                    playlistId: template.playlist_id,
+                  });
                 }}
               >
                 Start

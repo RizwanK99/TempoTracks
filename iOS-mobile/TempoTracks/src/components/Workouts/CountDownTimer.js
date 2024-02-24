@@ -1,12 +1,13 @@
-// CountdownTimer.js
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import Svg, { Circle } from "react-native-svg";
+import { useTheme } from "react-native-paper";
 
 const CountdownTimer = ({ duration, onComplete }) => {
   const [counter, setCounter] = useState(duration);
   const circlePerimeter = 2 * Math.PI * 45;
   const [strokeDashoffset, setStrokeDashoffset] = useState(0);
+  const theme = useTheme();
 
   useEffect(() => {
     let interval;
@@ -29,14 +30,15 @@ const CountdownTimer = ({ duration, onComplete }) => {
 
   return (
     <View style={styles.countdownContainer}>
-      <Svg width={125} height={125} viewBox="0 0 100 100">
+      <Svg width={185} height={185} viewBox="0 0 100 100">
         <Circle
           cx="50"
           cy="50"
           r="45"
           fill="transparent"
-          strokeWidth="6"
-          stroke="#404040"
+          strokeWidth="8"
+          strokeLinecap="round"
+          stroke={theme.colors.primary}
           style={styles.circleBackground}
         />
         <Circle
@@ -44,14 +46,23 @@ const CountdownTimer = ({ duration, onComplete }) => {
           cy="50"
           r="45"
           fill="transparent"
-          strokeWidth="6"
-          stroke="white"
+          strokeWidth="8"
+          stroke={theme.colors.foregroundMuted}
           strokeDasharray={circlePerimeter}
           strokeDashoffset={strokeDashoffset}
           style={styles.circleForeground}
         />
       </Svg>
-      <Text style={styles.countdownText}>{counter}</Text>
+      <Text
+        style={{
+          color: theme.colors.text,
+          fontSize: 48,
+          fontWeight: "bold",
+          marginTop: 10,
+        }}
+      >
+        {counter}
+      </Text>
     </View>
   );
 };
@@ -59,15 +70,6 @@ const CountdownTimer = ({ duration, onComplete }) => {
 const styles = StyleSheet.create({
   countdownContainer: {
     alignItems: "center",
-  },
-  countdownText: {
-    fontSize: 48,
-    fontWeight: "bold",
-    marginTop: 10,
-    color: "#181818",
-  },
-  circleBackground: {
-    opacity: 0.35,
   },
   circleForeground: {
     opacity: 0.9,

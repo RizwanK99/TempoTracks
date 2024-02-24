@@ -24,10 +24,12 @@ export const useCreateWorkoutTemplate = (template: WorkoutTemplate) => {
 
 export const useGetWorkoutTemplates = (userId?: number) => {
   return useQuery({
-    queryKey: ["workout_templates"],
-    queryFn: async (userId) => {
-      const { data, error } = await supabase.from("workout_templates").select();
-      // .eq("user_id", userId);
+    queryKey: ["workout_templates", userId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("workout_templates")
+        .select()
+        .eq("user_id", userId);
 
       if (error) {
         console.log("Error fetching workout templates", error);
@@ -41,8 +43,8 @@ export const useGetWorkoutTemplates = (userId?: number) => {
 
 export const useGetWorkoutTemplateById = (id: string) => {
   return useQuery({
-    queryKey: ["workout_templates"],
-    queryFn: async (userId) => {
+    queryKey: ["workout_templates", id],
+    queryFn: async () => {
       const { data, error } = await supabase
         .from("workout_templates")
         .select()

@@ -8,10 +8,12 @@ import {
   Image,
   TouchableWithoutFeedback,
 } from "react-native";
+import { useTheme } from "react-native-paper";
 
 const { width } = Dimensions.get("window");
 
 const CustomCarousel = ({ carouselData, handleItemTap }) => {
+  const theme = useTheme();
   const carouselRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [currentlySelected, setCurrentlySelected] = useState(0);
@@ -30,14 +32,17 @@ const CustomCarousel = ({ carouselData, handleItemTap }) => {
     return (
       <TouchableWithoutFeedback
         onPress={() => {
-          handleItemTap(item.id);
+          handleItemTap(item.apple_music_id);
           setCurrentlySelected(index);
         }}
       >
         <View style={styles.carouselItem}>
-          <Image source={item.image} style={styles.carouselImage} />
+          <Image
+            source={{ uri: item.artwork_url }}
+            style={styles.carouselImage}
+          />
           <View style={styles.carouselTextContainer}>
-            <Text style={styles.carouselTitle}>{item.title}</Text>
+            <Text style={styles.carouselTitle}>{item.name}</Text>
             <Text style={styles.carouselDescription}>
               {index === currentlySelected ? "Currently Selected" : ""}
             </Text>
@@ -65,6 +70,14 @@ const CustomCarousel = ({ carouselData, handleItemTap }) => {
     </View>
   );
 
+  const PaginationNumericDisplay = () => (
+    <View style={styles.paginationContainer}>
+      <Text style={{ color: theme.colors.foregroundMuted }}>{`${
+        activeIndex + 1
+      } / ${carouselData.length}`}</Text>
+    </View>
+  );
+
   return (
     <View style={styles.container}>
       <FlatList
@@ -83,8 +96,8 @@ const CustomCarousel = ({ carouselData, handleItemTap }) => {
         })}
         contentContainerStyle={styles.carouselContainer}
       />
-
-      <PaginationBar />
+      {carouselData.length <= 5 && <PaginationBar />}
+      {carouselData.length > 5 && <PaginationNumericDisplay />}
     </View>
   );
 };

@@ -1,4 +1,6 @@
 #import "AppDelegate.h"
+#import "ExpoModulesCore-Swift.h"
+#import "TempoTracks-Swift.h"
 
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTLinkingManager.h>
@@ -86,19 +88,19 @@
 }
 
 - (void)sessionDidDeactivate:(WCSession *)session {
-  NSLog(@"WCSession did deactivate.");
+  NSLog(@"IOS WCSession did deactivate.");
   // Reactivate the session to ensure it's ready for further communication
   [[WCSession defaultSession] activateSession];
   // Optional: Update UI or internal state to reflect deactivated session
 }
 
-- (void)session:(WCSession *)session didReceiveMessage:(NSDictionary<NSString *,id> *)message replyHandler:(void (^)(NSDictionary<NSString *,id> *replyMessage))replyHandler {
-    // Handle the received message from the watch
-    NSLog(@"Received message from watch: %@", message);
+- (void)session:(WCSession *)session didReceiveMessage:(NSDictionary<NSString *,id> *)message {
+  NSString *functionName = message[@"functionName"];
+  NSString *data = message[@"data"];
   
-    // Optionally, send a reply back to the watch
-    NSDictionary *response = @{@"Response": @"Message received"};
-    replyHandler(response);
+  NSLog(@"Message received from watch");
+  
+  [WatchManagerStrategy callFunctionWithName:functionName withData:data];
 }
 
 @end
