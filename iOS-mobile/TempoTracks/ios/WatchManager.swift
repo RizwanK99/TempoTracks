@@ -10,27 +10,56 @@ import WatchConnectivity
 
 @objcMembers class WatchManagerStrategy: NSObject {
     static let music_manager = MusicManager()
-    static let emitter = WatchManagerEmitter()
 
-    static func callFunction(withName functionName: String, withData data: String) -> String {
+    static func callFunction(withName functionName: String, withData data: String){
       if functionName == "pauseSong" {
         music_manager.changePlayerPlayback("PAUSE");
-        
-        return "PAUSE SONG"
       }
       else if functionName == "playSong" {
         music_manager.playSongWithId(NSString(string: data))
-        
-        return "PLAY SONG"
       }
-      
-      return "DEFAULT"
+      else if functionName == "createWorkout" {
+        WatchManagerEmitter.emitter.createWorkout(data)
+      }
+      else if functionName == "togglePauseWorkout" {
+        WatchManagerEmitter.emitter.togglePauseWorkout(data)
+      }
+      else if functionName == "endWorkout" {
+        WatchManagerEmitter.emitter.endWorkout(data)
+      }
     }
 }
 
-class WatchManagerEmitter {
-  func pauseSong() {
-    
+@objc(WatchManagerEmitter)
+class WatchManagerEmitter: RCTEventEmitter {
+  public static var emitter: WatchManagerEmitter!
+
+  override init() {
+    super.init()
+    WatchManagerEmitter.emitter = self
+  }
+  
+  override func supportedEvents() -> [String]! {
+    return ["createWorkout", "togglePauseWorkout", "endWorkout"]
+  }
+
+  override static func requiresMainQueueSetup() -> Bool {
+    return true
+  }
+  
+  @objc
+  func createWorkout(_ workout: String) {
+    sendEvent(withName: "createWorkout", body: workout)
+  }
+  
+  @objc
+  func togglePauseWorkout(_ workout_id: String){
+    sendEvent(withName: "togglePauseWorkout", body: workout_id)
+  }
+  
+  @objc
+  func endWorkout(_ workout_id: String){
+    sendEvent(withName: "endWorkout", body: workout_id)
   }
 }
 
@@ -102,6 +131,50 @@ class WatchManagerListener: NSObject {
     WCSession.default.sendMessage(dataDictionary, replyHandler: nil, errorHandler: {
       (error) in
       print("updateWorkoutId - Sending message failed with error: \(error)")
+    })
+  }
+  
+  @objc
+  func togglePauseWorkout(
+    _ workout_id: String,
+    resolver resolve: @escaping RCTPromiseResolveBlock,
+    rejecter reject: @escaping RCTPromiseRejectBlock
+  ) {
+    guard WCSession.default.isPaired && WCSession.default.isWatchAppInstalled else {
+        print("togglePauseWorkout - Watch app is not installed or not paired")
+        return
+    }
+    var dataDictionary: [String: Any] = [:]
+    
+    // Add the function name to the dictionary
+    dataDictionary["workout_id"] = workout_id
+    dataDictionary["functionName"] = "togglePauseWorkout"
+    
+    WCSession.default.sendMessage(dataDictionary, replyHandler: nil, errorHandler: {
+      (error) in
+      print("togglePauseWorkout - Sending message failed with error: \(error)")
+    })
+  }
+  
+  @objc
+  func endWorkout(
+    _ workout_id: String,
+    resolver resolve: @escaping RCTPromiseResolveBlock,
+    rejecter reject: @escaping RCTPromiseRejectBlock
+  ) {
+    guard WCSession.default.isPaired && WCSession.default.isWatchAppInstalled else {
+        print("endWorkout - Watch app is not installed or not paired")
+        return
+    }
+    var dataDictionary: [String: Any] = [:]
+    
+    // Add the function name to the dictionary
+    dataDictionary["workout_id"] = workout_id
+    dataDictionary["functionName"] = "endWorkout"
+    
+    WCSession.default.sendMessage(dataDictionary, replyHandler: nil, errorHandler: {
+      (error) in
+      print("endWorkout - Sending message failed with error: \(error)")
     })
   }
 }

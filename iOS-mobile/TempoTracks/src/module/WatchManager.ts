@@ -1,8 +1,23 @@
-import { NativeModules } from 'react-native';
+import { NativeModules, NativeEventEmitter } from 'react-native';
 import { useEffect } from 'react';
 
 import { useSongs } from '../api/Music';
 import { useGetWorkoutTemplates } from '../api/WorkoutTemplate';
+
+type GenericCallback = (...args: any[]) => void;
+
+//const watchEventEmitter = new NativeEventEmitter(NativeModules.WatchManagerEmitter);
+
+export class EventListener {
+    static subscribe(name: string, callback: GenericCallback) {
+        //const subscription = watchEventEmitter.addListener(name, callback);
+        //return () => subscription.remove();
+    }
+
+    static getCount(name: string) {
+        //return watchEventEmitter.listenerCount(name);
+    }
+};
 
 export const WatchManager = {
     sendSongs: (songs: string) => {
@@ -12,10 +27,13 @@ export const WatchManager = {
         return NativeModules.WatchManager.sendWorkouts(workoutTemplates);
     },
     updateWorkoutId: (workoutId: string, templateId: string) => {
-        console.log('WORKOUT AND TEMPLATE IDS')
-        console.log(`${workoutId} ${templateId}`)
-        console.log('WORKOUT AND TEMPLATE IDS')
         return NativeModules.WatchManager.updateWorkoutId(workoutId, templateId);
+    },
+    togglePauseWorkout: (workoutId: string) => {
+        return NativeModules.WatchManager.togglePauseWorkout(workoutId);
+    },
+    endWorkout: (workoutId: string) => {
+        return NativeModules.WatchManager.endWorkout(workoutId);
     }
 };
 

@@ -11,8 +11,15 @@ import HealthKit
 class WorkoutManager: NSObject, ObservableObject {
     @Published var selectedWorkout: Workout? {
         didSet {
-            guard let selectedWorkout = selectedWorkout else { return }
-            self.startWorkout(workoutType: selectedWorkout.hk_type)
+          guard let selectedWorkout = selectedWorkout else { return }
+          
+          if (selectedWorkout.workout_id == nil){
+            let workoutJson = WorkoutAdapter.adapter.adaptWorkoutToJson(workout: selectedWorkout)
+
+            WatchConnectivityHandler.shared.send("createWorkout", workoutJson!)
+          }
+          
+          self.startWorkout(workoutType: selectedWorkout.hk_type)
         }
     }
     
@@ -24,6 +31,8 @@ class WorkoutManager: NSObject, ObservableObject {
             }
         }
     }
+  
+    var didStartWorkout: Bool = false
     
     let healthStore = HKHealthStore()
     var session: HKWorkoutSession?
@@ -34,7 +43,12 @@ class WorkoutManager: NSObject, ObservableObject {
     }
     
     func startWorkout(workoutType: HKWorkoutActivityType) {
-        print("HERE HERE")
+        guard !didStartWorkout else {
+          return
+        }
+      
+        didStartWorkout = true
+      
         let configuration = HKWorkoutConfiguration()
         configuration.activityType = workoutType
         configuration.locationType = .outdoor
@@ -107,7 +121,11 @@ class WorkoutManager: NSObject, ObservableObject {
         session?.resume()
     }
 
-    func togglePause() {
+    func togglePause(_ external: Bool) {
+        if !external {
+          WatchConnectivityHandler.shared.send("togglePauseWorkout", String(running))
+        }
+      
         if running == true {
             pause()
         } else {
@@ -115,7 +133,12 @@ class WorkoutManager: NSObject, ObservableObject {
         }
     }
 
-    func endWorkout() {
+    func endWorkout(_ external: Bool) {
+        if !external {
+          WatchConnectivityHandler.shared.send("endWorkout", selectedWorkout!.workout_id!)
+        }
+        
+        WatchConnectivityHandler.workoutViewModel.setWorkoutIdToNil(workout_id: selectedWorkout!.workout_id!)
         pause()
         session?.end()
         showingSummaryView = true
@@ -182,6 +205,7 @@ class WorkoutManager: NSObject, ObservableObject {
         self.totalPausedTime = 0
         self.displayTime = "00:00:00"
         selectedWorkout = nil
+        didStartWorkout = false
         builder = nil
         session = nil
         workout = nil

@@ -52,7 +52,6 @@
     "react-native-tab-view": "^3.5.2",
     "react-native-url-polyfill": "^2.0.0",
     "react-native-uuid": "^2.0.1",
-    "react-native-watch-connectivity": "^1.1.0",
     "react-native-web": "~0.19.6",
     "react-timer-hook": "^3.0.7",
     "typescript": "^5.1.3",

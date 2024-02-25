@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { SafeAreaView, Text, View } from "react-native";
 import { useTheme, IconButton } from "react-native-paper";
 import { Button as PaperButton } from "react-native-paper";
@@ -8,6 +8,9 @@ import {
   useEndWorkout,
 } from "../../api/WorkoutsNew";
 import { useStopwatch } from "react-timer-hook";
+
+// Watch Manager
+import { EventListener, WatchManager } from "../../module/WatchManager"
 
 interface TimeProps {
   value: string;
@@ -83,6 +86,53 @@ export const WorkoutInProgressDetails: React.FC<
       distance: distance,
     });
   };
+
+  //COMMENT OUT FOR EXPO BUILDS (WATCH)
+
+  /*START
+  const [pauseEventData, setPauseEventData] = useState(null);
+  const [endEventData, setEndEventData] = useState(null);
+
+  useEffect(() => {
+    if (EventListener.getCount('togglePauseWorkout') == 0){
+      const unsubscribePause = EventListener.subscribe('togglePauseWorkout', (data) => {
+        setPauseEventData(data);
+      });
+      const unsubscribeStop = EventListener.subscribe('endWorkout', (data) => {
+        setEndEventData(data);
+      });
+
+      return () => {
+        unsubscribePause();
+        unsubscribeStop();
+      };
+    }
+
+    return;
+  }, []);
+
+  useEffect(() => {
+    if (!pauseEventData) return;
+
+    if (pauseEventData == "true") {
+      pauseWorkout(workoutId);
+      pause();
+      setPaused(true);
+    }
+    else {
+      resumeWorkout(workoutId);
+      start();
+      setPaused(false);
+    }
+  }, [pauseEventData])
+
+  useEffect(() => {
+    if (!endEventData) return;
+
+    handleWorkoutEnd();
+  }, [endEventData])
+  END*/
+
   return (
     <SafeAreaView
       style={{
@@ -141,6 +191,7 @@ export const WorkoutInProgressDetails: React.FC<
             contentStyle={{ color: theme.colors.text }}
             icon="stop"
             onPress={() => {
+              //WatchManager.endWorkout(workoutId);
               handleWorkoutEnd();
             }}
           />
@@ -176,6 +227,7 @@ export const WorkoutInProgressDetails: React.FC<
                 contentStyle={{ color: theme.colors.text }}
                 icon="pause"
                 onPress={() => {
+                  //WatchManager.togglePauseWorkout(workoutId);
                   pauseWorkout(workoutId);
                   pause();
                   setPaused(true);
@@ -207,6 +259,7 @@ export const WorkoutInProgressDetails: React.FC<
                 contentStyle={{ color: theme.colors.text }}
                 icon="play"
                 onPress={() => {
+                  //WatchManager.togglePauseWorkout(workoutId);
                   resumeWorkout(workoutId);
                   start();
                   setPaused(false);
