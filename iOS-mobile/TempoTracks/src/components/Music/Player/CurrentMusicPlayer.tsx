@@ -10,6 +10,7 @@ import Animated, { useAnimatedStyle } from "react-native-reanimated";
 import { IconButton } from "react-native-paper";
 import { useAppTheme } from "../../../provider/PaperProvider";
 import { GestureDetector, PanGesture } from "react-native-gesture-handler";
+import { usePlayerState, useSongs } from "../../../api/Music";
 
 interface Props {
   playerHeight: Animated.SharedValue<number>;
@@ -17,7 +18,11 @@ interface Props {
   pan: PanGesture;
 }
 
-export const MusicPlayer = ({ playerHeight, transformY, pan }: Props) => {
+export const CurrentMusicPlayer = ({
+  playerHeight,
+  transformY,
+  pan,
+}: Props) => {
   const theme = useAppTheme();
 
   const animStyle = useAnimatedStyle(() => {
@@ -55,13 +60,13 @@ const Container = ({ children }) => {
   return <View style={styles.container}>{children}</View>;
 };
 
-const Artwork = () => {
+const Artwork = ({ uri }: { uri: string }) => {
   return (
     <View style={styles.artwork}>
       <Image
         style={styles.artworkImg}
         source={{
-          uri: "https://images.squarespace-cdn.com/content/v1/53b6eb62e4b06e0feb2d8e86/1607362705516-R5Q22H4FVIVPNMW8OWD7/SamSpratt_KidCudi_ManOnTheMoon3_AlbumCover_Web.jpg",
+          uri,
         }}
       />
     </View>
@@ -69,34 +74,30 @@ const Artwork = () => {
 };
 
 const CurrentSong = () => {
-  const [currentSong, setCurrentSong] = useState<MusicPlayerSong | null>(null);
+  const { data: songs } = useSongs();
+  const { data: playerState } = usePlayerState({ songs });
 
-  const loadLibrary = async () => {
-    const songs = await MusicManager.getSongLibrary();
+  if (!playerState?.currentSong) {
+    return null;
+  }
 
-    if (songs.length > 0) {
-      setCurrentSong(songs[2]);
-    }
-  };
-
-  useEffect(() => {
-    loadLibrary();
-  }, []);
+  const currentSong = playerState.currentSong;
+  const isPlaying = playerState.playbackStatus === "playing";
 
   return (
     <View style={styles.songContainer}>
-      <Artwork />
+      <Artwork uri={currentSong.artwork_url} />
       <View style={styles.descriptionContainer}>
-        <Text style={styles.title}>{currentSong?.title}</Text>
+        <Text style={styles.title}>{currentSong.title}</Text>
         <Text numberOfLines={1} style={styles.artistName}>
-          {currentSong?.artistName}
+          {currentSong.artist}
         </Text>
       </View>
       <SongDuration />
       <PlayerControls
-        isPlaying={false}
+        isPlaying={isPlaying}
         setIsPlaying={() => null}
-        playbackRate={1}
+        playbackRate={playerState.playbackRate}
         handlePlaybackRateChange={() => null}
       />
     </View>

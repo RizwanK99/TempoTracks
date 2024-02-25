@@ -4,20 +4,12 @@ import { IconButton, Text, useTheme } from "react-native-paper";
 import { StyleSheet } from "react-native";
 import { MusicManager } from "../../module/MusicManager";
 import { usePlayerState, useSongs } from "../../api/Music";
-import { useRef, useState } from "react";
-import { MusicPlayer } from "./Player/MusicPlayer";
-import Animated, {
-  useSharedValue,
-  withTiming,
-  useAnimatedStyle,
-  Easing,
-  useAnimatedProps,
-  withSpring,
-} from "react-native-reanimated";
+import { CurrentMusicPlayer } from "./Player/CurrentMusicPlayer";
+import { useSharedValue, withTiming } from "react-native-reanimated";
 import { Gesture } from "react-native-gesture-handler";
 import { useAppTheme } from "../../provider/PaperProvider";
 
-export const CurrentSong = () => {
+export const CurrentSongTab = () => {
   const playerHeight = useSharedValue(0);
   const transformY = useSharedValue(0);
 
@@ -45,14 +37,14 @@ export const CurrentSong = () => {
 
   const handleOpenPlayer = () => {
     transformY.value = 0;
-    playerHeight.value = withTiming(dimensions.height, {
+    playerHeight.value = withTiming(dimensions.height - 50, {
       duration: 250,
     });
   };
 
   return (
     <>
-      <MusicPlayer
+      <CurrentMusicPlayer
         playerHeight={playerHeight}
         transformY={transformY}
         pan={pan}
@@ -87,7 +79,7 @@ export const CurrentSongFooter = ({ handleOpenPlayer }: Props) => {
       ]}
     >
       <TouchableHighlight onPress={handleOpenPlayer}>
-        <View style={styles.row}>
+        <View style={[styles.row, { width: 250 }]}>
           <Image
             source={{ uri: currentSong.artwork_url }}
             style={{
@@ -104,6 +96,7 @@ export const CurrentSongFooter = ({ handleOpenPlayer }: Props) => {
               variant="bodySmall"
               style={{
                 color: theme.colors.secondary,
+                maxWidth: 200,
               }}
               numberOfLines={1}
             >
@@ -155,7 +148,6 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   row: {
-    maxWidth: "65%",
     flexDirection: "row",
     overflow: "hidden",
   },
@@ -163,7 +155,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginVertical: 6,
     paddingBottom: 4,
-    marginHorizontal: 12,
+    marginLeft: 12,
     overflow: "hidden",
   },
 });

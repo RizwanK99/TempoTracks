@@ -1,14 +1,15 @@
 import { Dimensions, Image, ScrollView, StyleSheet, View } from "react-native";
 import { Button, Text, TouchableRipple, useTheme } from "react-native-paper";
 import { Tables } from "../../../lib/db.types";
-import { useEffect } from "react";
-import { MusicManager } from "../../../module/MusicManager";
+
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 interface Props {
   playlists: Tables<"playlists">[];
+  navigation: NativeStackNavigationProp<any>;
 }
 
-export const PlaylistList = ({ playlists }: Props) => {
+export const PlaylistList = ({ playlists, navigation }: Props) => {
   const dimensions = Dimensions.get("window");
 
   return (
@@ -20,7 +21,13 @@ export const PlaylistList = ({ playlists }: Props) => {
       <ScrollView style={{ maxHeight: dimensions.width / 2 + 12 }}>
         <View style={styles.scrollGrid}>
           {playlists.map((playlist) => (
-            <PlaylistItem key={playlist.apple_music_id} playlist={playlist} />
+            <PlaylistItem
+              key={playlist.apple_music_id}
+              playlist={playlist}
+              handleOpenPlaylistView={() =>
+                navigation.navigate("PlaylistViewPage", playlist)
+              }
+            />
           ))}
         </View>
       </ScrollView>
@@ -28,12 +35,22 @@ export const PlaylistList = ({ playlists }: Props) => {
   );
 };
 
-const PlaylistItem = ({ playlist }: { playlist: Tables<"playlists"> }) => {
+const PlaylistItem = ({
+  playlist,
+  handleOpenPlaylistView,
+}: {
+  playlist: Tables<"playlists">;
+  handleOpenPlaylistView: () => void;
+}) => {
   const theme = useTheme();
   const dimensions = Dimensions.get("window");
 
   return (
-    <TouchableRipple theme={theme} style={styles.container}>
+    <TouchableRipple
+      theme={theme}
+      style={styles.container}
+      onPress={handleOpenPlaylistView}
+    >
       <View style={styles.col}>
         <Image
           source={{ uri: playlist.artwork_url }}

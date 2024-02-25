@@ -18,9 +18,7 @@ import LaunchPage from "./src/pages/LaunchPage";
 import RegisterPage from "./src/pages/RegisterPage";
 
 // Music Screens
-import MusicLibraryPage from "./src/pages/MusicLibraryPage";
-import MusicHomePage from "./src/pages/MusicHomePage";
-import MusicPage from "./src/pages/MusicPage";
+import { MusicPage } from "./src/pages/MusicPage";
 
 // Workout Screens
 import IndividualWorkoutTemplatePage from "./src/pages/IndividualWorkoutTemplatePage";
@@ -38,6 +36,7 @@ import { supabase } from "./src/lib/supabase";
 import { QueryProvider } from "./src/provider/QueryClientProvider";
 import { PaperProviderWrapper } from "./src/provider/PaperProvider";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { PlaylistView } from "./src/components/Music/Playlist/PlaylistView";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -180,12 +179,11 @@ function SettingsStack() {
 function MusicStack() {
   return (
     <Stack.Navigator
-      initialRouteName="MusicHomePage"
+      initialRouteName="MusicPage"
       screenOptions={{ headerShown: false }}
     >
-      <Stack.Screen name="MusicHomePage" component={MusicHomePage} />
-      <Stack.Screen name="MusicLibraryPage" component={MusicLibraryPage} />
       <Stack.Screen name="MusicPage" component={MusicPage} />
+      <Stack.Screen name="PlaylistViewPage" component={PlaylistView} />
     </Stack.Navigator>
   );
 }
