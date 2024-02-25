@@ -7,7 +7,7 @@ import { ThemeProvider } from "@emotion/react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 
 // Main Screens
 import HomePage from "./src/pages/HomePage";
@@ -19,9 +19,7 @@ import LaunchPage from "./src/pages/LaunchPage";
 import RegisterPage from "./src/pages/RegisterPage";
 
 // Music Screens
-import MusicLibraryPage from "./src/pages/MusicLibraryPage";
-import MusicHomePage from "./src/pages/MusicHomePage";
-import MusicPage from "./src/pages/MusicPage";
+import { MusicPage } from "./src/pages/MusicPage";
 
 // Workout Screens
 import IndividualWorkoutTemplatePage from "./src/pages/IndividualWorkoutTemplatePage";
@@ -38,6 +36,8 @@ import WorkoutSummaryPage from "./src/pages/WorkoutSummaryPage";
 import { supabase } from "./src/lib/supabase";
 import { QueryProvider } from "./src/provider/QueryClientProvider";
 import { PaperProviderWrapper } from "./src/provider/PaperProvider";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { PlaylistView } from "./src/components/Music/Playlist/PlaylistView";
 import { useCreateWorkout } from "./src/api/WorkoutsNew";
 
 //Watch Manager
@@ -184,19 +184,21 @@ function App() {
   return (
     <QueryProvider>
       <PaperProviderWrapper>
-        <NavigationContainer>
-          <Stack.Navigator>
-            {isLoggedIn ? (
-              <Stack.Group screenOptions={{ headerShown: false }}>
-                <Stack.Screen name="Root" component={Root} />
-              </Stack.Group>
-            ) : (
-              <Stack.Group screenOptions={{ headerShown: false }}>
-                <Stack.Screen name="Launch" component={LaunchStack} />
-              </Stack.Group>
-            )}
-          </Stack.Navigator>
-        </NavigationContainer>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <NavigationContainer>
+            <Stack.Navigator>
+              {isLoggedIn ? (
+                <Stack.Group screenOptions={{ headerShown: false }}>
+                  <Stack.Screen name="Root" component={Root} />
+                </Stack.Group>
+              ) : (
+                <Stack.Group screenOptions={{ headerShown: false }}>
+                  <Stack.Screen name="Launch" component={LaunchStack} />
+                </Stack.Group>
+              )}
+            </Stack.Navigator>
+          </NavigationContainer>
+        </GestureHandlerRootView>
       </PaperProviderWrapper>
     </QueryProvider>
   );
@@ -230,12 +232,11 @@ function SettingsStack() {
 function MusicStack() {
   return (
     <Stack.Navigator
-      initialRouteName="MusicHomePage"
+      initialRouteName="MusicPage"
       screenOptions={{ headerShown: false }}
     >
-      <Stack.Screen name="MusicHomePage" component={MusicHomePage} />
-      <Stack.Screen name="MusicLibraryPage" component={MusicLibraryPage} />
       <Stack.Screen name="MusicPage" component={MusicPage} />
+      <Stack.Screen name="PlaylistViewPage" component={PlaylistView} />
     </Stack.Navigator>
   );
 }
