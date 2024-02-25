@@ -10,23 +10,25 @@ import {
 import { endOfDay, format } from 'date-fns';
 import * as Progress from 'react-native-progress';
 import profileData from '../../mocks/profile_data.json';
-
+import workoutData from '../../mocks/workout_data.json';
+import Svg, { Circle } from "react-native-svg";
 import { getUsersWorkouts } from '../api/Workouts';
 import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useTheme, ActivityIndicator } from 'react-native-paper';
 
 // Watch Hooks
 import { sendSongsToWatch, sendWorkoutTemplatesToWatch } from "../module/WatchManager";
 
 async function retrieveData(user, setUser) {
   try {
-    const value = await AsyncStorage.getItem('user_data');
+    const value = await AsyncStorage.getItem("user_data");
     if (value !== null) {
       let userData = JSON.parse(value);
       await setUser(userData);
     }
   } catch (error) {
-    console.log('Error retreiving user data', error);
+    console.log("Error retreiving user data", error);
   }
 }
 
@@ -34,6 +36,7 @@ const HomePage = ({ navigation }) => {
   const [workouts, setWorkouts] = useState([]);
   const [user, setUser] = useState({});
   const [exerciseList, setExerciseList] = useState([]);
+  const theme = useTheme();
 
   //COMMENT OUT FOR EXPO BUILDS (WATCH)
 
@@ -45,19 +48,19 @@ const HomePage = ({ navigation }) => {
   useEffect(() => {
     async function fetchData() {
       await retrieveData(user, setUser);
-      let w = await getUsersWorkouts(user.user_id, 'complete');
-      setWorkouts(w.userWorkouts);
+      setWorkouts(await getUsersWorkouts(user.user_id, null));
     }
     fetchData();
   }, [user.user_id]);
 
   useEffect(() => {
     console.log('useEffect');
-    console.log(workouts);
-    let workouts1 = [];
-    if (workouts) {
-      workouts1 = [...workouts];
-    }
+    console.log(workouts.userWorkouts);
+    console.log(workoutData)
+    let workouts1 = workoutData.data;
+    /*if (workouts.userWorkouts) {
+      workouts1 = [...workouts.userWorkouts];
+    }*/
     console.log(workouts1);
     let newExercise = [];
     for (var w = 0; w < workouts1.length; w++) {
@@ -69,9 +72,9 @@ const HomePage = ({ navigation }) => {
         >
           <View
             style={{
-              backgroundColor: '#222222',
+              backgroundColor: theme.colors.barContrast,
               padding: 7,
-              borderRadius: 10,
+              borderRadius: 6,
               width: '100%',
               height: '90%',
             }}
@@ -79,7 +82,7 @@ const HomePage = ({ navigation }) => {
             <View
               style={{ flexDirection: 'row', justifyContent: 'space-between' }}
             >
-              <Text style={{ fontSize: 25, color: 'white' }}>
+              <Text style={{ fontSize: 20, color: theme.colors.text }}>
                 {workouts1[w].workout_name}
               </Text>
               <Text style={{ fontSize: 13, color: 'grey', marginRight: 2 }}>
@@ -87,7 +90,7 @@ const HomePage = ({ navigation }) => {
               </Text>
             </View>
             <Text style={{ color: '#74B3CE' }}>
-              {'Duration: ' + workouts1[w].time_duration + ' min'}
+              {'Duration: ' + workouts1[w].total_duration + ' minutes'}
             </Text>
             <Text style={{ color: '#09BC8A' }}>
               {'Calories: ' + workouts1[w].total_energy_burned + ' cal'}
@@ -102,56 +105,88 @@ const HomePage = ({ navigation }) => {
   var formattedDate = format(endOfDay(new Date()), 'EEEE, MMMM do');
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: 'black' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background}}>
       <View style={styles.full}>
         <View style={styles.container}>
-          <View style={[styles.topBar, { flex: 2 }]}>
+          <View style={[styles.topBar, { flex: 3 }]}>
             <View style={{ flexDirection: 'column' }}>
-              <Text style={styles.welcome}>{formattedDate}</Text>
-              <Text style={{ color: 'white', fontSize: 32 }}>
-                Today's Progress
-              </Text>
+              <View style={[styles.welcomeContainer, {backgroundColor: theme.colors.barContrast}]}>
+                <Text style={{color: theme.colors.text, fontSize: 20, fontWeight: 'bold'}}>Welcome to TempoTracks,</Text>
+                <Text style={{color: theme.colors.text, fontSize: 20}}>{user.first_name}</Text>
+              </View>
             </View>
             <TouchableOpacity
               onPress={() => navigation.navigate('Profile', { ...profileData })}
-              style={[styles.btn_shape, { marginHorizontal: 10 }]}
+              style={styles.user_icon}
             >
               <Text
-                style={{ color: '#004346', fontSize: 26, alignSelf: 'center' }}
+                style={{ color: '#004346', fontSize: 40, alignSelf: 'center' }}
               >
-                {profileData.name[0]}
+                {user.first_name ? user.first_name[0] : "..."}
               </Text>
             </TouchableOpacity>
           </View>
-          <View style={[styles.progressContainer, { flex: 2 }]}>
+          <View style={[styles.progressContainer, { flex: 6, }]}>
+              <Text style={{ fontSize: 22, color: theme.colors.text, marginBottom: 10,  fontWeight: 'bold', }}>
+                Daily Goals 
+              </Text>
             <View
               style={{
                 flexDirection: 'column',
                 justifyContent: 'center',
+                alignItems: 'center',
                 width: '100%',
               }}
             >
-              <Text style={{ fontSize: 14, color: '#09BC8A' }}>
-                Calories: 234/350
+              <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-around',
+                alignItems: 'left',
+                width: '100%',
+                marginBottom: 20,
+              }}
+            >
+              <Text style={{ marginRight: 4, fontSize: 18, color: '#09BC8A'}}>
+                Calories: 234/350 
               </Text>
-              <Progress.Bar progress={0.7} width={null} color={'#09BC8A'} />
-              <Text style={{ marginTop: 6, fontSize: 14, color: '#74B3CE' }}>
-                Activity: 10/20 Minutes
+              <Progress.Bar progress={0.7} height={30} width={130} color={'#09BC8A'} borderColor={'#222222'} />
+              </View>
+              <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-around',
+                alignItems: 'left',
+                width: '100%',
+                marginBottom: 20
+              }}
+            >
+              <Text style={{ marginTop: 6, marginRight: 4, fontSize: 18, color: '#74B3CE' }}>
+                Activity: 10/20 Min
               </Text>
-              <Progress.Bar progress={0.5} width={null} color={'#74B3CE'} />
-              <Text style={{ marginTop: 6, fontSize: 14, color: '#508991' }}>
+              <Progress.Bar progress={0.5} height={30} width={130} color={'#74B3CE'} borderColor={'#222222'}/>
+              </View>
+              <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-around',
+                alignItems: 'left',
+                width: '100%',
+              }}>
+              <Text style={{ marginTop: 6, marginRight: 4, fontSize: 18, color: '#508991' }}>
                 Steps: 3024/10,000
               </Text>
-              <Progress.Bar progress={0.3} width={null} color={'#508991'} />
+              <Progress.Bar progress={0.3} height={30} width={130} color={'#508991'} borderColor={'#222222'}/>
+              </View>
             </View>
           </View>
 
           <View style={[styles.box, { flex: 8 }]}>
             <View style={[styles.historyText, { width: '100%' }]}>
-              <Text style={{ color: 'white', fontSize: 22, padding: 10 }}>
+              <Text style={{ color: 'white', fontSize: 22, marginBottom: 10, padding: 10, fontWeight: 'bold' }}>
                 History
               </Text>
-              <ScrollView style={{ width: '100%' }}>
+              <ScrollView style={{ width: '100%', height: '100%'}}>
                 <View style={{ width: '100%' }}>{exerciseList}</View>
               </ScrollView>
             </View>
@@ -182,18 +217,23 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
   },
-  welcome: {
-    width: '100%',
-    color: 'grey',
-    fontSize: 12,
-    textTransform: 'uppercase',
-  },
   progressContainer: {
     width: '100%',
+    height: 10,
     justifyContent: 'center',
-    backgroundColor: '#222222',
+    backgroundColor: '#000000',
+    borderRadius: 5,
     padding: 10,
-    borderRadius: 10,
+    marginTop: 15
+  },
+  welcomeContainer: {
+    width: '100%',
+    height: 65,
+    justifyContent: 'center',
+    marginTop: 60,
+    padding: 12,
+    borderRadius: 5,
+    fontSize: 20,
   },
   historyText: {
     alignSelf: 'flex-start',
@@ -232,16 +272,17 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     width: '100%',
   },
-  btn_shape: {
+  user_icon: {
     backgroundColor: '#09bc8a',
-    borderRadius: 50,
+    borderRadius: 5,
     borderWidth: 2,
     borderColor: '#004346',
-    margin: 10,
-    height: 30,
-    width: 30,
+    marginLeft: 3,
+    marginTop: 60,
+    height: 65,
+    width: 65,
     textAlign: 'center',
-  },
+  }
 });
 
 export default HomePage;
