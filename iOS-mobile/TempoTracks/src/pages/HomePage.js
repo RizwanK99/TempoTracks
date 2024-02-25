@@ -10,11 +10,12 @@ import {
 import { endOfDay, format } from 'date-fns';
 import * as Progress from 'react-native-progress';
 import profileData from '../../mocks/profile_data.json';
+import workoutData from '../../mocks/workout_data.json';
 import Svg, { Circle } from "react-native-svg";
 import { getUsersWorkouts } from '../api/Workouts';
 import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useTheme, ActivityIndicator } from 'react-native-paper'
+import { useTheme, ActivityIndicator } from 'react-native-paper';
 
 // Watch Hooks
 import { sendSongsToWatch, sendWorkoutTemplatesToWatch } from "../module/WatchManager";
@@ -55,10 +56,11 @@ const HomePage = ({ navigation }) => {
   useEffect(() => {
     console.log('useEffect');
     console.log(workouts.userWorkouts);
-    let workouts1 = [];
-    if (workouts.userWorkouts) {
+    console.log(workoutData)
+    let workouts1 = workoutData.data;
+    /*if (workouts.userWorkouts) {
       workouts1 = [...workouts.userWorkouts];
-    }
+    }*/
     console.log(workouts1);
     let newExercise = [];
     for (var w = 0; w < workouts1.length; w++) {
@@ -70,9 +72,9 @@ const HomePage = ({ navigation }) => {
         >
           <View
             style={{
-              backgroundColor: '#222222',
+              backgroundColor: theme.colors.barContrast,
               padding: 7,
-              borderRadius: 10,
+              borderRadius: 6,
               width: '100%',
               height: '90%',
             }}
@@ -80,7 +82,7 @@ const HomePage = ({ navigation }) => {
             <View
               style={{ flexDirection: 'row', justifyContent: 'space-between' }}
             >
-              <Text style={{ fontSize: 25, color: 'white' }}>
+              <Text style={{ fontSize: 20, color: theme.colors.text }}>
                 {workouts1[w].workout_name}
               </Text>
               <Text style={{ fontSize: 13, color: 'grey', marginRight: 2 }}>
@@ -88,7 +90,7 @@ const HomePage = ({ navigation }) => {
               </Text>
             </View>
             <Text style={{ color: '#74B3CE' }}>
-              {'Duration: ' + workouts1[w].time_duration + ' min'}
+              {'Duration: ' + workouts1[w].total_duration + ' minutes'}
             </Text>
             <Text style={{ color: '#09BC8A' }}>
               {'Calories: ' + workouts1[w].total_energy_burned + ' cal'}
@@ -181,7 +183,7 @@ const HomePage = ({ navigation }) => {
 
           <View style={[styles.box, { flex: 8 }]}>
             <View style={[styles.historyText, { width: '100%' }]}>
-              <Text style={{ color: 'white', fontSize: 22, padding: 10, fontWeight: 'bold' }}>
+              <Text style={{ color: 'white', fontSize: 22, marginBottom: 10, padding: 10, fontWeight: 'bold' }}>
                 History
               </Text>
               <ScrollView style={{ width: '100%', height: '100%'}}>
