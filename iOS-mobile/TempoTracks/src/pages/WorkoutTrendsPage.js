@@ -203,6 +203,7 @@ const WorkoutTrendsPage = ({ navigation }) => {
             yAxisOffset={130}
           />
         </View>
+        <View style={{ paddingHorizontal: 5 }}>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <Text variant="titleLarge" style={{ color: theme.colors.text, padding: 10 }}>Monthly Goals</Text>
           <IconButton icon="pencil" color={theme.colors.text} size={20} onPress={() => console.log('Pressed')} />
@@ -262,6 +263,7 @@ const WorkoutTrendsPage = ({ navigation }) => {
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>0</Text>
           <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>12500</Text>
+        </View>
         </View>
       </ScrollView>
     </SafeAreaView>
