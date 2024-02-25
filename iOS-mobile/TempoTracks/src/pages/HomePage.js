@@ -126,7 +126,7 @@ const HomePage = ({ navigation }) => {
               </Text>
             </TouchableOpacity>
           </View>
-          <View style={[styles.progressContainer, { flex: 8, }]}>
+          <View style={[styles.progressContainer, { flex: 6, }]}>
               <Text style={{ fontSize: 22, color: theme.colors.text, marginBottom: 10,  fontWeight: 'bold', }}>
                 Daily Goals 
               </Text>
@@ -142,41 +142,41 @@ const HomePage = ({ navigation }) => {
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-around',
-                alignItems: 'center',
+                alignItems: 'left',
                 width: '100%',
-                marginBottom: 4,
+                marginBottom: 20,
               }}
             >
               <Text style={{ marginRight: 4, fontSize: 18, color: '#09BC8A'}}>
                 Calories: 234/350 
               </Text>
-              <Progress.Circle  progress={0.7} size={75} thickness={12} color={'#09BC8A'} borderColor={'#222222'}/>
+              <Progress.Bar progress={0.7} height={30} width={130} color={'#09BC8A'} borderColor={'#222222'} />
               </View>
               <View
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-around',
-                alignItems: 'center',
+                alignItems: 'left',
                 width: '100%',
-                marginBottom: 4
+                marginBottom: 20
               }}
             >
               <Text style={{ marginTop: 6, marginRight: 4, fontSize: 18, color: '#74B3CE' }}>
                 Activity: 10/20 Min
               </Text>
-              <Progress.Circle progress={0.5} size={75} thickness={12} color={'#74B3CE'} borderColor={'#222222'}/>
+              <Progress.Bar progress={0.5} height={30} width={130} color={'#74B3CE'} borderColor={'#222222'}/>
               </View>
               <View
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-around',
-                alignItems: 'center',
+                alignItems: 'left',
                 width: '100%',
               }}>
               <Text style={{ marginTop: 6, marginRight: 4, fontSize: 18, color: '#508991' }}>
                 Steps: 3024/10,000
               </Text>
-              <Progress.Circle  progress={0.3} size={75} thickness={12} color={'#508991'} borderColor={'#222222'}/>
+              <Progress.Bar progress={0.3} height={30} width={130} color={'#508991'} borderColor={'#222222'}/>
               </View>
             </View>
           </View>
@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#000000',
     borderRadius: 5,
     padding: 10,
-    marginTop: 30
+    marginTop: 15
   },
   welcomeContainer: {
     width: '100%',
