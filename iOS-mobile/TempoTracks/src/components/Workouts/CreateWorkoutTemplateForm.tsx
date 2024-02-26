@@ -31,7 +31,6 @@ import DraggableFlatList, {
 import { Button as PaperButton } from "react-native-paper";
 import { Formik } from "formik";
 import { useToast } from "react-native-toast-notifications";
-import { createWorkoutTemplate } from "../../api/WorkoutTemplate.ts";
 import { TextInput as CustomTextInput } from "../Inputs/TextInput";
 import { NumberInput } from "../Inputs/NumberInput";
 import { Checkbox } from "../Inputs/Checkbox";
@@ -43,13 +42,13 @@ import {
   BottomSheetTextInput,
 } from "@gorhom/bottom-sheet";
 import CustomCarousel from "../Workouts/CustomCarousel.js";
-import {
-  useCreateWorkoutTemplate,
-  useGetWorkoutTemplates,
-} from "../../api/WorkoutTemplate.ts";
-import { usePlaylists } from "../../api/Music.ts";
+import { useCreateWorkoutTemplate } from "../../api/WorkoutTemplate";
+import { useGetWorkoutTemplates } from "../../api/WorkoutTemplate";
+import { useGetWorkoutIntervals } from "../../api/WorkoutIntervals";
+import { usePlaylists } from "../../api/Music";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useQuery } from "@tanstack/react-query";
+import * as yup from "yup";
 
 interface CreateWorkoutTemplateFormProps {
   userId: string;
@@ -79,26 +78,29 @@ export const StyledText: React.FC<StyledTextProps> = ({
   );
 };
 
+const VALIDATION_SCHEMA = yup.object({
+  name: yup.string().required(),
+  description: yup.string(),
+  type: yup.string().required(),
+  //playlistId: yup.string().required(),
+});
+
 export const CreateWorkoutTemplateForm: React.FC<
   CreateWorkoutTemplateFormProps
 > = ({ userId, navigation }) => {
   const theme = useTheme();
   const toast = useToast();
 
-  const { data } = useGetWorkoutTemplates(Number(userId));
+  const { data } = useGetWorkoutTemplates();
 
   // Select playlist
-  const { data: playlists = [], isPending } = usePlaylists();
+  const { data: playlists = [], isPending: loadingPlaylists } = usePlaylists();
   const [carouselItem, setCarouselItem] = useState(0);
   const handleItemTap = (itemId: string, setFieldValue: Function) => {
     setCarouselItem(itemId);
     setFieldValue("playlist_id", itemId);
     return itemId;
   };
-
-  // Switch to indicate start now or create
-  const [isSwitchOn, setIsSwitchOn] = React.useState(false);
-  const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
 
   // Bottom Sheet Modal
   const bottomSheetModalRef = useRef(null);
@@ -125,13 +127,18 @@ export const CreateWorkoutTemplateForm: React.FC<
   const closeMenu = () => setVisible(false);
 
   // Select intervals and create set - will implement an endpoint if time permits
-  const [checkboxes, setCheckboxes] = useState([
-    { id: 1, title: "Recovery", active: 30, rest: 90, isChecked: false },
-    { id: 2, title: "Light", active: 60, rest: 120, isChecked: false },
-    { id: 3, title: "Moderate", active: 120, rest: 60, isChecked: false },
-    { id: 4, title: "High", active: 20, rest: 45, isChecked: false },
-    { id: 5, title: "HIIT", active: 30, rest: 30, isChecked: false },
-  ]);
+  const { data: workoutIntervals, isPending: loadingWorkoutIntervals } =
+    useGetWorkoutIntervals();
+
+  const checkboxes = useMemo(() => {
+    if (!loadingWorkoutIntervals) {
+      return workoutIntervals.map((interval) => ({
+        ...interval,
+        isChecked: false,
+      }));
+    }
+    return [];
+  }, [loadingWorkoutIntervals, workoutIntervals]);
 
   const [customIntervalModal, setCustomIntervalModal] =
     useState<boolean>(false);
@@ -156,7 +163,7 @@ export const CreateWorkoutTemplateForm: React.FC<
     return (
       <Checkbox
         onLongPress={drag}
-        title={item.title}
+        title={item.label}
         subTitle={`${item.active} secs active, ${item.rest} secs rest`}
         index={index}
       />
@@ -180,11 +187,16 @@ export const CreateWorkoutTemplateForm: React.FC<
     console.log(activeTab);
   };
 
+  // Custom Interval modal controls
   const [start, setStart] = useState<boolean>(false);
   const [save, setSave] = useState<boolean>(false);
   const createTemplate = useCreateWorkoutTemplate();
 
-  if (isPending) {
+  if (loadingPlaylists) {
+    return <Text>Loading playlists</Text>;
+  }
+
+  if (loadingWorkoutIntervals) {
     return null;
   }
 
@@ -206,6 +218,8 @@ export const CreateWorkoutTemplateForm: React.FC<
           num_sets: 1,
           intervals: [],
         }}
+        validationSchema={VALIDATION_SCHEMA}
+        validateOnMount
         onSubmit={(values) => {
           createTemplate.mutate(
             {
@@ -248,6 +262,8 @@ export const CreateWorkoutTemplateForm: React.FC<
           values,
           form,
           setFieldValue,
+          isValid,
+          dirty,
         }) => (
           <>
             <View
@@ -391,15 +407,16 @@ export const CreateWorkoutTemplateForm: React.FC<
                     >
                       <StyledText text="Select intervals" fontSize={24} />
                       <View style={{ display: "flex", gap: 12, width: "100%" }}>
-                        {checkboxes.map((interval, index) => (
-                          <Checkbox
-                            key={index}
-                            title={interval.title}
-                            subTitle={`${interval.active} secs active, ${interval.rest} secs rest`}
-                            onPress={() => handleCheckboxChange(interval.id)}
-                            value={interval.isChecked}
-                          />
-                        ))}
+                        {!loadingWorkoutIntervals &&
+                          checkboxes.map((interval, index) => (
+                            <Checkbox
+                              key={index}
+                              title={interval.label}
+                              subTitle={`${interval.active} secs active, ${interval.rest} secs rest`}
+                              onPress={() => handleCheckboxChange(interval.id)}
+                              value={interval.isChecked}
+                            />
+                          ))}
                       </View>
                       <PaperButton
                         onPress={() =>
@@ -411,14 +428,14 @@ export const CreateWorkoutTemplateForm: React.FC<
                           marginTop: -8,
                           justifyContent: "center",
                           width: "100%",
-                          backgroundColor: theme.colors.foregroundMuted,
-                          borderWidth: 2,
-                          borderColor: theme.colors.border,
+                          backgroundColor: theme.colors.previousBackground,
+                          borderWidth: 1,
+                          borderColor: theme.colors.primary,
                         }}
                         textColor={theme.colors.text}
                         labelStyle={{ fontSize: 16, fontWeight: "bold" }}
                         contentStyle={{ color: theme.colors.text }}
-                        icon="database-edit-outline"
+                        icon="pencil-plus-outline"
                       >
                         Custom interval
                       </PaperButton>
@@ -587,25 +604,29 @@ export const CreateWorkoutTemplateForm: React.FC<
             </View>
             {/* Playlist */}
             <View style={{ gap: 8, marginTop: 16 }}>
-              <StyledText text="Choose a playlist" fontSize={18} />
-              <View
-                style={{
-                  paddingHorizontal: 6,
-                  backgroundColor: theme.colors.card,
-                  paddingVertical: 16,
-                  borderWidth: 1,
-                  borderColor: theme.colors.border,
-                  borderRadius: 8,
-                }}
-              >
-                <CustomCarousel
-                  carouselData={playlists}
-                  handleItemTap={(itemId) => {
-                    handleItemTap(itemId, setFieldValue);
-                    setFieldValue("playlist_id", itemId);
-                  }}
-                />
-              </View>
+              {!loadingPlaylists && (
+                <>
+                  <StyledText text="Choose a playlist" fontSize={18} />
+                  <View
+                    style={{
+                      paddingHorizontal: 6,
+                      backgroundColor: theme.colors.card,
+                      paddingVertical: 16,
+                      borderWidth: 1,
+                      borderColor: theme.colors.border,
+                      borderRadius: 8,
+                    }}
+                  >
+                    <CustomCarousel
+                      carouselData={playlists}
+                      handleItemTap={(itemId) => {
+                        handleItemTap(itemId, setFieldValue);
+                        setFieldValue("playlist_id", itemId);
+                      }}
+                    />
+                  </View>
+                </>
+              )}
               <View
                 style={{
                   marginTop: 16,
@@ -628,7 +649,7 @@ export const CreateWorkoutTemplateForm: React.FC<
                   labelStyle={{ fontSize: 20, fontWeight: "bold" }}
                   contentStyle={{ color: theme.colors.primary, gap: -4 }}
                   icon="content-save-outline"
-                  disabled={start}
+                  disabled={start || !isValid}
                   onPress={() => {
                     setSave(true);
                     handleSubmit();
@@ -657,6 +678,7 @@ export const CreateWorkoutTemplateForm: React.FC<
                     handleSubmit();
                     setStart(true);
                   }}
+                  disabled={!isValid}
                 >
                   <Text style={{ fontSize: 18 }}>Start</Text>
                 </PaperButton>

@@ -9,7 +9,7 @@ import {
   Menu,
   useTheme,
 } from "react-native-paper";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "react-native-toast-notifications";
 import { TextInput } from "../Inputs/TextInput";
 import { NumberInput } from "../Inputs/NumberInput";
@@ -39,20 +39,13 @@ export const IntervalCreationModal: React.FC<IntervalCreationModalProps> = ({
 }) => {
   const theme = useTheme();
   const toast = useToast();
+  const queryClient = useQueryClient();
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const openMenu = () => setMenuOpen(true);
   const closeMenu = () => setMenuOpen(false);
 
   const { data: intensities, isPending } = useGetWorkoutIntensities();
-
-  const handleSuccess = () => {
-    toast.show("Interval successfully created!", {
-      type: "success",
-      duration: 4000,
-      animationType: "slide-in",
-    });
-  };
-  const createWorkoutInterval = useCreateWorkoutInterval(handleSuccess);
+  const createWorkoutInterval = useCreateWorkoutInterval();
 
   if (isPending) {
     return null;
@@ -81,12 +74,27 @@ export const IntervalCreationModal: React.FC<IntervalCreationModalProps> = ({
             rest: "",
           }}
           onSubmit={(values) => {
-            createWorkoutInterval.mutate({
-              label: values.name,
-              tempo: 1,
-              active: values.active,
-              rest: values.rest,
-            });
+            createWorkoutInterval.mutate(
+              {
+                label: values.name,
+                tempo: values.intensity,
+                active: values.active,
+                rest: values.rest,
+                is_custom: true,
+              },
+              {
+                onSuccess: (data, variables) => {
+                  toast.show("Interval successfully created!", {
+                    type: "success",
+                    duration: 4000,
+                    animationType: "slide-in",
+                  });
+                  queryClient.invalidateQueries({
+                    queryKey: ["workoutIntervals"],
+                  });
+                },
+              }
+            );
           }}
           validationSchema={VALIDATION_SCHEMA}
         >

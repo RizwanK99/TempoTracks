@@ -6,12 +6,13 @@ interface WorkoutInterval {
   workoutInterval: Tables<"workout_intervals">;
 }
 
-export const useCreateWorkoutInterval = (onSuccess) => {
+export const useCreateWorkoutInterval = () => {
   return useMutation({
     mutationFn: async (interval) => {
       const { data, error } = await supabase
         .from("workout_intervals")
-        .insert(interval);
+        .insert(interval)
+        .select();
 
       if (error) {
         console.log("Error creating workout interval", error);
@@ -19,8 +20,20 @@ export const useCreateWorkoutInterval = (onSuccess) => {
       }
       return data;
     },
-    onSuccess: async () => {
-      onSuccess();
+  });
+};
+
+export const useGetWorkoutIntervals = () => {
+  return useQuery({
+    queryKey: ["workoutIntervals"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("workout_intervals").select();
+
+      if (error) {
+        console.log("Error getting static intervals", error);
+        return null;
+      }
+      return data;
     },
   });
 };
