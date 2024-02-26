@@ -291,18 +291,19 @@ const calculateEnergyScore = (song: Tables<"songs">) => {
   }, 0);
 };
 
-(async () => {
-  const { data: songs } = await supabase.from("songs").select("*");
+// FOR TESTING
+// (async () => {
+//   const { data: songs } = await supabase.from("songs").select("*");
 
-  if (!songs) {
-    console.error("No songs found");
-    return;
-  }
+//   if (!songs) {
+//     console.error("No songs found");
+//     return;
+//   }
 
-  const queue = calculateSongQueue({
-    intervals: FAKE_INTERVALS,
-    songs: songs,
-  });
+//   const queue = calculateSongQueue({
+//     intervals: FAKE_INTERVALS,
+//     songs: songs,
+//   });
 
-  console.log("queue", queue);
-})();
+//   console.log("queue", queue);
+// })();
