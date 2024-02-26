@@ -1,7 +1,7 @@
 # TempoTracks
 
 # Table of Contents
-- [TempoTacks](#tempotacks)
+- [TempoTracks](#tempotracks)
 - [Table of Contents](#table-of-contents)
 - [1. Introduction](#1-introduction)
 - [2. iOS Application](#2-ios-application)
