@@ -66,7 +66,7 @@ const WorkoutHistoryPage = ({ navigation }) => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <Appbar.Header mode="small" statusBarHeight={0} elevated="true" style={{ backgroundColor: theme.colors.background}}>
-        <Appbar.BackAction onPress={() => navigation.navigate("WorkoutTrends")} />
+        <Appbar.BackAction onPress={() => navigation.navigate("WorkoutListPage")} />
         <Appbar.Content title="History" />
       </Appbar.Header>
       
@@ -83,7 +83,7 @@ const WorkoutHistoryPage = ({ navigation }) => {
       <ScrollView horizontal style={{ paddingHorizontal: 5, paddingBottom: 5 }}>
         <Chip icon="bike" style={{ margin: 2 }} elevated="true" onPress={() => console.log('Pressed')}>Biking</Chip>
         <Chip icon="run" style={{ margin: 2 }} elevated="true" onPress={() => console.log('Pressed')}>Running</Chip>
-        <Chip icon="lightning-bolt" style={{ margin: 2 }} elevated="true" onPress={() => console.log('Pressed')}>HIIT</Chip>
+        <Chip icon="timer" style={{ margin: 2 }} elevated="true" onPress={() => console.log('Pressed')}>HIIT</Chip>
         <Chip icon="walk" style={{ margin: 2 }} elevated="true" onPress={() => console.log('Pressed')}>Walking</Chip>
       </ScrollView>
       </View>

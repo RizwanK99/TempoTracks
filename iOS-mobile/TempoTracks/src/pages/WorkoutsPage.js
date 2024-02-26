@@ -57,7 +57,7 @@ const WorkoutsPage = ({ navigation }) => {
           style={{ paddingBottom: 3, position: 'absolute' }}
           open={open}
           variant="surface"
-          icon={open ? 'lightning-bolt' : 'headphones'}
+          icon={open ? 'timer' : 'headphones'}
           label={open ? 'Start A New Workout' : ''}
           actions={[
             {

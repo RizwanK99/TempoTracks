@@ -1,15 +1,17 @@
 import * as React from 'react';
 import {
   TouchableOpacity,
-  StyleSheet,
   ScrollView,
   View,
-  Text,
   SafeAreaView,
+  Dimensions
 } from 'react-native';
+
+import { Appbar, useTheme, Avatar, Button, Card, Text, Divider, IconButton, Chip, Surface, ProgressBar, Tooltip, PaperProvider, Menu } from 'react-native-paper';
+
 import { endOfDay, format } from 'date-fns';
-import * as Progress from 'react-native-progress';
 import profileData from '../../mocks/profile_data.json';
+import { LineChart } from "react-native-gifted-charts";
 
 import { getUsersWorkouts } from '../api/Workouts';
 import { useEffect, useState } from 'react';
@@ -17,6 +19,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Watch Hooks
 import { sendSongsToWatch, sendWorkoutTemplatesToWatch } from "../module/WatchManager";
+import { Icon } from 'react-native-elements';
 
 async function retrieveData(user, setUser) {
   try {
@@ -35,6 +38,115 @@ const HomePage = ({ navigation }) => {
   const [user, setUser] = useState({});
   const [exerciseList, setExerciseList] = useState([]);
 
+  const theme = useTheme();
+
+  const openMenu = () => setVisible(true);
+
+  const closeMenu = () => setVisible(false);
+
+  //TODO: Replace with actual data
+  const lineData = [
+    {
+      value: 162,
+    },
+    {
+      value: 167,
+      label: "Jan",
+      dataPointText: "167",
+      textColor: theme.colors.mutedWhite,
+      dataPointRadius: 3,
+      dataPointColor: theme.colors.bluePrimaryForeground,
+    },
+    {
+      value: 162,
+      //label: "2/23",
+      dataPointText: "162",
+      textColor: theme.colors.text,
+      dataPointRadius: 3,
+      dataPointColor: theme.colors.bluePrimaryForeground,
+    },
+    {
+      value: 153,
+      //label: "3/23",
+      dataPointText: "153",
+      textColor: theme.colors.text,
+      dataPointRadius: 3,
+      dataPointColor: theme.colors.bluePrimaryForeground,
+    },
+    {
+      value: 146,
+      //label: "4/23",
+      dataPointText: "146",
+      textColor: theme.colors.text,
+      dataPointRadius: 3,
+      dataPointColor: theme.colors.bluePrimaryForeground,
+    },
+    {
+      value: 144,
+      //label: "5/23",
+      dataPointText: "144",
+      textColor: theme.colors.text,
+      dataPointRadius: 3,
+      dataPointColor: theme.colors.bluePrimaryForeground,
+    },
+    {
+      value: 150,
+      //label: "6/23",
+      dataPointText: "150",
+      textColor: theme.colors.text,
+      dataPointRadius: 3,
+      dataPointColor: theme.colors.bluePrimaryForeground,
+    },
+    {
+      value: 155,
+      //label: "7/23",
+      dataPointText: "155",
+      textColor: theme.colors.text,
+      dataPointRadius: 3,
+      dataPointColor: theme.colors.bluePrimaryForeground,
+    },
+    {
+      value: 153,
+      //label: "8/23",
+      dataPointText: "153",
+      textColor: theme.colors.text,
+      dataPointRadius: 3,
+      dataPointColor: theme.colors.bluePrimaryForeground,
+    },
+    {
+      value: 150,
+      //label: "9/23",
+      dataPointText: "150",
+      textColor: theme.colors.text,
+      dataPointRadius: 3,
+      dataPointColor: theme.colors.bluePrimaryForeground,
+    },
+    {
+      value: 155,
+      //label: "10/23",
+      dataPointText: "155",
+      textColor: theme.colors.text,
+      dataPointRadius: 3,
+      dataPointColor: theme.colors.bluePrimaryForeground,
+    },
+    {
+      value: 152,
+      //label: "11/23",
+      dataPointText: "152",
+      textColor: theme.colors.text,
+      dataPointRadius: 3,
+      dataPointColor: theme.colors.bluePrimaryForeground,
+    },
+    {
+      value: 152,
+      label: "Dec",
+      dataPointText: "152",
+      textColor: theme.colors.text,
+      dataPointRadius: 3,
+      dataPointColor: theme.colors.bluePrimaryForeground,
+    }
+  ];
+
   //COMMENT OUT FOR EXPO BUILDS (WATCH)
 
   /*START
@@ -51,197 +163,251 @@ const HomePage = ({ navigation }) => {
     fetchData();
   }, [user.user_id]);
 
-  useEffect(() => {
-    console.log('useEffect');
-    console.log(workouts);
-    let workouts1 = [];
-    if (workouts) {
-      workouts1 = [...workouts];
-    }
-    console.log(workouts1);
-    let newExercise = [];
-    for (var w = 0; w < workouts1.length; w++) {
-      console.log('for');
-      newExercise.push(
-        <View
-          key={workouts1[w].workout_id}
-          style={{ alignItems: 'center', width: '100%', height: 100 }}
-        >
-          <View
-            style={{
-              backgroundColor: '#222222',
-              padding: 7,
-              borderRadius: 10,
-              width: '100%',
-              height: '90%',
-            }}
-          >
-            <View
-              style={{ flexDirection: 'row', justifyContent: 'space-between' }}
-            >
-              <Text style={{ fontSize: 25, color: 'white' }}>
-                {workouts1[w].workout_name}
-              </Text>
-              <Text style={{ fontSize: 13, color: 'grey', marginRight: 2 }}>
-                {workouts1[w].date}
-              </Text>
-            </View>
-            <Text style={{ color: '#74B3CE' }}>
-              {'Duration: ' + workouts1[w].time_duration + ' min'}
-            </Text>
-            <Text style={{ color: '#09BC8A' }}>
-              {'Calories: ' + workouts1[w].total_energy_burned + ' cal'}
-            </Text>
-          </View>
-        </View>
-      );
-    }
-    setExerciseList(newExercise);
-  }, [workouts]);
+  var formattedDate = format(endOfDay(new Date()), 'MMMM d, yyyy');
 
-  var formattedDate = format(endOfDay(new Date()), 'EEEE, MMMM do');
+  const [visible, setVisible] = React.useState(false);
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: 'black' }}>
-      <View style={styles.full}>
-        <View style={styles.container}>
-          <View style={[styles.topBar, { flex: 2 }]}>
-            <View style={{ flexDirection: 'column' }}>
-              <Text style={styles.welcome}>{formattedDate}</Text>
-              <Text style={{ color: 'white', fontSize: 32 }}>
-                Today's Progress
-              </Text>
+    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
+      <ScrollView style={{ paddingHorizontal: 10 }}>
+        <Appbar.Header mode="small" statusBarHeight={0} elevated="true" style={{ backgroundColor: theme.colors.background, paddingBottom: 10 }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
+            <View>
+              <Appbar.Content title={formattedDate.toUpperCase()} titleStyle={{ fontSize: 14 }} />
+              <Appbar.Content title={"Good Afternoon, " + profileData.name.split(' ')[0]} titleStyle={{ fontSize: 25 }} />
             </View>
-            <TouchableOpacity
-              onPress={() => navigation.navigate('Profile', { ...profileData })}
-              style={[styles.btn_shape, { marginHorizontal: 10 }]}
-            >
-              <Text
-                style={{ color: '#004346', fontSize: 26, alignSelf: 'center' }}
-              >
-                {profileData.name[0]}
-              </Text>
+
+            <TouchableOpacity onPress={() => navigation.navigate('Profile', { ...profileData })}>
+              <Avatar.Text size={40} label={profileData.name[0]} />
             </TouchableOpacity>
           </View>
-          <View style={[styles.progressContainer, { flex: 2 }]}>
-            <View
-              style={{
-                flexDirection: 'column',
-                justifyContent: 'center',
-                width: '100%',
-              }}
-            >
-              <Text style={{ fontSize: 14, color: '#09BC8A' }}>
-                Calories: 234/350
-              </Text>
-              <Progress.Bar progress={0.7} width={null} color={'#09BC8A'} />
-              <Text style={{ marginTop: 6, fontSize: 14, color: '#74B3CE' }}>
-                Activity: 10/20 Minutes
-              </Text>
-              <Progress.Bar progress={0.5} width={null} color={'#74B3CE'} />
-              <Text style={{ marginTop: 6, fontSize: 14, color: '#508991' }}>
-                Steps: 3024/10,000
-              </Text>
-              <Progress.Bar progress={0.3} width={null} color={'#508991'} />
+        </Appbar.Header>
+
+
+        <Card>
+          <Card.Content>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+              <Text variant="headlineMedium" style={{ color: theme.colors.text, paddingHorizontal: 5 }}>Today's Progress</Text>
+              <IconButton icon="pencil" color={theme.colors.text} size={20} onPress={() => console.log('Pressed')} />
             </View>
+            <Divider style={{ marginVertical: 10 }} />
+
+            <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
+              <Button textColor={theme.colors.text} icon="shoe-sneaker">Steps</Button>
+              <Text style={{ color: theme.colors.foregroundMuted }}>7593</Text>
+            </View>
+
+
+            <View style={{ paddingHorizontal: 10 }}>
+              <ProgressBar progress={0.7} />
+            </View>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+              <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>0</Text>
+              <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>10000</Text>
+            </View>
+
+            <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
+              <Button textColor={theme.colors.text} style={{ alignSelf: 'flex-start' }} icon="weight-lifter">Activity</Button>
+              <Text style={{ color: theme.colors.foregroundMuted }}>55 min</Text>
+            </View>
+
+            <View style={{ paddingHorizontal: 10 }}>
+              <ProgressBar progress={0.9} />
+            </View>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+              <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>0</Text>
+              <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>60</Text>
+            </View>
+
+            <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
+              <Button textColor={theme.colors.text} style={{ alignSelf: 'flex-start' }} icon="fire">Calories</Button>
+              <Text style={{ color: theme.colors.foregroundMuted }}>337</Text>
+            </View>
+
+
+            <View style={{ paddingHorizontal: 10 }}>
+              <ProgressBar progress={0.8} />
+            </View>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+              <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>0</Text>
+              <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>500</Text>
+            </View>
+          </Card.Content>
+        </Card>
+
+        <Card style={{ backgroundColor: theme.colors.background, paddingTop: 10 }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'center', padding: 5 }}>
+            <PaperProvider>
+              <Menu
+                visible={visible}
+                style={{ flex: 1 }}
+                onDismiss={closeMenu}
+                anchor={
+                  <Button icon="heart" onPress={openMenu}>Avg. BPM</Button>
+                }>
+                <Menu.Item onPress={() => { }} title="Item 1" />
+                <Menu.Item onPress={() => { }} title="Item 2" />
+                <Divider />
+                <Menu.Item onPress={() => { }} title="Item 3" />
+              </Menu>
+            </PaperProvider>
+            
+            <PaperProvider>
+              <Menu
+                visible={visible}
+                style={{ flex: 1 }}
+                onDismiss={closeMenu}
+                anchor={
+                  <Button icon="calendar" onPress={openMenu}>Year</Button>
+                }>
+                <Menu.Item onPress={() => { }} title="Item 1" />
+                <Menu.Item onPress={() => { }} title="Item 2" />
+                <Divider />
+                <Menu.Item onPress={() => { }} title="Item 3" />
+              </Menu>
+            </PaperProvider>
+
+            <PaperProvider>
+              <Menu
+                visible={visible}
+                style={{ fix: 1 }}
+                onDismiss={closeMenu}
+                anchor={
+                  <Button icon="bike" onPress={openMenu}>Biking</Button>
+                }>
+                <Menu.Item onPress={() => { }} title="Item 1" />
+                <Menu.Item onPress={() => { }} title="Item 2" />
+                <Divider />
+                <Menu.Item onPress={() => { }} title="Item 3" />
+              </Menu>
+            </PaperProvider>
+
           </View>
 
-          <View style={[styles.box, { flex: 8 }]}>
-            <View style={[styles.historyText, { width: '100%' }]}>
-              <Text style={{ color: 'white', fontSize: 22, padding: 10 }}>
-                History
-              </Text>
-              <ScrollView style={{ width: '100%' }}>
-                <View style={{ width: '100%' }}>{exerciseList}</View>
-              </ScrollView>
-            </View>
+          <Divider style={{ height: 1, backgroundColor: theme.colors.border, marginBottom: 5 }} />
+
+          <View>
+            <LineChart
+              initialSpacing={0}
+              spacing={(Dimensions.get('window').width / 12) - 5}
+              data={lineData}
+              curved
+              textShiftY={-2}
+              textColor1={theme.colors.text}
+              xAxisLabelTextStyle={{ color: theme.colors.foregroundMuted }}
+              textFontSize={11}
+              thickness={2}
+              height={200}
+              hideRules
+              isAnimated
+              hideYAxisText
+              yAxisColor={theme.colors.foregroundMuted}
+              showVerticalLines
+              verticalLinesColor={theme.colors.border}
+              xAxisColor={theme.colors.foregroundMuted}
+              color={theme.colors.primary}
+              dataPointsColor1={theme.colors.foregroundMuted}
+              yAxisOffset={130}
+            />
+          </View>
+        </Card>
+
+        <View>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <Text variant="titleLarge" style={{ color: theme.colors.text, padding: 10 }}>Monthly Goals</Text>
+            <IconButton icon="pencil" color={theme.colors.text} size={20} onPress={() => console.log('Pressed')} />
+          </View>
+
+          <Divider style={{ height: 1, backgroundColor: theme.colors.border, marginBottom: 5 }} />
+
+          <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
+            <Button textColor={theme.colors.text} icon="map">Distance</Button>
+            <Text style={{ color: theme.colors.foregroundMuted }}>56km</Text>
+          </View>
+
+
+          <View style={{ paddingHorizontal: 10 }}>
+            <ProgressBar progress={0.7} />
+          </View>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>0km</Text>
+            <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>80km</Text>
+          </View>
+
+          <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
+            <Button textColor={theme.colors.text} style={{ alignSelf: 'flex-start' }} icon="terrain">Elevation</Button>
+            <Text style={{ color: theme.colors.foregroundMuted }}>400m</Text>
+          </View>
+
+          <View style={{ paddingHorizontal: 10 }}>
+            <ProgressBar progress={0.2} />
+          </View>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>0km</Text>
+            <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>2000m</Text>
+          </View>
+
+          <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
+            <Button textColor={theme.colors.text} style={{ alignSelf: 'flex-start' }} icon="weight-lifter">Workouts</Button>
+            <Text style={{ color: theme.colors.foregroundMuted }}>22</Text>
+          </View>
+
+          <View style={{ paddingHorizontal: 10 }}>
+            <ProgressBar progress={0.9} />
+          </View>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>0</Text>
+            <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>25</Text>
+          </View>
+
+          <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
+            <Button textColor={theme.colors.text} style={{ alignSelf: 'flex-start' }} icon="fire">Calories</Button>
+            <Text style={{ color: theme.colors.foregroundMuted }}>10000</Text>
+          </View>
+
+
+          <View style={{ paddingHorizontal: 10 }}>
+            <ProgressBar progress={0.8} />
+          </View>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>0</Text>
+            <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>12500</Text>
           </View>
         </View>
+
+      </ScrollView>
+
+
+      <View style={{ paddingHorizontal: 10 }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Text variant="labelLarge" style={{ color: theme.colors.foregroundMuted, padding: 10 }}>Favourites</Text>
+          <Tooltip title="Hold chip to change workout" enterTouchDelay={0} leaveTouchDelay={0}>
+            <IconButton icon="information" iconColor={theme.colors.foregroundMuted} selected size={15} onPress={() => { }} />
+          </Tooltip>
+        </View>
+        <Surface style={{ borderRadius: 15 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', padding: 6, justifyContent: 'center' }}>
+            <View style={{ flex: 4 }}>
+              <View style={{ flexDirection: 'row' }}>
+                <Chip icon="bike" style={{ margin: 2, flex: 1, justifyContent: 'center' }} elevated="true" onLongPress={() => console.log('Pressed')} onPress={() => console.log('Pressed')}>Biking</Chip>
+                <Chip icon="run" style={{ margin: 2, flex: 1 }} elevated="true" onPress={() => console.log('Pressed')}>Running</Chip>
+              </View>
+              <View style={{ flexDirection: 'row' }}>
+                <Chip icon="timer" style={{ margin: 2, flex: 1 }} elevated="true" onPress={() => console.log('Pressed')}>HIIT</Chip>
+                <Chip icon="walk" style={{ margin: 2, flex: 1 }} elevated="true" onPress={() => console.log('Pressed')}>Walking</Chip>
+              </View>
+            </View>
+            <View style={{ flex: 1, paddingLeft: 2 }}>
+              <TouchableOpacity onPress={() => navigation.navigate("WorkoutInProgress", { undefined })}>
+                <Surface elevation={4} style={{ aspectRatio: 1, borderRadius: 10, justifyContent: 'center', alignItems: 'center' }}>
+                  <IconButton iconColor={theme.colors.primary} icon="lightning-bolt" size={35} />
+                </Surface>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Surface>
       </View>
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  full: {
-    backgroundColor: 'black',
-    height: '100%',
-  },
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    backgroundColor: 'black',
-    marginHorizontal: 20,
-    height: '100%',
-  },
-  topBar: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
-    alignItems: 'center',
-  },
-  welcome: {
-    width: '100%',
-    color: 'grey',
-    fontSize: 12,
-    textTransform: 'uppercase',
-  },
-  progressContainer: {
-    width: '100%',
-    justifyContent: 'center',
-    backgroundColor: '#222222',
-    padding: 10,
-    borderRadius: 10,
-  },
-  historyText: {
-    alignSelf: 'flex-start',
-    justifyContent: 'center',
-  },
-  title: {
-    color: 'white',
-    fontSize: 22,
-  },
-  box: {
-    backgroundColor: 'black',
-    borderRadius: 10,
-    width: '100%',
-    height: '100%',
-    alignSelf: 'center',
-  },
-  btn_box: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    margin: 2,
-    alignContent: 'center',
-    width: '100%',
-  },
-  startButton: {
-    backgroundColor: '#09bc8a',
-    borderRadius: 10,
-    borderWidth: 2,
-    borderColor: '#004346',
-    width: '100%',
-    height: 60,
-    justifyContent: 'center',
-    textAlign: 'center',
-  },
-  startButtonContainer: {
-    justifyContent: 'center',
-    textAlign: 'center',
-    width: '100%',
-  },
-  btn_shape: {
-    backgroundColor: '#09bc8a',
-    borderRadius: 50,
-    borderWidth: 2,
-    borderColor: '#004346',
-    margin: 10,
-    height: 30,
-    width: 30,
-    textAlign: 'center',
-  },
-});
-
 export default HomePage;
