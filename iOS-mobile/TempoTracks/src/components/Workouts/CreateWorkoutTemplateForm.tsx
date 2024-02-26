@@ -20,6 +20,8 @@ import {
   Switch,
   Menu,
   Divider,
+  Portal,
+  Modal,
   useTheme,
 } from "react-native-paper";
 import DraggableFlatList, {
@@ -28,11 +30,13 @@ import DraggableFlatList, {
 } from "react-native-draggable-flatlist";
 import { Button as PaperButton } from "react-native-paper";
 import { Formik } from "formik";
+import { useToast } from "react-native-toast-notifications";
 import { createWorkoutTemplate } from "../../api/WorkoutTemplate.ts";
 import { TextInput as CustomTextInput } from "../Inputs/TextInput";
 import { NumberInput } from "../Inputs/NumberInput";
 import { Checkbox } from "../Inputs/Checkbox";
 import { AntDesign } from "@expo/vector-icons";
+import { IntervalCreationModal } from "./IntervalCreationModal";
 import {
   BottomSheetModal,
   BottomSheetModalProvider,
@@ -44,6 +48,8 @@ import {
   useGetWorkoutTemplates,
 } from "../../api/WorkoutTemplate.ts";
 import { usePlaylists } from "../../api/Music.ts";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useQuery } from "@tanstack/react-query";
 
 interface CreateWorkoutTemplateFormProps {
   userId: string;
@@ -77,6 +83,7 @@ export const CreateWorkoutTemplateForm: React.FC<
   CreateWorkoutTemplateFormProps
 > = ({ userId, navigation }) => {
   const theme = useTheme();
+  const toast = useToast();
 
   const { data } = useGetWorkoutTemplates(Number(userId));
 
@@ -126,6 +133,9 @@ export const CreateWorkoutTemplateForm: React.FC<
     { id: 5, title: "HIIT", active: 30, rest: 30, isChecked: false },
   ]);
 
+  const [customIntervalModal, setCustomIntervalModal] =
+    useState<boolean>(false);
+
   const checkedBoxes = useMemo(() => {
     return checkboxes.filter((item) => item.isChecked);
   }, [checkboxes]);
@@ -170,7 +180,13 @@ export const CreateWorkoutTemplateForm: React.FC<
     console.log(activeTab);
   };
 
+  const [start, setStart] = useState<boolean>(false);
+  const [save, setSave] = useState<boolean>(false);
   const createTemplate = useCreateWorkoutTemplate();
+
+  if (isPending) {
+    return null;
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -186,22 +202,43 @@ export const CreateWorkoutTemplateForm: React.FC<
           training_intervals: "",
           mins: "",
           secs: "",
-          playlist_id: !isPending ? playlists[0].apple_music_id : "",
+          playlist_id: playlists[0].apple_music_id,
           num_sets: 1,
           intervals: [],
         }}
         onSubmit={(values) => {
-          createTemplate.mutate({
-            name: values.name,
-            user_id: Number(userId),
-            description: values.description,
-            expected_duration: Number(values.mins) * 60 + Number(values.secs),
-            expected_distance: Number(values.expected_distance),
-            type: values.type ? values.type : null,
-            playlist_id: values.playlist_id,
-            num_sets: values.num_sets,
-            interval_ids: values.intervals,
-          });
+          createTemplate.mutate(
+            {
+              name: values.name,
+              user_id: Number(userId),
+              description: values.description,
+              expected_duration: Number(values.mins) * 60 + Number(values.secs),
+              expected_distance: Number(values.expected_distance),
+              type: values.type ? values.type : null,
+              playlist_id: values.playlist_id,
+              num_sets: values.num_sets,
+              interval_ids: values.intervals,
+            },
+            {
+              onSuccess: (data) => {
+                toast.show("Workout successfully created!", {
+                  type: "success",
+                  duration: 4000,
+                  animationType: "slide-in",
+                });
+                if (start) {
+                  navigation.navigate("StartOrCancelWorkoutPage", {
+                    templateId: data[0].id,
+                    playlistId: data[0].playlist_id,
+                    name: data[0].name,
+                    type: data[0].type,
+                  });
+                } else {
+                  navigation.navigate("Workouts");
+                }
+              },
+            }
+          );
         }}
       >
         {({
@@ -239,40 +276,6 @@ export const CreateWorkoutTemplateForm: React.FC<
                   onChangeText={handleChange("description")}
                 />
               </View>
-              <View style={{ gap: 16, marginBottom: 8, marginTop: 2 }}>
-                <View style={{ gap: 8 }}>
-                  <StyledText text="Estimated Distance" />
-                  <NumberInput
-                    placeholder="Enter"
-                    units="km"
-                    width={240}
-                    value={values.expected_distance}
-                    onChangeText={handleChange("expected_distance")}
-                    label="Estimated Distance"
-                  />
-                </View>
-                <View style={{ gap: 8 }}>
-                  <StyledText text="Training Duration" />
-                  <View
-                    style={{ display: "flex", flexDirection: "row", gap: 16 }}
-                  >
-                    <NumberInput
-                      placeholder="Enter"
-                      units="mins"
-                      label="Mins"
-                      value={values.mins}
-                      onChangeText={handleChange("mins")}
-                    />
-                    <NumberInput
-                      placeholder="Enter"
-                      units="secs"
-                      label="Secs"
-                      value={values.secs}
-                      onChangeText={handleChange("secs")}
-                    />
-                  </View>
-                </View>
-              </View>
               <Menu
                 visible={visible}
                 onDismiss={closeMenu}
@@ -289,7 +292,9 @@ export const CreateWorkoutTemplateForm: React.FC<
                     textColor={theme.colors.primaryForeground}
                     labelStyle={{ fontSize: 16, fontWeight: "bold" }}
                     icon={
-                      values.type && values.type_icon ? values.type_icon : ""
+                      values.type && values.type_icon
+                        ? values.type_icon
+                        : "image-filter-none"
                     }
                     contentStyle={{ color: theme.colors.text }}
                   >
@@ -353,6 +358,7 @@ export const CreateWorkoutTemplateForm: React.FC<
                 textColor={theme.colors.primaryForeground}
                 labelStyle={{ fontSize: 16, fontWeight: "bold" }}
                 contentStyle={{ color: theme.colors.text }}
+                icon="timer-outline"
               >
                 Select intervals
               </PaperButton>
@@ -395,6 +401,33 @@ export const CreateWorkoutTemplateForm: React.FC<
                           />
                         ))}
                       </View>
+                      <PaperButton
+                        onPress={() =>
+                          setCustomIntervalModal(!customIntervalModal)
+                        }
+                        style={{
+                          borderRadius: 4,
+                          height: 54,
+                          marginTop: -8,
+                          justifyContent: "center",
+                          width: "100%",
+                          backgroundColor: theme.colors.foregroundMuted,
+                          borderWidth: 2,
+                          borderColor: theme.colors.border,
+                        }}
+                        textColor={theme.colors.text}
+                        labelStyle={{ fontSize: 16, fontWeight: "bold" }}
+                        contentStyle={{ color: theme.colors.text }}
+                        icon="database-edit-outline"
+                      >
+                        Custom interval
+                      </PaperButton>
+                      <Divider
+                        style={{
+                          width: "100%",
+                          height: 1,
+                        }}
+                      />
                     </View>
                   )}
                   {activeTab === 1 && (
@@ -483,7 +516,7 @@ export const CreateWorkoutTemplateForm: React.FC<
                         display: "flex",
                         alignItems: "flex-start",
                         paddingHorizontal: 24,
-                        marginBottom: 8,
+                        marginBottom: 16,
                       }}
                     >
                       <PaperButton
@@ -545,6 +578,12 @@ export const CreateWorkoutTemplateForm: React.FC<
                   )}
                 </ScrollView>
               </BottomSheetModal>
+              <View>
+                <IntervalCreationModal
+                  visible={customIntervalModal}
+                  onDismiss={() => setCustomIntervalModal(false)}
+                />
+              </View>
             </View>
             {/* Playlist */}
             <View style={{ gap: 8, marginTop: 16 }}>
@@ -567,40 +606,59 @@ export const CreateWorkoutTemplateForm: React.FC<
                   }}
                 />
               </View>
-              <View style={{ gap: 32 }}>
-                <View
-                  style={{
-                    paddingHorizontal: 6,
-                    marginTop: 28,
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <StyledText text="Start right away?" fontSize={18} />
-                  <Switch
-                    value={isSwitchOn}
-                    onValueChange={onToggleSwitch}
-                    trackColor={"#fff"}
-                  />
-                </View>
+              <View
+                style={{
+                  marginTop: 16,
+                  marginBottom: 24,
+                  flexDirection: "row",
+                  gap: 8,
+                }}
+              >
                 <PaperButton
                   style={{
                     borderRadius: 8,
                     paddingVertical: 4,
-                    width: "100%",
+                    width: "50%",
+                    borderWidth: 1.5,
+                    borderColor: start
+                      ? theme.colors.primaryForeground
+                      : theme.colors.primary,
+                  }}
+                  textColor={theme.colors.primary}
+                  labelStyle={{ fontSize: 20, fontWeight: "bold" }}
+                  contentStyle={{ color: theme.colors.primary, gap: -4 }}
+                  icon="content-save-outline"
+                  disabled={start}
+                  onPress={() => {
+                    setSave(true);
+                    handleSubmit();
+                  }}
+                >
+                  <Text style={{ fontSize: 18 }}>
+                    {start ? "Saved" : "Save for later"}
+                  </Text>
+                </PaperButton>
+                <PaperButton
+                  style={{
+                    borderRadius: 8,
+                    paddingVertical: 4,
+                    width: "50%",
                     backgroundColor: theme.colors.primary,
                   }}
                   textColor={theme.colors.primaryForeground}
-                  labelStyle={{ fontSize: 20, fontWeight: "bold" }}
-                  contentStyle={{ color: theme.colors.text }}
+                  labelStyle={{ fontSize: 22, fontWeight: "bold" }}
+                  contentStyle={{
+                    color: theme.colors.text,
+                    gap: -4,
+                    marginRight: 4,
+                  }}
+                  icon="play-circle-outline"
                   onPress={() => {
                     handleSubmit();
-                    if (!isSwitchOn) {
-                      navigation.navigate("Workouts");
-                    }
+                    setStart(true);
                   }}
                 >
-                  {isSwitchOn ? "Start Workout" : "Create Workout"}
+                  <Text style={{ fontSize: 18 }}>Start</Text>
                 </PaperButton>
               </View>
             </View>

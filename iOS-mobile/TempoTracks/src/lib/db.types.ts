@@ -257,6 +257,27 @@ export type Database = {
         }
         Relationships: []
       }
+      workout_intensities: {
+        Row: {
+          bpm_lower_threshold: number | null
+          bpm_upper_threshold: number | null
+          id: number
+          label: string | null
+        }
+        Insert: {
+          bpm_lower_threshold?: number | null
+          bpm_upper_threshold?: number | null
+          id?: number
+          label?: string | null
+        }
+        Update: {
+          bpm_lower_threshold?: number | null
+          bpm_upper_threshold?: number | null
+          id?: number
+          label?: string | null
+        }
+        Relationships: []
+      }
       workout_intervals: {
         Row: {
           active: number | null
