@@ -16,6 +16,7 @@ export const IntensityVsTimeGraph: React.FC<IntensityVsTimeGraphProps> = ({
       <BarChart
         data={barData}
         spacing={24}
+        isAnimated
         xAxisType="dashed"
         xAxisColor={theme.colors.foregroundMuted}
         xAxisLength={285}
