@@ -115,15 +115,13 @@ function Root() {
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
           if (route.name === "HomeStack") {
-            iconName = focused ? "home-circle" : "home-circle-outline";
+            iconName = "home";
           } else if (route.name === "SettingsStack") {
-            iconName = focused
-              ? "account-settings"
-              : "account-settings-outline";
+            iconName = "cog"
           } else if (route.name === "MusicStack") {
-            iconName = focused ? "music" : "music-note";
+            iconName = "headphones"
           } else if (route.name === "WorkoutsStack") {
-            iconName = focused ? "dumbbell" : "dumbbell";
+            iconName = "dumbbell";
           }
           return (
             <MaterialCommunityIcons name={iconName} size={size} color={color} />
