@@ -1,6 +1,6 @@
 import { SafeAreaView, StyleSheet, View } from "react-native";
 import { useEffect } from "react";
-import { Divider } from "react-native-paper";
+import { Button, Divider } from "react-native-paper";
 import { usePlaylists, useSongs } from "../api/Music";
 import { MusicManager } from "../module/MusicManager";
 import { supabase } from "../lib/supabase";
@@ -8,6 +8,7 @@ import { PlaylistList } from "../components/Music/Library/PlaylistList";
 import { SongList } from "../components/Music/Library/SongList";
 import { CurrentSongTab } from "../components/Music/CurrentSongTab";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { HealthManager } from "../module/HealthManager";
 
 interface Props {
   navigation: NativeStackNavigationProp<any>;
@@ -70,6 +71,7 @@ export const MusicPage = ({ navigation }: Props) => {
 
   return (
     <SafeAreaView>
+      <HealthKitTest />
       <View style={styles.container}>
         <PlaylistList playlists={playlists} navigation={navigation} />
         <Divider style={{ marginVertical: -12 }} />
@@ -91,3 +93,22 @@ const styles = StyleSheet.create({
     width: "100%",
   },
 });
+
+const HealthKitTest = () => {
+  const reqAuth = async () => {
+    const res = await HealthManager.requestAuthorization();
+    console.log(res);
+  };
+
+  const testFunction = async () => {
+    const res = await HealthManager.testFunction();
+    console.log("res", res);
+  };
+
+  return (
+    <View>
+      <Button onPress={reqAuth}>Request Auth</Button>
+      <Button onPress={testFunction}>Test Function</Button>
+    </View>
+  );
+};
