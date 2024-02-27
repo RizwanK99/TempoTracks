@@ -29,7 +29,7 @@ export const HomePageHeader = ({ navigation }) => {
                     {user.name && <Appbar.Content title={"Good Afternoon, " + user.name.split(' ')[0]} titleStyle={{ fontSize: 25 }} />}
                 </View>
 
-                <TouchableOpacity onPress={() => navigation.navigate('Profile', { ...user })}>
+                <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
                     <Avatar.Text size={40} label={user.name ? user.name[0] : ''} />
                 </TouchableOpacity>
             </View>
