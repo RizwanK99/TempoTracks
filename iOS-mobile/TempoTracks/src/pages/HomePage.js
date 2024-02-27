@@ -20,6 +20,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 // Watch Hooks
 import { sendSongsToWatch, sendWorkoutTemplatesToWatch } from "../module/WatchManager";
 import { Icon } from 'react-native-elements';
+import { HomePageHeader } from '../components/Home/Header';
 
 async function retrieveData(user, setUser) {
   try {
@@ -170,20 +171,8 @@ const HomePage = ({ navigation }) => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <ScrollView style={{ paddingHorizontal: 10 }}>
-        <Appbar.Header mode="small" statusBarHeight={0} elevated="true" style={{ backgroundColor: theme.colors.background, paddingBottom: 10 }}>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
-            <View>
-              <Appbar.Content title={formattedDate.toUpperCase()} titleStyle={{ fontSize: 14 }} />
-              <Appbar.Content title={"Good Afternoon, " + profileData.name.split(' ')[0]} titleStyle={{ fontSize: 25 }} />
-            </View>
-
-            <TouchableOpacity onPress={() => navigation.navigate('Profile', { ...profileData })}>
-              <Avatar.Text size={40} label={profileData.name[0]} />
-            </TouchableOpacity>
-          </View>
-        </Appbar.Header>
-
-
+        <HomePageHeader navigation={navigation} />
+    
         <Card>
           <Card.Content>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
