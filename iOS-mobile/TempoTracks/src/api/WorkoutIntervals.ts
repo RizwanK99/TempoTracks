@@ -23,6 +23,25 @@ export const useCreateWorkoutInterval = () => {
   });
 };
 
+export const useDeleteWorkoutInterval = () => {
+  return useMutation({
+    mutationFn: async (obj: any) => {
+      const { intervalId } = obj;
+      console.log("inside the api", intervalId);
+      const { data, error } = await supabase
+        .from("workout_intervals")
+        .delete()
+        .eq("id", intervalId);
+
+      if (error) {
+        console.log("Error creating workout interval", error);
+        return null;
+      }
+      return data;
+    },
+  });
+};
+
 export const useGetWorkoutIntervals = () => {
   return useQuery({
     queryKey: ["workoutIntervals"],

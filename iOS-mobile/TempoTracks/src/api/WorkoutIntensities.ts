@@ -8,7 +8,7 @@ export interface WorkoutIntensity {
 
 export const useGetWorkoutIntensities = () => {
   return useQuery({
-    queryKey: ["workout_intensities"],
+    queryKey: ["workoutIntensities"],
     queryFn: async () => {
       const { data, error } = await supabase
         .from("workout_intensities")

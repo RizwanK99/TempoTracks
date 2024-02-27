@@ -26,6 +26,7 @@ export const useCreateWorkoutTemplate = () => {
         console.log("Error creating workout template", error);
         return null;
       }
+
       return data;
     },
   });
