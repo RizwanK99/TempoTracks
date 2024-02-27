@@ -13,6 +13,7 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
+  LogBox,
 } from "react-native";
 import {
   RadioButton,
@@ -20,30 +21,39 @@ import {
   Switch,
   Menu,
   Divider,
+  Portal,
+  Modal,
   useTheme,
 } from "react-native-paper";
 import DraggableFlatList, {
   NestableScrollContainer,
   NestableDraggableFlatList,
+  RenderItemParams,
+  ScaleDecorator,
 } from "react-native-draggable-flatlist";
 import { Button as PaperButton } from "react-native-paper";
 import { Formik } from "formik";
-import { createWorkoutTemplate } from "../../api/WorkoutTemplate.ts";
+import { useToast } from "react-native-toast-notifications";
 import { TextInput as CustomTextInput } from "../Inputs/TextInput";
 import { NumberInput } from "../Inputs/NumberInput";
 import { Checkbox } from "../Inputs/Checkbox";
 import { AntDesign } from "@expo/vector-icons";
+import { IntervalCreationModal } from "./IntervalCreationModal";
 import {
   BottomSheetModal,
   BottomSheetModalProvider,
   BottomSheetTextInput,
 } from "@gorhom/bottom-sheet";
 import CustomCarousel from "../Workouts/CustomCarousel.js";
-import {
-  useCreateWorkoutTemplate,
-  useGetWorkoutTemplates,
-} from "../../api/WorkoutTemplate.ts";
-import { usePlaylists } from "../../api/Music.ts";
+import { IntensityVsTimeGraph } from "../Workouts/IntensityVsTimeGraph";
+import { useCreateWorkoutTemplate } from "../../api/WorkoutTemplate";
+import { useGetWorkoutTemplates } from "../../api/WorkoutTemplate";
+import { useGetWorkoutIntervals } from "../../api/WorkoutIntervals";
+import { useGetWorkoutIntensities } from "../../api/WorkoutIntensities";
+import { usePlaylists } from "../../api/Music";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useQuery } from "@tanstack/react-query";
+import * as yup from "yup";
 
 interface CreateWorkoutTemplateFormProps {
   userId: string;
@@ -73,25 +83,35 @@ export const StyledText: React.FC<StyledTextProps> = ({
   );
 };
 
+function copyListNTimes<T>(list: T[], n: number): T[] {
+  return Array.from({ length: n }, () => [...list]).flat();
+}
+
+const VALIDATION_SCHEMA = yup.object({
+  name: yup.string().required(),
+  description: yup.string(),
+  type: yup.string().required(),
+  playlist_id: yup.string().required(),
+  num_sets: yup.number().required(),
+  intervals: yup.array().of(yup.string()),
+});
+
 export const CreateWorkoutTemplateForm: React.FC<
   CreateWorkoutTemplateFormProps
 > = ({ userId, navigation }) => {
   const theme = useTheme();
+  const toast = useToast();
 
-  const { data } = useGetWorkoutTemplates(Number(userId));
+  const { data } = useGetWorkoutTemplates();
 
   // Select playlist
-  const { data: playlists = [], isPending } = usePlaylists();
+  const { data: playlists = [], isPending: loadingPlaylists } = usePlaylists();
   const [carouselItem, setCarouselItem] = useState(0);
   const handleItemTap = (itemId: string, setFieldValue: Function) => {
     setCarouselItem(itemId);
     setFieldValue("playlist_id", itemId);
     return itemId;
   };
-
-  // Switch to indicate start now or create
-  const [isSwitchOn, setIsSwitchOn] = React.useState(false);
-  const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
 
   // Bottom Sheet Modal
   const bottomSheetModalRef = useRef(null);
@@ -117,36 +137,71 @@ export const CreateWorkoutTemplateForm: React.FC<
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
 
-  // Select intervals and create set - will implement an endpoint if time permits
-  const [checkboxes, setCheckboxes] = useState([
-    { id: 1, title: "Recovery", active: 30, rest: 90, isChecked: false },
-    { id: 2, title: "Light", active: 60, rest: 120, isChecked: false },
-    { id: 3, title: "Moderate", active: 120, rest: 60, isChecked: false },
-    { id: 4, title: "High", active: 20, rest: 45, isChecked: false },
-    { id: 5, title: "HIIT", active: 30, rest: 30, isChecked: false },
-  ]);
+  // Select intervals, custom interval and create set
+  const [customIntervalModal, setCustomIntervalModal] =
+    useState<boolean>(false);
 
-  const checkedBoxes = useMemo(() => {
-    return checkboxes.filter((item) => item.isChecked);
-  }, [checkboxes]);
+  const { data: workoutIntervals, isPending: loadingWorkoutIntervals } =
+    useGetWorkoutIntervals();
 
-  const [checkedItems, setCheckedItems] = useState(checkedBoxes);
+  const { data: workoutIntensities, isPending: loadingWorkoutIntensities } =
+    useGetWorkoutIntensities();
+
+  const [intervals, setIntervals] = useState(null);
+  const checkboxes = useMemo(() => {
+    if (!loadingWorkoutIntervals) {
+      const modifiedData = workoutIntervals.map((interval) => ({
+        ...interval,
+        isChecked: false,
+      }));
+      setIntervals(modifiedData);
+      return modifiedData;
+    }
+    return [];
+  }, [loadingWorkoutIntervals, workoutIntervals, setIntervals]);
 
   const handleCheckboxChange = (id) => {
-    const updatedCheckboxes = checkboxes.map((checkbox) =>
-      checkbox.id === id
-        ? { ...checkbox, isChecked: !checkbox.isChecked }
-        : checkbox
+    setIntervals((prevState) =>
+      prevState.map((item) => {
+        if (item.id === id) {
+          return { ...item, isChecked: !item.isChecked };
+        }
+        return item;
+      })
     );
-    setCheckboxes(updatedCheckboxes);
   };
 
-  const renderItem = ({ item, drag, getIndex }) => {
+  // It works as expected, the NestableDraggableFlatList prevents the
+  // error but it does not even work.
+  LogBox.ignoreLogs([
+    "VirtualizedLists should never be nested inside plain ScrollViews",
+  ]);
+  const checkedBoxes = useMemo(() => {
+    if (!loadingWorkoutIntervals && intervals) {
+      return intervals.filter((item) => item.isChecked);
+    }
+    return [];
+  }, [intervals, loadingWorkoutIntervals]);
+
+  const [ordering, setOrdering] = useState(checkedBoxes);
+  useEffect(() => {
+    setOrdering(checkedBoxes);
+  }, [checkedBoxes]);
+
+  const renderItem = ({
+    item,
+    drag,
+    isActive,
+    onDragEnd,
+    getIndex,
+  }: RenderItemParams) => {
     const index = (getIndex() + 1).toString();
     return (
       <Checkbox
-        onLongPress={drag}
-        title={item.title}
+        onLongPress={() => drag()}
+        disabled={isActive}
+        onPress={() => console.log("puff")}
+        title={item.label}
         subTitle={`${item.active} secs active, ${item.rest} secs rest`}
         index={index}
       />
@@ -170,7 +225,57 @@ export const CreateWorkoutTemplateForm: React.FC<
     console.log(activeTab);
   };
 
+  // Custom Interval modal controls
+  const [start, setStart] = useState<boolean>(false);
+  const [save, setSave] = useState<boolean>(false);
   const createTemplate = useCreateWorkoutTemplate();
+
+  if (loadingPlaylists) {
+    return null;
+  }
+
+  if (loadingWorkoutIntervals) {
+    return null;
+  }
+
+  if (loadingWorkoutIntensities) {
+    return null;
+  }
+
+  const calculateEstimatedDuration = (numSets) => {
+    let totalSum = 0;
+    checkedBoxes.forEach((item) => {
+      totalSum += item.active + item.rest;
+    });
+    return totalSum * numSets;
+  };
+
+  const compiledIntervalsForGraph = copyListNTimes(ordering, numberOfSets);
+  const barData = [];
+  for (let i = 0; i < compiledIntervalsForGraph.length; i++) {
+    barData.push({
+      value: workoutIntensities.find(
+        (obj) => obj.id === compiledIntervalsForGraph[i].tempo
+      ).tempo,
+      barWidth: compiledIntervalsForGraph[i].active,
+      frontColor: theme.colors.bar,
+      label: compiledIntervalsForGraph[i].active,
+      spacing: 0,
+      barBorderTopLeftRadius: 8,
+      barBorderTopRightRadius: 8,
+      labelTextStyle: { color: theme.colors.foregroundMuted },
+    });
+    barData.push({
+      value: 0.25,
+      barWidth: compiledIntervalsForGraph[i].rest,
+      label: compiledIntervalsForGraph[i].rest,
+      frontColor: theme.colors.barContrast,
+      spacing: 0,
+      barBorderTopLeftRadius: 8,
+      barBorderTopRightRadius: 8,
+      labelTextStyle: { color: theme.colors.foregroundMuted },
+    });
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -186,22 +291,45 @@ export const CreateWorkoutTemplateForm: React.FC<
           training_intervals: "",
           mins: "",
           secs: "",
-          playlist_id: !isPending ? playlists[0].apple_music_id : "",
+          playlist_id: playlists[0].apple_music_id,
           num_sets: 1,
           intervals: [],
         }}
+        validationSchema={VALIDATION_SCHEMA}
+        validateOnMount
         onSubmit={(values) => {
-          createTemplate.mutate({
-            name: values.name,
-            user_id: Number(userId),
-            description: values.description,
-            expected_duration: Number(values.mins) * 60 + Number(values.secs),
-            expected_distance: Number(values.expected_distance),
-            type: values.type ? values.type : null,
-            playlist_id: values.playlist_id,
-            num_sets: values.num_sets,
-            interval_ids: values.intervals,
-          });
+          createTemplate.mutate(
+            {
+              name: values.name,
+              user_id: Number(userId),
+              description: values.description,
+              expected_duration: calculateEstimatedDuration(values.num_sets),
+              expected_distance: Number(values.expected_distance),
+              type: values.type ? values.type : null,
+              playlist_id: values.playlist_id,
+              num_sets: values.num_sets,
+              interval_ids: values.intervals,
+            },
+            {
+              onSuccess: (data) => {
+                toast.show("Workout successfully created!", {
+                  type: "success",
+                  duration: 4000,
+                  animationType: "slide-in",
+                });
+                if (start) {
+                  navigation.navigate("StartOrCancelWorkoutPage", {
+                    templateId: data[0].id,
+                    playlistId: data[0].playlist_id,
+                    name: data[0].name,
+                    type: data[0].type,
+                  });
+                } else {
+                  navigation.navigate("Workouts");
+                }
+              },
+            }
+          );
         }}
       >
         {({
@@ -211,6 +339,8 @@ export const CreateWorkoutTemplateForm: React.FC<
           values,
           form,
           setFieldValue,
+          isValid,
+          dirty,
         }) => (
           <>
             <View
@@ -239,40 +369,6 @@ export const CreateWorkoutTemplateForm: React.FC<
                   onChangeText={handleChange("description")}
                 />
               </View>
-              <View style={{ gap: 16, marginBottom: 8, marginTop: 2 }}>
-                <View style={{ gap: 8 }}>
-                  <StyledText text="Estimated Distance" />
-                  <NumberInput
-                    placeholder="Enter"
-                    units="km"
-                    width={240}
-                    value={values.expected_distance}
-                    onChangeText={handleChange("expected_distance")}
-                    label="Estimated Distance"
-                  />
-                </View>
-                <View style={{ gap: 8 }}>
-                  <StyledText text="Training Duration" />
-                  <View
-                    style={{ display: "flex", flexDirection: "row", gap: 16 }}
-                  >
-                    <NumberInput
-                      placeholder="Enter"
-                      units="mins"
-                      label="Mins"
-                      value={values.mins}
-                      onChangeText={handleChange("mins")}
-                    />
-                    <NumberInput
-                      placeholder="Enter"
-                      units="secs"
-                      label="Secs"
-                      value={values.secs}
-                      onChangeText={handleChange("secs")}
-                    />
-                  </View>
-                </View>
-              </View>
               <Menu
                 visible={visible}
                 onDismiss={closeMenu}
@@ -289,7 +385,9 @@ export const CreateWorkoutTemplateForm: React.FC<
                     textColor={theme.colors.primaryForeground}
                     labelStyle={{ fontSize: 16, fontWeight: "bold" }}
                     icon={
-                      values.type && values.type_icon ? values.type_icon : ""
+                      values.type && values.type_icon
+                        ? values.type_icon
+                        : "image-filter-none"
                     }
                     contentStyle={{ color: theme.colors.text }}
                   >
@@ -353,27 +451,38 @@ export const CreateWorkoutTemplateForm: React.FC<
                 textColor={theme.colors.primaryForeground}
                 labelStyle={{ fontSize: 16, fontWeight: "bold" }}
                 contentStyle={{ color: theme.colors.text }}
+                icon="timer-outline"
               >
-                Select intervals
+                {checkedBoxes.length > 0
+                  ? "Edit intervals"
+                  : "Select intervals"}
               </PaperButton>
+              {checkedBoxes.length > 0 && (
+                <View style={{ marginTop: 24 }}>
+                  <IntensityVsTimeGraph barData={barData} />
+                </View>
+              )}
               <BottomSheetModal
                 ref={bottomSheetModalRef}
                 index={1}
                 snapPoints={snapPoints}
                 onChange={handleSheetChanges}
                 backgroundStyle={{
-                  backgroundColor: theme.colors.primary,
+                  backgroundColor: theme.colors.background,
                 }}
-                handleIndicatorStyle={{ color: "white" }}
+                handleStyle={{
+                  backgroundColor: theme.colors.primary,
+                  borderTopLeftRadius: 16,
+                  borderTopRightRadius: 16,
+                }}
               >
-                <ScrollView
-                  style={{
-                    flex: 1,
-                    backgroundColor: theme.colors.background,
-                  }}
-                >
-                  {/* TAB 0 */}
-                  {activeTab === 0 && (
+                {/* TAB 0 */}
+                {activeTab === 0 && (
+                  <ScrollView
+                    style={{
+                      flex: 1,
+                    }}
+                  >
                     <View
                       style={{
                         display: "flex",
@@ -385,105 +494,52 @@ export const CreateWorkoutTemplateForm: React.FC<
                     >
                       <StyledText text="Select intervals" fontSize={24} />
                       <View style={{ display: "flex", gap: 12, width: "100%" }}>
-                        {checkboxes.map((interval, index) => (
-                          <Checkbox
-                            key={index}
-                            title={interval.title}
-                            subTitle={`${interval.active} secs active, ${interval.rest} secs rest`}
-                            onPress={() => handleCheckboxChange(interval.id)}
-                            value={interval.isChecked}
-                          />
-                        ))}
+                        {!loadingWorkoutIntervals &&
+                          intervals.map((interval, index) => (
+                            <Checkbox
+                              key={index}
+                              title={interval.label}
+                              subTitle={`${interval.active} secs active, ${interval.rest} secs rest`}
+                              onPress={() => handleCheckboxChange(interval.id)}
+                              value={interval.isChecked}
+                              deletable={interval.is_custom}
+                              id={interval.id}
+                            />
+                          ))}
                       </View>
-                    </View>
-                  )}
-                  {activeTab === 1 && (
-                    <NestableScrollContainer>
-                      <View
+                      <PaperButton
+                        onPress={() =>
+                          setCustomIntervalModal(!customIntervalModal)
+                        }
                         style={{
-                          display: "flex",
-                          alignItems: "flex-start",
-                          paddingHorizontal: 24,
-                          paddingVertical: 18,
-                          gap: 24,
+                          borderRadius: 4,
+                          height: 54,
+                          justifyContent: "center",
+                          width: "100%",
+                          backgroundColor: theme.colors.previousBackground,
+                          borderWidth: 1,
+                          borderColor: theme.colors.primary,
                         }}
+                        textColor={theme.colors.text}
+                        labelStyle={{ fontSize: 16, fontWeight: "bold" }}
+                        contentStyle={{ color: theme.colors.text }}
+                        icon="pencil-plus-outline"
                       >
-                        <StyledText text="Create a set" fontSize={24} />
-                        <StyledText text="Set Order" />
-                        <View
-                          style={{ width: "100%", flex: 1, marginBottom: 16 }}
-                        >
-                          <DraggableFlatList
-                            data={checkedBoxes}
-                            renderItem={renderItem}
-                            keyExtractor={(item) => item.id}
-                            onDragEnd={({ data }) => {
-                              setCheckedItems(data);
-                              console.log(
-                                "here is fucking data",
-                                data.map((d) => d.id.toString())
-                              );
-                              setFieldValue(
-                                "intervals",
-                                data.map((d) => d.id.toString())
-                              );
-                            }}
-                          />
-                        </View>
-                        <StyledText text="Number of Sets" />
-                        <View
-                          style={{
-                            flexDirection: "row",
-                            gap: 24,
-                            alignSelf: "center",
-                            alignItems: "center",
-                          }}
-                        >
-                          <TouchableOpacity
-                            onPress={() => {
-                              if (numberOfSets > 1) {
-                                setNumberOfSets(numberOfSets - 1);
-                                setFieldValue("num_sets", numberOfSets);
-                              }
-                            }}
-                          >
-                            <AntDesign
-                              name="minuscircleo"
-                              size={28}
-                              color={theme.colors.primary}
-                            />
-                          </TouchableOpacity>
-                          <Text
-                            style={{
-                              color: theme.colors.foregroundMuted,
-                              fontSize: 34,
-                            }}
-                          >
-                            {numberOfSets}
-                          </Text>
-                          <TouchableOpacity
-                            onPress={() => {
-                              setNumberOfSets(numberOfSets + 1);
-                              setFieldValue("num_sets", numberOfSets);
-                            }}
-                          >
-                            <AntDesign
-                              name="pluscircleo"
-                              size={28}
-                              color={theme.colors.primary}
-                            />
-                          </TouchableOpacity>
-                        </View>
-                      </View>
-                    </NestableScrollContainer>
-                  )}
-                  {activeTab === 0 && (
+                        Custom interval
+                      </PaperButton>
+                      <Divider
+                        style={{
+                          width: "100%",
+                          height: 1,
+                        }}
+                      />
+                    </View>
                     <View
                       style={{
                         display: "flex",
                         alignItems: "flex-start",
                         paddingHorizontal: 24,
-                        marginBottom: 8,
+                        marginBottom: 16,
                       }}
                     >
                       <PaperButton
@@ -493,18 +549,103 @@ export const CreateWorkoutTemplateForm: React.FC<
                         style={{
                           borderRadius: 4,
                           paddingVertical: 4,
+                          marginBottom: 4,
                           width: "100%",
                           backgroundColor: theme.colors.primary,
                           border: "none",
                         }}
                         textColor={theme.colors.primaryForeground}
                         labelStyle={{ fontSize: 16, fontWeight: "bold" }}
+                        disabled={checkedBoxes.length === 0}
                       >
                         Next
                       </PaperButton>
                     </View>
-                  )}
-                  {activeTab > 0 && (
+                  </ScrollView>
+                )}
+                {activeTab === 1 && (
+                  <NestableScrollContainer>
+                    <View
+                      style={{
+                        display: "flex",
+                        alignItems: "flex-start",
+                        paddingHorizontal: 24,
+                        paddingVertical: 18,
+                        gap: 24,
+                      }}
+                    >
+                      <StyledText text="Create a set" fontSize={24} />
+                      <StyledText text="Set Order" />
+                      <View
+                        style={{ width: "100%", flex: 1, marginBottom: 16 }}
+                      >
+                        <DraggableFlatList
+                          data={ordering}
+                          containerStyle={{ flex: 1 }}
+                          renderItem={renderItem}
+                          keyExtractor={(item) => item.id}
+                          onDragEnd={({ data }) => {
+                            setOrdering(data);
+                            console.log(
+                              "here is fucking data",
+                              data.map((d) => d.id.toString())
+                            );
+                            setFieldValue(
+                              "intervals",
+                              data.map((d) => d.id.toString())
+                            );
+                          }}
+                        />
+                      </View>
+                      <StyledText text="Number of Sets" />
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          gap: 24,
+                          alignSelf: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <TouchableOpacity
+                          onPress={() => {
+                            if (numberOfSets > 1) {
+                              setNumberOfSets(numberOfSets - 1);
+                              setFieldValue("num_sets", numberOfSets);
+                            }
+                          }}
+                        >
+                          <AntDesign
+                            name="minuscircleo"
+                            size={28}
+                            color={theme.colors.primary}
+                          />
+                        </TouchableOpacity>
+                        <Text
+                          style={{
+                            color: theme.colors.foregroundMuted,
+                            fontSize: 34,
+                          }}
+                        >
+                          {numberOfSets}
+                        </Text>
+                        <TouchableOpacity
+                          onPress={() => {
+                            setNumberOfSets(numberOfSets + 1);
+                            setFieldValue("num_sets", numberOfSets);
+                          }}
+                        >
+                          <AntDesign
+                            name="pluscircleo"
+                            size={28}
+                            color={theme.colors.primary}
+                          />
+                        </TouchableOpacity>
+                      </View>
+                      <Text style={{ color: theme.colors.foregroundMuted }}>
+                        Total Duration:{" "}
+                        {calculateEstimatedDuration(numberOfSets)} seconds
+                      </Text>
+                    </View>
                     <View
                       style={{
                         display: "flex",
@@ -513,7 +654,7 @@ export const CreateWorkoutTemplateForm: React.FC<
                         paddingVertical: 4,
                         marginTop: 16,
                         paddingHorizontal: 24,
-                        marginBottom: 8,
+                        marginBottom: 16,
                         gap: 16,
                         width: "100%",
                         alignItems: "center",
@@ -532,75 +673,113 @@ export const CreateWorkoutTemplateForm: React.FC<
                           borderRadius: 4,
                           backgroundColor: theme.colors.primary,
                           width: "50%",
+                          height: 42,
+                          justifyContent: "center",
                         }}
                         textColor={theme.colors.primaryForeground}
                         labelStyle={{ fontSize: 16, fontWeight: "bold" }}
                         onPress={() => {
+                          setFieldValue(
+                            "intervals",
+                            checkedBoxes.map((item) => item.id)
+                          );
                           bottomSheetModalRef?.current.close();
                         }}
+                        disabled={checkedBoxes.length === 0}
                       >
                         Finish
                       </PaperButton>
                     </View>
-                  )}
-                </ScrollView>
+                  </NestableScrollContainer>
+                )}
               </BottomSheetModal>
-            </View>
-            {/* Playlist */}
-            <View style={{ gap: 8, marginTop: 16 }}>
-              <StyledText text="Choose a playlist" fontSize={18} />
-              <View
-                style={{
-                  paddingHorizontal: 6,
-                  backgroundColor: theme.colors.card,
-                  paddingVertical: 16,
-                  borderWidth: 1,
-                  borderColor: theme.colors.border,
-                  borderRadius: 8,
-                }}
-              >
-                <CustomCarousel
-                  carouselData={playlists}
-                  handleItemTap={(itemId) => {
-                    handleItemTap(itemId, setFieldValue);
-                    setFieldValue("playlist_id", itemId);
-                  }}
+              <View>
+                <IntervalCreationModal
+                  visible={customIntervalModal}
+                  onDismiss={() => setCustomIntervalModal(false)}
                 />
               </View>
-              <View style={{ gap: 32 }}>
-                <View
-                  style={{
-                    paddingHorizontal: 6,
-                    marginTop: 28,
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <StyledText text="Start right away?" fontSize={18} />
-                  <Switch
-                    value={isSwitchOn}
-                    onValueChange={onToggleSwitch}
-                    trackColor={"#fff"}
-                  />
-                </View>
+            </View>
+
+            {/* Playlist */}
+            <View style={{ gap: 8, marginTop: 16 }}>
+              {!loadingPlaylists && (
+                <>
+                  <StyledText text="Choose a playlist" fontSize={18} />
+                  <View
+                    style={{
+                      paddingHorizontal: 6,
+                      backgroundColor: theme.colors.card,
+                      paddingVertical: 16,
+                      borderWidth: 1,
+                      borderColor: theme.colors.border,
+                      borderRadius: 8,
+                    }}
+                  >
+                    <CustomCarousel
+                      carouselData={playlists}
+                      handleItemTap={(itemId) => {
+                        handleItemTap(itemId, setFieldValue);
+                        setFieldValue("playlist_id", itemId);
+                      }}
+                    />
+                  </View>
+                </>
+              )}
+              <View
+                style={{
+                  marginTop: 16,
+                  marginBottom: 24,
+                  flexDirection: "row",
+                  gap: 8,
+                }}
+              >
                 <PaperButton
                   style={{
                     borderRadius: 8,
                     paddingVertical: 4,
-                    width: "100%",
+                    width: "50%",
+                    borderWidth: 1.5,
+                    borderColor: start
+                      ? theme.colors.primaryForeground
+                      : theme.colors.primary,
+                  }}
+                  textColor={theme.colors.primary}
+                  labelStyle={{ fontSize: 20, fontWeight: "bold" }}
+                  contentStyle={{ color: theme.colors.primary, gap: -4 }}
+                  icon="content-save-outline"
+                  disabled={start || !isValid}
+                  onPress={() => {
+                    setSave(true);
+                    handleSubmit();
+                  }}
+                >
+                  <Text style={{ fontSize: 16 }}>
+                    {start ? "Saved" : "Save for later"}
+                  </Text>
+                </PaperButton>
+                <PaperButton
+                  style={{
+                    borderRadius: 8,
+                    paddingVertical: 4,
+                    width: "50%",
                     backgroundColor: theme.colors.primary,
                   }}
                   textColor={theme.colors.primaryForeground}
-                  labelStyle={{ fontSize: 20, fontWeight: "bold" }}
-                  contentStyle={{ color: theme.colors.text }}
+                  labelStyle={{ fontSize: 22, fontWeight: "bold" }}
+                  contentStyle={{
+                    color: theme.colors.text,
+                    gap: -4,
+                    marginRight: 4,
+                  }}
+                  icon="play-circle-outline"
                   onPress={() => {
                     handleSubmit();
-                    if (!isSwitchOn) {
-                      navigation.navigate("Workouts");
-                    }
+                    setStart(true);
                   }}
+                  disabled={!isValid}
                 >
-                  {isSwitchOn ? "Start Workout" : "Create Workout"}
+                  <Text style={{ fontSize: 18 }}>Start</Text>
                 </PaperButton>
               </View>
             </View>

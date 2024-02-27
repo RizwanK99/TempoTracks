@@ -1,0 +1,41 @@
+{
+    "data": [
+        {
+            "workout_id": "32d048bb-b425-4955-ab9c-45f61f0ad9d5",
+            "user_id": 1,
+            "created_at":"2024-02-23 01:09:38.042771+00",
+            "status":"COMPLETED",
+            "time_start":"2024-02-23 01:09:38.042771+00",
+            "time_end":"2024-02-23 01:10:37.071+00",
+            "workout_type":"Biking",
+            "total_distance":0,
+            "total_energy_burned":500,
+            "total_elevation_change":0,
+            "playlist_id":"p.KoKOWl1SaoVobql",
+            "training_intervals":"",
+            "workout_name":"HIIT Bike",
+            "paused_at":"",
+            "is_paused":"false",
+            "template_id":"31bbf877-4889-4aa9-b36f-cb198ca3796f",
+            "total_duration": 59
+    },
+    {
+        "workout_id": "81e8ba96-307e-4bfe-9924-8c8b4a619f07",
+        "user_id": 1,
+        "created_at":"2024-02-23 01:12:45.324413+00",
+        "status":"COMPLETED",
+        "time_start":"2024-02-23 01:12:45.324413+00",
+        "time_end":"2024-02-23 01:16:44.86+00",
+        "workout_type":"Biking",
+        "total_distance":0,
+        "total_energy_burned":400,
+        "total_elevation_change":0,
+        "playlist_id":"p.KoKOWl1SaoVobql",
+        "training_intervals":"",
+        "workout_name":"Jog",
+        "paused_at":"",
+        "is_paused":"false",
+        "template_id":"31bbf877-4889-4aa9-b36f-cb198ca3796f",
+        "total_duration": 68
+}]
+}

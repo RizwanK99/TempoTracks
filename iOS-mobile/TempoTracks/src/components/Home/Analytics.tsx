@@ -11,6 +11,7 @@ import { getUsersWorkouts } from '../../api/Workouts';
 import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useAppTheme } from '../../provider/PaperProvider';
+import { HealthManager } from '../../module/HealthManager';
 
 export const Analytics = () => {
     const theme = useAppTheme();
