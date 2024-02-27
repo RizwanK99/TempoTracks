@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Session } from "@supabase/supabase-js";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { AntDesign } from "@expo/vector-icons";
 import { ThemeProvider } from "@emotion/react";
+import { ToastProvider } from "react-native-toast-notifications";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -184,21 +186,25 @@ function App() {
   return (
     <QueryProvider>
       <PaperProviderWrapper>
-        <GestureHandlerRootView style={{ flex: 1 }}>
-          <NavigationContainer>
-            <Stack.Navigator>
-              {isLoggedIn ? (
-                <Stack.Group screenOptions={{ headerShown: false }}>
-                  <Stack.Screen name="Root" component={Root} />
-                </Stack.Group>
-              ) : (
-                <Stack.Group screenOptions={{ headerShown: false }}>
-                  <Stack.Screen name="Launch" component={LaunchStack} />
-                </Stack.Group>
-              )}
-            </Stack.Navigator>
-          </NavigationContainer>
-        </GestureHandlerRootView>
+        <ToastProvider
+          successIcon={<AntDesign name="checkcircle" size={18} color="white" />}
+        >
+          <GestureHandlerRootView style={{ flex: 1 }}>
+            <NavigationContainer>
+              <Stack.Navigator>
+                {isLoggedIn ? (
+                  <Stack.Group screenOptions={{ headerShown: false }}>
+                    <Stack.Screen name="Root" component={Root} />
+                  </Stack.Group>
+                ) : (
+                  <Stack.Group screenOptions={{ headerShown: false }}>
+                    <Stack.Screen name="Launch" component={LaunchStack} />
+                  </Stack.Group>
+                )}
+              </Stack.Navigator>
+            </NavigationContainer>
+          </GestureHandlerRootView>
+        </ToastProvider>
       </PaperProviderWrapper>
     </QueryProvider>
   );

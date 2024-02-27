@@ -20,6 +20,7 @@ interface TextInputProps {
   onFocus?: () => void;
   editable?: boolean;
   width?: number;
+  error?: boolean;
 }
 
 export const NumberInput: React.FC<TextInputProps> = ({
@@ -31,10 +32,12 @@ export const NumberInput: React.FC<TextInputProps> = ({
   onFocus,
   editable = true,
   width = 85,
+  error = false,
 }) => {
   const theme = useTheme();
   const [focused, setFocused] = useState(false);
   const [borderWidth, setBorderWidth] = useState(1);
+  let borderColor = "grey";
   return (
     <View
       style={{
@@ -57,16 +60,26 @@ export const NumberInput: React.FC<TextInputProps> = ({
           setFocused(false);
           setBorderWidth(1);
         }}
+        // error={error}
         placeholder={placeholder}
+        returnKeyType="done"
         textColor={theme.colors.text}
         editable={editable}
         keyboardType={"numeric"}
-        style={{ width: width, height: 40 }}
+        style={{
+          width: width,
+          height: 40,
+        }}
+        outlineColor={error ? theme.colors.redPrimary : undefined}
       />
       <View
         style={{
           borderWidth: borderWidth,
-          borderColor: focused ? theme.colors.primary : "grey",
+          borderColor: focused
+            ? theme.colors.primary
+            : error
+            ? theme.colors.redPrimary
+            : "grey",
           alignItems: "center",
           justifyContent: "center",
           display: "flex",
@@ -84,6 +97,8 @@ export const NumberInput: React.FC<TextInputProps> = ({
           style={{
             color: focused
               ? theme.colors.primary
+              : error
+              ? theme.colors.redPrimary
               : theme.colors.foregroundMuted,
           }}
         >

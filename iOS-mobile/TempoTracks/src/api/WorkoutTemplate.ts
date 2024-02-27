@@ -1,22 +1,32 @@
+import { useAnimatedStyle } from "react-native-reanimated";
 import { supabase } from "../lib/supabase";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Tables } from "../lib/db.types";
+import { useNavigation } from "@react-navigation/native";
 
 interface WorkoutTemplate {
   workoutTemplate: Tables<"workout_templates">;
 }
 
-export const useCreateWorkoutTemplate = (template: WorkoutTemplate) => {
+interface Props {
+  onSuccess: () => void;
+}
+
+export const useCreateWorkoutTemplate = () => {
+  const queryClient = useQueryClient();
+  const navigation = useNavigation();
   return useMutation({
     mutationFn: async (template) => {
       const { data, error } = await supabase
         .from("workout_templates")
-        .insert(template);
+        .insert(template)
+        .select();
 
       if (error) {
         console.log("Error creating workout template", error);
         return null;
       }
+
       return data;
     },
   });
@@ -43,7 +53,7 @@ export const useGetWorkoutTemplates = (userId?: number) => {
 
 export const useGetWorkoutTemplateById = (id: string) => {
   return useQuery({
-    queryKey: ["workout_templates", id],
+    queryKey: ["workoutTemplate", id],
     queryFn: async () => {
       const { data, error } = await supabase
         .from("workout_templates")
