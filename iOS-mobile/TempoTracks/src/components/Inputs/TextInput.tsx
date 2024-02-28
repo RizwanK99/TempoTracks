@@ -10,6 +10,8 @@ interface TextInputProps {
   onFocus?: () => void;
   numeric?: boolean;
   editable?: boolean;
+  showReturnKeyType?: boolean;
+  error?: boolean;
 }
 
 export const TextInput: React.FC<TextInputProps> = ({
@@ -20,6 +22,8 @@ export const TextInput: React.FC<TextInputProps> = ({
   onFocus,
   numeric = false,
   editable = true,
+  showReturnKeyType = false,
+  error = false,
 }) => {
   const theme = useTheme();
   return (
@@ -32,7 +36,9 @@ export const TextInput: React.FC<TextInputProps> = ({
       placeholder={placeholder}
       textColor={theme.colors.text}
       editable={editable}
+      error={error}
       keyboardType={numeric ? "numeric" : undefined}
+      returnKeyType={showReturnKeyType ? "done" : undefined}
     />
   );
 };

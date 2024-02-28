@@ -9,6 +9,33 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      demo_users: {
+        Row: {
+          first_name: string | null
+          height: number | null
+          last_name: string | null
+          user_id: string
+          "username ": string | null
+          weight: number | null
+        }
+        Insert: {
+          first_name?: string | null
+          height?: number | null
+          last_name?: string | null
+          user_id: string
+          "username "?: string | null
+          weight?: number | null
+        }
+        Update: {
+          first_name?: string | null
+          height?: number | null
+          last_name?: string | null
+          user_id?: string
+          "username "?: string | null
+          weight?: number | null
+        }
+        Relationships: []
+      }
       exercises: {
         Row: {
           id: string
@@ -98,52 +125,58 @@ export type Database = {
       }
       songs: {
         Row: {
-          acousticness: number | null
+          acousticness: number
           apple_music_id: string
           artist: string
           artwork_url: string
-          danceability: number | null
+          danceability: number
           duration_ms: number
-          energy: number | null
-          instrumentalness: number | null
-          liveness: number | null
-          loudness: number | null
+          energy: number
+          instrumentalness: number
+          liveness: number
+          loudness: number
+          speechiness: number
+          speed_factor: number
           spotify_id: string
-          tempo: number | null
+          tempo: number
           title: string
-          valence: number | null
+          valence: number
         }
         Insert: {
-          acousticness?: number | null
+          acousticness: number
           apple_music_id: string
           artist: string
           artwork_url: string
-          danceability?: number | null
+          danceability: number
           duration_ms: number
-          energy?: number | null
-          instrumentalness?: number | null
-          liveness?: number | null
-          loudness?: number | null
+          energy: number
+          instrumentalness: number
+          liveness: number
+          loudness: number
+          speechiness?: number
+          speed_factor?: number
           spotify_id: string
-          tempo?: number | null
+          tempo: number
           title: string
-          valence?: number | null
+          valence: number
         }
         Update: {
-          acousticness?: number | null
+          acousticness?: number
           apple_music_id?: string
           artist?: string
           artwork_url?: string
-          danceability?: number | null
+          danceability?: number
           duration_ms?: number
-          energy?: number | null
-          instrumentalness?: number | null
-          liveness?: number | null
-          loudness?: number | null
+          energy?: number
+          instrumentalness?: number
+          liveness?: number
+          loudness?: number
+          speechiness?: number
+          speed_factor?: number
           spotify_id?: string
-          tempo?: number | null
+          tempo?: number
           title?: string
-          valence?: number | null
+          valence?: number
         }
         Relationships: []
       }
@@ -194,7 +227,8 @@ export type Database = {
           email: string | null
           first_name: string | null
           last_name: string | null
-          password: string | null
+          password_hash: string | null
+          password_salt: string | null
           phone_number: string | null
           user_id: number
           username: string | null
@@ -204,7 +238,8 @@ export type Database = {
           email?: string | null
           first_name?: string | null
           last_name?: string | null
-          password?: string | null
+          password_hash?: string | null
+          password_salt?: string | null
           phone_number?: string | null
           user_id?: number
           username?: string | null
@@ -214,10 +249,32 @@ export type Database = {
           email?: string | null
           first_name?: string | null
           last_name?: string | null
-          password?: string | null
+          password_hash?: string | null
+          password_salt?: string | null
           phone_number?: string | null
           user_id?: number
           username?: string | null
+        }
+        Relationships: []
+      }
+      workout_intensities: {
+        Row: {
+          bpm_lower_threshold: number | null
+          bpm_upper_threshold: number | null
+          id: number
+          label: string | null
+        }
+        Insert: {
+          bpm_lower_threshold?: number | null
+          bpm_upper_threshold?: number | null
+          id?: number
+          label?: string | null
+        }
+        Update: {
+          bpm_lower_threshold?: number | null
+          bpm_upper_threshold?: number | null
+          id?: number
+          label?: string | null
         }
         Relationships: []
       }

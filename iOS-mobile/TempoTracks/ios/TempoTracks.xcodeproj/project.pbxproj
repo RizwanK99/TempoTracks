@@ -35,6 +35,8 @@
 		B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */; };
 		B3484A022A70C21800A72539 /* MusicManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3484A012A70C21800A72539 /* MusicManager.swift */; };
 		B3484A042A70C22A00A72539 /* MusicManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B3484A032A70C22A00A72539 /* MusicManager.m */; };
+		B365773B2B8C3A2300C8E31B /* HealthManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B365773A2B8C3A2300C8E31B /* HealthManager.m */; };
+		B365773D2B8C3C0100C8E31B /* HealthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B365773C2B8C3C0100C8E31B /* HealthManager.swift */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
 		C6DA6892D42B001938D86480 /* libPods-TempoTracks.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58EEBF8E8E6FB1BC6CAF49B5 /* libPods-TempoTracks.a */; };
 /* End PBXBuildFile section */
@@ -101,6 +103,9 @@
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = TempoTracks/SplashScreen.storyboard; sourceTree = "<group>"; };
 		B3484A012A70C21800A72539 /* MusicManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicManager.swift; sourceTree = "<group>"; };
 		B3484A032A70C22A00A72539 /* MusicManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MusicManager.m; sourceTree = "<group>"; };
+		B365773A2B8C3A2300C8E31B /* HealthManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HealthManager.m; sourceTree = "<group>"; };
+		B365773C2B8C3C0100C8E31B /* HealthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthManager.swift; sourceTree = "<group>"; };
+		B365773E2B8E69D000C8E31B /* TempoTracks.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = TempoTracks.entitlements; path = TempoTracks/TempoTracks.entitlements; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-TempoTracks/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
@@ -128,6 +133,7 @@
 		13B07FAE1A68108700A75B9A /* TempoTracks */ = {
 			isa = PBXGroup;
 			children = (
+				B365773E2B8E69D000C8E31B /* TempoTracks.entitlements */,
 				81E69F9A2B70833000EE29A4 /* TempoTracks-Bridging-Header.h */,
 				BB2F792B24A3F905000567C9 /* Supporting */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
@@ -141,6 +147,8 @@
 				B3484A032A70C22A00A72539 /* MusicManager.m */,
 				81C996E12B81717800A9C0A3 /* WatchManager.swift */,
 				81C996E42B8171D400A9C0A3 /* WatchManager.m */,
+				B365773A2B8C3A2300C8E31B /* HealthManager.m */,
+				B365773C2B8C3C0100C8E31B /* HealthManager.swift */,
 			);
 			name = TempoTracks;
 			sourceTree = "<group>";
@@ -366,7 +374,6 @@
 				LastUpgradeCheck = 1130;
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = FG3F5G2D7L;
 						LastSwiftMigration = 1250;
 					};
 					81E69F9E2B7083CC00EE29A4 = {
@@ -536,8 +543,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				B3484A042A70C22A00A72539 /* MusicManager.m in Sources */,
+				B365773D2B8C3C0100C8E31B /* HealthManager.swift in Sources */,
 				8143752A2B86C8940086F53B /* AppDelegate.mm in Sources */,
 				81C996E52B8171D400A9C0A3 /* WatchManager.m in Sources */,
+				B365773B2B8C3A2300C8E31B /* HealthManager.m in Sources */,
 				B3484A022A70C21800A72539 /* MusicManager.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */,
@@ -586,6 +595,9 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = TempoTracks/TempoTracks.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FG3F5G2D7L;
 				ENABLE_BITCODE = NO;
@@ -608,6 +620,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = org.name.TempoTracks;
 				PRODUCT_NAME = TempoTracks;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -621,6 +634,9 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = TempoTracks/TempoTracks.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FG3F5G2D7L;
 				INFOPLIST_FILE = TempoTracks/Info.plist;
@@ -638,6 +654,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
 				PRODUCT_BUNDLE_IDENTIFIER = org.name.TempoTracks;
 				PRODUCT_NAME = TempoTracks;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

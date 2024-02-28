@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
   },
   carouselItem: {
     width: width * 0.8,
-    height: 350,
+    height: 295,
     borderRadius: 10,
     overflow: "hidden",
     marginHorizontal: (width * 0.1) / 2,

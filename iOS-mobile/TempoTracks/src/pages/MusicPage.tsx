@@ -1,106 +1,114 @@
-// React Native Bottom Navigation
-// https://aboutreact.com/react-native-bottom-navigation/
-import { useState, useEffect } from 'react';
-import {
-  TouchableOpacity,
-  StyleSheet,
-  View,
-  Text,
-  SafeAreaView,
-  ScrollView,
-} from 'react-native';
-import { styles } from '../styles/Stylesheet';
-import PlayerControls from '../components/Music/Player/PlayerControls';
-import LiveGraph from '../components/Music/LiveGraph';
-import { MusicManager } from '../module/MusicManager';
-import { Button, Divider } from 'react-native-elements';
-import { MusicPlayerSong } from '../module/MusicManager.types';
-import { MusicPlayer } from '../components/Music/Player/MusicPlayer';
-import { Tables } from '../lib/db.types';
+import { SafeAreaView, StyleSheet, View } from "react-native";
+import { useEffect } from "react";
+import { Button, Divider } from "react-native-paper";
+import { usePlaylists, useSongs } from "../api/Music";
+import { MusicManager } from "../module/MusicManager";
+import { supabase } from "../lib/supabase";
+import { PlaylistList } from "../components/Music/Library/PlaylistList";
+import { SongList } from "../components/Music/Library/SongList";
+import { CurrentSongTab } from "../components/Music/CurrentSongTab";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { HealthManager } from "../module/HealthManager";
 
-const MusicPage = ({ route, navigation }) => {
-  const [authorized, setAuthorized] = useState(false);
-  const [songs, setSongs] = useState<MusicPlayerSong[]>([]);
+interface Props {
+  navigation: NativeStackNavigationProp<any>;
+}
 
-  // Player Controls
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [playbackRate, setPlaybackRate] = useState(1);
+export const MusicPage = ({ navigation }: Props) => {
+  const { data: songs = [], refetch } = useSongs();
+  const { data: playlists = [], refetch: refetchPlaylists } = usePlaylists();
 
-  const loadLibrary = async () => {
-    const songs = await MusicManager.getSongLibrary();
-    console.log('songs', songs);
-    setSongs(songs);
+  const syncSongs = async () => {
+    const librarySongs = await MusicManager.getSongLibrary();
+
+    const { data, error } = await supabase.functions.invoke(
+      "music/sync-songs",
+      {
+        body: {
+          songs: librarySongs.map((s) => ({
+            id: s.id,
+            artist: s.artistName,
+            title: s.title,
+          })),
+        },
+      }
+    );
+
+    if (error) {
+      console.error("error syncing songs", error);
+    }
+
+    if (data.shouldRefetch === "yes") {
+      refetch();
+    }
   };
 
-  const loadAuthorization = async () => {
-    await MusicManager.requestMusicAuthorization();
-    setAuthorized(true);
-  };
+  const syncPlaylists = async () => {
+    const libraryPlaylists = await MusicManager.getPlaylistLibrary();
 
-  const handlePlaybackRateChange = (newPlaybackRate: number) => {
-    setIsPlaying(true);
-    setPlaybackRate(newPlaybackRate);
-    MusicManager.changePlaybackRate(newPlaybackRate);
+    const { data, error } = await supabase.functions.invoke(
+      "music/sync-playlists",
+      {
+        body: {
+          playlists: libraryPlaylists,
+        },
+      }
+    );
+
+    if (error) {
+      console.error("error syncing playlists", error);
+    }
+
+    if (data.shouldRefetch === "yes") {
+      refetchPlaylists();
+    }
   };
 
   useEffect(() => {
-    loadAuthorization();
+    // syncSongs();
+    // syncPlaylists();
   }, []);
-
-  useEffect(() => {
-    loadLibrary();
-  }, [authorized]);
 
   return (
     <SafeAreaView>
-      <MusicPlayer />
-      {/* <View style={styles.full}>
-        <View style={styles.container}>
-          <View style={styles.box}>
-            <Text
-              style={{
-                fontSize: 25,
-                color: 'white',
-                fontWeight: 'bold',
-                marginBottom: 10,
-              }}
-            >
-              Your Library
-            </Text>
-            <ScrollView>
-              {songs.map((song, index) => (
-                <SongItem
-                  key={index}
-                  song={song}
-                  handlePlaybackRateChange={handlePlaybackRateChange}
-                  setIsPlaying={setIsPlaying}
-                />
-              ))}
-              <Button
-                style={{ marginTop: 4 }}
-                type='outline'
-                title='Queue all songs'
-                onPress={() =>
-                  MusicManager.addSongsToQueue(songs.map((s) => s.id))
-                }
-              />
-            </ScrollView>
-            <Divider style={{ backgroundColor: 'white', marginVertical: 10 }} />
-            <LiveGraph
-              isPlaying={isPlaying}
-              playbackRate={playbackRate}
-              handlePlaybackRateChange={handlePlaybackRateChange}
-            />
-            <PlayerControls
-              isPlaying={isPlaying}
-              setIsPlaying={setIsPlaying}
-              playbackRate={playbackRate}
-              handlePlaybackRateChange={handlePlaybackRateChange}
-            />
-          </View>
-        </View>
-      </View> */}
+      <HealthKitTest />
+      <View style={styles.container}>
+        <PlaylistList playlists={playlists} navigation={navigation} />
+        <Divider style={{ marginVertical: -12 }} />
+        <SongList songs={songs} />
+      </View>
+
+      <CurrentSongTab />
     </SafeAreaView>
   );
 };
-export default MusicPage;
+
+const styles = StyleSheet.create({
+  container: {
+    display: "flex",
+    paddingHorizontal: 16,
+    gap: 24,
+    backgroundColor: "#181a1c",
+    height: "100%",
+    width: "100%",
+  },
+});
+
+const HealthKitTest = () => {
+  const reqAuth = async () => {
+    const res = await HealthManager.requestAuthorization();
+    console.log(res);
+  };
+
+  const testFunction = async () => {
+    const res = await HealthManager.testFunction();
+    console.log("res", res);
+  };
+
+  return (
+    <View>
+      <Button onPress={reqAuth}>Request Auth</Button>
+      <Button onPress={testFunction}>Test Function</Button>
+    </View>
+  );
+};

@@ -71,6 +71,7 @@ const WorkoutListPage = ({ navigation }) => {
     <SafeAreaView style={{ flex: 1, backgroundColor: "#000" }}>
       <Appbar.Header mode="small" statusBarHeight={0} elevated="true" style={{ backgroundColor: theme.colors.background}}>
         <Appbar.Content title="Workouts" />
+        <Appbar.Action icon="history" onPress={() => navigation.navigate("WorkoutHistoryPage")} />
       </Appbar.Header>
       <View
         style={{ paddingHorizontal: 16, paddingVertical: 12, marginBottom: 8 }}
@@ -183,11 +184,11 @@ const WorkoutListPage = ({ navigation }) => {
               label: 'Create New Workout',
               onPress: () => navigation.navigate("CreateWorkout"),
             },
-            {
-              icon: 'chart-timeline-variant',
-              label: 'Workout Trends',
-              onPress: () => navigation.navigate("WorkoutTrends"),
-            }
+            // {
+            //   icon: 'chart-timeline-variant',
+            //   label: 'Workout Trends',
+            //   onPress: () => navigation.navigate("WorkoutTrends"),
+            // }
           ]}
           onStateChange={onStateChange}
           onPress={() => {
