@@ -23,7 +23,7 @@ const WorkoutInProgressPage = ({ navigation, route }) => {
   const baseOptions = {
     vertical: false,
     width: windowWidth,
-    height: "100%",
+    // height: "100%",
   } as const;
 
   return (
@@ -39,13 +39,13 @@ const WorkoutInProgressPage = ({ navigation, route }) => {
         autoPlay={false}
         autoPlayInterval={isFast ? 100 : 2000}
         data={data}
-        onScrollStart={() => {
+        onScrollBegin={() => {
           console.log("===1");
         }}
         onScrollEnd={() => {
           console.log("===2");
         }}
-        onConfigurePanGesture={(g) => g.enabled(false)}
+        // onConfigurePanGesture={(g) => g.enabled(false)}
         pagingEnabled={isPagingEnabled}
         onSnapToItem={(index) => console.log("current index:", index)}
         renderItem={({ index }) =>

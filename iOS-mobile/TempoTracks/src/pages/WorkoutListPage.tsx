@@ -4,20 +4,17 @@ import {
   View,
   Text,
   SafeAreaView,
-  TouchableWithoutFeedback,
   TouchableOpacity,
   ScrollView,
 } from "react-native";
 import { Divider } from "react-native-paper";
-import PageHeading from "../components/Workouts/PageHeading";
 import { Card, Title, Paragraph, FAB, Appbar } from "react-native-paper";
-import { getUsersWorkouts } from "../api/Workouts";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { AntDesign } from "@expo/vector-icons";
 import { Searchbar } from "react-native-paper";
 import { useGetWorkoutTemplates } from "../api/WorkoutTemplate.ts";
-import { useTheme } from "react-native-paper";
+import { Tables } from "../lib/db.types.ts";
+import { useAppTheme } from "../provider/PaperProvider.tsx";
 
 async function retrieveData(user, setUser) {
   try {
@@ -32,14 +29,14 @@ async function retrieveData(user, setUser) {
 }
 
 const WorkoutListPage = ({ navigation }) => {
-  const [workouts, setWorkouts] = useState([]);
-  const [user, setUser] = useState({});
+  const [workouts, setWorkouts] = useState<Tables<"workouts">[]>([]);
+  // const [user, setUser] = useState<Tables<'users'> | null>(null);
   const [searchQuery, setSearchQuery] = React.useState("");
-  const theme = useTheme();
+  const theme = useAppTheme();
 
   const onChangeSearch = (query) => setSearchQuery(query);
   const [filteredData, setFilteredData] = useState({});
-  const { data, error, loading } = useGetWorkoutTemplates(Number(1));
+  const { data, error, isPending } = useGetWorkoutTemplates(1);
   const [active, setActive] = useState(false);
 
   const [state, setState] = React.useState({ open: false });
@@ -48,19 +45,25 @@ const WorkoutListPage = ({ navigation }) => {
 
   const { open } = state;
 
-  useEffect(() => {
-    async function fetchData() {
-      await retrieveData(user, setUser);
-      setWorkouts(await getUsersWorkouts(user.user_id, null));
-    }
-    fetchData();
-  }, [user.user_id]);
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     await retrieveData(user, setUser);
+  //     setWorkouts(await getUsersWorkouts(user.user_id, null));
+  //   }
+  //   fetchData();
+  // }, [user.user_id]);
+
+  // TODO: should be
+  // const { workouts } = useGetWorkouts();
 
   const handleSearch = () => {
     const filteredData = workouts.filter(
       (item) =>
         item.workout_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.time_duration.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.total_duration
+          .toString()
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
         item.total_energy_burned.toString().includes(searchQuery) ||
         item.workout_type.toLowerCase().includes(searchQuery.toLowerCase())
     );
@@ -69,9 +72,17 @@ const WorkoutListPage = ({ navigation }) => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#000" }}>
-      <Appbar.Header mode="small" statusBarHeight={0} elevated="true" style={{ backgroundColor: theme.colors.background}}>
+      <Appbar.Header
+        mode="small"
+        statusBarHeight={0}
+        elevated
+        style={{ backgroundColor: theme.colors.background }}
+      >
         <Appbar.Content title="Workouts" />
-        <Appbar.Action icon="history" onPress={() => navigation.navigate("WorkoutHistoryPage")} />
+        <Appbar.Action
+          icon="history"
+          onPress={() => navigation.navigate("WorkoutHistoryPage")}
+        />
       </Appbar.Header>
       <View
         style={{ paddingHorizontal: 16, paddingVertical: 12, marginBottom: 8 }}
@@ -173,31 +184,32 @@ const WorkoutListPage = ({ navigation }) => {
         </View>
       </ScrollView>
       <FAB.Group
-          style={{ paddingBottom: 3, position: 'absolute' }}
-          open={open}
-          variant="surface"
-          icon={open ? 'lightning-bolt' : 'headphones'}
-          label={open ? 'Start A New Workout' : ''}
-          actions={[
-            {
-              icon: 'plus',
-              label: 'Create New Workout',
-              onPress: () => navigation.navigate("CreateWorkout"),
-            },
-            // {
-            //   icon: 'chart-timeline-variant',
-            //   label: 'Workout Trends',
-            //   onPress: () => navigation.navigate("WorkoutTrends"),
-            // }
-          ]}
-          onStateChange={onStateChange}
-          onPress={() => {
-            if (open) {
-              // do something if the speed dial is open
-              navigation.navigate("WorkoutInProgress", { undefined })
-            }
-          }}
-        />
+        visible
+        style={{ paddingBottom: 3, position: "absolute" }}
+        open={open}
+        variant="surface"
+        icon={open ? "lightning-bolt" : "headphones"}
+        label={open ? "Start A New Workout" : ""}
+        actions={[
+          {
+            icon: "plus",
+            label: "Create New Workout",
+            onPress: () => navigation.navigate("CreateWorkout"),
+          },
+          // {
+          //   icon: 'chart-timeline-variant',
+          //   label: 'Workout Trends',
+          //   onPress: () => navigation.navigate("WorkoutTrends"),
+          // }
+        ]}
+        onStateChange={onStateChange}
+        onPress={() => {
+          if (open) {
+            // do something if the speed dial is open
+            navigation.navigate("WorkoutInProgress", { undefined });
+          }
+        }}
+      />
     </SafeAreaView>
   );
 };

@@ -7,6 +7,7 @@ import { Tables } from "../../lib/db.types";
 import { Text } from "react-native-paper";
 import { SongItem } from "../../components/Music/Library/SongList";
 import { useGetPlaylistById } from "../../api/Music";
+import { useAppTheme } from "../../provider/PaperProvider";
 
 interface WorkoutInProgressSongPlayerProps {
   playlistId: string;
@@ -15,10 +16,10 @@ interface WorkoutInProgressSongPlayerProps {
 export const WorkoutInProgressSongPlayer: React.FC<
   WorkoutInProgressSongPlayerProps
 > = ({ playlistId }) => {
-  const theme = useTheme();
+  const theme = useAppTheme();
   const { data: playlist, isPending } = useGetPlaylistById(playlistId);
 
-  if (isPending) {
+  if (isPending || !playlist) {
     return (
       <SafeAreaView
         style={{

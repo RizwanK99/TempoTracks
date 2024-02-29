@@ -7,15 +7,28 @@ import {
   ScrollView,
 } from "react-native";
 import PageHeading from "../components/Workouts/PageHeading";
-import { Card, Title, Paragraph, Searchbar, Chip, DefaultTheme, IconButton, MD3Colors, Text, useTheme, Divider, ActivityIndicator } from "react-native-paper";
+import {
+  Card,
+  Title,
+  Paragraph,
+  Searchbar,
+  Chip,
+  DefaultTheme,
+  IconButton,
+  MD3Colors,
+  Text,
+  useTheme,
+  Divider,
+  ActivityIndicator,
+} from "react-native-paper";
 import { getUsersWorkouts } from "../api/Workouts";
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AntDesign } from "@expo/vector-icons";
 
-import { Appbar, SegmentedButtons } from 'react-native-paper';  
+import { Appbar, SegmentedButtons } from "react-native-paper";
 import { ca } from "date-fns/locale";
-
+import { Tables } from "../lib/db.types";
 
 async function retrieveData(user, setUser) {
   try {
@@ -30,7 +43,7 @@ async function retrieveData(user, setUser) {
 }
 
 const WorkoutHistoryPage = ({ navigation }) => {
-  const [workouts, setWorkouts] = useState([]);
+  const [workouts, setWorkouts] = useState<Tables<"workouts">[]>([]);
   const [user, setUser] = useState({});
   const [searchQuery, setSearchQuery] = React.useState("");
 
@@ -42,57 +55,105 @@ const WorkoutHistoryPage = ({ navigation }) => {
 
   const [visible, setVisible] = React.useState(true);
 
-  useEffect(() => {
-    async function fetchData() {
-      await retrieveData(user, setUser);
-      setData(true);
-      setWorkouts(await getUsersWorkouts(2, null));
-      setData(false);
-    }
-    fetchData();
-  }, [user.user_id]);
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     await retrieveData(user, setUser);
+  //     setData(true);
+  //     setWorkouts(await getUsersWorkouts(2, null));
+  //     setData(false);
+  //   }
+  //   fetchData();
+  // }, [user.user_id]);
 
   const handleSearch = () => {
     const filteredData = workouts.filter(
       (item) =>
         item.workout_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.time_duration.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.total_duration
+          .toString()
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
         item.total_energy_burned.toString().includes(searchQuery) ||
         item.workout_type.toLowerCase().includes(searchQuery.toLowerCase())
     );
     setFilteredData(filteredData);
   };
- //TODO: Add Chips to database
+  //TODO: Add Chips to database
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
-      <Appbar.Header mode="small" statusBarHeight={0} elevated="true" style={{ backgroundColor: theme.colors.background}}>
-        <Appbar.BackAction onPress={() => navigation.navigate("WorkoutListPage")} />
+      <Appbar.Header
+        mode="small"
+        statusBarHeight={0}
+        elevated
+        style={{ backgroundColor: theme.colors.background }}
+      >
+        <Appbar.BackAction
+          onPress={() => navigation.navigate("WorkoutListPage")}
+        />
         <Appbar.Content title="History" />
       </Appbar.Header>
-      
+
       <View style={{ padding: 5 }}>
         <Searchbar
           elevation={4}
           onChangeText={onChangeSearch}
           value={searchQuery}
           onSubmitEditing={() => handleSearch}
-          style = {{ borderRadius: 12}}
+          style={{ borderRadius: 12 }}
         />
-        </View>
-    <View style= {{ height: 40 }}>
-      <ScrollView horizontal style={{ paddingHorizontal: 5, paddingBottom: 5 }}>
-        <Chip icon="bike" style={{ margin: 2 }} elevated="true" onPress={() => console.log('Pressed')}>Biking</Chip>
-        <Chip icon="run" style={{ margin: 2 }} elevated="true" onPress={() => console.log('Pressed')}>Running</Chip>
-        <Chip icon="timer" style={{ margin: 2 }} elevated="true" onPress={() => console.log('Pressed')}>HIIT</Chip>
-        <Chip icon="walk" style={{ margin: 2 }} elevated="true" onPress={() => console.log('Pressed')}>Walking</Chip>
-      </ScrollView>
       </View>
-      
-      
+      <View style={{ height: 40 }}>
+        <ScrollView
+          horizontal
+          style={{ paddingHorizontal: 5, paddingBottom: 5 }}
+        >
+          <Chip
+            icon="bike"
+            style={{ margin: 2 }}
+            elevated
+            onPress={() => console.log("Pressed")}
+          >
+            Biking
+          </Chip>
+          <Chip
+            icon="run"
+            style={{ margin: 2 }}
+            elevated
+            onPress={() => console.log("Pressed")}
+          >
+            Running
+          </Chip>
+          <Chip
+            icon="timer"
+            style={{ margin: 2 }}
+            elevated
+            onPress={() => console.log("Pressed")}
+          >
+            HIIT
+          </Chip>
+          <Chip
+            icon="walk"
+            style={{ margin: 2 }}
+            elevated
+            onPress={() => console.log("Pressed")}
+          >
+            Walking
+          </Chip>
+        </ScrollView>
+      </View>
+
       <ScrollView>
-        <ActivityIndicator animating={data} style= {{ position: 'absolute', zIndex: 1, alignSelf: 'center', paddingTop: 20}}/>
+        <ActivityIndicator
+          animating={data}
+          style={{
+            position: "absolute",
+            zIndex: 1,
+            alignSelf: "center",
+            paddingTop: 20,
+          }}
+        />
         <View style={{ paddingHorizontal: 5 }}>
-          {workouts?.userWorkouts?.map((w) => (
+          {workouts?.map((w) => (
             <WorkoutCard
               key={w.workout_id}
               id={w.workout_id}
@@ -119,11 +180,15 @@ const WorkoutCard = ({
   workoutType,
   navigation,
   theme,
-  distance
+  distance,
 }) => {
   return (
     <Card
-      style={{ backgroundColor: theme.colors.card, borderColor: theme.colors.border, marginVertical: 5}}
+      style={{
+        backgroundColor: theme.colors.card,
+        borderColor: theme.colors.border,
+        marginVertical: 5,
+      }}
       onPress={() =>
         navigation.navigate("WorkoutEndSummary", {
           workoutId: id,
@@ -134,11 +199,9 @@ const WorkoutCard = ({
         })
       }
       mode="outlined"
-
     >
       <Card.Content>
-        
-      {/* <View
+        {/* <View
                 style={{
                   borderWidth: 1,
                   borderColor:
@@ -152,56 +215,60 @@ const WorkoutCard = ({
                   gap: 10,
                 }}
               > */}
-                <Text
-                  style={{
-                    color: theme.colors.text,
-                    fontSize: 20,
-                    fontWeight: "bold",
-                    paddingBottom: 10
-                  }}
-                >
-                  {name}
-                </Text>
-                <Text
-                  style={{ color: theme.colors.foregroundMuted, fontSize: 14, paddingBottom: 10 }}
-                >
-                  {workoutType}
-                </Text>
-                <Divider />
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    paddingHorizontal: 4,
-                    paddingTop: 16
-                  }}
-                >
-                  <Text
-                    style={{
-                      color: theme.colors.foregroundMuted,
-                      fontSize: 14,
-                    }}
-                  >
-                    {distance} km
-                  </Text>
-                  <Text
-                    style={{
-                      color: theme.colors.foregroundMuted,
-                      fontSize: 14,
-                    }}
-                  >
-                    {Number(duration)} mins
-                  </Text>
-                  <Text
-                    style={{
-                      color: theme.colors.foregroundMuted,
-                      fontSize: 14,
-                    }}
-                  >
-                    {caloriesBurnt} sets
-                  </Text>
-                </View>
-              {/* </View> */}
+        <Text
+          style={{
+            color: theme.colors.text,
+            fontSize: 20,
+            fontWeight: "bold",
+            paddingBottom: 10,
+          }}
+        >
+          {name}
+        </Text>
+        <Text
+          style={{
+            color: theme.colors.foregroundMuted,
+            fontSize: 14,
+            paddingBottom: 10,
+          }}
+        >
+          {workoutType}
+        </Text>
+        <Divider />
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            paddingHorizontal: 4,
+            paddingTop: 16,
+          }}
+        >
+          <Text
+            style={{
+              color: theme.colors.foregroundMuted,
+              fontSize: 14,
+            }}
+          >
+            {distance} km
+          </Text>
+          <Text
+            style={{
+              color: theme.colors.foregroundMuted,
+              fontSize: 14,
+            }}
+          >
+            {Number(duration)} mins
+          </Text>
+          <Text
+            style={{
+              color: theme.colors.foregroundMuted,
+              fontSize: 14,
+            }}
+          >
+            {caloriesBurnt} sets
+          </Text>
+        </View>
+        {/* </View> */}
       </Card.Content>
     </Card>
   );

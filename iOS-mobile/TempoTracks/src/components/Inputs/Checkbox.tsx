@@ -8,10 +8,10 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import { useTheme } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { IntervalDeleteModal } from "../Workouts/IntervalDeleteModal";
+import { useAppTheme } from "../../provider/PaperProvider";
 
 interface CheckboxProps {
   onPress?: () => void;
@@ -36,7 +36,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
   disabled = false,
   deletable = false,
 }) => {
-  const theme = useTheme();
+  const theme = useAppTheme();
   const [focus, setFocused] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
 
@@ -112,7 +112,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
             ) : null}
           </View>
           <View
-            styles={{
+            style={{
               display: "flex",
               flexDirection: "column",
               gap: 4,

@@ -1,22 +1,13 @@
-import { useAnimatedStyle } from "react-native-reanimated";
 import { supabase } from "../lib/supabase";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Tables } from "../lib/db.types";
+import { TablesInsert } from "../lib/db.types";
 import { useNavigation } from "@react-navigation/native";
-
-interface WorkoutTemplate {
-  workoutTemplate: Tables<"workout_templates">;
-}
-
-interface Props {
-  onSuccess: () => void;
-}
 
 export const useCreateWorkoutTemplate = () => {
   const queryClient = useQueryClient();
   const navigation = useNavigation();
   return useMutation({
-    mutationFn: async (template) => {
+    mutationFn: async (template: TablesInsert<"workout_templates">) => {
       const { data, error } = await supabase
         .from("workout_templates")
         .insert(template)
@@ -69,10 +60,14 @@ export const useGetWorkoutTemplateById = (id: string) => {
   });
 };
 
+/**
+ * THIS PROB IS NOT NEEDED, WORKOUT INTERVALS SHOULD BE NEVER BE NEEDED ON THEIR OWN
+ * WE SHOULD JOIN INTERVALS WITH THE OTHER "ACTUAL" DATA, i.e THE TEMPALTE
+ */
 export const useGetWorkoutIntervals = (ids: number[]) => {
   return useQuery({
     queryKey: ["workout_intervals"],
-    queryFn: async (ids) => {
+    queryFn: async () => {
       const { data, error } = await supabase
         .from("workout_intervals")
         .select()

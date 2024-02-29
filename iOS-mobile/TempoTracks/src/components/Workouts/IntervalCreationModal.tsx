@@ -1,25 +1,15 @@
 import React, { useState } from "react";
 import { View, ScrollView } from "react-native";
-import {
-  Modal,
-  Portal,
-  Text,
-  Divider,
-  Button,
-  Menu,
-  useTheme,
-} from "react-native-paper";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { Modal, Portal, Text, Divider, Button, Menu } from "react-native-paper";
+import { useQueryClient } from "@tanstack/react-query";
 import { useToast } from "react-native-toast-notifications";
 import { TextInput } from "../Inputs/TextInput";
 import { NumberInput } from "../Inputs/NumberInput";
-import {
-  useGetWorkoutIntensities,
-  WorkoutIntensity,
-} from "../../api/WorkoutIntensities";
+import { useGetWorkoutIntensities } from "../../api/WorkoutIntensities";
 import { useCreateWorkoutInterval } from "../../api/WorkoutIntervals";
 import { Formik } from "formik";
 import * as yup from "yup";
+import { useAppTheme } from "../../provider/PaperProvider";
 
 interface IntervalCreationModalProps {
   visible: boolean;
@@ -37,7 +27,7 @@ export const IntervalCreationModal: React.FC<IntervalCreationModalProps> = ({
   visible,
   onDismiss,
 }) => {
-  const theme = useTheme();
+  const theme = useAppTheme();
   const toast = useToast();
   const queryClient = useQueryClient();
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
@@ -62,16 +52,17 @@ export const IntervalCreationModal: React.FC<IntervalCreationModalProps> = ({
           height: 460,
           borderRadius: 8,
           gap: 16,
-          justifyContent: "start",
+          justifyContent: "flex-start",
         }}
         onDismiss={onDismiss}
       >
         <Formik
           initialValues={{
             name: "Custom Interval",
-            intensity: "",
-            active: "",
-            rest: "",
+            intensity: 0,
+            tempo: 0,
+            active: 0,
+            rest: 0,
           }}
           onSubmit={(values) => {
             createWorkoutInterval.mutate(
@@ -123,7 +114,7 @@ export const IntervalCreationModal: React.FC<IntervalCreationModalProps> = ({
                 label="Interval Name"
                 value={values.name}
                 onChangeText={handleChange("name")}
-                error={errors.name}
+                error={!!errors.name}
                 showReturnKeyType
               />
               <Menu
@@ -147,17 +138,16 @@ export const IntervalCreationModal: React.FC<IntervalCreationModalProps> = ({
                       flexDirection: "row-reverse",
                       justifyContent: "space-between",
                       gap: 8,
-                      fontSize: 24,
                     }}
                     icon={menuOpen ? "chevron-down" : "chevron-right"}
                     textColor={theme.colors.foregroundMuted}
                     labelStyle={{ fontSize: 26 }}
                   >
                     <Text style={{ fontSize: 16 }}>
-                      {values.intensity
+                      {values.intensity && intensities
                         ? intensities.find(
                             (intensity) => intensity.id === values.intensity
-                          ).label
+                          )?.label ?? "Select Intensity"
                         : "Select Intensity"}
                     </Text>
                   </Button>
@@ -169,7 +159,7 @@ export const IntervalCreationModal: React.FC<IntervalCreationModalProps> = ({
                 }}
               >
                 <ScrollView style={{ width: 316 }}>
-                  {intensities.map((intensity, index) => (
+                  {intensities?.map((intensity, index) => (
                     <Menu.Item
                       key={index}
                       title={intensity.label}
@@ -179,7 +169,6 @@ export const IntervalCreationModal: React.FC<IntervalCreationModalProps> = ({
                       }}
                       contentStyle={{
                         width: "100%",
-                        color: theme.colors.text,
                       }}
                     />
                   ))}
@@ -205,7 +194,7 @@ export const IntervalCreationModal: React.FC<IntervalCreationModalProps> = ({
                   label="Active *"
                   value={values.active}
                   onChangeText={handleChange("active")}
-                  error={errors.active}
+                  error={!!errors.active}
                 />
                 <NumberInput
                   placeholder="Enter"
@@ -213,7 +202,7 @@ export const IntervalCreationModal: React.FC<IntervalCreationModalProps> = ({
                   label={`Rest *`}
                   value={values.rest}
                   onChangeText={handleChange("rest")}
-                  error={errors.rest}
+                  error={!!errors.rest}
                 />
               </View>
               <Button
@@ -233,7 +222,6 @@ export const IntervalCreationModal: React.FC<IntervalCreationModalProps> = ({
                 }}
                 textColor={theme.colors.text}
                 labelStyle={{ fontSize: 16, fontWeight: "bold" }}
-                contentStyle={{ color: theme.colors.text }}
                 icon="database-edit-outline"
                 disabled={!isValid || !dirty}
               >

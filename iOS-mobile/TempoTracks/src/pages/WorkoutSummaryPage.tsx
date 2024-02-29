@@ -1,24 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { SafeAreaView, Text, View, ScrollView } from "react-native";
-import { useTheme, Button, Divider } from "react-native-paper";
+import { Button, Divider } from "react-native-paper";
 import { useGetWorkoutById } from "../api/WorkoutsNew.ts";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { LineChart } from "react-native-gifted-charts";
+import { useAppTheme } from "../provider/PaperProvider.tsx";
 
 interface StatProps {
-  value: string;
   label: string;
+  value: string | number;
   units: string;
-  icon: string;
+  icon?: string;
 }
 
 const Stat: React.FC<StatProps> = ({ value, label, units, icon }) => {
-  const theme = useTheme();
+  const theme = useAppTheme();
   return (
     <View style={{ flexDirection: "column", gap: 4 }}>
       <View style={{ flexDirection: "row", gap: 4 }}>
         <MaterialCommunityIcons
-          name={icon}
+          name={icon as any}
           size={24}
           color={theme.colors.foregroundMuted}
         />
@@ -50,15 +51,19 @@ function formatTime(totalSeconds: number): { value: number; unit: string } {
 }
 
 const WorkoutSummaryPage = ({ navigation, route }) => {
-  const theme = useTheme();
+  const theme = useAppTheme();
   const { workoutId, duration, calories, bpm, distance } = route.params;
   const { value: formattedDuration, unit } = formatTime(duration);
   const { data: completedWorkout, isPending } = useGetWorkoutById(workoutId);
-  const [workoutStart, setWorkoutStart] = useState();
-  const [workoutEnd, setWorkoutEnd] = useState();
-  const [currentTime, setCurrentTime] = useState();
+  const [workoutStart, setWorkoutStart] = useState<string | null>();
+  const [workoutEnd, setWorkoutEnd] = useState<string | null>();
+  const [currentTime, setCurrentTime] = useState<string | null>();
   useEffect(() => {
-    if (!isPending) {
+    if (
+      !isPending &&
+      completedWorkout?.time_start &&
+      completedWorkout.time_end
+    ) {
       setWorkoutStart(
         new Date(completedWorkout.time_start).toLocaleTimeString([], {
           hour: "2-digit",
@@ -209,7 +214,7 @@ const WorkoutSummaryPage = ({ navigation, route }) => {
     {
       value: 130,
       dataPointText: "48",
-      label: workoutEnd,
+      label: workoutEnd ?? "Workout End",
       labelTextStyle: {
         width: 80,
         color: theme.colors.foregroundMuted,
@@ -363,11 +368,9 @@ const WorkoutSummaryPage = ({ navigation, route }) => {
                   paddingVertical: 4,
                   width: "100%",
                   backgroundColor: theme.colors.primary,
-                  border: "none",
                 }}
                 textColor={theme.colors.primaryForeground}
                 labelStyle={{ fontSize: 20, fontWeight: "bold" }}
-                contentStyle={{ color: theme.colors.text }}
               >
                 Exit
               </Button>
