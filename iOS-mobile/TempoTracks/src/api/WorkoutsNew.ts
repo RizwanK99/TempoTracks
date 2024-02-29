@@ -1,15 +1,11 @@
 import { supabase } from "../lib/supabase";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Tables } from "../lib/db.types";
+import { Tables, TablesInsert } from "../lib/db.types";
 
-interface Workout {
-  workout: Tables<"workouts">;
-}
-
-export const useCreateWorkout = (workout: Workout) => {
+export const useCreateWorkout = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (workout: Workout) => {
+    mutationFn: async (workout: TablesInsert<"workouts">) => {
       const { data, error } = await supabase
         .from("workouts")
         .insert(workout)
@@ -30,14 +26,14 @@ export const useCreateWorkout = (workout: Workout) => {
   });
 };
 
-export const usePauseWorkout = (workoutId: string) => {
+export const usePauseWorkout = () => {
   return useMutation({
     mutationFn: async (workoutId: string) => {
       const { data, error } = await supabase
         .from("workouts")
         .update({
           is_paused: true,
-          paused_at: new Date(),
+          paused_at: new Date().toISOString(),
           status: "PAUSED",
         })
         .eq("workout_id", workoutId);
@@ -51,7 +47,7 @@ export const usePauseWorkout = (workoutId: string) => {
   });
 };
 
-export const useResumeWorkout = (workoutId: string) => {
+export const useResumeWorkout = () => {
   return useMutation({
     mutationFn: async (workoutId: string) => {
       const { data, error } = await supabase
@@ -72,21 +68,21 @@ export const useResumeWorkout = (workoutId: string) => {
   });
 };
 
-export const useEndWorkout = (
-  workoutId: string,
-  templateId: string,
-  duration: number
-) => {
+export const useEndWorkout = () => {
   return useMutation({
-    mutationFn: async (object: any) => {
-      const { workoutId, templateId, duration } = object;
+    mutationFn: async (params: {
+      workoutId: string;
+      templateId: string;
+      duration: number;
+    }) => {
+      const { workoutId, templateId, duration } = params;
       const { data, error } = await supabase
         .from("workouts")
         .update({
           is_paused: false,
           paused_at: null,
           status: "COMPLETED",
-          time_end: new Date(),
+          time_end: new Date().toISOString(),
           total_duration: duration,
         })
         .eq("workout_id", workoutId);
@@ -94,7 +90,7 @@ export const useEndWorkout = (
       const { data: updatedTemplate } = await supabase
         .from("workout_templates")
         .update({
-          last_completed: new Date(),
+          last_completed: new Date().toISOString(),
         })
         .eq("id", templateId);
 

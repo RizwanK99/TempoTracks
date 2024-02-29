@@ -38,6 +38,7 @@ const StartOrCancelWorkoutPage = ({ route, navigation }) => {
         playlist_id: playlistId,
         status: "IN_PROGRESS",
         is_paused: false,
+        total_duration: 0,
       });
     }
   }, [isCountingDown]);

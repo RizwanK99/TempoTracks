@@ -1,24 +1,14 @@
 import React from "react";
-import {
-  StyleSheet,
-  View,
-  Text,
-  SafeAreaView,
-  TouchableWithoutFeedback,
-  TouchableOpacity,
-  ScrollView,
-  Button,
-  Dimensions,
-} from "react-native";
+import { View, Text, SafeAreaView, ScrollView, Button } from "react-native";
 import { useGetWorkoutTemplateById } from "../api/WorkoutTemplate.ts";
 import { useTheme, Divider, ActivityIndicator } from "react-native-paper";
 import { StyledText } from "../components/Workouts/CreateWorkoutTemplateForm";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Checkbox } from "../components/Inputs/Checkbox";
-import { useGetWorkoutIntervals } from "../api/WorkoutTemplate.ts";
 import { BarChart } from "react-native-gifted-charts";
 import { Button as PaperButton } from "react-native-paper";
 import { useCreateWorkout } from "../api/WorkoutsNew.ts";
+import { useAppTheme } from "../provider/PaperProvider.tsx";
 
 const intervalConstants = [
   { id: 1, title: "Recovery", active: 30, rest: 90, isChecked: false },
@@ -33,12 +23,12 @@ function copyListNTimes<T>(list: T[], n: number): T[] {
 }
 
 const IndividualWorkoutTemplatePage = ({ route, navigation }) => {
-  const theme = useTheme();
+  const theme = useAppTheme();
   const { templateId } = route.params;
   const { data, isPending, error } = useGetWorkoutTemplateById(templateId);
   const createWorkout = useCreateWorkout();
 
-  if (isPending) {
+  if (isPending || !data) {
     return (
       <SafeAreaView
         style={{
@@ -68,13 +58,19 @@ const IndividualWorkoutTemplatePage = ({ route, navigation }) => {
 
   const intervals = numericIds.map((id) =>
     intervalConstants.find((interval) => interval.id === id)
-  );
+  ) as any[];
 
   const getIconName = (workoutType: string) => {
     return workoutIcons[workoutType];
   };
 
-  const barData = [];
+  const barData: {
+    value: number;
+    spacing: number;
+    label?: string;
+    labelTextStyle?: any;
+    frontColor: string;
+  }[] = [];
   let setIndex = 0;
   const overallIntervals = copyListNTimes(intervals, template.num_sets);
   for (let i = 0; i < overallIntervals.length; i++) {
@@ -174,11 +170,13 @@ const IndividualWorkoutTemplatePage = ({ route, navigation }) => {
               <View>
                 {intervals.map((interval, index) => (
                   <Checkbox
+                    id={interval.id}
                     key={index}
                     disabled
                     title={interval.title}
                     index={index + 1}
                     subTitle={`${interval.active} secs active, ${interval.rest} secs rest`}
+                    value={true}
                   />
                 ))}
               </View>
@@ -276,7 +274,6 @@ const IndividualWorkoutTemplatePage = ({ route, navigation }) => {
                 }}
                 textColor={theme.colors.primaryForeground}
                 labelStyle={{ fontSize: 20, fontWeight: "bold" }}
-                contentStyle={{ color: theme.colors.text }}
                 onPress={() => {
                   navigation.navigate("StartOrCancelWorkoutPage", {
                     templateId: templateId,
@@ -296,15 +293,25 @@ const IndividualWorkoutTemplatePage = ({ route, navigation }) => {
   );
 };
 
-const Column = ({ label, units, value, icon }) => {
-  const theme = useTheme();
+const Column = ({
+  label,
+  units,
+  value,
+  icon,
+}: {
+  label: string;
+  value: string | number;
+  units?: string;
+  icon?: string;
+}) => {
+  const theme = useAppTheme();
   return (
     <View style={{ flexDirection: "column", gap: 4 }}>
       <Text style={{ color: theme.colors.text }}>{label}</Text>
       <View style={{ flexDirection: "row", gap: 4 }}>
         {icon && (
           <MaterialCommunityIcons
-            name={icon}
+            name={icon as any}
             size={14}
             color={theme.colors.foregroundMuted}
           />
@@ -318,7 +325,7 @@ const Column = ({ label, units, value, icon }) => {
 };
 
 const Header = ({ navigation, label }) => {
-  const theme = useTheme();
+  const theme = useAppTheme();
   return (
     <View
       style={{

@@ -263,87 +263,114 @@ export type Database = {
           bpm_upper_threshold: number | null
           id: number
           label: string | null
+          tempo: number | null
         }
         Insert: {
           bpm_lower_threshold?: number | null
           bpm_upper_threshold?: number | null
           id?: number
           label?: string | null
+          tempo?: number | null
         }
         Update: {
           bpm_lower_threshold?: number | null
           bpm_upper_threshold?: number | null
           id?: number
           label?: string | null
+          tempo?: number | null
         }
         Relationships: []
       }
       workout_intervals: {
         Row: {
-          active: number | null
+          active: number
           created_at: string
           id: number
-          label: string | null
-          rest: number | null
+          is_custom: boolean
+          label: string
+          rest: number
+          template_id: string | null
+          tempo: number
         }
         Insert: {
-          active?: number | null
+          active: number
           created_at?: string
           id?: number
-          label?: string | null
-          rest?: number | null
+          is_custom: boolean
+          label: string
+          rest: number
+          template_id?: string | null
+          tempo: number
         }
         Update: {
-          active?: number | null
+          active?: number
           created_at?: string
           id?: number
-          label?: string | null
-          rest?: number | null
+          is_custom?: boolean
+          label?: string
+          rest?: number
+          template_id?: string | null
+          tempo?: number
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "public_workout_intervals_template_id_fkey"
+            columns: ["template_id"]
+            isOneToOne: false
+            referencedRelation: "workout_templates"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_workout_intervals_tempo_fkey"
+            columns: ["tempo"]
+            isOneToOne: false
+            referencedRelation: "workout_intensities"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       workout_templates: {
         Row: {
           created_at: string
-          description: string | null
-          expected_distance: number | null
-          expected_duration: number | null
+          description: string
+          expected_distance: number
+          expected_duration: number
           id: string
-          interval_ids: string[] | null
+          interval_ids: string[]
           last_completed: string | null
           name: string
-          num_sets: number | null
-          playlist_id: string | null
-          type: Database["public"]["Enums"]["workout_type"] | null
-          user_id: number | null
+          num_sets: number
+          playlist_id: string
+          type: Database["public"]["Enums"]["workout_type"]
+          user_id: number
         }
         Insert: {
           created_at?: string
-          description?: string | null
-          expected_distance?: number | null
-          expected_duration?: number | null
+          description: string
+          expected_distance: number
+          expected_duration: number
           id?: string
-          interval_ids?: string[] | null
+          interval_ids: string[]
           last_completed?: string | null
           name: string
-          num_sets?: number | null
-          playlist_id?: string | null
-          type?: Database["public"]["Enums"]["workout_type"] | null
-          user_id?: number | null
+          num_sets: number
+          playlist_id: string
+          type: Database["public"]["Enums"]["workout_type"]
+          user_id: number
         }
         Update: {
           created_at?: string
-          description?: string | null
-          expected_distance?: number | null
-          expected_duration?: number | null
+          description?: string
+          expected_distance?: number
+          expected_duration?: number
           id?: string
-          interval_ids?: string[] | null
+          interval_ids?: string[]
           last_completed?: string | null
           name?: string
-          num_sets?: number | null
-          playlist_id?: string | null
-          type?: Database["public"]["Enums"]["workout_type"] | null
-          user_id?: number | null
+          num_sets?: number
+          playlist_id?: string
+          type?: Database["public"]["Enums"]["workout_type"]
+          user_id?: number
         }
         Relationships: [
           {
@@ -364,61 +391,61 @@ export type Database = {
       }
       workouts: {
         Row: {
-          created_at: string | null
+          created_at: string
           is_paused: boolean
           paused_at: string | null
-          playlist_id: string | null
-          status: Database["public"]["Enums"]["workout_status"] | null
+          playlist_id: string
+          status: Database["public"]["Enums"]["workout_status"]
           template_id: string
           time_end: string | null
           time_start: string | null
-          total_distance: number | null
-          total_duration: number | null
-          total_elevation_change: number | null
-          total_energy_burned: number | null
+          total_distance: number
+          total_duration: number
+          total_elevation_change: number
+          total_energy_burned: number
           training_intervals: string | null
           user_id: number | null
           workout_id: string
-          workout_name: string | null
-          workout_type: Database["public"]["Enums"]["workout_type"] | null
+          workout_name: string
+          workout_type: Database["public"]["Enums"]["workout_type"]
         }
         Insert: {
-          created_at?: string | null
+          created_at?: string
           is_paused?: boolean
           paused_at?: string | null
-          playlist_id?: string | null
-          status?: Database["public"]["Enums"]["workout_status"] | null
+          playlist_id: string
+          status: Database["public"]["Enums"]["workout_status"]
           template_id: string
           time_end?: string | null
           time_start?: string | null
-          total_distance?: number | null
-          total_duration?: number | null
-          total_elevation_change?: number | null
-          total_energy_burned?: number | null
+          total_distance?: number
+          total_duration: number
+          total_elevation_change?: number
+          total_energy_burned?: number
           training_intervals?: string | null
           user_id?: number | null
           workout_id?: string
-          workout_name?: string | null
-          workout_type?: Database["public"]["Enums"]["workout_type"] | null
+          workout_name: string
+          workout_type: Database["public"]["Enums"]["workout_type"]
         }
         Update: {
-          created_at?: string | null
+          created_at?: string
           is_paused?: boolean
           paused_at?: string | null
-          playlist_id?: string | null
-          status?: Database["public"]["Enums"]["workout_status"] | null
+          playlist_id?: string
+          status?: Database["public"]["Enums"]["workout_status"]
           template_id?: string
           time_end?: string | null
           time_start?: string | null
-          total_distance?: number | null
-          total_duration?: number | null
-          total_elevation_change?: number | null
-          total_energy_burned?: number | null
+          total_distance?: number
+          total_duration?: number
+          total_elevation_change?: number
+          total_energy_burned?: number
           training_intervals?: string | null
           user_id?: number | null
           workout_id?: string
-          workout_name?: string | null
-          workout_type?: Database["public"]["Enums"]["workout_type"] | null
+          workout_name?: string
+          workout_type?: Database["public"]["Enums"]["workout_type"]
         }
         Relationships: [
           {

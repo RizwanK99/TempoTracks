@@ -1,6 +1,6 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo } from "react";
 import { SafeAreaView, Text, View } from "react-native";
-import { useTheme, IconButton } from "react-native-paper";
+import { useTheme } from "react-native-paper";
 import { Button as PaperButton } from "react-native-paper";
 import {
   usePauseWorkout,
@@ -10,10 +10,11 @@ import {
 import { useStopwatch } from "react-timer-hook";
 
 // Watch Manager
-import { EventListener, WatchManager } from "../../module/WatchManager"
+import { EventListener, WatchManager } from "../../module/WatchManager";
+import { useAppTheme } from "../../provider/PaperProvider";
 
 interface TimeProps {
-  value: string;
+  value: number;
   unit: string;
   showColon?: boolean;
 }
@@ -34,7 +35,7 @@ interface StatProps {
 }
 
 const Stat: React.FC<StatProps> = ({ unit, value }) => {
-  const theme = useTheme();
+  const theme = useAppTheme();
   return (
     <Text style={{ color: theme.colors.text, fontSize: 34 }}>
       {value} {unit}
@@ -51,7 +52,7 @@ interface WorkoutInProgressDetailsProps {
 export const WorkoutInProgressDetails: React.FC<
   WorkoutInProgressDetailsProps
 > = ({ workoutId, templateId, navigation }) => {
-  const theme = useTheme();
+  const theme = useAppTheme();
   const { mutate: pauseWorkout } = usePauseWorkout();
   const { mutate: resumeWorkout } = useResumeWorkout();
   const { mutate: endWorkout } = useEndWorkout();
@@ -177,7 +178,6 @@ export const WorkoutInProgressDetails: React.FC<
               height: 48,
               backgroundColor: theme.colors.redPrimaryForeground,
               opacity: 0.8,
-              border: "none",
             }}
             textColor={theme.colors.redPrimary}
             labelStyle={{
@@ -188,14 +188,14 @@ export const WorkoutInProgressDetails: React.FC<
               marginLeft: 4,
               marginTop: 24,
             }}
-            contentStyle={{ color: theme.colors.text }}
             icon="stop"
             onPress={() => {
               //WatchManager.endWorkout(workoutId);
               handleWorkoutEnd();
             }}
-          />
-          <Text style={{ color: theme.colors.text, fontSize: 22 }}>Stop</Text>
+          >
+            <Text style={{ color: theme.colors.text, fontSize: 22 }}>Stop</Text>
+          </PaperButton>
         </View>
         <View
           style={{
@@ -206,69 +206,63 @@ export const WorkoutInProgressDetails: React.FC<
           }}
         >
           {!paused ? (
-            <>
-              <PaperButton
-                style={{
-                  borderRadius: 24,
-                  width: "100%",
-                  height: 48,
-                  backgroundColor: theme.colors.primaryForeground,
-                  border: "none",
-                }}
-                textColor={theme.colors.primary}
-                labelStyle={{
-                  fontSize: 36,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  alignContent: "center",
-                  marginLeft: 4,
-                  marginTop: 24,
-                }}
-                contentStyle={{ color: theme.colors.text }}
-                icon="pause"
-                onPress={() => {
-                  //WatchManager.togglePauseWorkout(workoutId);
-                  pauseWorkout(workoutId);
-                  pause();
-                  setPaused(true);
-                }}
-              />
+            <PaperButton
+              style={{
+                borderRadius: 24,
+                width: "100%",
+                height: 48,
+                backgroundColor: theme.colors.primaryForeground,
+              }}
+              textColor={theme.colors.primary}
+              labelStyle={{
+                fontSize: 36,
+                justifyContent: "center",
+                alignItems: "center",
+                alignContent: "center",
+                marginLeft: 4,
+                marginTop: 24,
+              }}
+              icon="pause"
+              onPress={() => {
+                //WatchManager.togglePauseWorkout(workoutId);
+                pauseWorkout(workoutId);
+                pause();
+                setPaused(true);
+              }}
+            >
               <Text style={{ color: theme.colors.text, fontSize: 22 }}>
                 Pause
               </Text>
-            </>
+            </PaperButton>
           ) : (
-            <>
-              <PaperButton
-                style={{
-                  borderRadius: 24,
-                  width: "100%",
-                  height: 48,
-                  backgroundColor: theme.colors.primaryForeground,
-                  border: "none",
-                }}
-                textColor={theme.colors.primary}
-                labelStyle={{
-                  fontSize: 36,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  alignContent: "center",
-                  marginLeft: 4,
-                  marginTop: 24,
-                }}
-                contentStyle={{ color: theme.colors.text }}
-                icon="play"
-                onPress={() => {
-                  //WatchManager.togglePauseWorkout(workoutId);
-                  resumeWorkout(workoutId);
-                  start();
-                  setPaused(false);
-                }}
-              />
+            <PaperButton
+              style={{
+                borderRadius: 24,
+                width: "100%",
+                height: 48,
+                backgroundColor: theme.colors.primaryForeground,
+              }}
+              textColor={theme.colors.primary}
+              labelStyle={{
+                fontSize: 36,
+                justifyContent: "center",
+                alignItems: "center",
+                alignContent: "center",
+                marginLeft: 4,
+                marginTop: 24,
+              }}
+              icon="play"
+              onPress={() => {
+                //WatchManager.togglePauseWorkout(workoutId);
+                resumeWorkout(workoutId);
+                start();
+                setPaused(false);
+              }}
+            >
               <Text style={{ color: theme.colors.text, fontSize: 22 }}>
                 Resume
               </Text>
-            </>
+            </PaperButton>
           )}
         </View>
       </View>

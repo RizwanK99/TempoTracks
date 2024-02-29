@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../lib/supabase";
 import { MusicManager } from "../module/MusicManager";
-import { RepeatMode, ShuffleMode } from "../module/MusicManager.types";
 import { Tables } from "../lib/db.types";
 
 interface SongProps {
@@ -116,20 +115,22 @@ export const useGetPlaylistById = (id: string) => {
         .single();
 
       // format playlist items
-      const formattedPlaylist = {
-        apple_music_id: data.apple_music_id,
-        name: data.name,
-        artwork_url: data.artwork_url,
-        length: data.length,
-        created_at: data.created_at,
-        songs: data.playlist_items
-          .map((item) => item.songs)
-          .filter((x) => !!x) as Tables<"songs">[],
-      };
+      const formattedPlaylist = data
+        ? {
+            apple_music_id: data.apple_music_id,
+            name: data.name,
+            artwork_url: data.artwork_url,
+            length: data.length,
+            created_at: data.created_at,
+            songs: data.playlist_items
+              .map((item) => item.songs)
+              .filter((x) => !!x) as Tables<"songs">[],
+          }
+        : null;
 
       if (error) {
-        console.error("error fetching playlists", error);
-        return [];
+        console.error("error fetching playlist with id", error);
+        return null;
       }
 
       return formattedPlaylist;

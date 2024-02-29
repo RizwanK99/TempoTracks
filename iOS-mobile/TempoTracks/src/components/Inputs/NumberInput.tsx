@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useTheme } from "react-native-paper";
 import { TextInput as PaperTextInput } from "react-native-paper";
 import {
   SafeAreaView,
@@ -10,11 +9,12 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
+import { useAppTheme } from "../../provider/PaperProvider";
 
 interface TextInputProps {
   label: string;
   placeholder: string;
-  value: string;
+  value: number;
   units: string;
   onChangeText: (text: string) => void;
   onFocus?: () => void;
@@ -34,7 +34,7 @@ export const NumberInput: React.FC<TextInputProps> = ({
   width = 85,
   error = false,
 }) => {
-  const theme = useTheme();
+  const theme = useAppTheme();
   const [focused, setFocused] = useState(false);
   const [borderWidth, setBorderWidth] = useState(1);
   let borderColor = "grey";
@@ -49,7 +49,7 @@ export const NumberInput: React.FC<TextInputProps> = ({
       <PaperTextInput
         mode="outlined"
         label={label}
-        value={value}
+        value={value.toString()}
         onChangeText={onChangeText}
         onFocus={() => {
           //onFocus();

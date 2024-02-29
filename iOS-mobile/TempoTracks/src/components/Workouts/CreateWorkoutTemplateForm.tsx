@@ -9,51 +9,36 @@ import {
   SafeAreaView,
   ScrollView,
   Text,
-  Button,
   View,
   StyleSheet,
   TouchableOpacity,
   LogBox,
 } from "react-native";
-import {
-  RadioButton,
-  TextInput,
-  Switch,
-  Menu,
-  Divider,
-  Portal,
-  Modal,
-  useTheme,
-} from "react-native-paper";
+import { Menu, Divider } from "react-native-paper";
 import DraggableFlatList, {
   NestableScrollContainer,
-  NestableDraggableFlatList,
   RenderItemParams,
-  ScaleDecorator,
 } from "react-native-draggable-flatlist";
 import { Button as PaperButton } from "react-native-paper";
 import { Formik } from "formik";
 import { useToast } from "react-native-toast-notifications";
 import { TextInput as CustomTextInput } from "../Inputs/TextInput";
-import { NumberInput } from "../Inputs/NumberInput";
 import { Checkbox } from "../Inputs/Checkbox";
 import { AntDesign } from "@expo/vector-icons";
 import { IntervalCreationModal } from "./IntervalCreationModal";
-import {
-  BottomSheetModal,
-  BottomSheetModalProvider,
-  BottomSheetTextInput,
-} from "@gorhom/bottom-sheet";
-import CustomCarousel from "../Workouts/CustomCarousel.js";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import CustomCarousel from "../Workouts/CustomCarousel";
 import { IntensityVsTimeGraph } from "../Workouts/IntensityVsTimeGraph";
 import { useCreateWorkoutTemplate } from "../../api/WorkoutTemplate";
 import { useGetWorkoutTemplates } from "../../api/WorkoutTemplate";
 import { useGetWorkoutIntervals } from "../../api/WorkoutIntervals";
 import { useGetWorkoutIntensities } from "../../api/WorkoutIntensities";
 import { usePlaylists } from "../../api/Music";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { useQuery } from "@tanstack/react-query";
 import * as yup from "yup";
+import { useAppTheme } from "../../provider/PaperProvider";
+import { Tables } from "../../lib/db.types";
+import { BarChartPropsType } from "react-native-gifted-charts";
+import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 
 interface CreateWorkoutTemplateFormProps {
   userId: string;
@@ -69,7 +54,7 @@ export const StyledText: React.FC<StyledTextProps> = ({
   fontSize = 16,
   text,
 }) => {
-  const theme = useTheme();
+  const theme = useAppTheme();
   return (
     <Text
       style={{
@@ -90,7 +75,7 @@ function copyListNTimes<T>(list: T[], n: number): T[] {
 const VALIDATION_SCHEMA = yup.object({
   name: yup.string().required(),
   description: yup.string(),
-  type: yup.string().required(),
+  type: yup.mixed().oneOf(["Biking", "Running", "Walking", "HIIT"]),
   playlist_id: yup.string().required(),
   num_sets: yup.number().required(),
   intervals: yup.array().of(yup.string()),
@@ -99,22 +84,20 @@ const VALIDATION_SCHEMA = yup.object({
 export const CreateWorkoutTemplateForm: React.FC<
   CreateWorkoutTemplateFormProps
 > = ({ userId, navigation }) => {
-  const theme = useTheme();
+  const theme = useAppTheme();
   const toast = useToast();
-
-  const { data } = useGetWorkoutTemplates();
 
   // Select playlist
   const { data: playlists = [], isPending: loadingPlaylists } = usePlaylists();
   const [carouselItem, setCarouselItem] = useState(0);
-  const handleItemTap = (itemId: string, setFieldValue: Function) => {
+  const handleItemTap = (itemId: number, setFieldValue: Function) => {
     setCarouselItem(itemId);
     setFieldValue("playlist_id", itemId);
     return itemId;
   };
 
   // Bottom Sheet Modal
-  const bottomSheetModalRef = useRef(null);
+  const bottomSheetModalRef = useRef<BottomSheetModalMethods>(null);
   const snapPoints = useMemo(() => ["25%", "50%"], []);
 
   const handlePresentModalPress = useCallback(() => {
@@ -147,9 +130,11 @@ export const CreateWorkoutTemplateForm: React.FC<
   const { data: workoutIntensities, isPending: loadingWorkoutIntensities } =
     useGetWorkoutIntensities();
 
-  const [intervals, setIntervals] = useState(null);
+  const [intervals, setIntervals] = useState<
+    (Tables<"workout_intervals"> & { isChecked: boolean })[] | null
+  >(null);
   const checkboxes = useMemo(() => {
-    if (!loadingWorkoutIntervals) {
+    if (!loadingWorkoutIntervals && workoutIntervals) {
       const modifiedData = workoutIntervals.map((interval) => ({
         ...interval,
         isChecked: false,
@@ -160,14 +145,16 @@ export const CreateWorkoutTemplateForm: React.FC<
     return [];
   }, [loadingWorkoutIntervals, workoutIntervals, setIntervals]);
 
-  const handleCheckboxChange = (id) => {
+  const handleCheckboxChange = (id: number) => {
     setIntervals((prevState) =>
-      prevState.map((item) => {
-        if (item.id === id) {
-          return { ...item, isChecked: !item.isChecked };
-        }
-        return item;
-      })
+      prevState
+        ? prevState.map((item) => {
+            if (item.id === id) {
+              return { ...item, isChecked: !item.isChecked };
+            }
+            return item;
+          })
+        : null
     );
   };
 
@@ -192,18 +179,21 @@ export const CreateWorkoutTemplateForm: React.FC<
     item,
     drag,
     isActive,
-    onDragEnd,
     getIndex,
-  }: RenderItemParams) => {
-    const index = (getIndex() + 1).toString();
+  }: RenderItemParams<
+    Tables<"workout_intervals"> & { isChecked: boolean }
+  >) => {
+    const index = getIndex?.() ?? 0 + 1;
     return (
       <Checkbox
+        id={item.id}
         onLongPress={() => drag()}
         disabled={isActive}
         onPress={() => console.log("puff")}
         title={item.label}
         subTitle={`${item.active} secs active, ${item.rest} secs rest`}
         index={index}
+        value
       />
     );
   };
@@ -251,15 +241,16 @@ export const CreateWorkoutTemplateForm: React.FC<
   };
 
   const compiledIntervalsForGraph = copyListNTimes(ordering, numberOfSets);
-  const barData = [];
+  const barData: BarChartPropsType["data"] = [];
   for (let i = 0; i < compiledIntervalsForGraph.length; i++) {
     barData.push({
-      value: workoutIntensities.find(
-        (obj) => obj.id === compiledIntervalsForGraph[i].tempo
-      ).tempo,
+      value:
+        workoutIntensities?.find(
+          (obj) => obj.id === compiledIntervalsForGraph[i].tempo
+        )?.tempo ?? -1,
       barWidth: compiledIntervalsForGraph[i].active,
       frontColor: theme.colors.bar,
-      label: compiledIntervalsForGraph[i].active,
+      label: compiledIntervalsForGraph[i].active.toString(),
       spacing: 0,
       barBorderTopLeftRadius: 8,
       barBorderTopRightRadius: 8,
@@ -268,7 +259,7 @@ export const CreateWorkoutTemplateForm: React.FC<
     barData.push({
       value: 0.25,
       barWidth: compiledIntervalsForGraph[i].rest,
-      label: compiledIntervalsForGraph[i].rest,
+      label: compiledIntervalsForGraph[i].rest.toString(),
       frontColor: theme.colors.barContrast,
       spacing: 0,
       barBorderTopLeftRadius: 8,
@@ -305,7 +296,7 @@ export const CreateWorkoutTemplateForm: React.FC<
               description: values.description,
               expected_duration: calculateEstimatedDuration(values.num_sets),
               expected_distance: Number(values.expected_distance),
-              type: values.type ? values.type : null,
+              type: values.type ? (values.type as any) : null,
               playlist_id: values.playlist_id,
               num_sets: values.num_sets,
               interval_ids: values.intervals,
@@ -317,7 +308,7 @@ export const CreateWorkoutTemplateForm: React.FC<
                   duration: 4000,
                   animationType: "slide-in",
                 });
-                if (start) {
+                if (start && data && data.length > 0) {
                   navigation.navigate("StartOrCancelWorkoutPage", {
                     templateId: data[0].id,
                     playlistId: data[0].playlist_id,
@@ -337,7 +328,6 @@ export const CreateWorkoutTemplateForm: React.FC<
           handleBlur,
           handleSubmit,
           values,
-          form,
           setFieldValue,
           isValid,
           dirty,
@@ -380,7 +370,6 @@ export const CreateWorkoutTemplateForm: React.FC<
                       paddingVertical: 4,
                       width: "100%",
                       backgroundColor: theme.colors.primary,
-                      border: "none",
                     }}
                     textColor={theme.colors.primaryForeground}
                     labelStyle={{ fontSize: 16, fontWeight: "bold" }}
@@ -389,7 +378,6 @@ export const CreateWorkoutTemplateForm: React.FC<
                         ? values.type_icon
                         : "image-filter-none"
                     }
-                    contentStyle={{ color: theme.colors.text }}
                   >
                     {values.type === "" ? "Select category" : values.type}
                   </PaperButton>
@@ -419,7 +407,6 @@ export const CreateWorkoutTemplateForm: React.FC<
                     contentStyle={{
                       width: "100%",
                       display: "flex",
-                      color: theme.colors.text,
                     }}
                     leadingIcon={item.icon}
                   />
@@ -446,11 +433,9 @@ export const CreateWorkoutTemplateForm: React.FC<
                   paddingVertical: 4,
                   width: "100%",
                   backgroundColor: theme.colors.primary,
-                  border: "none",
                 }}
                 textColor={theme.colors.primaryForeground}
                 labelStyle={{ fontSize: 16, fontWeight: "bold" }}
-                contentStyle={{ color: theme.colors.text }}
                 icon="timer-outline"
               >
                 {checkedBoxes.length > 0
@@ -495,6 +480,7 @@ export const CreateWorkoutTemplateForm: React.FC<
                       <StyledText text="Select intervals" fontSize={24} />
                       <View style={{ display: "flex", gap: 12, width: "100%" }}>
                         {!loadingWorkoutIntervals &&
+                          intervals &&
                           intervals.map((interval, index) => (
                             <Checkbox
                               key={index}
@@ -522,7 +508,6 @@ export const CreateWorkoutTemplateForm: React.FC<
                         }}
                         textColor={theme.colors.text}
                         labelStyle={{ fontSize: 16, fontWeight: "bold" }}
-                        contentStyle={{ color: theme.colors.text }}
                         icon="pencil-plus-outline"
                       >
                         Custom interval
@@ -543,16 +528,14 @@ export const CreateWorkoutTemplateForm: React.FC<
                       }}
                     >
                       <PaperButton
-                        mode="outline"
+                        mode="outlined"
                         onPress={() => handleIncrementActiveTab()}
-                        disabled={false}
                         style={{
                           borderRadius: 4,
                           paddingVertical: 4,
                           marginBottom: 4,
                           width: "100%",
                           backgroundColor: theme.colors.primary,
-                          border: "none",
                         }}
                         textColor={theme.colors.primaryForeground}
                         labelStyle={{ fontSize: 16, fontWeight: "bold" }}
@@ -583,7 +566,7 @@ export const CreateWorkoutTemplateForm: React.FC<
                           data={ordering}
                           containerStyle={{ flex: 1 }}
                           renderItem={renderItem}
-                          keyExtractor={(item) => item.id}
+                          keyExtractor={(item) => item.id.toString()}
                           onDragEnd={({ data }) => {
                             setOrdering(data);
                             console.log(
@@ -683,7 +666,7 @@ export const CreateWorkoutTemplateForm: React.FC<
                             "intervals",
                             checkedBoxes.map((item) => item.id)
                           );
-                          bottomSheetModalRef?.current.close();
+                          bottomSheetModalRef?.current?.close();
                         }}
                         disabled={checkedBoxes.length === 0}
                       >
@@ -746,7 +729,7 @@ export const CreateWorkoutTemplateForm: React.FC<
                   }}
                   textColor={theme.colors.primary}
                   labelStyle={{ fontSize: 20, fontWeight: "bold" }}
-                  contentStyle={{ color: theme.colors.primary, gap: -4 }}
+                  contentStyle={{ gap: -4 }}
                   icon="content-save-outline"
                   disabled={start || !isValid}
                   onPress={() => {
@@ -768,7 +751,6 @@ export const CreateWorkoutTemplateForm: React.FC<
                   textColor={theme.colors.primaryForeground}
                   labelStyle={{ fontSize: 22, fontWeight: "bold" }}
                   contentStyle={{
-                    color: theme.colors.text,
                     gap: -4,
                     marginRight: 4,
                   }}
