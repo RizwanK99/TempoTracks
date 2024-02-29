@@ -14,6 +14,7 @@ jobs:
 
       - name: Install packages
         run: npm install
+        working-directory: iOS-mobile/TempoTracks
 
       # - name: Install TypeScript
       # run: npm install -g typescript
