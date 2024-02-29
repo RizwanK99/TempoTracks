@@ -12,8 +12,11 @@ jobs:
         with:
           node-version: '14'
 
-      - name: Install TypeScript
-        run: npm install -g typescript
+      - name: Install packages
+        run: npm install
+
+      # - name: Install TypeScript
+      # run: npm install -g typescript
 
       - name: Run TypeScript check
         run: tsc --noEmit
