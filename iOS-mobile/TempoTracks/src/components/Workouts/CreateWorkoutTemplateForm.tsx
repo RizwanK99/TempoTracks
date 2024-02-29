@@ -87,8 +87,6 @@ export const CreateWorkoutTemplateForm: React.FC<
   const theme = useAppTheme();
   const toast = useToast();
 
-  const { data } = useGetWorkoutTemplates();
-
   // Select playlist
   const { data: playlists = [], isPending: loadingPlaylists } = usePlaylists();
   const [carouselItem, setCarouselItem] = useState(0);
