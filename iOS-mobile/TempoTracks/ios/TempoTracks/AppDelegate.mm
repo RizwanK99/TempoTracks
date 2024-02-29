@@ -20,6 +20,8 @@
       session.delegate = self;
       [session activateSession];
   }
+  
+  [[MusicPoller shared] startPolling];
 
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
@@ -80,6 +82,18 @@
       NSLog(@"IOS WCSession activation failed with error: %@", error.localizedDescription);
       // Handle the error, maybe try to activate the session again or inform the user
   }
+}
+
+- (void)applicationDidEnterBackground:(UIApplication *)application {
+    [[MusicPoller shared] stopPolling];
+}
+
+- (void)applicationWillEnterForeground:(UIApplication *)application {
+    [[MusicPoller shared] startPolling];
+}
+
+- (void)applicationWillTerminate:(UIApplication *)application {
+    [[MusicPoller shared] stopPolling];
 }
 
 - (void)sessionDidBecomeInactive:(WCSession *)session {

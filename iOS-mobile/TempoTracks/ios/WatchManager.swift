@@ -7,6 +7,7 @@
 
 import Foundation
 import WatchConnectivity
+import MusicKit
 
 @objcMembers class WatchManagerStrategy: NSObject {
     static let music_manager = MusicManager()
@@ -61,6 +62,90 @@ class WatchManagerEmitter: RCTEventEmitter {
   func endWorkout(_ workout_id: String){
     sendEvent(withName: "endWorkout", body: workout_id)
   }
+}
+
+@objcMembers class MusicPoller: NSObject {
+    static let shared = MusicPoller()
+    private var timer: Timer?
+    private var musicPlayer = SystemMusicPlayer.shared
+    private var title: String?
+    private var state: MusicPlayer.PlaybackStatus?
+
+    private override init() {
+      super.init()
+    }
+
+    func startPolling() {
+      timer = Timer.scheduledTimer(timeInterval: 1.5, target: self, selector: #selector(pollMusicPlayer), userInfo: nil, repeats: true)
+    }
+
+    func stopPolling() {
+      timer?.invalidate()
+      timer = nil
+    }
+
+    @objc private func pollMusicPlayer() {
+      let curState = musicPlayer.state.playbackStatus
+      let curTitle = musicPlayer.queue.currentEntry?.title
+      
+      if curState != state {
+        state = curState
+        
+        switch curState {
+          case .playing:
+            title = curTitle
+            playSong(curTitle!)
+          case .paused:
+            pauseCurrentSong()
+          default:
+            break
+        }
+      }
+      
+      if curTitle != title {
+        title = curTitle
+        
+        if curTitle == nil {
+          pauseCurrentSong()
+        }
+        else if curState == .playing {
+          playSong(curTitle!)
+        }
+      }
+    }
+  
+    func playSong(_ title: String) {
+      print("SENDING PLAYED SONG TO WATCH WITH TITLE: " + title)
+      guard WCSession.default.isPaired && WCSession.default.isWatchAppInstalled else {
+          print("playSong - Watch app is not installed or not paired")
+          return
+      }
+      var dataDictionary: [String: Any] = [:]
+      
+      // Add the function name to the dictionary
+      dataDictionary["title"] = title
+      dataDictionary["functionName"] = "playSong"
+
+      WCSession.default.sendMessage(dataDictionary, replyHandler: nil, errorHandler: { (error) in
+          print("playSong - Sending message failed with error: \(error)")
+      })
+    }
+    
+    func pauseCurrentSong() {
+      print("PAUSING CURRENTLY PLAYED SONG")
+      guard WCSession.default.isPaired && WCSession.default.isWatchAppInstalled else {
+          print("pauseCurrentSong - Watch app is not installed or not paired")
+          return
+      }
+      var dataDictionary: [String: Any] = [:]
+      
+      // Add the function name to the dictionary
+      dataDictionary["functionName"] = "pauseCurrentSong"
+
+      WCSession.default.sendMessage(dataDictionary, replyHandler: nil, errorHandler: { (error) in
+          print("pauseCurrentSong - Sending message failed with error: \(error)")
+      })
+    }
 }
 
 @objc(WatchManager)

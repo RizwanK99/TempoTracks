@@ -19,6 +19,32 @@ class MusicViewModel: ObservableObject {
   func updateSongsState(with newSongs: [Song]) {
     self.songs = newSongs
   }
+  
+  func playSong(title: String) {
+    if let idx = songs.firstIndex(where: { $0.title == title }) {
+      var modifiedSongs = songs
+
+      modifiedSongs[idx].isPlaying = true
+      
+      for index in 0..<modifiedSongs.count {
+        if index != idx {
+          modifiedSongs[index].isPlaying = false
+        }
+      }
+      
+      songs = modifiedSongs
+    }
+  }
+  
+  func pauseCurrentSong() {
+    var modifiedSongs = songs
+
+    for index in 0..<modifiedSongs.count {
+      modifiedSongs[index].isPlaying = false
+    }
+    
+    songs = modifiedSongs
+  }
 }
 
 
