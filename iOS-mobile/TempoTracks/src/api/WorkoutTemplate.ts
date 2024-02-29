@@ -1,11 +1,8 @@
 import { supabase } from "../lib/supabase";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { TablesInsert } from "../lib/db.types";
-import { useNavigation } from "@react-navigation/native";
 
 export const useCreateWorkoutTemplate = () => {
-  const queryClient = useQueryClient();
-  const navigation = useNavigation();
   return useMutation({
     mutationFn: async (template: TablesInsert<"workout_templates">) => {
       const { data, error } = await supabase
@@ -23,7 +20,7 @@ export const useCreateWorkoutTemplate = () => {
   });
 };
 
-export const useGetWorkoutTemplates = (userId?: number) => {
+export const useGetWorkoutTemplates = (userId: number) => {
   return useQuery({
     queryKey: ["workout_templates", userId],
     queryFn: async () => {
