@@ -2,17 +2,11 @@
 // https://aboutreact.com/react-native-bottom-navigation/
 import React, { useState, useEffect } from "react";
 import updateSettings from "../api/Settings";
-import { useTheme } from "react-native-paper";
+import { useTheme, Text, TouchableOpacity } from "react-native-paper";
 import { Switch, TextInput, Button, ToggleButton } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Slider } from "react-native-elements";
-import {
-  TouchableOpacity,
-  StyleSheet,
-  View,
-  Text,
-  SafeAreaView,
-} from "react-native";
+import { StyleSheet, View, SafeAreaView} from "react-native";
 import { ScrollView } from "react-native";
 import useThemeStore from "../hooks/useThemeStore";
 
@@ -95,20 +89,19 @@ const SettingsPage = ({ route, navigation }) => {
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background}}>
       <Text
         style={{
-          color: theme.colors.text,
-          fontWeight: "bold",
           marginTop: "5%",
           marginLeft: "2%",
-          fontSize: 25,
         }}
+        theme={theme.colors.text}
+        variant={"headlineLarge"}
       >
         Settings
       </Text>
       <ScrollView>
         <View>
-          <Text style={[styles.settingGroup, {color: theme.colors.text}]}>Account</Text>
+          <Text style={{margin: 10}} theme={theme.colors.text} variant="titleLarge">Account</Text>
           <View style={styles.setting}>
-            <Text style={[styles.settingText, {color: theme.colors.text}]}>Email</Text>
+            <Text style={{margin: "5%"}} theme={theme.colors.text} variant="bodyLarge">Email</Text>
             <TextInput label="Email" style={{width: '60%'}}/>
           </View>
         </View>
@@ -122,9 +115,9 @@ const SettingsPage = ({ route, navigation }) => {
           Delete Account
         </Button>
         <View>
-          <Text style={[styles.settingGroup, {color: theme.colors.text}]}>Dark Mode</Text>
+          <Text style={{margin: 10}} theme={theme.colors.text} variant="titleLarge">Dark Mode</Text>
           <View style={styles.setting}>
-            <Text style={[styles.settingText, {color: theme.colors.text}]}>Turn On Dark Mode</Text>
+            <Text style={{margin: "5%"}} theme={theme.colors.text} variant="bodyLarge">Turn On Dark Mode</Text>
             <Switch
               color="#09BC8A"
               value={darkMode}
@@ -133,9 +126,9 @@ const SettingsPage = ({ route, navigation }) => {
           </View>
         </View>
         <View>
-          <Text style={[styles.settingGroup, {color: theme.colors.text}]}>Data Saver</Text>
+          <Text style={{margin: 10}} theme={theme.colors.text} variant="titleLarge">Data Saver</Text>
           <View style={styles.setting}>
-            <Text style={[styles.settingText, {color: theme.colors.text}]}>Turn Off Data Streaming</Text>
+            <Text style={{margin: "5%"}} theme={theme.colors.text} variant="bodyLarge">Turn Off Data Streaming</Text>
             <Switch
               color="#09BC8A"
               value={dataStream}
@@ -144,9 +137,9 @@ const SettingsPage = ({ route, navigation }) => {
           </View>
         </View>
         <View>
-          <Text style={[styles.settingGroup, {color: theme.colors.text}]}>Playback</Text>
+          <Text style={{margin: 10}} theme={theme.colors.text} variant="titleLarge">Playback</Text>
           <View style={styles.setting}>
-            <Text style={[styles.settingText, {color: theme.colors.text}]}>Crossfade</Text>
+            <Text style={{margin: "5%"}} theme={theme.colors.text} variant="bodyLarge">Crossfade</Text>
             <Text>0s</Text>
             <Slider
               style={{
@@ -165,7 +158,7 @@ const SettingsPage = ({ route, navigation }) => {
             <Text>15s</Text>
           </View>
           <View style={styles.setting}>
-            <Text style={[styles.settingText, {color: theme.colors.text}]}>Automix</Text>
+            <Text style={{margin: "5%"}} theme={theme.colors.text} variant="bodyLarge">Automix</Text>
             <Slider
               style={{
                 width: "50%",
@@ -183,7 +176,7 @@ const SettingsPage = ({ route, navigation }) => {
             />
           </View>
           <View style={styles.setting}>
-            <Text style={[styles.settingText, {color: theme.colors.text}]}>Explicit Content</Text>
+            <Text style={{margin: "5%"}} theme={theme.colors.text} variant="bodyLarge">Explicit Content</Text>
             <Switch
               color="#09BC8A"
               value={explicitContent}
@@ -192,15 +185,15 @@ const SettingsPage = ({ route, navigation }) => {
           </View>
         </View>
         <View>
-          <Text style={[styles.settingGroup, {color: theme.colors.text}]}>Workouts</Text>
+          <Text style={{margin: 10}} theme={theme.colors.text} variant="titleLarge">Workouts</Text>
           <View style={styles.setting}>
-            <Text style={[styles.settingText, {color: theme.colors.text}]}>Peak Normalization</Text>
+            <Text style={{margin: "5%"}} theme={theme.colors.text} variant="bodyLarge">Peak Normalization</Text>
             <ToggleButton icon="battery-low" value="low" />
             <ToggleButton icon="battery-medium" value="medium" />
             <ToggleButton icon="battery-high" value="high" />
           </View>
           <View style={styles.setting}>
-            <Text style={[styles.settingText, {color: theme.colors.text}]}>High BPM Warning</Text>
+            <Text style={{margin: "5%"}} theme={theme.colors.text} variant="bodyLarge">High BPM Warning</Text>
             <Switch
               color="#09BC8A"
               value={bpmWarning}
@@ -225,15 +218,6 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-  },
-  settingText: {
-    fontSize: 16,
-    margin: "5%",
-  },
-  settingGroup: {
-    fontWeight: "bold",
-    fontSize: 20,
-    margin: 10,
   },
   trackStyle: {
     height: 10,
