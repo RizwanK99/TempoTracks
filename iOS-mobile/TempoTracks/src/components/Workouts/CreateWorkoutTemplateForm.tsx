@@ -292,7 +292,7 @@ export const CreateWorkoutTemplateForm: React.FC<
           createTemplate.mutate(
             {
               name: values.name,
-              user_id: Number(userId),
+              user_id: userId,
               description: values.description,
               expected_duration: calculateEstimatedDuration(values.num_sets),
               expected_distance: Number(values.expected_distance),

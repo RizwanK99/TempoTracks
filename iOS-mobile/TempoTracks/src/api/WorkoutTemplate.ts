@@ -20,7 +20,7 @@ export const useCreateWorkoutTemplate = () => {
   });
 };
 
-export const useGetWorkoutTemplates = (userId: number) => {
+export const useGetWorkoutTemplates = (userId: string) => {
   return useQuery({
     queryKey: ["workout_templates", userId],
     queryFn: async () => {

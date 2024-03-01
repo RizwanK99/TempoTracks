@@ -9,66 +9,6 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      demo_users: {
-        Row: {
-          first_name: string | null
-          height: number | null
-          last_name: string | null
-          user_id: string
-          "username ": string | null
-          weight: number | null
-        }
-        Insert: {
-          first_name?: string | null
-          height?: number | null
-          last_name?: string | null
-          user_id: string
-          "username "?: string | null
-          weight?: number | null
-        }
-        Update: {
-          first_name?: string | null
-          height?: number | null
-          last_name?: string | null
-          user_id?: string
-          "username "?: string | null
-          weight?: number | null
-        }
-        Relationships: []
-      }
-      exercises: {
-        Row: {
-          id: string
-        }
-        Insert: {
-          id: string
-        }
-        Update: {
-          id?: string
-        }
-        Relationships: []
-      }
-      music: {
-        Row: {
-          bpm: number | null
-          created_at: string
-          increase: number | null
-          music_id: number
-        }
-        Insert: {
-          bpm?: number | null
-          created_at?: string
-          increase?: number | null
-          music_id?: number
-        }
-        Update: {
-          bpm?: number | null
-          created_at?: string
-          increase?: number | null
-          music_id?: number
-        }
-        Relationships: []
-      }
       playlist_items: {
         Row: {
           apple_music_id: string
@@ -106,6 +46,7 @@ export type Database = {
           created_at: string
           length: number
           name: string
+          user_id: string | null
         }
         Insert: {
           apple_music_id?: string
@@ -113,6 +54,7 @@ export type Database = {
           created_at?: string
           length: number
           name: string
+          user_id?: string | null
         }
         Update: {
           apple_music_id?: string
@@ -120,8 +62,17 @@ export type Database = {
           created_at?: string
           length?: number
           name?: string
+          user_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "public_playlists_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       songs: {
         Row: {
@@ -184,78 +135,83 @@ export type Database = {
         Row: {
           auto_mix: number | null
           bpm_normalization: number | null
-          created_at: string | null
+          created_at: string
           crossfade: number | null
           data_saver: boolean | null
           explicit_content: boolean | null
           high_bpm_warning: boolean | null
-          id: number
+          id: string
         }
         Insert: {
           auto_mix?: number | null
           bpm_normalization?: number | null
-          created_at?: string | null
+          created_at?: string
           crossfade?: number | null
           data_saver?: boolean | null
           explicit_content?: boolean | null
           high_bpm_warning?: boolean | null
-          id?: number
+          id: string
         }
         Update: {
           auto_mix?: number | null
           bpm_normalization?: number | null
-          created_at?: string | null
+          created_at?: string
           crossfade?: number | null
           data_saver?: boolean | null
           explicit_content?: boolean | null
           high_bpm_warning?: boolean | null
-          id?: number
+          id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "user_settings_id_fkey"
+            foreignKeyName: "public_user_settings_user_id_fkey"
             columns: ["id"]
             isOneToOne: true
             referencedRelation: "users"
-            referencedColumns: ["user_id"]
+            referencedColumns: ["id"]
           }
         ]
       }
       users: {
         Row: {
-          created_at: string | null
+          created_at: string
           email: string | null
           first_name: string | null
+          height: number | null
           last_name: string | null
-          password_hash: string | null
-          password_salt: string | null
           phone_number: string | null
-          user_id: number
+          user_id: string
           username: string | null
         }
         Insert: {
-          created_at?: string | null
+          created_at?: string
           email?: string | null
           first_name?: string | null
+          height?: number | null
           last_name?: string | null
-          password_hash?: string | null
-          password_salt?: string | null
           phone_number?: string | null
-          user_id?: number
+          user_id: string
           username?: string | null
         }
         Update: {
-          created_at?: string | null
+          created_at?: string
           email?: string | null
           first_name?: string | null
+          height?: number | null
           last_name?: string | null
-          password_hash?: string | null
-          password_salt?: string | null
           phone_number?: string | null
-          user_id?: number
+          user_id?: string
           username?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "public_users_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       workout_intensities: {
         Row: {
@@ -342,7 +298,7 @@ export type Database = {
           num_sets: number
           playlist_id: string
           type: Database["public"]["Enums"]["workout_type"]
-          user_id: number
+          user_id: string | null
         }
         Insert: {
           created_at?: string
@@ -356,7 +312,7 @@ export type Database = {
           num_sets: number
           playlist_id: string
           type: Database["public"]["Enums"]["workout_type"]
-          user_id: number
+          user_id?: string | null
         }
         Update: {
           created_at?: string
@@ -370,7 +326,7 @@ export type Database = {
           num_sets?: number
           playlist_id?: string
           type?: Database["public"]["Enums"]["workout_type"]
-          user_id?: number
+          user_id?: string | null
         }
         Relationships: [
           {
@@ -381,11 +337,11 @@ export type Database = {
             referencedColumns: ["apple_music_id"]
           },
           {
-            foreignKeyName: "workout_templates_user_id_fkey"
+            foreignKeyName: "public_workout_templates_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "users"
-            referencedColumns: ["user_id"]
+            referencedColumns: ["id"]
           }
         ]
       }
@@ -404,7 +360,7 @@ export type Database = {
           total_elevation_change: number
           total_energy_burned: number
           training_intervals: string | null
-          user_id: number | null
+          user_id: string | null
           workout_id: string
           workout_name: string
           workout_type: Database["public"]["Enums"]["workout_type"]
@@ -423,7 +379,7 @@ export type Database = {
           total_elevation_change?: number
           total_energy_burned?: number
           training_intervals?: string | null
-          user_id?: number | null
+          user_id?: string | null
           workout_id?: string
           workout_name: string
           workout_type: Database["public"]["Enums"]["workout_type"]
@@ -442,7 +398,7 @@ export type Database = {
           total_elevation_change?: number
           total_energy_burned?: number
           training_intervals?: string | null
-          user_id?: number | null
+          user_id?: string | null
           workout_id?: string
           workout_name?: string
           workout_type?: Database["public"]["Enums"]["workout_type"]
@@ -460,6 +416,13 @@ export type Database = {
             columns: ["template_id"]
             isOneToOne: false
             referencedRelation: "workout_templates"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_workouts_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
             referencedColumns: ["id"]
           }
         ]

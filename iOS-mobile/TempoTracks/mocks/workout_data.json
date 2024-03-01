@@ -2,7 +2,7 @@
     "data": [
         {
             "workout_id": "32d048bb-b425-4955-ab9c-45f61f0ad9d5",
-            "user_id": 1,
+            "user_id": "c51056f2-c58f-4994-99e0-32c36ef3758b",
             "created_at":"2024-02-23 01:09:38.042771+00",
             "status":"COMPLETED",
             "time_start":"2024-02-23 01:09:38.042771+00",
@@ -21,7 +21,7 @@
     },
     {
         "workout_id": "81e8ba96-307e-4bfe-9924-8c8b4a619f07",
-        "user_id": 1,
+        "user_id": "c51056f2-c58f-4994-99e0-32c36ef3758b",
         "created_at":"2024-02-23 01:12:45.324413+00",
         "status":"COMPLETED",
         "time_start":"2024-02-23 01:12:45.324413+00",

@@ -31,7 +31,7 @@ const StartOrCancelWorkoutPage = ({ route, navigation }) => {
     if (!isCountingDown) {
       createWorkout({
         // change this once we make hook for auth
-        // user_id: 1,
+        user_id: "c51056f2-c58f-4994-99e0-32c36ef3758b",
         template_id: templateId,
         workout_name: name,
         workout_type: type,
