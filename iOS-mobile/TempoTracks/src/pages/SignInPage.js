@@ -20,11 +20,12 @@ const SignInPage = ({ navigation }) => {
     if (email == '' || password == '') {
       setTextColor('#ff5555');
     } else {
+      setTextColor('black');
       let data = await userLogIn(email, password);
       console.log('Data: ');
       console.log(data);
 
-      if (data !== null) {
+      if (data != null) {
         storeData(data);
         navigation.navigate('Root', { screen: 'Home' });
       } else {

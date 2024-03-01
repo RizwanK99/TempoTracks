@@ -68,10 +68,16 @@ async function userLogIn(email, password) {
   console.log("user id")
   console.log(user_id)
 
+  if (!user_id) {
+    return null;
+  }
+
   const result = await supabase.from('users').select().eq('user_id', user_id).single();
 
   console.log("sign in user")
   console.log(result);
+
+
 
   const user_data = {
     user_id: result.data.user_id,
