@@ -110,6 +110,20 @@ class WatchConnectivityHandler: NSObject, WCSessionDelegate {
         WatchConnectivityHandler.workoutViewModel.endWorkout(workout_id: workout_id)
       }
     }
+    else if fn_name == "playSong" {
+      guard let title = message["title"] as? String else {
+        return
+      }
+      
+      DispatchQueue.main.async {
+        WatchConnectivityHandler.musicViewModel.playSong(title: title)
+      }
+    }
+    else if fn_name == "pauseCurrentSong" {
+      DispatchQueue.main.async {
+        WatchConnectivityHandler.musicViewModel.pauseCurrentSong()
+      }
+    }
   }
   
   func send(_ function_name: String, _ data: String) {
