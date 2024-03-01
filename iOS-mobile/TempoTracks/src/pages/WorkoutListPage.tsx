@@ -36,7 +36,7 @@ const WorkoutListPage = ({ navigation }) => {
 
   const onChangeSearch = (query) => setSearchQuery(query);
   const [filteredData, setFilteredData] = useState({});
-  const { data, error, isPending } = useGetWorkoutTemplates(1);
+  const { data, error, isPending } = useGetWorkoutTemplates("c51056f2-c58f-4994-99e0-32c36ef3758b");
   const [active, setActive] = useState(false);
 
   const [state, setState] = React.useState({ open: false });
