@@ -72,9 +72,18 @@ async function userLogIn(email, password) {
 
   console.log("sign in user")
   console.log(result);
-  return result.data.user_id;
 
- 
+  const user_data = {
+    user_id: result.data.user_id,
+    first_name: result.data.first_name,
+    last_name: result.data.last_name,
+    username: result.data.username,
+    email: result.data.email,
+    phone_number: result.data.phone_number,
+  }
+
+  return user_data;
+
 }
 
 export { createUser, userLogIn };
