@@ -58,60 +58,53 @@ class HealthManager: NSObject {
 
   @objc
   func testFunction(
-    _ resolve: @escaping RCTPromiseResolveBlock,
-    rejecter reject: @escaping RCTPromiseRejectBlock
-  ) -> Void {
-    Task {
-      guard let dateOfBirthType = HKObjectType.characteristicType(forIdentifier: .dateOfBirth) else {
-          print("Date of birth type not available")
+      _ resolve: @escaping RCTPromiseResolveBlock,
+      rejecter reject: @escaping RCTPromiseRejectBlock
+    ) -> Void {
+      Task {
+        guard HKHealthStore.isHealthDataAvailable() else {
+          print("HealthKit is not available on this device.")
           return
-      }
-      
-      do {
-          let dateOfBirth = try healthStore.dateOfBirthComponents()
-          if let dob = dateOfBirth.date {
-              // Handle the date of birth
-              print("User's date of birth: \(dob)")
-          } else {
-              print("Date of birth not available")
+        }
+        
+        // Define the predicate to query workouts within the last month
+        let predicate = HKQuery.predicateForSamples(withStart: Date().addingTimeInterval(-30*24*60*60), end: Date(), options: .strictEndDate)
+        
+        var serializedData: [[String: Any]] = []
+        // Define the query to fetch workouts
+        let query = HKSampleQuery(sampleType: HKObjectType.workoutType(), predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: nil) { (query, samples, error) in
+          guard let workouts = samples as? [HKWorkout], error == nil else {
+            print("Error querying workouts: \(error?.localizedDescription ?? "Unknown error")")
+            return
           }
-      } catch {
-          print("Error fetching date of birth: \(error.localizedDescription)")
+          
+          let dateFormatter = DateFormatter()
+          dateFormatter.dateFormat = "yyyy-MM-dd"
+          
+          let heartRateType = HKQuantityType.quantityType(forIdentifier: .heartRate)!
+          for workout in workouts {
+            var quantity = workout.statistics(for: heartRateType)?.averageQuantity()
+            var beats: Double? = quantity?.doubleValue(for: HKUnit.count().unitDivided(by: HKUnit.minute()))
+            serializedData.append([
+              "heartRate": beats ?? 0,
+              "StartDate": dateFormatter.string(from: workout.startDate) ,
+              "EndDate": dateFormatter.string(from: workout.endDate),
+              "Duration": workout.duration,
+              "Calories": workout.totalEnergyBurned,
+              "Distance": workout.totalDistance,
+
+            ])
+          }
+          
+          //most data is nil for some reason
+          print(serializedData)
+          resolve(serializedData)
+        }
+        
+        // Execute the query
+        healthStore.execute(query)
       }
-      
-      // Get the start and end date components.
-      let calendar = Calendar(identifier: .gregorian)
-      
-      let yesterdayDate = calendar.date(byAdding: .month
-                                        , value: -1, to: Date())
-      guard let yesterdayDate = yesterdayDate else { return }
-
-      var startComponents = calendar.dateComponents([.day, .month, .year, .calendar], from: yesterdayDate)
-      startComponents.hour = nil
-      startComponents.minute = nil
-      startComponents.second = nil
-      
-      
-      var endComponents = startComponents
-      endComponents.month = 1 + (endComponents.month ?? 0)
-      endComponents.hour = nil
-      endComponents.minute = nil
-      endComponents.second = nil
-      
-      // Create a predicate for the query.
-      let predicate = HKQuery.predicate(forActivitySummariesBetweenStart: startComponents, end: endComponents)
-      
-      // Create the descriptor.
-      let activeSummaryDescriptor = HKActivitySummaryQueryDescriptor(predicate:predicate)
-
-      // Run the query.
-      let results = try await activeSummaryDescriptor.result(for: healthStore)
-      print("HK-results", results)
-    
-      // need to serialize summaries into JSON fields
-      resolve(results)
     }
-  }
   
   @objc
   static func requiresMainQueueSetup() -> Bool {

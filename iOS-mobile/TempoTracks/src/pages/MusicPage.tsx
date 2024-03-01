@@ -72,8 +72,8 @@ export const MusicPage = ({ navigation }: Props) => {
 
   return (
     <SafeAreaView>
-      {/* <HealthKitTest /> */}
-      <BackgroundTimerTest />
+      <HealthKitTest />
+      {/* <BackgroundTimerTest /> */}
       <View style={styles.container}>
         <PlaylistList playlists={playlists} navigation={navigation} />
         <Divider style={{ marginVertical: -12 }} />
