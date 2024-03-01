@@ -89,6 +89,7 @@ export const usePlaylists = () => {
           songs: playlist.playlist_items
             .map((item) => item.songs)
             .filter((x) => !!x) as Tables<"songs">[],
+          user_id: playlist.user_id,
         };
 
         return formattedPlaylist;

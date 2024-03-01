@@ -11,34 +11,28 @@ import { userLogIn } from '../api/User';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SignInPage = ({ navigation }) => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [textColor, setTextColor] = useState('black');
 
   async function checkLogin() {
-    // if (username == "admin" && password == "admin") {
-    //     navigation.navigate('Root', { screen: 'Home' })
-    // } else {
-    //     setTextColor('#ff5555')
-    // }
 
-    // TODO: remove and uncomment below
-    navigation.navigate('Root', { screen: 'Home' });
+    if (email == '' || password == '') {
+      setTextColor('#ff5555');
+    } else {
+      setTextColor('black');
+      let data = await userLogIn(email, password);
+      console.log('Data: ');
+      console.log(data);
 
-    // if (username == '' || password == '') {
-    //   setTextColor('#ff5555');
-    // } else {
-    //   let data = await userLogIn(username, password);
-    //   console.log(data.data);
-    //   console.log(data.data.length);
-    //   if (data.data.length === 0) {
-    //     setTextColor('#ff5555');
-    //     console.log('Incorrect Username/Password');
-    //   } else {
-    //     storeData(data.data[0]);
-    //     navigation.navigate('Root', { screen: 'Home' });
-    //   }
-    // }
+      if (data != null) {
+        storeData(data);
+        navigation.navigate('Root', { screen: 'Home' });
+      } else {
+        setTextColor('#ff5555');
+        console.log('Incorrect Email/Password');
+      }
+    }
   }
 
   async function storeData(input) {
@@ -72,8 +66,8 @@ const SignInPage = ({ navigation }) => {
         <View style={{ flex: 10 }}>
           <TextInput
             style={styles.input}
-            placeholder='Username'
-            onChangeText={(username) => setUsername(username)}
+            placeholder='Email'
+            onChangeText={(email) => setEmail(email)}
           />
           <TextInput
             style={styles.input}
@@ -82,7 +76,7 @@ const SignInPage = ({ navigation }) => {
             secureTextEntry={true}
           />
           <Text style={[styles.help2, { color: textColor }]}>
-            Incorrect Username/Password.
+            Incorrect Email/Password.
           </Text>
         </View>
         <View style={{ flex: 1 }}>
