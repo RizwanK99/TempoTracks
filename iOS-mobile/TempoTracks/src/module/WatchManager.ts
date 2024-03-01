@@ -53,7 +53,7 @@ export const sendSongsToWatch = () => {
 };
 
 export const sendWorkoutTemplatesToWatch = () => {
-    const { data: templates, isSuccess } = useGetWorkoutTemplates(1);
+    const { data: templates, isSuccess } = useGetWorkoutTemplates("c51056f2-c58f-4994-99e0-32c36ef3758b");
 
     useEffect(() => {
         if (isSuccess && templates) {
