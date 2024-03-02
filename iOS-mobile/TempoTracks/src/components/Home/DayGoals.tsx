@@ -2,6 +2,7 @@ import * as React from "react";
 import { View } from "react-native";
 import { Button, Card, Text, Divider, IconButton, ProgressBar, Portal, Modal, TextInput } from "react-native-paper";
 import { useAppTheme } from "../../provider/PaperProvider";
+import { HealthManager } from "../../module/HealthManager";
 
 export const DailyGoals = () => {
   const theme = useAppTheme();
@@ -11,6 +12,18 @@ export const DailyGoals = () => {
   const [text_dist, setTextDist] = React.useState("5");
   const [text_dur, setTextDur] = React.useState("60");
   const [text_cal, setTextCal] = React.useState("500");
+
+  const [workoutData, setWorkoutData] = React.useState([])
+
+  React.useEffect(() => {
+    async function fetchData() {
+      const data = await HealthManager.getWorkoutData("Year"); //change to "Day"
+      console.log(data);
+      setWorkoutData(JSON.parse(data)); //NOT WORKING FOR SOME REASON
+    }
+    fetchData();
+  }, []);
+
 
   return (
     <Card>
@@ -36,7 +49,7 @@ export const DailyGoals = () => {
       </Portal>
         <View style={{ flexDirection: "row", justifyContent: "flex-start", alignItems: "center" }}>
           <Button textColor={theme.colors.text} icon="map">Distance</Button>
-          <Text style={{ color: theme.colors.foregroundMuted }}>7593</Text>
+          <Text style={{ color: theme.colors.foregroundMuted }}>0</Text>
         </View>
         <View style={{ paddingHorizontal: 10 }}>
           <ProgressBar progress={0.7} />

@@ -103,7 +103,7 @@ const HealthKitTest = () => {
   };
 
   const testFunction = async () => {
-    const res = await HealthManager.testFunction();
+    const res = await HealthManager.getWorkoutData("Month");
     console.log("res", res);
   };
 
