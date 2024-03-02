@@ -85,13 +85,16 @@ class HealthManager: NSObject {
           for workout in workouts {
             var quantity = workout.statistics(for: heartRateType)?.averageQuantity()
             var beats: Double? = quantity?.doubleValue(for: HKUnit.count().unitDivided(by: HKUnit.minute()))
+            var cals: Double? = workout.totalEnergyBurned?.doubleValue(for: HKUnit.kilocalorie())
+            var dist: Double? = workout.totalDistance?.doubleValue(for: HKUnit.meter())
+            print(type(of: workout.totalEnergyBurned))
             serializedData.append([
               "heartRate": beats ?? 0,
               "StartDate": dateFormatter.string(from: workout.startDate) ,
               "EndDate": dateFormatter.string(from: workout.endDate),
               "Duration": workout.duration,
-              "Calories": workout.totalEnergyBurned,
-              "Distance": workout.totalDistance,
+              "Calories": cals ?? 0,
+              "Distance": dist ?? 0,
 
             ])
           }
