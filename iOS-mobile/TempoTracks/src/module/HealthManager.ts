@@ -4,7 +4,7 @@ export const HealthManager = {
   requestAuthorization: () => {
     return NativeModules.HealthManager.requestAuthorization();
   },
-  testFunction: () => {
-    return NativeModules.HealthManager.testFunction();
+  getWorkoutData: (timeFrame: String) => {
+    return NativeModules.HealthManager.getWorkoutData(timeFrame);
   },
 };
