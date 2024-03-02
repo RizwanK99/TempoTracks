@@ -10,12 +10,14 @@ import { CurrentSongTab } from "../components/Music/CurrentSongTab";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { HealthManager } from "../module/HealthManager";
 import { useTimingEngine } from "../hooks/useTimingEngine";
+import { useAppTheme } from "../provider/PaperProvider";
 
 interface Props {
   navigation: NativeStackNavigationProp<any>;
 }
 
 export const MusicPage = ({ navigation }: Props) => {
+  const theme = useAppTheme();
   const { data: songs = [], refetch } = useSongs();
   const { data: playlists = [], refetch: refetchPlaylists } = usePlaylists();
 
@@ -74,7 +76,9 @@ export const MusicPage = ({ navigation }: Props) => {
     <SafeAreaView>
       <HealthKitTest />
       {/* <BackgroundTimerTest /> */}
-      <View style={styles.container}>
+      <View
+        style={[styles.container, { backgroundColor: theme.colors.background }]}
+      >
         <PlaylistList playlists={playlists} navigation={navigation} />
         <Divider style={{ marginVertical: -12 }} />
         <SongList songs={songs} />
@@ -90,7 +94,6 @@ const styles = StyleSheet.create({
     display: "flex",
     paddingHorizontal: 16,
     gap: 24,
-    backgroundColor: "#181a1c",
     height: "100%",
     width: "100%",
   },

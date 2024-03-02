@@ -1,6 +1,5 @@
 import * as React from "react";
 import {
-  StyleSheet,
   View,
   Text,
   SafeAreaView,
@@ -8,7 +7,7 @@ import {
   ScrollView,
 } from "react-native";
 import { Divider } from "react-native-paper";
-import { Card, Title, Paragraph, FAB, Appbar } from "react-native-paper";
+import { FAB, Appbar } from "react-native-paper";
 import { useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Searchbar } from "react-native-paper";
@@ -36,8 +35,9 @@ const WorkoutListPage = ({ navigation }) => {
 
   const onChangeSearch = (query) => setSearchQuery(query);
   const [filteredData, setFilteredData] = useState({});
-  const { data, error, isPending } = useGetWorkoutTemplates("c51056f2-c58f-4994-99e0-32c36ef3758b");
-  const [active, setActive] = useState(false);
+  const { data, error, isPending } = useGetWorkoutTemplates(
+    "c51056f2-c58f-4994-99e0-32c36ef3758b"
+  );
 
   const [state, setState] = React.useState({ open: false });
 
@@ -167,7 +167,10 @@ const WorkoutListPage = ({ navigation }) => {
                       fontSize: 14,
                     }}
                   >
-                    {Number(w.expected_duration) / 60} mins
+                    {Number(w.expected_duration) % 60 !== 0
+                      ? (Number(w.expected_duration) / 60).toFixed(1)
+                      : Number(w.expected_duration) / 60}{" "}
+                    {Number(w.expected_duration) / 60 === 1 ? "min" : "mins"}
                   </Text>
                   <Text
                     style={{
@@ -213,60 +216,5 @@ const WorkoutListPage = ({ navigation }) => {
     </SafeAreaView>
   );
 };
-
-const WorkoutCard = ({
-  id,
-  name,
-  duration,
-  caloriesBurnt,
-  workoutType,
-  navigation,
-}) => {
-  return (
-    <Card
-      style={styles.card}
-      onPress={() =>
-        navigation.navigate("IndividualWorkout", {
-          workoutId: id,
-          workoutName: name,
-          workoutDuration: duration,
-          caloriesBurnt: caloriesBurnt,
-          workoutType: workoutType,
-        })
-      }
-    >
-      <Card.Content>
-        <Title style={styles.title}>{name}</Title>
-        <Paragraph style={styles.details}>Duration: {duration}</Paragraph>
-        <Paragraph style={styles.details}>
-          Calories Burnt: {caloriesBurnt}
-        </Paragraph>
-        <Paragraph style={styles.details}>
-          Workout Type: {workoutType}
-        </Paragraph>
-      </Card.Content>
-    </Card>
-  );
-};
-
-const styles = StyleSheet.create({
-  card: {
-    backgroundColor: "#222",
-    marginBottom: 16,
-    elevation: 4,
-    borderRadius: 8,
-  },
-  title: {
-    color: "#fff",
-    fontSize: 22,
-    marginBottom: 8,
-    fontWeight: "bold",
-  },
-  details: {
-    color: "#74B3CE",
-    fontSize: 16,
-    marginBottom: 4,
-  },
-});
 
 export default WorkoutListPage;

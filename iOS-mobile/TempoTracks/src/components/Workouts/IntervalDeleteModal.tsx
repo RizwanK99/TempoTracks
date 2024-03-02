@@ -1,13 +1,12 @@
 import React from "react";
 import { View } from "react-native";
 import { Modal, Portal, Text, Button } from "react-native-paper";
-import { useQueryClient } from "@tanstack/react-query";
 import { useToast } from "react-native-toast-notifications";
-import { useDeleteWorkoutInterval } from "../../api/WorkoutIntervals";
 import { useAppTheme } from "../../provider/PaperProvider";
 
 interface IntervalDeleteModalProps {
   visible: boolean;
+  handleDelete: (id: number) => void;
   onDismiss: () => void;
   intervalId: number;
 }
@@ -15,30 +14,11 @@ interface IntervalDeleteModalProps {
 export const IntervalDeleteModal: React.FC<IntervalDeleteModalProps> = ({
   visible,
   onDismiss,
+  handleDelete,
   intervalId,
 }) => {
   const theme = useAppTheme();
   const toast = useToast();
-  const queryClient = useQueryClient();
-  const deleteInterval = useDeleteWorkoutInterval();
-
-  const handleDeleteInterval = () => {
-    deleteInterval.mutate(
-      { intervalId },
-      {
-        onSuccess: () => {
-          toast.show("Interval successfully deleted!", {
-            type: "success",
-            duration: 4000,
-            animationType: "slide-in",
-          });
-          queryClient.invalidateQueries({
-            queryKey: ["workoutIntervals"],
-          });
-        },
-      }
-    );
-  };
 
   return (
     <Portal>
@@ -90,7 +70,14 @@ export const IntervalDeleteModal: React.FC<IntervalDeleteModalProps> = ({
             </Button>
             <Button
               onPress={() => {
-                handleDeleteInterval();
+                handleDelete(intervalId);
+                setTimeout(() => {
+                  toast.show("Interval successfully deleted!", {
+                    type: "success",
+                    duration: 4000,
+                    animationType: "slide-in",
+                  });
+                }, 500);
                 onDismiss();
               }}
               style={{

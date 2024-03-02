@@ -1,22 +1,17 @@
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import { View, Text, SafeAreaView, ScrollView, Button } from "react-native";
 import { useGetWorkoutTemplateById } from "../api/WorkoutTemplate.ts";
-import { useTheme, Divider, ActivityIndicator } from "react-native-paper";
+import { Divider, ActivityIndicator } from "react-native-paper";
 import { StyledText } from "../components/Workouts/CreateWorkoutTemplateForm";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Checkbox } from "../components/Inputs/Checkbox";
 import { BarChart } from "react-native-gifted-charts";
 import { Button as PaperButton } from "react-native-paper";
-import { useCreateWorkout } from "../api/WorkoutsNew.ts";
 import { useAppTheme } from "../provider/PaperProvider.tsx";
-
-const intervalConstants = [
-  { id: 1, title: "Recovery", active: 30, rest: 90, isChecked: false },
-  { id: 2, title: "Light", active: 60, rest: 120, isChecked: false },
-  { id: 3, title: "Moderate", active: 120, rest: 60, isChecked: false },
-  { id: 4, title: "High", active: 20, rest: 45, isChecked: false },
-  { id: 5, title: "HIIT", active: 30, rest: 30, isChecked: false },
-];
+import { useGetTemplateWorkoutIntervals } from "../api/WorkoutIntervals.ts";
+import { BarChartPropsType } from "react-native-gifted-charts";
+import { IntensityVsTimeGraph } from "../components/Workouts/IntensityVsTimeGraph.tsx";
+import { useGetWorkoutIntensities } from "../api/WorkoutIntensities.ts";
 
 function copyListNTimes<T>(list: T[], n: number): T[] {
   return Array.from({ length: n }, () => [...list]).flat();
@@ -25,10 +20,23 @@ function copyListNTimes<T>(list: T[], n: number): T[] {
 const IndividualWorkoutTemplatePage = ({ route, navigation }) => {
   const theme = useAppTheme();
   const { templateId } = route.params;
-  const { data, isPending, error } = useGetWorkoutTemplateById(templateId);
-  const createWorkout = useCreateWorkout();
+  const { data: template, isPending: loadingTemplate } =
+    useGetWorkoutTemplateById(templateId);
 
-  if (isPending || !data) {
+  const { data: intervalsT, isPending: loadingIntervals } =
+    useGetTemplateWorkoutIntervals(templateId);
+
+  const { data: workoutIntensities, isPending: loadingIntensities } =
+    useGetWorkoutIntensities();
+
+  if (
+    loadingTemplate ||
+    !template ||
+    loadingIntervals ||
+    !intervalsT ||
+    loadingIntensities ||
+    !workoutIntensities
+  ) {
     return (
       <SafeAreaView
         style={{
@@ -45,10 +53,6 @@ const IndividualWorkoutTemplatePage = ({ route, navigation }) => {
     );
   }
 
-  const template = data[0];
-  const numericIds = template.interval_ids.map((id) => Number(id));
-  //   const { data: intervalsQuery } = useGetWorkoutIntervals(numericIds);
-
   const workoutIcons: { [key: string]: string } = {
     Biking: "bike",
     Walking: "walk",
@@ -56,39 +60,38 @@ const IndividualWorkoutTemplatePage = ({ route, navigation }) => {
     HIIT: "timer",
   };
 
-  const intervals = numericIds.map((id) =>
-    intervalConstants.find((interval) => interval.id === id)
-  ) as any[];
-
   const getIconName = (workoutType: string) => {
     return workoutIcons[workoutType];
   };
 
-  const barData: {
-    value: number;
-    spacing: number;
-    label?: string;
-    labelTextStyle?: any;
-    frontColor: string;
-  }[] = [];
-  let setIndex = 0;
-  const overallIntervals = copyListNTimes(intervals, template.num_sets);
-  for (let i = 0; i < overallIntervals.length; i++) {
-    const newSetCheck = i % intervals.length === 0;
-    if (newSetCheck) {
-      setIndex++;
-    }
+  const barData: BarChartPropsType["data"] = [];
+  const compiledIntervalsForGraph = copyListNTimes(
+    intervalsT,
+    template.num_sets
+  );
+  for (let i = 0; i < compiledIntervalsForGraph.length; i++) {
     barData.push({
-      value: Number(overallIntervals[i].active),
-      spacing: 2,
-      label: newSetCheck ? `${setIndex}` : "",
-      labelTextStyle: { color: theme.colors.foregroundMuted },
+      value:
+        workoutIntensities?.find(
+          (obj) => obj.id === compiledIntervalsForGraph[i].intensity_id
+        )?.tempo ?? -1,
+      barWidth: compiledIntervalsForGraph[i].active,
       frontColor: theme.colors.bar,
+      label: compiledIntervalsForGraph[i].active.toString(),
+      spacing: 0,
+      barBorderTopLeftRadius: 8,
+      barBorderTopRightRadius: 8,
+      labelTextStyle: { color: theme.colors.foregroundMuted },
     });
     barData.push({
-      value: Number(overallIntervals[i].rest),
-      spacing: 2,
+      value: 0.25,
+      barWidth: compiledIntervalsForGraph[i].rest,
+      label: compiledIntervalsForGraph[i].rest.toString(),
       frontColor: theme.colors.barContrast,
+      spacing: 0,
+      barBorderTopLeftRadius: 8,
+      barBorderTopRightRadius: 8,
+      labelTextStyle: { color: theme.colors.foregroundMuted },
     });
   }
 
@@ -115,7 +118,7 @@ const IndividualWorkoutTemplatePage = ({ route, navigation }) => {
               marginBottom: 16,
             }}
           >
-            <View style={{ marginBottom: 8 }}>
+            <View>
               <StyledText text={template.name} fontSize={24} />
             </View>
             <Text style={{ color: theme.colors.foregroundMuted }}>
@@ -144,7 +147,7 @@ const IndividualWorkoutTemplatePage = ({ route, navigation }) => {
             <View
               style={{
                 flexDirection: "row",
-                justifyContent: "space-between",
+                gap: 48,
                 marginTop: 8,
               }}
             >
@@ -154,29 +157,29 @@ const IndividualWorkoutTemplatePage = ({ route, navigation }) => {
                 icon={getIconName(template.type)}
               />
               <Column
-                label="Distance"
-                value={template.expected_distance}
-                units="km"
-              />
-              <Column
                 label="Duration"
-                value={Number(template.expected_duration) / 60}
-                units="mins"
+                value={
+                  Number(template.expected_duration) % 60 !== 0
+                    ? (Number(template.expected_duration) / 60).toFixed(1)
+                    : Number(template.expected_duration) / 60
+                }
+                units={
+                  Number(template.expected_duration) / 60 === 1 ? "min" : "mins"
+                }
               />
               <Column label="Sets" value={template.num_sets} units="sets" />
             </View>
             <View style={{ marginTop: 16, marginBottom: 4, gap: 8 }}>
               <Text style={{ color: theme.colors.text }}>Set Breakdown</Text>
               <View>
-                {intervals.map((interval, index) => (
+                {intervalsT.map((interval, index) => (
                   <Checkbox
-                    id={interval.id}
+                    id={index}
                     key={index}
                     disabled
-                    title={interval.title}
+                    title={interval.label}
                     index={index + 1}
                     subTitle={`${interval.active} secs active, ${interval.rest} secs rest`}
-                    value={true}
                   />
                 ))}
               </View>
@@ -191,70 +194,8 @@ const IndividualWorkoutTemplatePage = ({ route, navigation }) => {
               >
                 Intervals
               </Text>
-              <View style={{ gap: 1 }}>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    marginBottom: 16,
-                    alignSelf: "center",
-                    gap: 16,
-                  }}
-                >
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      gap: 4,
-                      alignItems: "center",
-                    }}
-                  >
-                    <View
-                      style={{
-                        borderWidth: 1,
-                        height: 16,
-                        width: 16,
-                        borderRadius: 4,
-                        backgroundColor: theme.colors.bar,
-                      }}
-                    />
-                    <Text style={{ color: theme.colors.text }}>active</Text>
-                  </View>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      gap: 4,
-                      alignItems: "center",
-                    }}
-                  >
-                    <View
-                      style={{
-                        borderWidth: 1,
-                        height: 16,
-                        width: 16,
-                        borderRadius: 4,
-                        backgroundColor: theme.colors.barContrast,
-                      }}
-                    />
-                    <Text style={{ color: theme.colors.text }}>rest</Text>
-                  </View>
-                </View>
-                <BarChart
-                  data={barData}
-                  barWidth={16}
-                  spacing={24}
-                  roundedTop
-                  roundedBottom
-                  yAxisLabelSuffix=" s"
-                  xAxisType="dashed"
-                  xAxisColor={theme.colors.foregroundMuted}
-                  xAxisLength={285}
-                  xAxisThickness={1}
-                  yAxisThickness={0}
-                  yAxisTextStyle={{ color: "gray" }}
-                  noOfSections={3}
-                  maxValue={120}
-                  rulesLength={285}
-                  rulesColor={theme.colors.foregroundMuted}
-                />
+              <View style={{ marginTop: 4, marginBottom: 16 }}>
+                <IntensityVsTimeGraph barData={barData} />
               </View>
             </View>
             <View
