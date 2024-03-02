@@ -1,17 +1,14 @@
-import React, { useEffect, useMemo } from "react";
+import React from "react";
 import { View, Text, SafeAreaView, ScrollView, Button } from "react-native";
 import { useGetWorkoutTemplateById } from "../api/WorkoutTemplate.ts";
 import { Divider, ActivityIndicator } from "react-native-paper";
 import { StyledText } from "../components/Workouts/CreateWorkoutTemplateForm";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Checkbox } from "../components/Inputs/Checkbox";
-import { BarChart } from "react-native-gifted-charts";
 import { Button as PaperButton } from "react-native-paper";
 import { useAppTheme } from "../provider/PaperProvider.tsx";
-import { useGetTemplateWorkoutIntervals } from "../api/WorkoutIntervals.ts";
 import { BarChartPropsType } from "react-native-gifted-charts";
 import { IntensityVsTimeGraph } from "../components/Workouts/IntensityVsTimeGraph.tsx";
-import { useGetWorkoutIntensities } from "../api/WorkoutIntensities.ts";
 
 function copyListNTimes<T>(list: T[], n: number): T[] {
   return Array.from({ length: n }, () => [...list]).flat();
@@ -23,20 +20,7 @@ const IndividualWorkoutTemplatePage = ({ route, navigation }) => {
   const { data: template, isPending: loadingTemplate } =
     useGetWorkoutTemplateById(templateId);
 
-  const { data: intervalsT, isPending: loadingIntervals } =
-    useGetTemplateWorkoutIntervals(templateId);
-
-  const { data: workoutIntensities, isPending: loadingIntensities } =
-    useGetWorkoutIntensities();
-
-  if (
-    loadingTemplate ||
-    !template ||
-    loadingIntervals ||
-    !intervalsT ||
-    loadingIntensities ||
-    !workoutIntensities
-  ) {
+  if (loadingTemplate || !template) {
     return (
       <SafeAreaView
         style={{
@@ -66,15 +50,12 @@ const IndividualWorkoutTemplatePage = ({ route, navigation }) => {
 
   const barData: BarChartPropsType["data"] = [];
   const compiledIntervalsForGraph = copyListNTimes(
-    intervalsT,
+    template.workout_intervals,
     template.num_sets
   );
   for (let i = 0; i < compiledIntervalsForGraph.length; i++) {
     barData.push({
-      value:
-        workoutIntensities?.find(
-          (obj) => obj.id === compiledIntervalsForGraph[i].intensity_id
-        )?.tempo ?? -1,
+      value: compiledIntervalsForGraph[i].workout_intensities.tempo,
       barWidth: compiledIntervalsForGraph[i].active,
       frontColor: theme.colors.bar,
       label: compiledIntervalsForGraph[i].active.toString(),
@@ -172,7 +153,7 @@ const IndividualWorkoutTemplatePage = ({ route, navigation }) => {
             <View style={{ marginTop: 16, marginBottom: 4, gap: 8 }}>
               <Text style={{ color: theme.colors.text }}>Set Breakdown</Text>
               <View>
-                {intervalsT.map((interval, index) => (
+                {template.workout_intervals.map((interval, index) => (
                   <Checkbox
                     id={index}
                     key={index}

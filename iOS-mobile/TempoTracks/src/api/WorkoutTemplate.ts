@@ -1,6 +1,6 @@
 import { supabase } from "../lib/supabase";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { TablesInsert } from "../lib/db.types";
+import { TablesInsert, Tables } from "../lib/db.types";
 
 export const useCreateWorkoutTemplate = () => {
   return useMutation({
@@ -45,15 +45,39 @@ export const useGetWorkoutTemplateById = (id: string) => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("workout_templates")
-        .select()
+        .select(
+          "*, workout_intervals(*, workout_intensities(*)), playlists(*, playlist_items(*, songs(*)))"
+        )
         .eq("id", id.replace(/"/g, ""))
         .single();
+
+      const templateWithFormattedSongs = data
+        ? {
+            ...data,
+            workout_intervals: data.workout_intervals
+              ? (data.workout_intervals.filter(
+                  (interval) => !!interval.workout_intensities
+                ) as (Tables<"workout_intervals"> & {
+                  workout_intensities: Tables<"workout_intensities">;
+                })[])
+              : [],
+            playlists: data.playlists
+              ? {
+                  ...data.playlists,
+                  songs: data.playlists.playlist_items
+                    .map((item) => item.songs)
+                    .filter((x) => !!x) as Tables<"songs">[],
+                }
+              : null,
+          }
+        : null;
 
       if (error) {
         console.log("Error fetching workout templates", error);
         return null;
       }
-      return data;
+
+      return templateWithFormattedSongs;
     },
   });
 };
