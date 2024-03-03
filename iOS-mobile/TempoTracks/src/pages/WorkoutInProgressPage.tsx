@@ -11,7 +11,6 @@ import { useSharedValue } from "react-native-reanimated";
 const WorkoutInProgressPage = ({ navigation, route }) => {
   const theme = useTheme();
   const { workoutId, templateId, playlistId } = route.params;
-  const [activeIndex, setActiveIndex] = useState<boolean>(false);
 
   const windowWidth = useWindowDimensions().width;
   const scrollOffsetValue = useSharedValue<number>(0);
