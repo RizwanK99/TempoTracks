@@ -2,16 +2,19 @@ import React, { useState } from "react";
 import { SafeAreaView, Text, View } from "react-native";
 import { useTheme } from "react-native-paper";
 import { WorkoutInProgressDetails } from "../components/Workouts/WorkoutInProgressDetails";
-import { WorkoutInProgressSongPlayer } from "../components/Workouts/WorkoutInProgressSongPlayer";
+import { WorkoutInProgressSongPlayer } from "../components/Workouts/MusicPlayer/WorkoutInProgressSongPlayer";
 import type { ICarouselInstance } from "react-native-reanimated-carousel";
 import Carousel from "react-native-reanimated-carousel";
 import { useWindowDimensions, Dimensions } from "react-native";
 import { useSharedValue } from "react-native-reanimated";
+import { useGetWorkoutTemplateById } from "../api/WorkoutTemplate";
 
 const WorkoutInProgressPage = ({ navigation, route }) => {
   const theme = useTheme();
   const { workoutId, templateId, playlistId } = route.params;
   const [activeIndex, setActiveIndex] = useState<boolean>(false);
+
+  const { data: template, isPending } = useGetWorkoutTemplateById(templateId);
 
   const windowWidth = useWindowDimensions().width;
   const scrollOffsetValue = useSharedValue<number>(0);
@@ -51,11 +54,17 @@ const WorkoutInProgressPage = ({ navigation, route }) => {
         renderItem={({ index }) =>
           index === 0 ? (
             <SafeAreaView style={{ flex: 1 }}>
-              <WorkoutInProgressDetails
-                workoutId={workoutId}
-                templateId={templateId}
-                navigation={navigation}
-              />
+              {template && !isPending ? (
+                <WorkoutInProgressDetails
+                  workoutId={workoutId}
+                  templateId={templateId}
+                  templateIntervals={template.workout_intervals}
+                  numberOfSets={template.num_sets}
+                  navigation={navigation}
+                />
+              ) : (
+                <Text>Loading...</Text>
+              )}
             </SafeAreaView>
           ) : (
             <SafeAreaView style={{ flex: 1 }}>

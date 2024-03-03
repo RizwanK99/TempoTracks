@@ -24,7 +24,7 @@ const theme = {
     barContrast: "#424247",
     redPrimary: "#e11d48",
     redPrimaryForeground: "#fadbe2",
-    fadedBackground: "rgba(0, 0, 0, 0.95)",
+    fadedBackground: "rgba(0, 0, 0, 0.97)",
   },
 };
 

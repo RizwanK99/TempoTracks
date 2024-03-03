@@ -1,6 +1,6 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { SafeAreaView, Text, View } from "react-native";
-import { useTheme } from "react-native-paper";
+import { Button, useTheme } from "react-native-paper";
 import { Button as PaperButton } from "react-native-paper";
 import {
   usePauseWorkout,
@@ -12,6 +12,10 @@ import { useStopwatch } from "react-timer-hook";
 // Watch Manager
 import { EventListener, WatchManager } from "../../module/WatchManager";
 import { useAppTheme } from "../../provider/PaperProvider";
+import { useTimingEngine } from "../../hooks/useTimingEngine";
+import { MusicManager } from "../../module/MusicManager";
+import { Tables } from "../../lib/db.types";
+import { formatWorkoutIntervals } from "../../utils/formatWorkoutIntervals";
 
 interface TimeProps {
   value: number;
@@ -46,12 +50,22 @@ const Stat: React.FC<StatProps> = ({ unit, value }) => {
 interface WorkoutInProgressDetailsProps {
   workoutId: string;
   templateId: string;
+  templateIntervals: (Tables<"workout_intervals"> & {
+    workout_intensities: Tables<"workout_intensities">;
+  })[];
+  numberOfSets: number;
   navigation: any;
 }
 
 export const WorkoutInProgressDetails: React.FC<
   WorkoutInProgressDetailsProps
-> = ({ workoutId, templateId, navigation }) => {
+> = ({
+  workoutId,
+  templateId,
+  templateIntervals,
+  numberOfSets,
+  navigation,
+}) => {
   const theme = useAppTheme();
   const { mutate: pauseWorkout } = usePauseWorkout();
   const { mutate: resumeWorkout } = useResumeWorkout();
@@ -70,6 +84,21 @@ export const WorkoutInProgressDetails: React.FC<
     pause,
     reset,
   } = useStopwatch({ autoStart: true });
+
+  const { startTimer, pauseTimer, endTimer } = useTimingEngine<number>({
+    timingData: formatWorkoutIntervals({
+      rawIntervals: templateIntervals,
+      numberOfSets,
+    }),
+    autoStart: true,
+    resetToDefaultOnEnd: 1,
+    timeoutIdStorageKey: "music_timer",
+    callback: (data) => {
+      console.log("callback", data);
+      MusicManager.changePlaybackRate(data);
+    },
+    onSuccess: () => console.log("reached end of workout"),
+  });
 
   // Needed since calling reset after mutation
   const duration = useMemo(() => {
@@ -153,6 +182,7 @@ export const WorkoutInProgressDetails: React.FC<
           alignSelf: "center",
         }}
       >
+        <Button onPress={() => endTimer()}>Start Timer</Button>
         <Time unit="hours" value={hours} showColon={false} />
         <Time unit="minutes" value={minutes} />
         <Time unit="seconds" value={seconds} />

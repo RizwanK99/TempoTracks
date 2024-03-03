@@ -25,10 +25,14 @@ function copyListNTimes<T>(list: T[], n: number): T[] {
 const IndividualWorkoutTemplatePage = ({ route, navigation }) => {
   const theme = useAppTheme();
   const { templateId } = route.params;
-  const { data, isPending, error } = useGetWorkoutTemplateById(templateId);
+  const {
+    data: template,
+    isPending,
+    error,
+  } = useGetWorkoutTemplateById(templateId);
   const createWorkout = useCreateWorkout();
 
-  if (isPending || !data) {
+  if (isPending || !template) {
     return (
       <SafeAreaView
         style={{
@@ -45,7 +49,6 @@ const IndividualWorkoutTemplatePage = ({ route, navigation }) => {
     );
   }
 
-  const template = data[0];
   const numericIds = template.interval_ids.map((id) => Number(id));
   //   const { data: intervalsQuery } = useGetWorkoutIntervals(numericIds);
 
@@ -277,9 +280,6 @@ const IndividualWorkoutTemplatePage = ({ route, navigation }) => {
                 onPress={() => {
                   navigation.navigate("StartOrCancelWorkoutPage", {
                     templateId: templateId,
-                    name: template.name,
-                    type: template.type,
-                    playlistId: template.playlist_id,
                   });
                 }}
               >

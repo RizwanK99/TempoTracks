@@ -1,8 +1,5 @@
-import { useEffect, useState } from "react";
 import { Image, StyleSheet } from "react-native";
 import { Text, View } from "react-native";
-import { MusicPlayerSong } from "../../../module/MusicManager.types";
-import { MusicManager } from "../../../module/MusicManager";
 import { SongDuration } from "./SongDuration";
 import PlayerControls from "./PlayerControls";
 import Animated, { useAnimatedStyle } from "react-native-reanimated";
@@ -46,11 +43,10 @@ export const CurrentMusicPlayer = ({
             icon="window-minimize"
             iconColor={theme.colors.surfaceVariant}
             size={36}
-            onPress={() => console.log("123")}
             style={{ marginTop: "20%", marginBottom: "15%" }}
           />
         </GestureDetector>
-        <CurrentSong />
+        <CurrentSongForPlayer />
       </Container>
     </Animated.View>
   );
@@ -73,9 +69,15 @@ const Artwork = ({ uri }: { uri: string }) => {
   );
 };
 
-const CurrentSong = () => {
+export const CurrentSongForPlayer = ({
+  hideControls,
+}: {
+  hideControls?: boolean;
+}) => {
   const { data: songs } = useSongs();
   const { data: playerState } = usePlayerState({ songs });
+
+  console.log("playerState", playerState);
 
   if (!playerState?.currentSong) {
     return null;
@@ -93,13 +95,17 @@ const CurrentSong = () => {
           {currentSong.artist}
         </Text>
       </View>
-      <SongDuration />
-      <PlayerControls
-        isPlaying={isPlaying}
-        setIsPlaying={() => null}
-        playbackRate={playerState.playbackRate}
-        handlePlaybackRateChange={() => null}
+      <SongDuration
+        playbackTime={playerState.playbackTime}
+        duration={playerState.currentSong.duration_ms}
       />
+      {hideControls ? null : (
+        <PlayerControls
+          isPlaying={isPlaying}
+          setIsPlaying={() => null}
+          handlePlaybackRateChange={() => null}
+        />
+      )}
     </View>
   );
 };
@@ -113,7 +119,7 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "100%",
     bottom: 0,
-    transform: [{ translateY: 0 }],
+    transform: [{ translateY: -25 }],
     zIndex: 50,
     overflow: "hidden",
     borderRadius: 25,

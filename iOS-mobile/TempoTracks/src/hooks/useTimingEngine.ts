@@ -1,35 +1,61 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+import {
+  useAsyncStorageItem,
+  useSetAsyncStorageItem,
+} from "../api/AsyncStorage";
 
-interface TimingData {
+interface TimingData<T> {
   duration: number;
-  playbackRate: number;
+  value: T;
 }
 
-export const useTimingEngine = (params: {
-  timingData: TimingData[];
+export const useTimingEngine = <T>(params: {
+  timingData: TimingData<T>[];
+  autoStart?: boolean;
+  resetToDefaultOnEnd?: T;
+  timeoutIdStorageKey: "music_timer";
+  callback: (val: T) => void;
   onSuccess?: () => void;
 }) => {
-  const { timingData, onSuccess } = params;
+  const { timingData, autoStart, resetToDefaultOnEnd, callback, onSuccess } =
+    params;
 
-  const [testVar, setTestVar] = useState<number>(1.0);
   // const [isPaused, setIsPaused] = useState<boolean>(false);
   // const [pausedTime, setPausedTime] = useState<number | null>(null);
   const lastActionTime = useRef<number | null>(null);
   const lastAction = useRef<"play" | "pause" | "end" | null>(null);
   const currentTimingDataIndex = useRef<number>(0);
-  const timerIdRef = useRef<NodeJS.Timeout | null>(null);
+  const timerIdRef = useRef<string | null>(null);
   const remainingTimeRef = useRef<number | null>(null);
+  const initializedRef = useRef<boolean>(false);
+
+  const { data: storedTimerId } = useAsyncStorageItem<string>(
+    params.timeoutIdStorageKey
+  );
+  const { mutateAsync: setStoredTimerId } = useSetAsyncStorageItem(
+    params.timeoutIdStorageKey
+  );
+
+  useEffect(() => {
+    if (autoStart && !initializedRef.current) {
+      initializedRef.current = true;
+      startTimer();
+    }
+
+    return endTimer();
+  }, []);
+
   // const isEndingRef = useRef<boolean>(false);
 
-  const setPlaybackRateAfterDuration = (duration: number, rate: number) => {
-    return new Promise<void>((resolve) => {
-      timerIdRef.current = setTimeout(() => {
-        setTestVar(rate);
-        console.log(duration);
-        resolve();
-      }, remainingTimeRef.current ?? duration);
-    });
-  };
+  // const setPlaybackRateAfterDuration = (duration: number, rate: number) => {
+  //   return new Promise<void>((resolve) => {
+  //     timerIdRef.current = setTimeout(() => {
+  //       setTestVar(rate);
+  //       console.log(duration);
+  //       resolve();
+  //     }, remainingTimeRef.current ?? duration);
+  //   });
+  // };
 
   // const iterateAndSetPlaybackRate = async () => {
   //   for (let i = currentTimingDataIndex.current; i < timingData.length; i++) {
@@ -44,13 +70,24 @@ export const useTimingEngine = (params: {
   // };
 
   /**
+   * Internal function to handle refetching the stored timer id
+   */
+  const _handleRefetchStoredTimerId = async () => {
+    if (storedTimerId) {
+      if (timerIdRef.current !== storedTimerId) {
+        console.log("_handleRefetchStoredTimerId: updating timerIdRef");
+        timerIdRef.current = storedTimerId;
+      } else {
+        clearTimeout(storedTimerId);
+      }
+    }
+  };
+
+  /**
    * Internal function to handle starting the timer
    */
-  const _handleStartTimer = (params: {
-    duration: number;
-    playbackRate: number;
-  }) => {
-    const { duration, playbackRate } = params;
+  const _handleStartTimer = (params: TimingData<T>) => {
+    const { duration, value } = params;
 
     // Keep track of last taken action
     lastAction.current = "play";
@@ -62,13 +99,10 @@ export const useTimingEngine = (params: {
       timerIdRef.current = setTimeout(() => {
         // reset timeIdRef
         timerIdRef.current = null;
+        setStoredTimerId(null);
 
-        console.log(
-          "_handleStartTimer: setting playback rate to",
-          playbackRate,
-          timerIdRef
-        );
-        setTestVar(playbackRate);
+        console.log("_handleStartTimer: setting value to", value);
+        callback(value);
 
         resolve();
         // if we reach the end of the timer, play next timing data item
@@ -81,11 +115,19 @@ export const useTimingEngine = (params: {
           onSuccess?.();
           endTimer();
         }
-      }, duration);
+      }, duration).toString();
+      setStoredTimerId(timerIdRef.current.toString());
+
+      console.log(
+        "_handleStartTimer: setting timerIdRef to",
+        timerIdRef.current
+      );
     });
   };
 
   const startTimer = () => {
+    _handleRefetchStoredTimerId();
+
     if (timerIdRef.current) {
       console.log("Timer already started!");
       return;
@@ -103,7 +145,7 @@ export const useTimingEngine = (params: {
     if (remainingTimeRef.current && remainingTimeRef.current > 0) {
       _handleStartTimer({
         duration: remainingTimeRef.current,
-        playbackRate: data.playbackRate,
+        value: data.value,
       });
     } else {
       _handleStartTimer(data);
@@ -111,6 +153,8 @@ export const useTimingEngine = (params: {
   };
 
   const pauseTimer = () => {
+    _handleRefetchStoredTimerId();
+
     if (timerIdRef.current) {
       console.log("pauseTimer: pausing");
       const currentTime = Date.now();
@@ -139,9 +183,16 @@ export const useTimingEngine = (params: {
   };
 
   const endTimer = () => {
+    _handleRefetchStoredTimerId();
+
     if (timerIdRef.current) {
       clearTimeout(timerIdRef.current);
     }
+
+    if (!!resetToDefaultOnEnd) {
+      callback(resetToDefaultOnEnd);
+    }
+
     lastAction.current = "end";
     lastActionTime.current = Date.now();
     remainingTimeRef.current = null;
@@ -173,7 +224,6 @@ export const useTimingEngine = (params: {
   // };
 
   return {
-    playbackRate: testVar,
     startTimer,
     pauseTimer,
     endTimer,

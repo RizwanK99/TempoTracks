@@ -145,7 +145,7 @@ export const CreateWorkoutTemplateForm: React.FC<
     return [];
   }, [loadingWorkoutIntervals, workoutIntervals, setIntervals]);
 
-  const handleCheckboxChange = (id: number) => {
+  const handleCheckboxChange = (id: string) => {
     setIntervals((prevState) =>
       prevState
         ? prevState.map((item) => {

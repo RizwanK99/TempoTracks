@@ -3,12 +3,10 @@ import AntDesignIcons from "react-native-vector-icons/AntDesign";
 import FontAwesomeIcons from "react-native-vector-icons/FontAwesome";
 import { MusicManager } from "../../../module/MusicManager";
 import { Slider } from "react-native-elements";
-import { Text } from "react-native-paper";
 
 const PlayerControls = ({
   isPlaying,
   setIsPlaying,
-  playbackRate,
   handlePlaybackRateChange,
 }) => {
   const togglePlay = () => {

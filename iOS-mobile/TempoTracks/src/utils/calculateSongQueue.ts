@@ -1,44 +1,5 @@
-interface FakeInterval {
-  active: number;
-  rest: number;
-  number_sets: number;
-  label: string;
-  tempo: number;
-}
-
-const FAKE_INTERVALS: FakeInterval[] = [
-  {
-    active: 60,
-    rest: 10,
-    number_sets: 1,
-    tempo: 80,
-    label: "Warm Up",
-  },
-  {
-    active: 60,
-    rest: 60,
-    number_sets: 3,
-    tempo: 120,
-    label: "Bench Press",
-  },
-  {
-    active: 75,
-    rest: 60,
-    number_sets: 3,
-    label: "Squats",
-    tempo: 120,
-  },
-  {
-    active: 180,
-    rest: 30,
-    number_sets: 1,
-    label: "Sprints",
-    tempo: 160,
-  },
-];
-
 import { Tables } from "../lib/db.types";
-import { supabase } from "../lib/supabase";
+import { REST_BPM_MULTIPLIER } from "./constants";
 
 /**
  * The energy score weights for each feature of a song
@@ -102,16 +63,39 @@ const ENERGY_SCORE_WEIGHTS = {
 const INTERVAL_DURATION_MIN = 150;
 
 export const calculateSongQueue = (params: {
-  intervals: FakeInterval[];
+  intervals: (Tables<"workout_intervals"> & {
+    workout_intensities: Tables<"workout_intensities">;
+  })[];
+  numberOfSets: number;
   songs: Tables<"songs">[];
 }) => {
-  const { intervals: rawIntervals, songs: rawSongs } = params;
-  const intervals = rawIntervals.map((interval) => {
-    return {
-      ...interval,
-      duration: (interval.active + interval.rest) * interval.number_sets,
-    };
-  });
+  const { intervals: rawIntervals, numberOfSets, songs: rawSongs } = params;
+  const intervals: {
+    tempo: number;
+    duration: number;
+  }[] = [];
+
+  // create an array of intervals based on the number of sets
+  for (let i = 0; i < numberOfSets; i++) {
+    rawIntervals.forEach((interval) => {
+      // split the interval into active and rest intervals
+      intervals.push({
+        tempo: Math.floor(
+          (interval.workout_intensities.bpm_lower_threshold +
+            interval.workout_intensities.bpm_upper_threshold) /
+            2
+        ),
+        duration: interval.active,
+      });
+
+      intervals.push({
+        tempo: Math.round(
+          interval.workout_intensities.tempo * REST_BPM_MULTIPLIER
+        ),
+        duration: interval.rest,
+      });
+    });
+  }
 
   // calculate the score for each song and sort by score
   let songs = getNewSongsArray(rawSongs);
