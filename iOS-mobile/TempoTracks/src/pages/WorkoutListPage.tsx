@@ -38,7 +38,7 @@ const WorkoutListPage = ({ navigation }) => {
     Tables<"workout_templates">[] | null
   >();
   const { data, error, isPending } = useGetWorkoutTemplates(
-    saved_user_data.user_id,
+    saved_user_data.user_id
   );
 
   const [state, setState] = React.useState({ open: false });
@@ -87,7 +87,13 @@ const WorkoutListPage = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: theme.colors.background,
+        paddingBottom: 36,
+      }}
+    >
       <Appbar.Header
         mode="small"
         statusBarHeight={0}
@@ -227,20 +233,19 @@ const WorkoutListPage = ({ navigation }) => {
         style={{ paddingBottom: 3, position: "absolute" }}
         open={open}
         variant="surface"
-        icon={open ? "lightning-bolt" : "headphones"}
-        label={open ? "Start A New Workout" : ""}
+        icon={open ? "plus" : "dumbbell"}
+        label={open ? "Create Workout" : ""}
         actions={[
           {
-            icon: "plus",
-            label: "Create New Workout",
-            onPress: () => navigation.navigate("CreateWorkout"),
-          }
+            icon: "chart-timeline-variant",
+            label: "Workout Trends",
+            onPress: () => navigation.navigate("WorkoutTrendsPage"),
+          },
         ]}
         onStateChange={onStateChange}
         onPress={() => {
           if (open) {
-            // do something if the speed dial is open
-            navigation.navigate("WorkoutInProgress", { undefined });
+            navigation.navigate("CreateWorkout");
           }
         }}
       />

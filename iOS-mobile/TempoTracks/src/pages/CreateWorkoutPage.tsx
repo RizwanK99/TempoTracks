@@ -1,33 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { SafeAreaView, ScrollView, Text, Button, View } from "react-native";
-import { useTheme } from "react-native-paper";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { CreateWorkoutTemplateForm } from "../components/Workouts/CreateWorkoutTemplateForm.tsx";
-
-async function retrieveData(user, setUser) {
-  try {
-    const value = await AsyncStorage.getItem("user_data");
-    if (value !== null) {
-      let userData = JSON.parse(value);
-      await setUser(userData);
-    }
-  } catch (error) {
-    console.log("Error retreiving user data", error);
-  }
-}
+import { saved_user_data } from "../api/Globals.ts";
+import { useAppTheme } from "../provider/PaperProvider.tsx";
 
 const CreateWorkoutPage = ({ navigation }) => {
-  const theme = useTheme();
-  const [user, setUser] = useState({});
+  const theme = useAppTheme();
 
-  useEffect(() => {
-    async function fetchData() {
-      await retrieveData(user, setUser);
-    }
-    fetchData();
-  }, [user.user_id]);
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <BottomSheetModalProvider>
@@ -43,7 +24,7 @@ const CreateWorkoutPage = ({ navigation }) => {
             <SafeAreaView style={{ paddingHorizontal: 8, marginTop: 18 }}>
               <CreateWorkoutTemplateForm
                 navigation={navigation}
-                userId={user.user_id}
+                userId={saved_user_data.user_id}
               />
             </SafeAreaView>
           </ScrollView>
@@ -54,7 +35,7 @@ const CreateWorkoutPage = ({ navigation }) => {
 };
 
 const Header = ({ navigation }) => {
-  const theme = useTheme();
+  const theme = useAppTheme();
   return (
     <View
       style={{
