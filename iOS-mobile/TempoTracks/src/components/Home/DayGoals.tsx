@@ -10,9 +10,9 @@ export const DailyGoals = () => {
   const [visible, setVisible] = React.useState(false);
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
-  const [text_dist, setTextDist] = React.useState("10");
-  const [text_dur, setTextDur] = React.useState("120");
-  const [text_cal, setTextCal] = React.useState("800");
+  const [text_dist, setTextDist] = React.useState(10);
+  const [text_dur, setTextDur] = React.useState(120);
+  const [text_cal, setTextCal] = React.useState(800);
 
   const [workoutData, setWorkoutData] = React.useState([])
 
@@ -39,9 +39,9 @@ export const DailyGoals = () => {
           <Card>
             <Card.Title title="Edit Daily Goals" titleVariant="titleLarge"></Card.Title>
             <Card.Content>
-              <TextInput label="Distance" value={`${goalData[0].Distance}`} onChangeText={setTextDist} keyboardType="numeric" dense style={{ marginBottom: 10 }} />
-              <TextInput label="Duration" value={`${goalData[0].Duration}`} onChangeText={setTextDur} keyboardType="numeric" dense style={{ marginBottom: 10 }} />
-              <TextInput label="Calories" value={`${goalData[0].Calories}`} onChangeText={setTextCal} keyboardType="numeric" dense />
+              <TextInput label="Distance" value={Number(goalData[0].Distance)} onChangeText={setTextDist} keyboardType="numeric" dense style={{ marginBottom: 10 }} />
+              <TextInput label="Duration" value={Number(goalData[0].Duration)} onChangeText={setTextDur} keyboardType="numeric" dense style={{ marginBottom: 10 }} />
+              <TextInput label="Calories" value={Number(goalData[0].Calories)} onChangeText={setTextCal} keyboardType="numeric" dense />
               <Button mode="elevated" style={{ marginTop: 10 }} onPress={hideModal}>Save</Button>
             </Card.Content>
           </Card>
