@@ -15,7 +15,6 @@ import { useNavigation } from "@react-navigation/native";
 import HomePage from "./src/pages/HomePage";
 import ProfilePage from "./src/pages/ProfilePage";
 import SettingsPage from "./src/pages/SettingsPage";
-import WorkoutsPage from "./src/pages/WorkoutsPage";
 import SignInPage from "./src/pages/SignInPage";
 import LaunchPage from "./src/pages/LaunchPage";
 import RegisterPage from "./src/pages/RegisterPage";
@@ -216,7 +215,6 @@ function HomeStack() {
       <Stack.Screen name="Home" component={HomePage} />
       <Stack.Screen name="Profile" component={ProfilePage} />
       <Stack.Screen name="CreateWorkout" component={CreateWorkoutPage} />
-      <Stack.Screen name="Workouts" component={WorkoutsPage} />
     </Stack.Navigator>
   );
 }
@@ -250,7 +248,6 @@ function WorkoutsStack() {
       initialRouteName="WorkoutListPage"
       screenOptions={{ headerShown: false }}
     >
-      <Stack.Screen name="Workouts" component={WorkoutsPage} />
       <Stack.Screen name="CreateWorkout" component={CreateWorkoutPage} />
       <Stack.Screen
         name="WorkoutInProgress"
