@@ -29,7 +29,10 @@ export const formatWorkoutIntervals = (params: {
 
       intervals.push({
         value: Math.round(
-          interval.workout_intensities.tempo * REST_BPM_MULTIPLIER
+          ((interval.workout_intensities.bpm_lower_threshold +
+            interval.workout_intensities.bpm_upper_threshold) /
+            2) *
+            REST_BPM_MULTIPLIER
         ),
         duration: interval.rest * 1000, // turn into ms
       });

@@ -11,7 +11,7 @@ const formatSecondsIntoTime = (time: number) => {
   const minutes = Math.floor(time / 60);
   const seconds = time - minutes * 60;
 
-  return `${minutes}:${seconds}`;
+  return `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
 };
 
 export const SongDuration = ({ playbackTime, duration }: Props) => {
@@ -19,9 +19,9 @@ export const SongDuration = ({ playbackTime, duration }: Props) => {
     <View style={styles.progressBarContainer}>
       <Slider
         style={styles.progressBar}
-        value={0.33}
+        value={playbackTime}
         minimumValue={0}
-        maximumValue={1}
+        maximumValue={duration / 1000}
         minimumTrackTintColor="#36a2df"
         maximumTrackTintColor="rgba(255, 255, 255, 0.2)"
         trackStyle={styles.trackStyle}
