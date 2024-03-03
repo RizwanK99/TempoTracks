@@ -39,6 +39,7 @@ import { Tables } from "../../lib/db.types";
 import { BarChartPropsType } from "react-native-gifted-charts";
 import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import { useCreateWorkoutIntervals } from "../../api/WorkoutIntervals";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface CreateWorkoutTemplateFormProps {
   userId: string;
@@ -91,6 +92,7 @@ export const CreateWorkoutTemplateForm: React.FC<
 > = ({ userId, navigation }) => {
   const theme = useAppTheme();
   const toast = useToast();
+  const queryClient = useQueryClient();
 
   // Select playlist
   const { data: playlists = [], isPending: loadingPlaylists } = usePlaylists();
@@ -311,6 +313,7 @@ export const CreateWorkoutTemplateForm: React.FC<
                     duration: 4000,
                     animationType: "slide-in",
                   });
+
                   const intervalsWithTemplateId = ordering.map(
                     ({ id, isCustom, isChecked, ...interval }, index) => ({
                       ...interval,
@@ -320,6 +323,11 @@ export const CreateWorkoutTemplateForm: React.FC<
                     })
                   );
                   createWorkoutIntervals.mutate(intervalsWithTemplateId);
+
+                  queryClient.invalidateQueries({
+                    queryKey: ["workout_templates"],
+                  });
+
                   if (start && data && data.length > 0) {
                     navigation.navigate("StartOrCancelWorkoutPage", {
                       templateId: data[0].id,
@@ -328,7 +336,7 @@ export const CreateWorkoutTemplateForm: React.FC<
                       type: data[0].type,
                     });
                   } else {
-                    navigation.navigate("Workouts");
+                    navigation.navigate("WorkoutListPage");
                   }
                 }
               },
