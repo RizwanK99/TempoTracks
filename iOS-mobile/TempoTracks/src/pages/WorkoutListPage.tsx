@@ -203,6 +203,22 @@ const WorkoutListPage = ({ navigation }) => {
               </View>
             </TouchableOpacity>
           ))}
+          {filteredData?.length === 0 && searchQuery !== "" && (
+            <View
+              style={{
+                padding: 32,
+                marginTop: 48,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Text
+                style={{ color: theme.colors.foregroundMuted, fontSize: 16 }}
+              >
+                No results found
+              </Text>
+            </View>
+          )}
         </View>
       </ScrollView>
       <FAB.Group
