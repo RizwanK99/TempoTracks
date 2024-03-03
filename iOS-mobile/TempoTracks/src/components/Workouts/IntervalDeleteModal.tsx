@@ -1,26 +1,12 @@
-import React, { useState } from "react";
-import { View, ScrollView } from "react-native";
-import {
-  Modal,
-  Portal,
-  Text,
-  Divider,
-  Button,
-  Menu,
-  useTheme,
-} from "react-native-paper";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import React from "react";
+import { View } from "react-native";
+import { Modal, Portal, Text, Button } from "react-native-paper";
 import { useToast } from "react-native-toast-notifications";
-import { TextInput } from "../Inputs/TextInput";
-import { NumberInput } from "../Inputs/NumberInput";
-import {
-  useGetWorkoutIntensities,
-  WorkoutIntensity,
-} from "../../api/WorkoutIntensities";
-import { useDeleteWorkoutInterval } from "../../api/WorkoutIntervals";
+import { useAppTheme } from "../../provider/PaperProvider";
 
 interface IntervalDeleteModalProps {
   visible: boolean;
+  handleDelete: (id: number) => void;
   onDismiss: () => void;
   intervalId: number;
 }
@@ -28,30 +14,11 @@ interface IntervalDeleteModalProps {
 export const IntervalDeleteModal: React.FC<IntervalDeleteModalProps> = ({
   visible,
   onDismiss,
+  handleDelete,
   intervalId,
 }) => {
-  const theme = useTheme();
+  const theme = useAppTheme();
   const toast = useToast();
-  const queryClient = useQueryClient();
-  const deleteInterval = useDeleteWorkoutInterval();
-
-  const handleDeleteInterval = () => {
-    deleteInterval.mutate(
-      { intervalId },
-      {
-        onSuccess: () => {
-          toast.show("Interval successfully deleted!", {
-            type: "success",
-            duration: 4000,
-            animationType: "slide-in",
-          });
-          queryClient.invalidateQueries({
-            queryKey: ["workoutIntervals"],
-          });
-        },
-      }
-    );
-  };
 
   return (
     <Portal>
@@ -64,7 +31,7 @@ export const IntervalDeleteModal: React.FC<IntervalDeleteModalProps> = ({
           height: 200,
           borderRadius: 8,
           gap: 16,
-          justifyContent: "start",
+          justifyContent: "flex-start",
         }}
         onDismiss={onDismiss}
       >
@@ -98,13 +65,19 @@ export const IntervalDeleteModal: React.FC<IntervalDeleteModalProps> = ({
               }}
               textColor={theme.colors.text}
               labelStyle={{ fontSize: 16, fontWeight: "bold" }}
-              contentStyle={{ color: theme.colors.text }}
             >
               Cancel
             </Button>
             <Button
               onPress={() => {
-                handleDeleteInterval();
+                handleDelete(intervalId);
+                setTimeout(() => {
+                  toast.show("Interval successfully deleted!", {
+                    type: "success",
+                    duration: 4000,
+                    animationType: "slide-in",
+                  });
+                }, 500);
                 onDismiss();
               }}
               style={{
@@ -118,7 +91,6 @@ export const IntervalDeleteModal: React.FC<IntervalDeleteModalProps> = ({
               }}
               textColor={theme.colors.text}
               labelStyle={{ fontSize: 16, fontWeight: "bold" }}
-              contentStyle={{ color: theme.colors.text }}
             >
               Delete
             </Button>

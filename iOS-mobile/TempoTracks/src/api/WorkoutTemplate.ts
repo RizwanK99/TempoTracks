@@ -1,22 +1,10 @@
-import { useAnimatedStyle } from "react-native-reanimated";
 import { supabase } from "../lib/supabase";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Tables } from "../lib/db.types";
-import { useNavigation } from "@react-navigation/native";
-
-interface WorkoutTemplate {
-  workoutTemplate: Tables<"workout_templates">;
-}
-
-interface Props {
-  onSuccess: () => void;
-}
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { TablesInsert, Tables } from "../lib/db.types";
 
 export const useCreateWorkoutTemplate = () => {
-  const queryClient = useQueryClient();
-  const navigation = useNavigation();
   return useMutation({
-    mutationFn: async (template) => {
+    mutationFn: async (template: TablesInsert<"workout_templates">) => {
       const { data, error } = await supabase
         .from("workout_templates")
         .insert(template)
@@ -32,7 +20,7 @@ export const useCreateWorkoutTemplate = () => {
   });
 };
 
-export const useGetWorkoutTemplates = (userId?: number) => {
+export const useGetWorkoutTemplates = (userId: string) => {
   return useQuery({
     queryKey: ["workout_templates", userId],
     queryFn: async () => {
@@ -57,35 +45,39 @@ export const useGetWorkoutTemplateById = (id: string) => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("workout_templates")
-        .select()
-        .eq("id", id.replace(/"/g, ""));
+        .select(
+          "*, workout_intervals(*, workout_intensities(*)), playlists(*, playlist_items(*, songs(*)))"
+        )
+        .eq("id", id.replace(/"/g, ""))
+        .single();
+
+      const templateWithFormattedSongs = data
+        ? {
+            ...data,
+            workout_intervals: data.workout_intervals
+              ? (data.workout_intervals.filter(
+                  (interval) => !!interval.workout_intensities
+                ) as (Tables<"workout_intervals"> & {
+                  workout_intensities: Tables<"workout_intensities">;
+                })[])
+              : [],
+            playlists: data.playlists
+              ? {
+                  ...data.playlists,
+                  songs: data.playlists.playlist_items
+                    .map((item) => item.songs)
+                    .filter((x) => !!x) as Tables<"songs">[],
+                }
+              : null,
+          }
+        : null;
 
       if (error) {
         console.log("Error fetching workout templates", error);
         return null;
       }
-      return data;
-    },
-  });
-};
 
-export const useGetWorkoutIntervals = (ids: number[]) => {
-  return useQuery({
-    queryKey: ["workout_intervals"],
-    queryFn: async (ids) => {
-      const { data, error } = await supabase
-        .from("workout_intervals")
-        .select()
-        .in("id", ids);
-
-      console.log("ids", ids);
-
-      if (error) {
-        console.log("Error fetching workout intervals", error);
-        return null;
-      }
-      console.log(data);
-      return data;
+      return templateWithFormattedSongs;
     },
   });
 };

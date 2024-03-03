@@ -1,6 +1,6 @@
 import React from "react";
-import { useTheme } from "react-native-paper";
 import { TextInput as PaperTextInput } from "react-native-paper";
+import { useAppTheme } from "../../provider/PaperProvider";
 
 interface TextInputProps {
   label: string;
@@ -25,7 +25,7 @@ export const TextInput: React.FC<TextInputProps> = ({
   showReturnKeyType = false,
   error = false,
 }) => {
-  const theme = useTheme();
+  const theme = useAppTheme();
   return (
     <PaperTextInput
       mode="outlined"

@@ -1,7 +1,9 @@
+import { saved_user_data } from "./Globals";
+
 async function createPlaylist() {
     //edit the payload data to match the data you want to send
     const payload = {
-        user_id: 16,
+        user_id: saved_user_data.user_id,
         workout_name: "test",
         workout_type: "cardio",
         workout_name: "Garrick's Workout"

@@ -4,9 +4,9 @@ import { useTheme } from "react-native-paper";
 import { useCreateWorkout } from "../api/WorkoutsNew";
 import { CountDownTimer } from "../components/Workouts/CountDownTimer";
 import { useQuery } from "@tanstack/react-query";
-
+import { saved_user_data } from "../api/Globals";
 // Watch Manager
-import { WatchManager } from "../module/WatchManager";
+import { IS_WATCH_ENABLED, WatchManager } from "../module/WatchManager";
 
 const StartOrCancelWorkoutPage = ({ route, navigation }) => {
   const theme = useTheme();
@@ -31,13 +31,14 @@ const StartOrCancelWorkoutPage = ({ route, navigation }) => {
     if (!isCountingDown) {
       createWorkout({
         // change this once we make hook for auth
-        // user_id: 1,
+        user_id: saved_user_data.user_id,
         template_id: templateId,
         workout_name: name,
         workout_type: type,
         playlist_id: playlistId,
         status: "IN_PROGRESS",
         is_paused: false,
+        total_duration: 0,
       });
     }
   }, [isCountingDown]);
@@ -48,7 +49,9 @@ const StartOrCancelWorkoutPage = ({ route, navigation }) => {
 
   useEffect(() => {
     if (createdWorkout && !isCountingDown) {
-      //WatchManager.updateWorkoutId(createdWorkout[0].workout_id, createdWorkout[0].template_id);
+      if (IS_WATCH_ENABLED){
+        WatchManager.updateWorkoutId(createdWorkout[0].workout_id, createdWorkout[0].template_id);
+      }
 
       navigation.navigate("WorkoutInProgress", {
         workoutId: createdWorkout[0].workout_id,

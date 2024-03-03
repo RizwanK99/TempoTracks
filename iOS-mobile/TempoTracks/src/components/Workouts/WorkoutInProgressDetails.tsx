@@ -1,7 +1,6 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { SafeAreaView, Text, View } from "react-native";
-import { useTheme, IconButton } from "react-native-paper";
-import { Button as PaperButton } from "react-native-paper";
+import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
+import { useTheme } from "react-native-paper";
 import {
   usePauseWorkout,
   useResumeWorkout,
@@ -10,10 +9,12 @@ import {
 import { useStopwatch } from "react-timer-hook";
 
 // Watch Manager
-import { EventListener, WatchManager } from "../../module/WatchManager"
+import { IS_WATCH_ENABLED, EventListener, WatchManager } from "../../module/WatchManager";
+import { useAppTheme } from "../../provider/PaperProvider";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 interface TimeProps {
-  value: string;
+  value: number;
   unit: string;
   showColon?: boolean;
 }
@@ -34,7 +35,7 @@ interface StatProps {
 }
 
 const Stat: React.FC<StatProps> = ({ unit, value }) => {
-  const theme = useTheme();
+  const theme = useAppTheme();
   return (
     <Text style={{ color: theme.colors.text, fontSize: 34 }}>
       {value} {unit}
@@ -46,29 +47,43 @@ interface WorkoutInProgressDetailsProps {
   workoutId: string;
   templateId: string;
   navigation: any;
+  totalSeconds: number;
+  seconds: number;
+  minutes: number;
+  hours: number;
+  reset: (
+    offsetTimestamp?: Date | undefined,
+    autoStart?: boolean | undefined
+  ) => void;
+  start: () => void;
+  pause: () => void;
+  paused: boolean;
+  togglePaused: () => void;
 }
 
 export const WorkoutInProgressDetails: React.FC<
   WorkoutInProgressDetailsProps
-> = ({ workoutId, templateId, navigation }) => {
-  const theme = useTheme();
+> = ({
+  workoutId,
+  templateId,
+  navigation,
+  totalSeconds,
+  minutes,
+  seconds,
+  hours,
+  reset,
+  start,
+  pause,
+  paused,
+  togglePaused,
+}) => {
+  const theme = useAppTheme();
   const { mutate: pauseWorkout } = usePauseWorkout();
   const { mutate: resumeWorkout } = useResumeWorkout();
   const { mutate: endWorkout } = useEndWorkout();
-  const [paused, setPaused] = useState<boolean>(false);
   const [calories, setCalories] = useState<number>(100);
   const [bpm, setBpm] = useState<number>(120);
   const [distance, setDistance] = useState<number>(5);
-  const {
-    totalSeconds,
-    seconds,
-    minutes,
-    hours,
-    isRunning,
-    start,
-    pause,
-    reset,
-  } = useStopwatch({ autoStart: true });
 
   // Needed since calling reset after mutation
   const duration = useMemo(() => {
@@ -87,51 +102,52 @@ export const WorkoutInProgressDetails: React.FC<
     });
   };
 
-  //COMMENT OUT FOR EXPO BUILDS (WATCH)
+  if (IS_WATCH_ENABLED){
+    const [pauseEventData, setPauseEventData] = useState(null);
+    const [endEventData, setEndEventData] = useState(null);
 
-  /*START
-  const [pauseEventData, setPauseEventData] = useState(null);
-  const [endEventData, setEndEventData] = useState(null);
+    useEffect(() => {
+      if (EventListener.getCount('togglePauseWorkout') == 0){
+        const unsubscribePause = EventListener.subscribe('togglePauseWorkout', (data) => {
+          setPauseEventData(data);
+        });
+        const unsubscribeStop = EventListener.subscribe('endWorkout', (data) => {
+          setEndEventData(data);
+        });
 
-  useEffect(() => {
-    if (EventListener.getCount('togglePauseWorkout') == 0){
-      const unsubscribePause = EventListener.subscribe('togglePauseWorkout', (data) => {
-        setPauseEventData(data);
-      });
-      const unsubscribeStop = EventListener.subscribe('endWorkout', (data) => {
-        setEndEventData(data);
-      });
+        return () => {
+          unsubscribePause();
+          unsubscribeStop();
+        };
+      }
 
-      return () => {
-        unsubscribePause();
-        unsubscribeStop();
-      };
-    }
+      return;
+    }, []);
 
-    return;
-  }, []);
+    useEffect(() => {
+      if (!pauseEventData) return;
 
-  useEffect(() => {
-    if (!pauseEventData) return;
+      if (pauseEventData == "true") {
+        pauseWorkout(workoutId);
+        pause();
+      }
+      else {
+        resumeWorkout(workoutId);
+        start();
+      }
 
-    if (pauseEventData == "true") {
-      pauseWorkout(workoutId);
-      pause();
-      setPaused(true);
-    }
-    else {
-      resumeWorkout(workoutId);
-      start();
-      setPaused(false);
-    }
-  }, [pauseEventData])
+      togglePaused();
 
-  useEffect(() => {
-    if (!endEventData) return;
+      setPauseEventData(null);
+    }, [pauseEventData])
 
-    handleWorkoutEnd();
-  }, [endEventData])
-  END*/
+    useEffect(() => {
+      if (!endEventData) return;
+
+      handleWorkoutEnd();
+    }, [endEventData])
+
+  }
 
   return (
     <SafeAreaView
@@ -161,111 +177,104 @@ export const WorkoutInProgressDetails: React.FC<
         <Stat unit="BPM" value={bpm} />
         <Stat unit="FT" value={distance} />
       </View>
-      <View style={{ flexDirection: "row", gap: 32, marginTop: "70%" }}>
+      <View style={{ flexDirection: "row", marginTop: "70%" }}>
         <View
           style={{
             flexDirection: "column",
-            width: "28%",
+            width: "50%",
             alignItems: "center",
             gap: 8,
           }}
         >
-          <PaperButton
+          <TouchableOpacity
             style={{
-              borderRadius: 24,
-              width: "100%",
-              height: 48,
+              width: "50%",
               backgroundColor: theme.colors.redPrimaryForeground,
-              opacity: 0.8,
-              border: "none",
-            }}
-            textColor={theme.colors.redPrimary}
-            labelStyle={{
-              fontSize: 36,
               justifyContent: "center",
               alignItems: "center",
-              alignContent: "center",
-              marginLeft: 4,
-              marginTop: 24,
+              borderRadius: 24,
+              padding: 4,
             }}
-            contentStyle={{ color: theme.colors.text }}
-            icon="stop"
             onPress={() => {
-              //WatchManager.endWorkout(workoutId);
+              if (IS_WATCH_ENABLED){
+                WatchManager.endWorkout(workoutId);
+              }
               handleWorkoutEnd();
             }}
-          />
-          <Text style={{ color: theme.colors.text, fontSize: 22 }}>Stop</Text>
+          >
+            <MaterialCommunityIcons
+              name="stop"
+              size={38}
+              color={theme.colors.redPrimary}
+            />
+          </TouchableOpacity>
+          <Text style={{ color: theme.colors.text, fontSize: 20 }}>Stop</Text>
         </View>
         <View
           style={{
             flexDirection: "column",
-            width: "28%",
+            width: "50%",
             alignItems: "center",
             gap: 8,
           }}
         >
           {!paused ? (
             <>
-              <PaperButton
+              <TouchableOpacity
                 style={{
-                  borderRadius: 24,
-                  width: "100%",
-                  height: 48,
+                  width: "50%",
                   backgroundColor: theme.colors.primaryForeground,
-                  border: "none",
-                }}
-                textColor={theme.colors.primary}
-                labelStyle={{
-                  fontSize: 36,
                   justifyContent: "center",
                   alignItems: "center",
-                  alignContent: "center",
-                  marginLeft: 4,
-                  marginTop: 24,
+                  borderRadius: 24,
+                  padding: 4,
                 }}
-                contentStyle={{ color: theme.colors.text }}
-                icon="pause"
                 onPress={() => {
-                  //WatchManager.togglePauseWorkout(workoutId);
+                  if (IS_WATCH_ENABLED){
+                    WatchManager.togglePauseWorkout(workoutId);
+                  }
                   pauseWorkout(workoutId);
                   pause();
-                  setPaused(true);
+                  togglePaused();
                 }}
-              />
-              <Text style={{ color: theme.colors.text, fontSize: 22 }}>
+              >
+                <MaterialCommunityIcons
+                  name="pause"
+                  size={38}
+                  color={theme.colors.primary}
+                />
+              </TouchableOpacity>
+              <Text style={{ color: theme.colors.text, fontSize: 20 }}>
                 Pause
               </Text>
             </>
           ) : (
             <>
-              <PaperButton
+              <TouchableOpacity
                 style={{
-                  borderRadius: 24,
-                  width: "100%",
-                  height: 48,
+                  width: "50%",
                   backgroundColor: theme.colors.primaryForeground,
-                  border: "none",
-                }}
-                textColor={theme.colors.primary}
-                labelStyle={{
-                  fontSize: 36,
                   justifyContent: "center",
                   alignItems: "center",
-                  alignContent: "center",
-                  marginLeft: 4,
-                  marginTop: 24,
+                  borderRadius: 24,
+                  padding: 4,
                 }}
-                contentStyle={{ color: theme.colors.text }}
-                icon="play"
                 onPress={() => {
-                  //WatchManager.togglePauseWorkout(workoutId);
+                  if (IS_WATCH_ENABLED){
+                    WatchManager.togglePauseWorkout(workoutId);
+                  }
                   resumeWorkout(workoutId);
                   start();
-                  setPaused(false);
+                  togglePaused();
                 }}
-              />
-              <Text style={{ color: theme.colors.text, fontSize: 22 }}>
+              >
+                <MaterialCommunityIcons
+                  name="play"
+                  size={38}
+                  color={theme.colors.primary}
+                />
+              </TouchableOpacity>
+              <Text style={{ color: theme.colors.text, fontSize: 20 }}>
                 Resume
               </Text>
             </>

@@ -7,7 +7,8 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { AntDesign } from "@expo/vector-icons";
-import { useTheme, Text } from "react-native-paper";
+import { Text } from "react-native-paper";
+import { useAppTheme } from "../../provider/PaperProvider";
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
@@ -28,7 +29,7 @@ const RingProgress: React.FC<RingProgressProps> = ({
 }) => {
   const innerRadius = radius - strokeWidth / 2;
   const circumference = 2 * Math.PI * innerRadius;
-  const theme = useTheme();
+  const theme = useAppTheme();
   const color = theme.colors.primary;
   const [counter, setCounter] = useState<number>(duration);
 

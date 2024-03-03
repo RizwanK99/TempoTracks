@@ -1,6 +1,6 @@
 import { SafeAreaView, StyleSheet, View } from "react-native";
 import { useEffect } from "react";
-import { Button, Divider } from "react-native-paper";
+import { Button, Divider, Text } from "react-native-paper";
 import { usePlaylists, useSongs } from "../api/Music";
 import { MusicManager } from "../module/MusicManager";
 import { supabase } from "../lib/supabase";
@@ -9,12 +9,15 @@ import { SongList } from "../components/Music/Library/SongList";
 import { CurrentSongTab } from "../components/Music/CurrentSongTab";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { HealthManager } from "../module/HealthManager";
+import { useTimingEngine } from "../hooks/useTimingEngine";
+import { useAppTheme } from "../provider/PaperProvider";
 
 interface Props {
   navigation: NativeStackNavigationProp<any>;
 }
 
 export const MusicPage = ({ navigation }: Props) => {
+  const theme = useAppTheme();
   const { data: songs = [], refetch } = useSongs();
   const { data: playlists = [], refetch: refetchPlaylists } = usePlaylists();
 
@@ -72,7 +75,10 @@ export const MusicPage = ({ navigation }: Props) => {
   return (
     <SafeAreaView>
       <HealthKitTest />
-      <View style={styles.container}>
+      {/* <BackgroundTimerTest /> */}
+      <View
+        style={[styles.container, { backgroundColor: theme.colors.background }]}
+      >
         <PlaylistList playlists={playlists} navigation={navigation} />
         <Divider style={{ marginVertical: -12 }} />
         <SongList songs={songs} />
@@ -88,7 +94,6 @@ const styles = StyleSheet.create({
     display: "flex",
     paddingHorizontal: 16,
     gap: 24,
-    backgroundColor: "#181a1c",
     height: "100%",
     width: "100%",
   },
@@ -101,7 +106,7 @@ const HealthKitTest = () => {
   };
 
   const testFunction = async () => {
-    const res = await HealthManager.testFunction();
+    const res = await HealthManager.getWorkoutData("Month");
     console.log("res", res);
   };
 
@@ -109,6 +114,31 @@ const HealthKitTest = () => {
     <View>
       <Button onPress={reqAuth}>Request Auth</Button>
       <Button onPress={testFunction}>Test Function</Button>
+    </View>
+  );
+};
+
+const BackgroundTimerTest = () => {
+  const mockTimingData = [
+    { duration: 2000, playbackRate: 1 },
+    { duration: 1500, playbackRate: 1.5 },
+    { duration: 2000, playbackRate: 2 },
+    { duration: 1000, playbackRate: 1 },
+    { duration: 1500, playbackRate: 1.5 },
+    { duration: 3000, playbackRate: 1 },
+  ];
+
+  const { playbackRate, startTimer, pauseTimer, endTimer } = useTimingEngine({
+    timingData: mockTimingData,
+    onSuccess: () => console.log("hey it reached the end of the workout!"),
+  });
+
+  return (
+    <View>
+      <Text style={{ color: "black" }}>Playback Rate: {playbackRate}</Text>
+      <Button onPress={() => startTimer()}>Start/Resume Timer</Button>
+      <Button onPress={() => pauseTimer()}>Pause Timer</Button>
+      <Button onPress={() => endTimer()}>End Timer</Button>
     </View>
   );
 };

@@ -1,21 +1,8 @@
-import React, { useState, useEffect } from "react";
-import {
-  StyleSheet,
-  View,
-  Text,
-  SafeAreaView,
-  TouchableWithoutFeedback,
-  TouchableOpacity,
-  ScrollView,
-  Button,
-  Dimensions,
-} from "react-native";
-import { useTheme, Divider } from "react-native-paper";
-import { Button as PaperButton } from "react-native-paper";
-import { IconButton } from "react-native-paper";
+import React from "react";
+import { View, Text, TouchableOpacity } from "react-native";
 import { Feather } from "@expo/vector-icons";
-import { useCreateWorkout } from "../../api/WorkoutsNew.ts";
 import RingProgress from "../../components/Workouts/RingProgress";
+import { useAppTheme } from "../../provider/PaperProvider.tsx";
 
 interface CountDownTimerProps {
   handleIconPress: () => void;
@@ -26,7 +13,7 @@ export const CountDownTimer: React.FC<CountDownTimerProps> = ({
   handleIconPress,
   handleProgressComplete,
 }) => {
-  const theme = useTheme();
+  const theme = useAppTheme();
   return (
     <View
       style={{

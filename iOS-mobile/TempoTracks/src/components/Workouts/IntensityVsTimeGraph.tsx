@@ -1,16 +1,17 @@
 import React from "react";
-import { useTheme, Text } from "react-native-paper";
+import { Text } from "react-native-paper";
 import { View } from "react-native";
-import { BarChart } from "react-native-gifted-charts";
+import { BarChart, BarChartPropsType } from "react-native-gifted-charts";
+import { useAppTheme } from "../../provider/PaperProvider";
 
 interface IntensityVsTimeGraphProps {
-  barData: any;
+  barData: BarChartPropsType["data"];
 }
 
 export const IntensityVsTimeGraph: React.FC<IntensityVsTimeGraphProps> = ({
   barData,
 }) => {
-  const theme = useTheme();
+  const theme = useAppTheme();
   return (
     <>
       <BarChart

@@ -1,0 +1,21 @@
+name: Build Checker
+on: [push]
+jobs:
+  check-types:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install packages
+        run: npm install
+        working-directory: iOS-mobile/TempoTracks
+
+      - name: Run TypeScript check
+        run: tsc --noEmit
+        working-directory: iOS-mobile/TempoTracks

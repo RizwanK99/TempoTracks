@@ -7,19 +7,17 @@ import { MonthGoals } from '../components/Home/MonthGoals';
 import { DailyGoals } from '../components/Home/DayGoals';
 
 // Watch Hooks
-import { sendSongsToWatch, sendWorkoutTemplatesToWatch } from "../module/WatchManager";
+import { IS_WATCH_ENABLED, sendSongsToWatch, sendWorkoutTemplatesToWatch } from "../module/WatchManager";
 import { Icon } from 'react-native-elements';
 
 
 const HomePage = ({ navigation }) => {
   const theme = useTheme();
 
-  //COMMENT OUT FOR EXPO BUILDS (WATCH)
-
-  /*START
-  sendSongsToWatch();
-  sendWorkoutTemplatesToWatch();
-  END*/
+  if (IS_WATCH_ENABLED) {
+    sendSongsToWatch();
+    sendWorkoutTemplatesToWatch();
+  }
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
