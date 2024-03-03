@@ -1,13 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  SafeAreaView,
-  ScrollView,
-  Text,
-  Button,
-  View,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
+import { Text, View, TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { IntervalDeleteModal } from "../Workouts/IntervalDeleteModal";
@@ -16,7 +8,8 @@ import { useAppTheme } from "../../provider/PaperProvider";
 interface CheckboxProps {
   onPress?: () => void;
   onLongPress?: () => void;
-  value: boolean;
+  handleDelete?: (id: number) => void;
+  value?: boolean;
   title: string;
   id: number;
   subTitle: string;
@@ -28,6 +21,7 @@ interface CheckboxProps {
 export const Checkbox: React.FC<CheckboxProps> = ({
   onPress,
   onLongPress,
+  handleDelete,
   value,
   title,
   subTitle,
@@ -42,7 +36,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
-      if (focus) {
+      if (focus && deletable) {
         setShowDialog(true);
       }
     }, 400);
@@ -70,7 +64,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
           width: "100%",
           borderColor: value
             ? theme.colors.primary
-            : focus
+            : focus && deletable
             ? theme.colors.redPrimary
             : theme.colors.border,
           backgroundColor: theme.colors.previousBackground,
@@ -93,9 +87,10 @@ export const Checkbox: React.FC<CheckboxProps> = ({
               height: 20,
               width: 20,
               borderRadius: 2,
-              borderColor: focus
-                ? theme.colors.redPrimary
-                : theme.colors.primary,
+              borderColor:
+                focus && deletable
+                  ? theme.colors.redPrimary
+                  : theme.colors.primary,
               alignItems: "center",
               justifyContent: "center",
             }}
@@ -149,11 +144,14 @@ export const Checkbox: React.FC<CheckboxProps> = ({
               />
             </View>
           )}
-          <IntervalDeleteModal
-            visible={showDialog}
-            onDismiss={() => setShowDialog(false)}
-            intervalId={id}
-          />
+          {deletable && handleDelete && (
+            <IntervalDeleteModal
+              visible={showDialog}
+              onDismiss={() => setShowDialog(false)}
+              intervalId={id}
+              handleDelete={() => handleDelete(id)}
+            />
+          )}
         </View>
       </View>
     </TouchableOpacity>

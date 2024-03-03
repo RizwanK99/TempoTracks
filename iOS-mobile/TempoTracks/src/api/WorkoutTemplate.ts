@@ -81,28 +81,3 @@ export const useGetWorkoutTemplateById = (id: string) => {
     },
   });
 };
-
-/**
- * THIS PROB IS NOT NEEDED, WORKOUT INTERVALS SHOULD BE NEVER BE NEEDED ON THEIR OWN
- * WE SHOULD JOIN INTERVALS WITH THE OTHER "ACTUAL" DATA, i.e THE TEMPALTE
- */
-export const useGetWorkoutIntervals = (ids: number[]) => {
-  return useQuery({
-    queryKey: ["workout_intervals"],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("workout_intervals")
-        .select()
-        .in("id", ids);
-
-      console.log("ids", ids);
-
-      if (error) {
-        console.log("Error fetching workout intervals", error);
-        return null;
-      }
-      console.log(data);
-      return data;
-    },
-  });
-};

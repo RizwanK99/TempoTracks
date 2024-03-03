@@ -362,7 +362,7 @@ const WorkoutSummaryPage = ({ navigation, route }) => {
               }}
             >
               <Button
-                onPress={() => navigation.navigate("Workouts")}
+                onPress={() => navigation.navigate("WorkoutListPage")}
                 style={{
                   borderRadius: 4,
                   paddingVertical: 4,

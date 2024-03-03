@@ -16,6 +16,8 @@ import { useTimingEngine } from "../../hooks/useTimingEngine";
 import { MusicManager } from "../../module/MusicManager";
 import { Tables } from "../../lib/db.types";
 import { formatWorkoutIntervals } from "../../utils/formatWorkoutIntervals";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 interface TimeProps {
   value: number;
@@ -55,6 +57,18 @@ interface WorkoutInProgressDetailsProps {
   })[];
   numberOfSets: number;
   navigation: any;
+  totalSeconds: number;
+  seconds: number;
+  minutes: number;
+  hours: number;
+  reset: (
+    offsetTimestamp?: Date | undefined,
+    autoStart?: boolean | undefined
+  ) => void;
+  start: () => void;
+  pause: () => void;
+  paused: boolean;
+  togglePaused: () => void;
 }
 
 export const WorkoutInProgressDetails: React.FC<
@@ -65,25 +79,23 @@ export const WorkoutInProgressDetails: React.FC<
   templateIntervals,
   numberOfSets,
   navigation,
+  totalSeconds,
+  minutes,
+  seconds,
+  hours,
+  reset,
+  start,
+  pause,
+  paused,
+  togglePaused,
 }) => {
   const theme = useAppTheme();
   const { mutate: pauseWorkout } = usePauseWorkout();
   const { mutate: resumeWorkout } = useResumeWorkout();
   const { mutate: endWorkout } = useEndWorkout();
-  const [paused, setPaused] = useState<boolean>(false);
   const [calories, setCalories] = useState<number>(100);
   const [bpm, setBpm] = useState<number>(120);
   const [distance, setDistance] = useState<number>(5);
-  const {
-    totalSeconds,
-    seconds,
-    minutes,
-    hours,
-    isRunning,
-    start,
-    pause,
-    reset,
-  } = useStopwatch({ autoStart: true });
 
   const { startTimer, pauseTimer, endTimer } = useTimingEngine<number>({
     timingData: formatWorkoutIntervals({
@@ -192,107 +204,101 @@ export const WorkoutInProgressDetails: React.FC<
         <Stat unit="BPM" value={bpm} />
         <Stat unit="FT" value={distance} />
       </View>
-      <View style={{ flexDirection: "row", gap: 32, marginTop: "70%" }}>
+      <View style={{ flexDirection: "row", marginTop: "70%" }}>
         <View
           style={{
             flexDirection: "column",
-            width: "28%",
+            width: "50%",
             alignItems: "center",
             gap: 8,
           }}
         >
-          <PaperButton
+          <TouchableOpacity
             style={{
-              borderRadius: 24,
-              width: "100%",
-              height: 48,
+              width: "50%",
               backgroundColor: theme.colors.redPrimaryForeground,
-              opacity: 0.8,
-            }}
-            textColor={theme.colors.redPrimary}
-            labelStyle={{
-              fontSize: 36,
               justifyContent: "center",
               alignItems: "center",
-              alignContent: "center",
-              marginLeft: 4,
-              marginTop: 24,
+              borderRadius: 24,
+              padding: 4,
             }}
-            icon="stop"
             onPress={() => {
               //WatchManager.endWorkout(workoutId);
               handleWorkoutEnd();
             }}
           >
-            <Text style={{ color: theme.colors.text, fontSize: 22 }}>Stop</Text>
-          </PaperButton>
+            <MaterialCommunityIcons
+              name="stop"
+              size={38}
+              color={theme.colors.redPrimary}
+            />
+          </TouchableOpacity>
+          <Text style={{ color: theme.colors.text, fontSize: 20 }}>Stop</Text>
         </View>
         <View
           style={{
             flexDirection: "column",
-            width: "28%",
+            width: "50%",
             alignItems: "center",
             gap: 8,
           }}
         >
           {!paused ? (
-            <PaperButton
-              style={{
-                borderRadius: 24,
-                width: "100%",
-                height: 48,
-                backgroundColor: theme.colors.primaryForeground,
-              }}
-              textColor={theme.colors.primary}
-              labelStyle={{
-                fontSize: 36,
-                justifyContent: "center",
-                alignItems: "center",
-                alignContent: "center",
-                marginLeft: 4,
-                marginTop: 24,
-              }}
-              icon="pause"
-              onPress={() => {
-                //WatchManager.togglePauseWorkout(workoutId);
-                pauseWorkout(workoutId);
-                pause();
-                setPaused(true);
-              }}
-            >
-              <Text style={{ color: theme.colors.text, fontSize: 22 }}>
+            <>
+              <TouchableOpacity
+                style={{
+                  width: "50%",
+                  backgroundColor: theme.colors.primaryForeground,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: 24,
+                  padding: 4,
+                }}
+                onPress={() => {
+                  //WatchManager.togglePauseWorkout(workoutId);
+                  pauseWorkout(workoutId);
+                  pause();
+                  togglePaused();
+                }}
+              >
+                <MaterialCommunityIcons
+                  name="pause"
+                  size={38}
+                  color={theme.colors.primary}
+                />
+              </TouchableOpacity>
+              <Text style={{ color: theme.colors.text, fontSize: 20 }}>
                 Pause
               </Text>
-            </PaperButton>
+            </>
           ) : (
-            <PaperButton
-              style={{
-                borderRadius: 24,
-                width: "100%",
-                height: 48,
-                backgroundColor: theme.colors.primaryForeground,
-              }}
-              textColor={theme.colors.primary}
-              labelStyle={{
-                fontSize: 36,
-                justifyContent: "center",
-                alignItems: "center",
-                alignContent: "center",
-                marginLeft: 4,
-                marginTop: 24,
-              }}
-              icon="play"
-              onPress={() => {
-                //WatchManager.togglePauseWorkout(workoutId);
-                resumeWorkout(workoutId);
-                start();
-                setPaused(false);
-              }}
-            >
-              <Text style={{ color: theme.colors.text, fontSize: 22 }}>
+            <>
+              <TouchableOpacity
+                style={{
+                  width: "50%",
+                  backgroundColor: theme.colors.primaryForeground,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: 24,
+                  padding: 4,
+                }}
+                onPress={() => {
+                  //WatchManager.togglePauseWorkout(workoutId);
+                  resumeWorkout(workoutId);
+                  start();
+                  togglePaused();
+                }}
+              >
+                <MaterialCommunityIcons
+                  name="play"
+                  size={38}
+                  color={theme.colors.primary}
+                />
+              </TouchableOpacity>
+              <Text style={{ color: theme.colors.text, fontSize: 20 }}>
                 Resume
               </Text>
-            </PaperButton>
+            </>
           )}
         </View>
       </View>

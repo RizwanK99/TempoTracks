@@ -1,18 +1,19 @@
 import React, { useState } from "react";
 import { View, ScrollView } from "react-native";
 import { Modal, Portal, Text, Divider, Button, Menu } from "react-native-paper";
-import { useQueryClient } from "@tanstack/react-query";
 import { useToast } from "react-native-toast-notifications";
 import { TextInput } from "../Inputs/TextInput";
 import { NumberInput } from "../Inputs/NumberInput";
 import { useGetWorkoutIntensities } from "../../api/WorkoutIntensities";
-import { useCreateWorkoutInterval } from "../../api/WorkoutIntervals";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { useAppTheme } from "../../provider/PaperProvider";
+import { CheckboxDataProps } from "./CreateWorkoutTemplateForm";
 
 interface IntervalCreationModalProps {
   visible: boolean;
+  intervals: CheckboxDataProps[] | null;
+  setIntervals: (newInterval: CheckboxDataProps) => void;
   onDismiss: () => void;
 }
 
@@ -25,17 +26,17 @@ const VALIDATION_SCHEMA = yup.object({
 
 export const IntervalCreationModal: React.FC<IntervalCreationModalProps> = ({
   visible,
+  intervals,
   onDismiss,
+  setIntervals,
 }) => {
   const theme = useAppTheme();
   const toast = useToast();
-  const queryClient = useQueryClient();
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const openMenu = () => setMenuOpen(true);
   const closeMenu = () => setMenuOpen(false);
 
   const { data: intensities, isPending } = useGetWorkoutIntensities();
-  const createWorkoutInterval = useCreateWorkoutInterval();
 
   if (isPending) {
     return null;
@@ -60,32 +61,26 @@ export const IntervalCreationModal: React.FC<IntervalCreationModalProps> = ({
           initialValues={{
             name: "Custom Interval",
             intensity: 0,
-            tempo: 0,
             active: 0,
             rest: 0,
           }}
           onSubmit={(values) => {
-            createWorkoutInterval.mutate(
-              {
-                label: values.name,
-                tempo: values.intensity,
-                active: values.active,
-                rest: values.rest,
-                is_custom: true,
-              },
-              {
-                onSuccess: (data, variables) => {
-                  toast.show("Interval successfully created!", {
-                    type: "success",
-                    duration: 4000,
-                    animationType: "slide-in",
-                  });
-                  queryClient.invalidateQueries({
-                    queryKey: ["workoutIntervals"],
-                  });
-                },
-              }
-            );
+            setIntervals({
+              id: intervals ? intervals?.length + 1 : 1,
+              label: values.name,
+              intensity_id: Number(values.intensity),
+              active: Number(values.active),
+              rest: Number(values.rest),
+              isChecked: false,
+              isCustom: true,
+            });
+            setTimeout(() => {
+              toast.show("Interval successfully created!", {
+                type: "success",
+                duration: 4000,
+                animationType: "slide-in",
+              });
+            }, 500);
           }}
           validationSchema={VALIDATION_SCHEMA}
         >

@@ -30,8 +30,7 @@ import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import CustomCarousel from "../Workouts/CustomCarousel";
 import { IntensityVsTimeGraph } from "../Workouts/IntensityVsTimeGraph";
 import { useCreateWorkoutTemplate } from "../../api/WorkoutTemplate";
-import { useGetWorkoutTemplates } from "../../api/WorkoutTemplate";
-import { useGetWorkoutIntervals } from "../../api/WorkoutIntervals";
+import { useGetStaticWorkoutIntervals } from "../../api/WorkoutIntervals";
 import { useGetWorkoutIntensities } from "../../api/WorkoutIntensities";
 import { usePlaylists } from "../../api/Music";
 import * as yup from "yup";
@@ -39,6 +38,8 @@ import { useAppTheme } from "../../provider/PaperProvider";
 import { Tables } from "../../lib/db.types";
 import { BarChartPropsType } from "react-native-gifted-charts";
 import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
+import { useCreateWorkoutIntervals } from "../../api/WorkoutIntervals";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface CreateWorkoutTemplateFormProps {
   userId: string;
@@ -48,6 +49,11 @@ interface CreateWorkoutTemplateFormProps {
 interface StyledTextProps {
   fontSize?: number;
   text: string;
+}
+
+export interface CheckboxDataProps extends Tables<"static_workout_intervals"> {
+  isChecked: boolean;
+  isCustom: boolean;
 }
 
 export const StyledText: React.FC<StyledTextProps> = ({
@@ -86,12 +92,11 @@ export const CreateWorkoutTemplateForm: React.FC<
 > = ({ userId, navigation }) => {
   const theme = useAppTheme();
   const toast = useToast();
+  const queryClient = useQueryClient();
 
   // Select playlist
   const { data: playlists = [], isPending: loadingPlaylists } = usePlaylists();
-  const [carouselItem, setCarouselItem] = useState(0);
   const handleItemTap = (itemId: number, setFieldValue: Function) => {
-    setCarouselItem(itemId);
     setFieldValue("playlist_id", itemId);
     return itemId;
   };
@@ -116,7 +121,6 @@ export const CreateWorkoutTemplateForm: React.FC<
     { label: "Walking", value: "Walking", icon: "walk" },
     { label: "HIIT", value: "HIIT", icon: "timer" },
   ];
-  const icons = ["bike", "run", "walk", "timer"];
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
 
@@ -125,19 +129,26 @@ export const CreateWorkoutTemplateForm: React.FC<
     useState<boolean>(false);
 
   const { data: workoutIntervals, isPending: loadingWorkoutIntervals } =
-    useGetWorkoutIntervals();
+    useGetStaticWorkoutIntervals();
 
   const { data: workoutIntensities, isPending: loadingWorkoutIntensities } =
     useGetWorkoutIntensities();
 
-  const [intervals, setIntervals] = useState<
-    (Tables<"workout_intervals"> & { isChecked: boolean })[] | null
-  >(null);
+  const [intervals, setIntervals] = useState<CheckboxDataProps[] | null>(null);
+
+  const updateIntervals = (newInterval: CheckboxDataProps) => {
+    setIntervals([...(intervals || []), newInterval]);
+  };
+
+  const deleteInterval = (id: number) => {
+    setIntervals(intervals?.filter((interval) => interval.id !== id) || []);
+  };
   const checkboxes = useMemo(() => {
     if (!loadingWorkoutIntervals && workoutIntervals) {
       const modifiedData = workoutIntervals.map((interval) => ({
         ...interval,
         isChecked: false,
+        isCustom: false,
       }));
       setIntervals(modifiedData);
       return modifiedData;
@@ -180,45 +191,38 @@ export const CreateWorkoutTemplateForm: React.FC<
     drag,
     isActive,
     getIndex,
-  }: RenderItemParams<
-    Tables<"workout_intervals"> & { isChecked: boolean }
-  >) => {
+  }: RenderItemParams<CheckboxDataProps>) => {
     const index = getIndex?.() ?? 0 + 1;
     return (
       <Checkbox
         id={item.id}
         onLongPress={() => drag()}
         disabled={isActive}
-        onPress={() => console.log("puff")}
         title={item.label}
         subTitle={`${item.active} secs active, ${item.rest} secs rest`}
-        index={index}
-        value
+        index={index + 1}
       />
     );
   };
 
   const [numberOfSets, setNumberOfSets] = useState<number>(1);
-  const [inputtingSets, setInputtingSets] = useState<boolean>(false);
 
   // Bottom Sheet Modal tabs
   const [activeTab, setActiveTab] = useState(0);
   const handleIncrementActiveTab = () => {
     if (activeTab < 0) return;
     setActiveTab(activeTab + 1);
-    console.log(activeTab);
   };
 
   const handleDecrementActiveTab = () => {
     if (activeTab < 0) return;
     setActiveTab(activeTab - 1);
-    console.log(activeTab);
   };
 
   // Custom Interval modal controls
   const [start, setStart] = useState<boolean>(false);
-  const [save, setSave] = useState<boolean>(false);
   const createTemplate = useCreateWorkoutTemplate();
+  const createWorkoutIntervals = useCreateWorkoutIntervals();
 
   if (loadingPlaylists) {
     return null;
@@ -246,7 +250,7 @@ export const CreateWorkoutTemplateForm: React.FC<
     barData.push({
       value:
         workoutIntensities?.find(
-          (obj) => obj.id === compiledIntervalsForGraph[i].tempo
+          (obj) => obj.id === compiledIntervalsForGraph[i].intensity_id
         )?.tempo ?? -1,
       barWidth: compiledIntervalsForGraph[i].active,
       frontColor: theme.colors.bar,
@@ -303,35 +307,44 @@ export const CreateWorkoutTemplateForm: React.FC<
             },
             {
               onSuccess: (data) => {
-                toast.show("Workout successfully created!", {
-                  type: "success",
-                  duration: 4000,
-                  animationType: "slide-in",
-                });
-                if (start && data && data.length > 0) {
-                  navigation.navigate("StartOrCancelWorkoutPage", {
-                    templateId: data[0].id,
-                    playlistId: data[0].playlist_id,
-                    name: data[0].name,
-                    type: data[0].type,
+                if (data) {
+                  toast.show("Workout successfully created!", {
+                    type: "success",
+                    duration: 4000,
+                    animationType: "slide-in",
                   });
-                } else {
-                  navigation.navigate("Workouts");
+
+                  const intervalsWithTemplateId = ordering.map(
+                    ({ id, isCustom, isChecked, ...interval }, index) => ({
+                      ...interval,
+                      template_id: data[0].id,
+                      intensity_id: interval.intensity_id || 0,
+                      index: index,
+                    })
+                  );
+                  createWorkoutIntervals.mutate(intervalsWithTemplateId);
+
+                  queryClient.invalidateQueries({
+                    queryKey: ["workout_templates"],
+                  });
+
+                  if (start && data && data.length > 0) {
+                    navigation.navigate("StartOrCancelWorkoutPage", {
+                      templateId: data[0].id,
+                      playlistId: data[0].playlist_id,
+                      name: data[0].name,
+                      type: data[0].type,
+                    });
+                  } else {
+                    navigation.navigate("WorkoutListPage");
+                  }
                 }
               },
             }
           );
         }}
       >
-        {({
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          values,
-          setFieldValue,
-          isValid,
-          dirty,
-        }) => (
+        {({ handleChange, handleSubmit, values, setFieldValue, isValid }) => (
           <>
             <View
               style={{
@@ -488,8 +501,9 @@ export const CreateWorkoutTemplateForm: React.FC<
                               subTitle={`${interval.active} secs active, ${interval.rest} secs rest`}
                               onPress={() => handleCheckboxChange(interval.id)}
                               value={interval.isChecked}
-                              deletable={interval.is_custom}
+                              deletable={interval.isCustom}
                               id={interval.id}
+                              handleDelete={deleteInterval}
                             />
                           ))}
                       </View>
@@ -566,13 +580,9 @@ export const CreateWorkoutTemplateForm: React.FC<
                           data={ordering}
                           containerStyle={{ flex: 1 }}
                           renderItem={renderItem}
-                          keyExtractor={(item) => item.id.toString()}
+                          keyExtractor={(item, index) => index.toString()}
                           onDragEnd={({ data }) => {
                             setOrdering(data);
-                            console.log(
-                              "here is fucking data",
-                              data.map((d) => d.id.toString())
-                            );
                             setFieldValue(
                               "intervals",
                               data.map((d) => d.id.toString())
@@ -678,6 +688,8 @@ export const CreateWorkoutTemplateForm: React.FC<
               </BottomSheetModal>
               <View>
                 <IntervalCreationModal
+                  intervals={intervals}
+                  setIntervals={updateIntervals}
                   visible={customIntervalModal}
                   onDismiss={() => setCustomIntervalModal(false)}
                 />
@@ -733,7 +745,6 @@ export const CreateWorkoutTemplateForm: React.FC<
                   icon="content-save-outline"
                   disabled={start || !isValid}
                   onPress={() => {
-                    setSave(true);
                     handleSubmit();
                   }}
                 >
