@@ -28,6 +28,8 @@ export const DailyGoals = () => {
   return (
     <Card>
       <Card.Content>
+        <Button onPress={() => HealthManager.startWorkout()}>Start Workout</Button>
+        <Button onPress={() => HealthManager.endWorkout()}>End Workout</Button>
         <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
           <Text variant="headlineMedium" style={{ color: theme.colors.text, paddingHorizontal: 5 }}>Today's Progress</Text>
           <IconButton icon="pencil" size={20} onPress={showModal} />

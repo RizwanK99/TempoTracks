@@ -12,6 +12,7 @@ import React
 @objc(HealthManager)
 class HealthManager: NSObject {
   let healthStore = HKHealthStore()
+  var workoutSession = WorkoutSession()
   
   @objc
   func requestAuthorization(
@@ -119,15 +120,37 @@ class HealthManager: NSObject {
       healthStore.execute(query)
       
     }
-}
-
-@objc
-static func requiresMainQueueSetup() -> Bool {
-  return true
-}
-
-@objc
-func constantsToExport() -> [AnyHashable : Any]! {
-  return ["initialCount": 0]
-}
+  }
+  
+  @objc
+  func startWorkout(
+    _ resolve: @escaping RCTPromiseResolveBlock,
+    rejecter reject: @escaping RCTPromiseRejectBlock
+  ) -> Void {
+    Task {
+      //doesnt work
+      workoutSession.start()
+    }
+  }
+  
+  @objc
+  func endWorkout(
+    _ resolve: @escaping RCTPromiseResolveBlock,
+    rejecter reject: @escaping RCTPromiseRejectBlock
+  ) -> Void {
+    Task {
+      workoutSession.end()
+    }
+  }
+  
+  
+  @objc
+  static func requiresMainQueueSetup() -> Bool {
+    return true
+  }
+  
+  @objc
+  func constantsToExport() -> [AnyHashable : Any]! {
+    return ["initialCount": 0]
+  }
 }
