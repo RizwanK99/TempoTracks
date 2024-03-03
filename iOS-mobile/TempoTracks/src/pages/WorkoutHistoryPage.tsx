@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, SafeAreaView, ScrollView } from "react-native";
+import { View, SafeAreaView, ScrollView } from "react-native";
 import {
   Card,
   Searchbar,
@@ -36,7 +36,7 @@ const types = [
   { label: "HIIT", value: "HIIT", icon: "timer" },
 ];
 
-type WorkoutType = "Biking" | "HIIT" | "Walking" | "Running";
+export type WorkoutType = "Biking" | "HIIT" | "Walking" | "Running";
 
 interface ChipProps {
   selectedTypes: WorkoutType[];
@@ -127,7 +127,6 @@ const WorkoutHistoryPage = ({ navigation }) => {
       activeFilters.includes(workout.workout_type)
     );
     setFilteredData(filteredWorkouts);
-    console.log("filtered", filteredWorkouts);
   }, [activeFilters]);
 
   if (loadingCompletedWorkouts) {
@@ -278,10 +277,6 @@ const WorkoutCard = ({
       onPress={() =>
         navigation.navigate("WorkoutEndSummary", {
           workoutId: id,
-          workoutName: name,
-          workoutDuration: duration,
-          caloriesBurnt: caloriesBurnt,
-          workoutType: workoutType,
         })
       }
       mode="outlined"
@@ -369,25 +364,5 @@ const WorkoutCard = ({
     </Card>
   );
 };
-
-const styles = StyleSheet.create({
-  card: {
-    backgroundColor: "#222",
-    marginBottom: 16,
-    elevation: 4,
-    borderRadius: 8,
-  },
-  title: {
-    color: "#fff",
-    fontSize: 22,
-    marginBottom: 8,
-    fontWeight: "bold",
-  },
-  details: {
-    color: "#74B3CE",
-    fontSize: 16,
-    marginBottom: 4,
-  },
-});
 
 export default WorkoutHistoryPage;
