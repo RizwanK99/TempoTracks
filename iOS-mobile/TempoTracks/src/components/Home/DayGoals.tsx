@@ -39,9 +39,9 @@ export const DailyGoals = () => {
           <Card>
             <Card.Title title="Edit Daily Goals" titleVariant="titleLarge"></Card.Title>
             <Card.Content>
-              <TextInput label="Distance" value={goalData[0].Distance} onChangeText={setTextDist} keyboardType="numeric" dense style={{ marginBottom: 10 }} />
-              <TextInput label="Duration" value={goalData[0].Duration} onChangeText={setTextDur} keyboardType="numeric" dense style={{ marginBottom: 10 }} />
-              <TextInput label="Calories" value={goalData[0].Calories} onChangeText={setTextCal} keyboardType="numeric" dense />
+              <TextInput label="Distance" value={`${goalData[0].Distance}`} onChangeText={setTextDist} keyboardType="numeric" dense style={{ marginBottom: 10 }} />
+              <TextInput label="Duration" value={`${goalData[0].Duration}`} onChangeText={setTextDur} keyboardType="numeric" dense style={{ marginBottom: 10 }} />
+              <TextInput label="Calories" value={`${goalData[0].Calories}`} onChangeText={setTextCal} keyboardType="numeric" dense />
               <Button mode="elevated" style={{ marginTop: 10 }} onPress={hideModal}>Save</Button>
             </Card.Content>
           </Card>
@@ -52,7 +52,7 @@ export const DailyGoals = () => {
           <Text style={{ color: theme.colors.foregroundMuted }}>{goalData[0].Distance}</Text>
         </View>
         <View style={{ paddingHorizontal: 10 }}>
-          <ProgressBar progress={Math.round((goalData[0].Distance)/text_dist)} />
+          <ProgressBar progress={Number(Math.round((goalData[0].Distance)/text_dist))} />
         </View>
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
           <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>0</Text>
@@ -63,7 +63,7 @@ export const DailyGoals = () => {
           <Text style={{ color: theme.colors.foregroundMuted }}>{Math.round(goalData[0].Duration/60)}</Text>
         </View>
         <View style={{ paddingHorizontal: 10 }}>
-          <ProgressBar progress={Math.round(goalData[0].Duration/60)/text_dur} />
+          <ProgressBar progress={Number(Math.round(goalData[0].Duration/60)/text_dur)} />
         </View>
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
           <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>0</Text>
@@ -74,7 +74,7 @@ export const DailyGoals = () => {
           <Text style={{ color: theme.colors.foregroundMuted }}>{Math.round(goalData[0].Calories)}</Text>
         </View>
         <View style={{ paddingHorizontal: 10 }}>
-          <ProgressBar progress={Math.round(goalData[0].Calories)/text_cal} />
+          <ProgressBar progress={Number(Math.round(goalData[0].Calories)/text_cal)} />
         </View>
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
           <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>0</Text>
