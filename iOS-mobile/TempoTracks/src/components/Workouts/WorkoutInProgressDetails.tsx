@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from "react";
-import { SafeAreaView, Text, View } from "react-native";
+import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
 import { useTheme } from "react-native-paper";
-import { Button as PaperButton } from "react-native-paper";
+import { Button as PaperButton, IconButton } from "react-native-paper";
 import {
   usePauseWorkout,
   useResumeWorkout,
@@ -12,6 +12,7 @@ import { useStopwatch } from "react-timer-hook";
 // Watch Manager
 import { EventListener, WatchManager } from "../../module/WatchManager";
 import { useAppTheme } from "../../provider/PaperProvider";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 interface TimeProps {
   value: number;
@@ -171,31 +172,27 @@ export const WorkoutInProgressDetails: React.FC<
             gap: 8,
           }}
         >
-          <PaperButton
+          <TouchableOpacity
             style={{
-              borderRadius: 24,
-              width: "75%",
-              height: 50,
+              width: "50%",
               backgroundColor: theme.colors.redPrimaryForeground,
-              opacity: 0.8,
-            }}
-            textColor={theme.colors.redPrimary}
-            labelStyle={{
-              fontSize: 36,
               justifyContent: "center",
               alignItems: "center",
-              alignContent: "center",
-              marginLeft: 8,
-              marginTop: 16,
+              borderRadius: 24,
+              padding: 4,
             }}
-            icon="stop"
             onPress={() => {
               //WatchManager.endWorkout(workoutId);
               handleWorkoutEnd();
             }}
           >
-            <Text style={{ color: theme.colors.text, fontSize: 22 }}>Stop</Text>
-          </PaperButton>
+            <MaterialCommunityIcons
+              name="stop"
+              size={38}
+              color={theme.colors.redPrimary}
+            />
+          </TouchableOpacity>
+          <Text style={{ color: theme.colors.text, fontSize: 20 }}>Stop</Text>
         </View>
         <View
           style={{
@@ -206,63 +203,61 @@ export const WorkoutInProgressDetails: React.FC<
           }}
         >
           {!paused ? (
-            <PaperButton
-              style={{
-                borderRadius: 24,
-                width: "75%",
-                height: 50,
-                backgroundColor: theme.colors.primaryForeground,
-              }}
-              textColor={theme.colors.primary}
-              labelStyle={{
-                fontSize: 36,
-                justifyContent: "center",
-                alignItems: "center",
-                alignContent: "center",
-                marginLeft: 8,
-                marginTop: 16,
-              }}
-              icon="pause"
-              onPress={() => {
-                //WatchManager.togglePauseWorkout(workoutId);
-                pauseWorkout(workoutId);
-                pause();
-                setPaused(true);
-              }}
-            >
-              <Text style={{ color: theme.colors.text, fontSize: 22 }}>
+            <>
+              <TouchableOpacity
+                style={{
+                  width: "50%",
+                  backgroundColor: theme.colors.primaryForeground,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: 24,
+                  padding: 4,
+                }}
+                onPress={() => {
+                  //WatchManager.togglePauseWorkout(workoutId);
+                  pauseWorkout(workoutId);
+                  pause();
+                  setPaused(true);
+                }}
+              >
+                <MaterialCommunityIcons
+                  name="pause"
+                  size={38}
+                  color={theme.colors.primary}
+                />
+              </TouchableOpacity>
+              <Text style={{ color: theme.colors.text, fontSize: 20 }}>
                 Pause
               </Text>
-            </PaperButton>
+            </>
           ) : (
-            <PaperButton
-              style={{
-                borderRadius: 24,
-                width: "100%",
-                height: 48,
-                backgroundColor: theme.colors.primaryForeground,
-              }}
-              textColor={theme.colors.primary}
-              labelStyle={{
-                fontSize: 36,
-                justifyContent: "center",
-                alignItems: "center",
-                alignContent: "center",
-                marginLeft: 8,
-                marginTop: 16,
-              }}
-              icon="play"
-              onPress={() => {
-                //WatchManager.togglePauseWorkout(workoutId);
-                resumeWorkout(workoutId);
-                start();
-                setPaused(false);
-              }}
-            >
-              <Text style={{ color: theme.colors.text, fontSize: 22 }}>
+            <>
+              <TouchableOpacity
+                style={{
+                  width: "50%",
+                  backgroundColor: theme.colors.primaryForeground,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: 24,
+                  padding: 4,
+                }}
+                onPress={() => {
+                  //WatchManager.togglePauseWorkout(workoutId);
+                  resumeWorkout(workoutId);
+                  start();
+                  setPaused(false);
+                }}
+              >
+                <MaterialCommunityIcons
+                  name="play"
+                  size={38}
+                  color={theme.colors.primary}
+                />
+              </TouchableOpacity>
+              <Text style={{ color: theme.colors.text, fontSize: 20 }}>
                 Resume
               </Text>
-            </PaperButton>
+            </>
           )}
         </View>
       </View>
