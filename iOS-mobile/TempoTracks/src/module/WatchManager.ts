@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 
 import { useSongs } from '../api/Music';
 import { useGetWorkoutTemplates } from '../api/WorkoutTemplate';
+import {saved_user_data} from '../api/Globals'
 
 type GenericCallback = (...args: any[]) => void;
 
@@ -53,7 +54,7 @@ export const sendSongsToWatch = () => {
 };
 
 export const sendWorkoutTemplatesToWatch = () => {
-    const { data: templates, isSuccess } = useGetWorkoutTemplates("c51056f2-c58f-4994-99e0-32c36ef3758b");
+    const { data: templates, isSuccess } = useGetWorkoutTemplates(saved_user_data.user_id);
 
     useEffect(() => {
         if (isSuccess && templates) {

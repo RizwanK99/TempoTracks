@@ -15,6 +15,7 @@ import { useGetWorkoutTemplates } from "../api/WorkoutTemplate.ts";
 import { Tables } from "../lib/db.types.ts";
 import { useAppTheme } from "../provider/PaperProvider.tsx";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { saved_user_data } from "../api/Globals.ts";
 
 async function retrieveData(user, setUser) {
   try {
@@ -37,7 +38,7 @@ const WorkoutListPage = ({ navigation }) => {
     Tables<"workout_templates">[] | null
   >();
   const { data, error, isPending } = useGetWorkoutTemplates(
-    "c51056f2-c58f-4994-99e0-32c36ef3758b"
+    saved_user_data.user_id,
   );
 
   const [state, setState] = React.useState({ open: false });
