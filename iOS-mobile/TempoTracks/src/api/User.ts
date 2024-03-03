@@ -1,5 +1,6 @@
 import 'react-native-url-polyfill/auto'
 import { createClient } from "@supabase/supabase-js";
+import {saved_user_data} from './Globals';
 
 const supabase = createClient("https://kbgiqwyohojnejjlkwae.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtiZ2lxd3lvaG9qbmVqamxrd2FlIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODY2NzQyOTMsImV4cCI6MjAwMjI1MDI5M30.FSCqDJdjvsbpwNp2IJr1LFjtnUkXI-gzwKjJnrkc8JM");
 
@@ -63,6 +64,14 @@ async function userLogIn(email, password) {
     email: result.data.email,
     phone_number: result.data.phone_number,
   }
+
+  saved_user_data.user_id = user_data.user_id;
+  saved_user_data.first_name = user_data.first_name;
+  saved_user_data.last_name = user_data.last_name;
+  saved_user_data.username = user_data.username;
+  saved_user_data.email = user_data.email;
+  saved_user_data.phone_number = user_data.phone_number;
+  
   return user_data;
 }
 
