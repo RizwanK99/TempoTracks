@@ -1,7 +1,6 @@
 import React, { useState, useMemo } from "react";
 import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
 import { useTheme } from "react-native-paper";
-import { Button as PaperButton, IconButton } from "react-native-paper";
 import {
   usePauseWorkout,
   useResumeWorkout,
@@ -48,29 +47,43 @@ interface WorkoutInProgressDetailsProps {
   workoutId: string;
   templateId: string;
   navigation: any;
+  totalSeconds: number;
+  seconds: number;
+  minutes: number;
+  hours: number;
+  reset: (
+    offsetTimestamp?: Date | undefined,
+    autoStart?: boolean | undefined
+  ) => void;
+  start: () => void;
+  pause: () => void;
+  paused: boolean;
+  togglePaused: () => void;
 }
 
 export const WorkoutInProgressDetails: React.FC<
   WorkoutInProgressDetailsProps
-> = ({ workoutId, templateId, navigation }) => {
+> = ({
+  workoutId,
+  templateId,
+  navigation,
+  totalSeconds,
+  minutes,
+  seconds,
+  hours,
+  reset,
+  start,
+  pause,
+  paused,
+  togglePaused,
+}) => {
   const theme = useAppTheme();
   const { mutate: pauseWorkout } = usePauseWorkout();
   const { mutate: resumeWorkout } = useResumeWorkout();
   const { mutate: endWorkout } = useEndWorkout();
-  const [paused, setPaused] = useState<boolean>(false);
   const [calories, setCalories] = useState<number>(100);
   const [bpm, setBpm] = useState<number>(120);
   const [distance, setDistance] = useState<number>(5);
-  const {
-    totalSeconds,
-    seconds,
-    minutes,
-    hours,
-    isRunning,
-    start,
-    pause,
-    reset,
-  } = useStopwatch({ autoStart: true });
 
   // Needed since calling reset after mutation
   const duration = useMemo(() => {
@@ -217,7 +230,7 @@ export const WorkoutInProgressDetails: React.FC<
                   //WatchManager.togglePauseWorkout(workoutId);
                   pauseWorkout(workoutId);
                   pause();
-                  setPaused(true);
+                  togglePaused();
                 }}
               >
                 <MaterialCommunityIcons
@@ -245,7 +258,7 @@ export const WorkoutInProgressDetails: React.FC<
                   //WatchManager.togglePauseWorkout(workoutId);
                   resumeWorkout(workoutId);
                   start();
-                  setPaused(false);
+                  togglePaused();
                 }}
               >
                 <MaterialCommunityIcons
