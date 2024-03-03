@@ -1,12 +1,13 @@
 import React, { useState } from "react";
-import { SafeAreaView, Text, View } from "react-native";
+import { SafeAreaView } from "react-native";
 import { useTheme } from "react-native-paper";
 import { WorkoutInProgressDetails } from "../components/Workouts/WorkoutInProgressDetails";
 import { WorkoutInProgressSongPlayer } from "../components/Workouts/WorkoutInProgressSongPlayer";
 import type { ICarouselInstance } from "react-native-reanimated-carousel";
 import Carousel from "react-native-reanimated-carousel";
-import { useWindowDimensions, Dimensions } from "react-native";
+import { useWindowDimensions } from "react-native";
 import { useSharedValue } from "react-native-reanimated";
+import { useStopwatch } from "react-timer-hook";
 
 const WorkoutInProgressPage = ({ navigation, route }) => {
   const theme = useTheme();
@@ -18,6 +19,18 @@ const WorkoutInProgressPage = ({ navigation, route }) => {
   const [isPagingEnabled, setIsPagingEnabled] = React.useState(true);
   const ref = React.useRef<ICarouselInstance>(null);
   const [data, setData] = React.useState([...new Array(2).keys()]);
+
+  const {
+    totalSeconds,
+    seconds,
+    minutes,
+    hours,
+    isRunning,
+    start,
+    pause,
+    reset,
+  } = useStopwatch({ autoStart: true });
+  const [paused, setPaused] = useState<boolean>(false);
 
   const baseOptions = {
     vertical: false,
@@ -54,6 +67,15 @@ const WorkoutInProgressPage = ({ navigation, route }) => {
                 workoutId={workoutId}
                 templateId={templateId}
                 navigation={navigation}
+                totalSeconds={totalSeconds}
+                seconds={seconds}
+                minutes={minutes}
+                hours={hours}
+                start={start}
+                reset={reset}
+                pause={pause}
+                paused={paused}
+                togglePaused={() => setPaused(!paused)}
               />
             </SafeAreaView>
           ) : (
