@@ -3,27 +3,27 @@ import { View } from "react-native";
 import { Button, Card, Text, Divider, IconButton, ProgressBar, Portal, Modal, TextInput } from "react-native-paper";
 import { useAppTheme } from "../../provider/PaperProvider";
 import { HealthManager } from "../../module/HealthManager";
+import goalData from '../../../mocks/goal_data.json'
 
 export const DailyGoals = () => {
   const theme = useAppTheme();
   const [visible, setVisible] = React.useState(false);
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
-  const [text_dist, setTextDist] = React.useState("5");
-  const [text_dur, setTextDur] = React.useState("60");
-  const [text_cal, setTextCal] = React.useState("500");
+  const [text_dist, setTextDist] = React.useState("10");
+  const [text_dur, setTextDur] = React.useState("120");
+  const [text_cal, setTextCal] = React.useState("800");
 
   const [workoutData, setWorkoutData] = React.useState([])
 
   React.useEffect(() => {
     async function fetchData() {
-      const data = await HealthManager.getWorkoutData("Year"); //change to "Day"
+      const data = await HealthManager.getWorkoutData("Day");
       console.log(data);
-      setWorkoutData(JSON.parse(data)); //NOT WORKING FOR SOME REASON
+      setWorkoutData(JSON.parse(data));
     }
     fetchData();
   }, []);
-
 
   return (
     <Card>
@@ -39,9 +39,9 @@ export const DailyGoals = () => {
           <Card>
             <Card.Title title="Edit Daily Goals" titleVariant="titleLarge"></Card.Title>
             <Card.Content>
-              <TextInput label="Distance" value={text_dist} onChangeText={setTextDist} keyboardType="numeric" dense style={{ marginBottom: 10 }} />
-              <TextInput label="Duration" value={text_dur} onChangeText={setTextDur} keyboardType="numeric" dense style={{ marginBottom: 10 }} />
-              <TextInput label="Calories" value={text_cal} onChangeText={setTextCal} keyboardType="numeric" dense />
+              <TextInput label="Distance" value={goalData[0].Distance} onChangeText={setTextDist} keyboardType="numeric" dense style={{ marginBottom: 10 }} />
+              <TextInput label="Duration" value={goalData[0].Duration} onChangeText={setTextDur} keyboardType="numeric" dense style={{ marginBottom: 10 }} />
+              <TextInput label="Calories" value={goalData[0].Calories} onChangeText={setTextCal} keyboardType="numeric" dense />
               <Button mode="elevated" style={{ marginTop: 10 }} onPress={hideModal}>Save</Button>
             </Card.Content>
           </Card>
@@ -49,10 +49,10 @@ export const DailyGoals = () => {
       </Portal>
         <View style={{ flexDirection: "row", justifyContent: "flex-start", alignItems: "center" }}>
           <Button textColor={theme.colors.text} icon="map">Distance</Button>
-          <Text style={{ color: theme.colors.foregroundMuted }}>0</Text>
+          <Text style={{ color: theme.colors.foregroundMuted }}>{goalData[0].Distance}</Text>
         </View>
         <View style={{ paddingHorizontal: 10 }}>
-          <ProgressBar progress={0.7} />
+          <ProgressBar progress={Math.round((goalData[0].Distance)/text_dist)} />
         </View>
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
           <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>0</Text>
@@ -60,10 +60,10 @@ export const DailyGoals = () => {
         </View>
         <View style={{ flexDirection: "row", justifyContent: "flex-start", alignItems: "center" }}>
           <Button textColor={theme.colors.text} style={{ alignSelf: "flex-start" }} icon="terrain">Duration</Button>
-          <Text style={{ color: theme.colors.foregroundMuted }}>55 min</Text>
+          <Text style={{ color: theme.colors.foregroundMuted }}>{Math.round(goalData[0].Duration/60)}</Text>
         </View>
         <View style={{ paddingHorizontal: 10 }}>
-          <ProgressBar progress={0.9} />
+          <ProgressBar progress={Math.round(goalData[0].Duration/60)/text_dur} />
         </View>
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
           <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>0</Text>
@@ -71,10 +71,10 @@ export const DailyGoals = () => {
         </View>
         <View style={{ flexDirection: "row", justifyContent: "flex-start", alignItems: "center" }}>
           <Button textColor={theme.colors.text} style={{ alignSelf: "flex-start" }} icon="fire">Calories</Button>
-          <Text style={{ color: theme.colors.foregroundMuted }}>337</Text>
+          <Text style={{ color: theme.colors.foregroundMuted }}>{Math.round(goalData[0].Calories)}</Text>
         </View>
         <View style={{ paddingHorizontal: 10 }}>
-          <ProgressBar progress={0.8} />
+          <ProgressBar progress={Math.round(goalData[0].Calories)/text_cal} />
         </View>
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
           <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>0</Text>
