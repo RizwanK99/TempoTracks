@@ -28,7 +28,6 @@ import IndividualWorkoutTemplatePage from "./src/pages/IndividualWorkoutTemplate
 import StartOrCancelWorkoutPage from "./src/pages/StartOrCancelWorkoutPage";
 import CreateWorkoutPage from "./src/pages/CreateWorkoutPage";
 import WorkoutInProgressPage from "./src/pages/WorkoutInProgressPage";
-import WorkoutTrendsPage from "./src/pages/WorkoutTrendsPage";
 import WorkoutHistoryPage from "./src/pages/WorkoutHistoryPage";
 import UserPreferenceWorkoutPage from "./src/pages/UserPreferenceWorkoutPage";
 import WorkoutListPage from "./src/pages/WorkoutListPage";
@@ -257,7 +256,6 @@ function WorkoutsStack() {
         name="WorkoutInProgress"
         component={WorkoutInProgressPage}
       />
-      <Stack.Screen name="WorkoutTrends" component={WorkoutTrendsPage} />
       <Stack.Screen name="WorkoutHistoryPage" component={WorkoutHistoryPage} />
       <Stack.Screen name="WorkoutListPage" component={WorkoutListPage} />
       <Stack.Screen
