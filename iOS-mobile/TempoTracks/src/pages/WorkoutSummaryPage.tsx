@@ -291,9 +291,9 @@ const WorkoutSummaryPage = ({ navigation, route }) => {
                   units={unit}
                 />
                 <Divider />
-                <Stat label="Distance" value={distance} units="MI" />
+                <Stat label="Distance" value={distance} units="KM" />
                 <Divider />
-                <Stat label="Avg. Pace" value={`5'32"`} units="/MI" />
+                <Stat label="Avg. Pace" value={`5'32"`} units="/KM" />
               </View>
               <View style={{ flexDirection: "column", gap: 8, width: "50%" }}>
                 <Stat label="Total Calories" value={calories} units="cals" />

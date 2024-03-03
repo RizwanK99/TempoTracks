@@ -5,13 +5,16 @@ import { useCreateWorkout } from "../api/WorkoutsNew";
 import { CountDownTimer } from "../components/Workouts/CountDownTimer";
 
 // Watch Manager
-import { WatchManager } from "../module/WatchManager";
 import { useGetWorkoutTemplateById } from "../api/WorkoutTemplate";
 import { calculateSongQueue } from "../utils/calculateSongQueue";
 import { useSetAsyncStorageItem } from "../api/AsyncStorage";
 import { useSongs } from "../api/Music";
 import { MusicManager } from "../module/MusicManager";
 import { mapBpmToPlaybackRate } from "../utils/formatWorkoutIntervals";
+import { useQuery } from "@tanstack/react-query";
+import { saved_user_data } from "../api/Globals";
+// Watch Manager
+import { IS_WATCH_ENABLED, WatchManager } from "../module/WatchManager";
 
 const StartOrCancelWorkoutPage = ({ route, navigation }) => {
   const theme = useTheme();
@@ -47,7 +50,7 @@ const StartOrCancelWorkoutPage = ({ route, navigation }) => {
     console.log("Progress complete!");
     const createdWorkout = await createWorkout({
       // change this once we make hook for auth
-      user_id: "c51056f2-c58f-4994-99e0-32c36ef3758b",
+      user_id: saved_user_data.user_id,
       template_id: templateId,
       workout_name: template.name,
       workout_type: template.type,
@@ -111,10 +114,12 @@ const StartOrCancelWorkoutPage = ({ route, navigation }) => {
       )
     );
 
-    WatchManager.updateWorkoutId(
-      createdWorkout.workout_id,
-      createdWorkout.template_id
-    );
+    if (IS_WATCH_ENABLED) {
+      WatchManager.updateWorkoutId(
+        createdWorkout.workout_id,
+        createdWorkout.template_id
+      );
+    }
 
     navigation.navigate("WorkoutInProgress", {
       workoutId: createdWorkout.workout_id,

@@ -15,6 +15,7 @@ import { useGetWorkoutTemplates } from "../api/WorkoutTemplate.ts";
 import { Tables } from "../lib/db.types.ts";
 import { useAppTheme } from "../provider/PaperProvider.tsx";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { saved_user_data } from "../api/Globals.ts";
 
 async function retrieveData(user, setUser) {
   try {
@@ -37,7 +38,7 @@ const WorkoutListPage = ({ navigation }) => {
     Tables<"workout_templates">[] | null
   >();
   const { data, error, isPending } = useGetWorkoutTemplates(
-    "c51056f2-c58f-4994-99e0-32c36ef3758b"
+    saved_user_data.user_id
   );
 
   const [state, setState] = React.useState({ open: false });
@@ -86,7 +87,13 @@ const WorkoutListPage = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: theme.colors.background,
+        paddingBottom: 36,
+      }}
+    >
       <Appbar.Header
         mode="small"
         statusBarHeight={0}
@@ -203,6 +210,22 @@ const WorkoutListPage = ({ navigation }) => {
               </View>
             </TouchableOpacity>
           ))}
+          {filteredData?.length === 0 && searchQuery !== "" && (
+            <View
+              style={{
+                padding: 32,
+                marginTop: 48,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Text
+                style={{ color: theme.colors.foregroundMuted, fontSize: 16 }}
+              >
+                No results found
+              </Text>
+            </View>
+          )}
         </View>
       </ScrollView>
       <FAB.Group
@@ -210,25 +233,19 @@ const WorkoutListPage = ({ navigation }) => {
         style={{ paddingBottom: 3, position: "absolute" }}
         open={open}
         variant="surface"
-        icon={open ? "lightning-bolt" : "headphones"}
-        label={open ? "Start A New Workout" : ""}
+        icon={open ? "plus" : "dumbbell"}
+        label={open ? "Create Workout" : ""}
         actions={[
           {
-            icon: "plus",
-            label: "Create New Workout",
-            onPress: () => navigation.navigate("CreateWorkout"),
+            icon: "chart-timeline-variant",
+            label: "Workout Trends",
+            onPress: () => navigation.navigate("WorkoutTrendsPage"),
           },
-          // {
-          //   icon: 'chart-timeline-variant',
-          //   label: 'Workout Trends',
-          //   onPress: () => navigation.navigate("WorkoutTrends"),
-          // }
         ]}
         onStateChange={onStateChange}
         onPress={() => {
           if (open) {
-            // do something if the speed dial is open
-            navigation.navigate("WorkoutInProgress", { undefined });
+            navigation.navigate("CreateWorkout");
           }
         }}
       />

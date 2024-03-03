@@ -1,5 +1,6 @@
 import 'react-native-url-polyfill/auto'
 import { createClient } from "@supabase/supabase-js";
+import { saved_user_data } from './Globals';
 
 const supabase = createClient("https://kbgiqwyohojnejjlkwae.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtiZ2lxd3lvaG9qbmVqamxrd2FlIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODY2NzQyOTMsImV4cCI6MjAwMjI1MDI5M30.FSCqDJdjvsbpwNp2IJr1LFjtnUkXI-gzwKjJnrkc8JM");
 
@@ -9,7 +10,7 @@ async function signUpNewUser(email, password) {
     password: password,
   })
 
-  if (data){
+  if (data) {
     return data.user?.id
   }
 }
@@ -62,8 +63,37 @@ async function userLogIn(email, password) {
     username: result.data.username,
     email: result.data.email,
     phone_number: result.data.phone_number,
+    daily_distance_goal: result.data.daily_distance,
+    daily_calorie_goal: result.data.daily_calories,
+    daily_duration_goal: result.data.daily_duration,
   }
+
+  saved_user_data.user_id = user_data.user_id;
+  saved_user_data.first_name = user_data.first_name;
+  saved_user_data.last_name = user_data.last_name;
+  saved_user_data.username = user_data.username;
+  saved_user_data.email = user_data.email;
+  saved_user_data.phone_number = user_data.phone_number;
+  saved_user_data.daily_distance_goal = user_data.daily_distance_goal;
+  saved_user_data.daily_calorie_goal = user_data.daily_calorie_goal;
+  saved_user_data.daily_duration_goal = user_data.daily_duration_goal;
+
   return user_data;
 }
 
-export { createUser, userLogIn };
+async function updateGoals(
+  user_id,
+  daily_distance,
+  daily_calories,
+  daily_duration
+) {
+  const result = await supabase.from('users').update({
+    daily_distance: daily_distance,
+    daily_calories: daily_calories,
+    daily_duration: daily_duration,
+  }).eq('user_id', user_id).single();
+  console.log(result);
+  return result.data;
+}
+
+export { createUser, userLogIn, updateGoals };

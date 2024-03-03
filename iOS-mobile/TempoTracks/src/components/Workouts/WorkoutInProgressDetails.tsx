@@ -10,7 +10,11 @@ import {
 import { useStopwatch } from "react-timer-hook";
 
 // Watch Manager
-import { EventListener, WatchManager } from "../../module/WatchManager";
+import {
+  IS_WATCH_ENABLED,
+  EventListener,
+  WatchManager,
+} from "../../module/WatchManager";
 import { useAppTheme } from "../../provider/PaperProvider";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -108,51 +112,56 @@ export const WorkoutInProgressDetails: React.FC<
     });
   };
 
-  //COMMENT OUT FOR EXPO BUILDS (WATCH)
+  if (IS_WATCH_ENABLED) {
+    const [pauseEventData, setPauseEventData] = useState(null);
+    const [endEventData, setEndEventData] = useState(null);
 
-  /*START
-  const [pauseEventData, setPauseEventData] = useState(null);
-  const [endEventData, setEndEventData] = useState(null);
+    useEffect(() => {
+      if (EventListener.getCount("togglePauseWorkout") == 0) {
+        const unsubscribePause = EventListener.subscribe(
+          "togglePauseWorkout",
+          (data) => {
+            setPauseEventData(data);
+          }
+        );
+        const unsubscribeStop = EventListener.subscribe(
+          "endWorkout",
+          (data) => {
+            setEndEventData(data);
+          }
+        );
 
-  useEffect(() => {
-    if (EventListener.getCount('togglePauseWorkout') == 0){
-      const unsubscribePause = EventListener.subscribe('togglePauseWorkout', (data) => {
-        setPauseEventData(data);
-      });
-      const unsubscribeStop = EventListener.subscribe('endWorkout', (data) => {
-        setEndEventData(data);
-      });
+        return () => {
+          unsubscribePause();
+          unsubscribeStop();
+        };
+      }
 
-      return () => {
-        unsubscribePause();
-        unsubscribeStop();
-      };
-    }
+      return;
+    }, []);
 
-    return;
-  }, []);
+    useEffect(() => {
+      if (!pauseEventData) return;
 
-  useEffect(() => {
-    if (!pauseEventData) return;
+      if (pauseEventData == "true") {
+        pauseWorkout(workoutId);
+        pause();
+      } else {
+        resumeWorkout(workoutId);
+        start();
+      }
 
-    if (pauseEventData == "true") {
-      pauseWorkout(workoutId);
-      pause();
-      setPaused(true);
-    }
-    else {
-      resumeWorkout(workoutId);
-      start();
-      setPaused(false);
-    }
-  }, [pauseEventData])
+      togglePaused();
 
-  useEffect(() => {
-    if (!endEventData) return;
+      setPauseEventData(null);
+    }, [pauseEventData]);
 
-    handleWorkoutEnd();
-  }, [endEventData])
-  END*/
+    useEffect(() => {
+      if (!endEventData) return;
+
+      handleWorkoutEnd();
+    }, [endEventData]);
+  }
 
   return (
     <SafeAreaView
@@ -201,7 +210,9 @@ export const WorkoutInProgressDetails: React.FC<
               padding: 4,
             }}
             onPress={async () => {
-              //WatchManager.endWorkout(workoutId);
+              if (IS_WATCH_ENABLED) {
+                WatchManager.endWorkout(workoutId);
+              }
               console.log("ending workout");
               await timingEngine.endTimer();
               MusicManager.pause();
@@ -239,6 +250,9 @@ export const WorkoutInProgressDetails: React.FC<
                   //WatchManager.togglePauseWorkout(workoutId);
                   MusicManager.pause();
                   timingEngine.pauseTimer();
+                  if (IS_WATCH_ENABLED) {
+                    WatchManager.togglePauseWorkout(workoutId);
+                  }
                   pauseWorkout(workoutId);
                   pause();
                   togglePaused();
@@ -269,6 +283,9 @@ export const WorkoutInProgressDetails: React.FC<
                   //WatchManager.togglePauseWorkout(workoutId);
                   MusicManager.play();
                   timingEngine.startTimer();
+                  if (IS_WATCH_ENABLED) {
+                    WatchManager.togglePauseWorkout(workoutId);
+                  }
                   resumeWorkout(workoutId);
                   start();
                   togglePaused();

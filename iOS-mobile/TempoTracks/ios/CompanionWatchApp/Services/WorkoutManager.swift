@@ -134,11 +134,14 @@ class WorkoutManager: NSObject, ObservableObject {
     }
 
     func endWorkout(_ external: Bool) {
-        if !external {
+        if !external && selectedWorkout!.workout_id != nil {
           WatchConnectivityHandler.shared.send("endWorkout", selectedWorkout!.workout_id!)
         }
         
-        WatchConnectivityHandler.workoutViewModel.setWorkoutIdToNil(workout_id: selectedWorkout!.workout_id!)
+        if selectedWorkout!.workout_id != nil {
+          WatchConnectivityHandler.workoutViewModel.setWorkoutIdToNil(workout_id: selectedWorkout!.workout_id!)
+        }
+        
         pause()
         session?.end()
         showingSummaryView = true
@@ -239,7 +242,6 @@ extension WorkoutManager: HKWorkoutSessionDelegate {
     }
 
     func workoutSession(_ workoutSession: HKWorkoutSession, didFailWithError error: Error) {
-
     }
 }
 
