@@ -43,7 +43,7 @@ const PlayerControls = ({
           <AntDesignIcons name="forward" size={42} color="white" />
         </TouchableOpacity>
       </View>
-      <View style={styles.volumeContainer}>
+      {/* <View style={styles.volumeContainer}>
         <FontAwesomeIcons
           name="volume-off"
           size={24}
@@ -66,7 +66,7 @@ const PlayerControls = ({
           color="white"
           style={{ marginTop: 8 }}
         />
-      </View>
+      </View> */}
     </View>
   );
 };

@@ -77,8 +77,6 @@ export const CurrentSongForPlayer = ({
   const { data: songs } = useSongs();
   const { data: playerState } = usePlayerState({ songs });
 
-  console.log("playerState", playerState);
-
   if (!playerState?.currentSong) {
     return null;
   }

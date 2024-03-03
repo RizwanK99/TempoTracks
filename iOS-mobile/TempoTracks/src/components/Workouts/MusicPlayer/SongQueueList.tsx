@@ -1,12 +1,36 @@
 import { ScrollView, StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
-import { useAsyncStorageItem } from "../../../api/AsyncStorage";
+import {
+  useAsyncStorageItem,
+  useSetAsyncStorageItem,
+} from "../../../api/AsyncStorage";
 import { Tables } from "../../../lib/db.types";
 import { SongItem } from "../../Music/Library/SongList";
+import { usePlayerState, useSongs } from "../../../api/Music";
+import { useEffect } from "react";
 
 export const SongQueueList = () => {
-  const { data, isPending } =
+  const { data, isPending, refetch } =
     useAsyncStorageItem<Tables<"songs">[]>("music_queue");
+  const { mutateAsync: saveSongQueueToStorage } =
+    useSetAsyncStorageItem("music_queue");
+  const { data: songs } = useSongs();
+  const { data: playerState } = usePlayerState({ songs });
+
+  useEffect(() => {
+    if (playerState?.currentSong && data) {
+      const currentSongIndex = data.findIndex(
+        (song) =>
+          song.apple_music_id === playerState.currentSong?.apple_music_id
+      );
+
+      if (currentSongIndex > -1) {
+        const newQueue = data.slice(currentSongIndex + 1);
+        saveSongQueueToStorage(newQueue);
+        refetch();
+      }
+    }
+  }, [playerState?.currentSong]);
 
   if (isPending || !data) {
     return (

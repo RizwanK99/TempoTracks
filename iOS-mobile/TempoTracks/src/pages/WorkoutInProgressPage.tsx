@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { SafeAreaView } from "react-native";
 import { Text, useTheme } from "react-native-paper";
 import { WorkoutInProgressDetails } from "../components/Workouts/WorkoutInProgressDetails";
@@ -9,12 +9,31 @@ import { useWindowDimensions } from "react-native";
 import { useSharedValue } from "react-native-reanimated";
 import { useGetWorkoutTemplateById } from "../api/WorkoutTemplate";
 import { useStopwatch } from "react-timer-hook";
+import { useTimingEngine } from "../hooks/useTimingEngine";
+import { formatWorkoutIntervals } from "../utils/formatWorkoutIntervals";
+import { MusicManager } from "../module/MusicManager";
 
 const WorkoutInProgressPage = ({ navigation, route }) => {
   const theme = useTheme();
   const { workoutId, templateId, playlistId } = route.params;
 
   const { data: template, isPending } = useGetWorkoutTemplateById(templateId);
+
+  if (!template || isPending) {
+    return (
+      <SafeAreaView
+        style={{
+          flex: 1,
+          flexDirection: "column",
+          backgroundColor: theme.colors.background,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Text>Loading...</Text>
+      </SafeAreaView>
+    );
+  }
 
   const windowWidth = useWindowDimensions().width;
   const scrollOffsetValue = useSharedValue<number>(0);
@@ -34,6 +53,26 @@ const WorkoutInProgressPage = ({ navigation, route }) => {
     reset,
   } = useStopwatch({ autoStart: true });
   const [paused, setPaused] = useState<boolean>(false);
+
+  const formattedIntervals = useMemo(() => {
+    return formatWorkoutIntervals({
+      rawIntervals: template.workout_intervals,
+      numberOfSets: template.num_sets,
+    });
+  }, [template]);
+
+  const timingEngine = useTimingEngine<number>({
+    timingData: formattedIntervals,
+    autoStart: true,
+    resetToDefaultOnEnd: 1,
+    timeoutIdStorageKey: "music_timer",
+    callback: (data, isEnd) => {
+      if (!isEnd) {
+        MusicManager.changePlaybackRate(data);
+      }
+    },
+    onSuccess: () => console.log("reached end of workout"),
+  });
 
   const baseOptions = {
     vertical: false,
@@ -70,8 +109,7 @@ const WorkoutInProgressPage = ({ navigation, route }) => {
                 <WorkoutInProgressDetails
                   workoutId={workoutId}
                   templateId={templateId}
-                  templateIntervals={template.workout_intervals}
-                  numberOfSets={template.num_sets}
+                  timingEngine={timingEngine}
                   navigation={navigation}
                   totalSeconds={totalSeconds}
                   seconds={seconds}

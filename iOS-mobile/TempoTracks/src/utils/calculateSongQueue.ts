@@ -56,7 +56,7 @@ const ENERGY_SCORE_WEIGHTS = {
    */
   tempo: (num: number) => {
     // convert tempo to a value between 0 and 1 and multiply by weight
-    return (num / 100) * 1.5;
+    return (num / 100) * 25;
   },
 };
 
@@ -90,7 +90,10 @@ export const calculateSongQueue = (params: {
 
       intervals.push({
         tempo: Math.round(
-          interval.workout_intensities.tempo * REST_BPM_MULTIPLIER
+          ((interval.workout_intensities.bpm_lower_threshold +
+            interval.workout_intensities.bpm_upper_threshold) /
+            2) *
+            REST_BPM_MULTIPLIER
         ),
         duration: interval.rest,
       });
@@ -146,6 +149,14 @@ export const calculateSongQueue = (params: {
         return acc + Math.round(val.tempo * (val.duration / groupDuration));
       }, 0);
 
+      console.log(
+        "groupIntervals",
+        groupIntervals.map(
+          (i) => `tempo: ${i.tempo} | duration: ${i.duration}`
+        ),
+        weightedTempo
+      );
+
       return {
         intervalDuration: groupDuration,
         desiredTempo: weightedTempo,
@@ -186,7 +197,21 @@ export const calculateSongQueue = (params: {
       }
 
       // remove the song from the list of songs
-      const songToAdd = songsWithScores.splice(songIndex, 1)[0];
+      const songToAdd = (() => {
+        if (queue.length === 0) {
+          return songsWithScores.splice(songIndex, 1)[0];
+        } else {
+          const pastSong = queue[queue.length - 1];
+          if (
+            pastSong.apple_music_id ===
+            songsWithScores[songIndex].apple_music_id
+          ) {
+            return songsWithScores.splice(songIndex - 1, 1)[0];
+          } else {
+            return songsWithScores.splice(songIndex, 1)[0];
+          }
+        }
+      })();
       songs = songs.filter(
         (song) => song.apple_music_id !== songToAdd.apple_music_id
       );
@@ -233,6 +258,25 @@ const getNewSongsArray = (songs: Tables<"songs">[]) => {
   });
 };
 
+const calculateTempoScore = (desiredTempo: number, actualTempo: number) => {
+  // Calculate the absolute difference in tempo
+  const tempoDifference = Math.abs(desiredTempo - actualTempo);
+
+  // Define the maximum difference considered for scoring (e.g., a difference of 200 beats)
+  const maxDifference = 200;
+
+  // Normalize the difference to a scale of 0 to 1, where 0 means no difference and 1 means maximum difference considered
+  const normalizedDifference = Math.min(tempoDifference / maxDifference, 1);
+
+  // Use an exponential decay function to calculate the score
+  // Adjust the exponent base (e.g., 0.5) to control how quickly the score decreases
+  // The base of the exponent determines the shape of the decay curve
+  const score = Math.pow(1 - normalizedDifference, 2) * 100;
+
+  // Ensure the score is within the bounds [0, 100]
+  return Math.max(0, Math.min(score, 100));
+};
+
 const getNewSongWithScores = (params: {
   songs: (Tables<"songs"> & { energyScore: number })[];
   desiredTempo: number;
@@ -243,9 +287,9 @@ const getNewSongWithScores = (params: {
   const songsWithScores = songs
     .map((song) => {
       // want scores to be [0, 100]
-      const tempoScore =
-        100 -
-        Math.round((Math.abs(desiredTempo - song.tempo) / desiredTempo) * 100);
+      const tempoScore = calculateTempoScore(desiredTempo, song.tempo);
+      // 100 -
+      // Math.round((Math.abs(desiredTempo - song.tempo) / desiredTempo) * 100);
       const totalScore = song.energyScore * 3 + tempoScore;
       summedScores += totalScore;
 
@@ -256,6 +300,15 @@ const getNewSongWithScores = (params: {
       };
     })
     .sort((a, b) => b.totalScore - a.totalScore);
+
+  console.log(
+    "for desiredTempo",
+    desiredTempo,
+    "songsWithScores",
+    songsWithScores.map(
+      (s) => `${s.title} has tempo = ${s.tempo} | totalScore = ${s.totalScore} `
+    )
+  );
 
   return {
     songsWithScores,

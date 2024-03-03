@@ -11,6 +11,7 @@ import { calculateSongQueue } from "../utils/calculateSongQueue";
 import { useSetAsyncStorageItem } from "../api/AsyncStorage";
 import { useSongs } from "../api/Music";
 import { MusicManager } from "../module/MusicManager";
+import { mapBpmToPlaybackRate } from "../utils/formatWorkoutIntervals";
 
 const StartOrCancelWorkoutPage = ({ route, navigation }) => {
   const theme = useTheme();
@@ -83,6 +84,23 @@ const StartOrCancelWorkoutPage = ({ route, navigation }) => {
     // add songs to the queue and play
     await MusicManager.addSongsToQueue(songQueue.map((s) => s.apple_music_id));
     await MusicManager.play();
+
+    setTimeout(() => {
+      // set playback rate
+      if (template.workout_intervals.length > 0) {
+        const interval = template.workout_intervals[0];
+        MusicManager.changePlaybackRate(
+          mapBpmToPlaybackRate(
+            Math.round(
+              (interval.workout_intensities.bpm_lower_threshold +
+                interval.workout_intensities.bpm_upper_threshold) /
+                2
+            ),
+            false
+          )
+        );
+      }
+    }, 1000);
 
     console.log(
       "interval length vs queue length",

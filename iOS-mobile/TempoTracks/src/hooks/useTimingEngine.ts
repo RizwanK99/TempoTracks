@@ -1,12 +1,14 @@
-import { useState, useRef, useEffect } from "react";
-import {
-  useAsyncStorageItem,
-  useSetAsyncStorageItem,
-} from "../api/AsyncStorage";
+import { useRef, useEffect } from "react";
 
 interface TimingData<T> {
   duration: number;
   value: T;
+}
+
+export interface TimingEngineResult {
+  startTimer: () => Promise<void>;
+  pauseTimer: () => Promise<void>;
+  endTimer: () => Promise<void>;
 }
 
 export const useTimingEngine = <T>(params: {
@@ -14,9 +16,9 @@ export const useTimingEngine = <T>(params: {
   autoStart?: boolean;
   resetToDefaultOnEnd?: T;
   timeoutIdStorageKey: "music_timer";
-  callback: (val: T) => void;
+  callback: (val: T, isEnd: boolean) => void;
   onSuccess?: () => void;
-}) => {
+}): TimingEngineResult => {
   const { timingData, autoStart, resetToDefaultOnEnd, callback, onSuccess } =
     params;
 
@@ -25,16 +27,9 @@ export const useTimingEngine = <T>(params: {
   const lastActionTime = useRef<number | null>(null);
   const lastAction = useRef<"play" | "pause" | "end" | null>(null);
   const currentTimingDataIndex = useRef<number>(0);
-  const timerIdRef = useRef<string | null>(null);
+  const timerIdRef = useRef<NodeJS.Timeout | null>(null);
   const remainingTimeRef = useRef<number | null>(null);
   const initializedRef = useRef<boolean>(false);
-
-  const { data: storedTimerId } = useAsyncStorageItem<string>(
-    params.timeoutIdStorageKey
-  );
-  const { mutateAsync: setStoredTimerId } = useSetAsyncStorageItem(
-    params.timeoutIdStorageKey
-  );
 
   useEffect(() => {
     if (autoStart && !initializedRef.current) {
@@ -42,7 +37,9 @@ export const useTimingEngine = <T>(params: {
       startTimer();
     }
 
-    return endTimer();
+    return () => {
+      endTimer();
+    };
   }, []);
 
   // const isEndingRef = useRef<boolean>(false);
@@ -73,20 +70,20 @@ export const useTimingEngine = <T>(params: {
    * Internal function to handle refetching the stored timer id
    */
   const _handleRefetchStoredTimerId = async () => {
-    if (storedTimerId) {
-      if (timerIdRef.current !== storedTimerId) {
-        console.log("_handleRefetchStoredTimerId: updating timerIdRef");
-        timerIdRef.current = storedTimerId;
-      } else {
-        clearTimeout(storedTimerId);
-      }
-    }
+    // if (storedTimerId) {
+    //   if (timerIdRef.current !== storedTimerId) {
+    //     console.log("_handleRefetchStoredTimerId: updating timerIdRef");
+    //     timerIdRef.current = storedTimerId;
+    //   } else {
+    //     clearTimeout(storedTimerId);
+    //   }
+    // }
   };
 
   /**
    * Internal function to handle starting the timer
    */
-  const _handleStartTimer = (params: TimingData<T>) => {
+  const _handleStartTimer = async (params: TimingData<T>) => {
     const { duration, value } = params;
 
     // Keep track of last taken action
@@ -94,15 +91,14 @@ export const useTimingEngine = <T>(params: {
     lastActionTime.current = Date.now();
 
     console.log("_handleStartTimer: creating timer for duration", duration);
+    console.log("_handleStartTimer: setting value to", value);
+    console.log("_handleStartTimer: timerIdRef", timerIdRef.current);
+    callback(value, false);
 
-    return new Promise<void>((resolve) => {
-      timerIdRef.current = setTimeout(() => {
+    return new Promise<void>(async (resolve) => {
+      timerIdRef.current = setTimeout(async () => {
         // reset timeIdRef
         timerIdRef.current = null;
-        setStoredTimerId(null);
-
-        console.log("_handleStartTimer: setting value to", value);
-        callback(value);
 
         resolve();
         // if we reach the end of the timer, play next timing data item
@@ -115,8 +111,7 @@ export const useTimingEngine = <T>(params: {
           onSuccess?.();
           endTimer();
         }
-      }, duration).toString();
-      setStoredTimerId(timerIdRef.current.toString());
+      }, duration);
 
       console.log(
         "_handleStartTimer: setting timerIdRef to",
@@ -125,8 +120,8 @@ export const useTimingEngine = <T>(params: {
     });
   };
 
-  const startTimer = () => {
-    _handleRefetchStoredTimerId();
+  const startTimer = async () => {
+    await _handleRefetchStoredTimerId();
 
     if (timerIdRef.current) {
       console.log("Timer already started!");
@@ -152,7 +147,7 @@ export const useTimingEngine = <T>(params: {
     }
   };
 
-  const pauseTimer = () => {
+  const pauseTimer = async () => {
     _handleRefetchStoredTimerId();
 
     if (timerIdRef.current) {
@@ -182,15 +177,16 @@ export const useTimingEngine = <T>(params: {
     }
   };
 
-  const endTimer = () => {
-    _handleRefetchStoredTimerId();
+  const endTimer = async () => {
+    await _handleRefetchStoredTimerId();
 
+    console.log("endTimer: ending timer", timerIdRef.current?.toString());
     if (timerIdRef.current) {
       clearTimeout(timerIdRef.current);
     }
 
     if (!!resetToDefaultOnEnd) {
-      callback(resetToDefaultOnEnd);
+      callback(resetToDefaultOnEnd, true);
     }
 
     lastAction.current = "end";

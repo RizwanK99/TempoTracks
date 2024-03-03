@@ -1,6 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
 import { Slider } from "react-native-elements";
-import { ProgressBar } from "react-native-paper";
 
 interface Props {
   playbackTime: number;
@@ -18,6 +17,7 @@ export const SongDuration = ({ playbackTime, duration }: Props) => {
   return (
     <View style={styles.progressBarContainer}>
       <Slider
+        allowTouchTrack={false}
         style={styles.progressBar}
         value={playbackTime}
         minimumValue={0}
