@@ -230,20 +230,10 @@ const WorkoutListPage = ({ navigation }) => {
         label={open ? "Start A New Workout" : ""}
         actions={[
           {
-            icon: "bookmark",
-            label: "My Workouts",
-            onPress: () => navigation.navigate("WorkoutListPage"),
-          },
-          {
             icon: "plus",
             label: "Create New Workout",
             onPress: () => navigation.navigate("CreateWorkout"),
-          },
-          {
-            icon: "chart-timeline-variant",
-            label: "Workout Trends",
-            onPress: () => navigation.navigate("WorkoutTrends"),
-          },
+          }
         ]}
         onStateChange={onStateChange}
         onPress={() => {
