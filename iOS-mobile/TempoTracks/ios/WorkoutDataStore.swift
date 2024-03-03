@@ -9,8 +9,7 @@ import Foundation
 import HealthKit
 
 class WorkoutDataStore {
-  class func save(baseWorkout: BaseWorkout,
-                  workoutType: String) {
+  class func save(baseWorkout: BaseWorkout) {
     let healthStore = HKHealthStore()
     let workoutConfiguration = HKWorkoutConfiguration()
     workoutConfiguration.activityType = .other
@@ -45,7 +44,6 @@ class WorkoutDataStore {
         }
       }
     }
-    print(samples)
   }
   
   private class func samples(for workout: BaseWorkout) -> [HKSample] {
@@ -60,7 +58,7 @@ class WorkoutDataStore {
       let calorieQuantity = HKQuantity(unit: .kilocalorie(),
                                        doubleValue: interval.totalEnergyBurned)
       
-      return HKCumulativeQuantitySeriesSample(type: energyQuantityType,
+      return HKCumulativeQuantitySample(type: energyQuantityType,
                                                     quantity: calorieQuantity,
                                                     start: interval.start,
                                                     end: interval.end)

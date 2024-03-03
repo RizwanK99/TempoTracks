@@ -20,9 +20,12 @@ class WorkoutSession {
   var intervals: [BaseWorkoutInterval] = []
   var state: WorkoutSessionState = .notStarted
   
-  func start() {
+  private (set) var workoutType: String!
+  
+  func start(type: String) {
     startDate = Date()
     state = .active
+    workoutType = type
   }
   
   func end() {
@@ -49,6 +52,6 @@ class WorkoutSession {
       return nil
     }
     
-    return BaseWorkout(with: intervals)
+    return BaseWorkout(with: intervals, workoutType: workoutType)
   }
 }

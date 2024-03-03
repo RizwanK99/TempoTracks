@@ -128,8 +128,7 @@ class HealthManager: NSObject {
     rejecter reject: @escaping RCTPromiseRejectBlock
   ) -> Void {
     Task {
-      //doesnt work
-      workoutSession.start()
+      workoutSession.start(type: "Run")
     }
   }
   
@@ -140,6 +139,7 @@ class HealthManager: NSObject {
   ) -> Void {
     Task {
       workoutSession.end()
+      WorkoutDataStore.save(baseWorkout: workoutSession.completeWorkout!)
     }
   }
   

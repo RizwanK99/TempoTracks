@@ -31,11 +31,13 @@ struct BaseWorkout {
   var start: Date
   var end: Date
   var intervals: [BaseWorkoutInterval]
+  var type: String
   
-  init(with intervals: [BaseWorkoutInterval]) {
+  init(with intervals: [BaseWorkoutInterval], workoutType: String) {
     self.start = intervals.first!.start
     self.end = intervals.last!.end
     self.intervals = intervals
+    self.type = workoutType
   }
   
   var totalEnergyBurned: Double {
