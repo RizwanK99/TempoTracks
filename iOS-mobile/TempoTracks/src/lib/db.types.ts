@@ -379,6 +379,7 @@ export type Database = {
       }
       workouts: {
         Row: {
+          average_heart_rate: number | null
           created_at: string
           is_paused: boolean
           paused_at: string | null
@@ -398,6 +399,7 @@ export type Database = {
           workout_type: Database["public"]["Enums"]["workout_type"]
         }
         Insert: {
+          average_heart_rate?: number | null
           created_at?: string
           is_paused?: boolean
           paused_at?: string | null
@@ -417,6 +419,7 @@ export type Database = {
           workout_type: Database["public"]["Enums"]["workout_type"]
         }
         Update: {
+          average_heart_rate?: number | null
           created_at?: string
           is_paused?: boolean
           paused_at?: string | null
