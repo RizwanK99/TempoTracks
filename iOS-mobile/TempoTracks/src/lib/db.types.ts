@@ -207,6 +207,9 @@ export type Database = {
       users: {
         Row: {
           created_at: string
+          daily_calories: number | null
+          daily_distance: number | null
+          daily_duration: number | null
           email: string | null
           first_name: string | null
           height: number | null
@@ -214,9 +217,13 @@ export type Database = {
           phone_number: string | null
           user_id: string
           username: string | null
+          weight: number | null
         }
         Insert: {
           created_at?: string
+          daily_calories?: number | null
+          daily_distance?: number | null
+          daily_duration?: number | null
           email?: string | null
           first_name?: string | null
           height?: number | null
@@ -224,9 +231,13 @@ export type Database = {
           phone_number?: string | null
           user_id: string
           username?: string | null
+          weight?: number | null
         }
         Update: {
           created_at?: string
+          daily_calories?: number | null
+          daily_distance?: number | null
+          daily_duration?: number | null
           email?: string | null
           first_name?: string | null
           height?: number | null
@@ -234,6 +245,7 @@ export type Database = {
           phone_number?: string | null
           user_id?: string
           username?: string | null
+          weight?: number | null
         }
         Relationships: [
           {
@@ -379,6 +391,7 @@ export type Database = {
       }
       workouts: {
         Row: {
+          average_heart_rate: number | null
           created_at: string
           is_paused: boolean
           paused_at: string | null
@@ -398,6 +411,7 @@ export type Database = {
           workout_type: Database["public"]["Enums"]["workout_type"]
         }
         Insert: {
+          average_heart_rate?: number | null
           created_at?: string
           is_paused?: boolean
           paused_at?: string | null
@@ -417,6 +431,7 @@ export type Database = {
           workout_type: Database["public"]["Enums"]["workout_type"]
         }
         Update: {
+          average_heart_rate?: number | null
           created_at?: string
           is_paused?: boolean
           paused_at?: string | null

@@ -121,3 +121,21 @@ export const useGetWorkoutById = (workoutId: string) => {
     },
   });
 };
+
+export const useGetCompletedWorkouts = () => {
+  return useQuery({
+    queryKey: ["completedWorkouts"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("workouts")
+        .select()
+        .eq("status", "COMPLETED");
+
+      if (error) {
+        console.log("Error getting completed workouts", error);
+        return null;
+      }
+      return data;
+    },
+  });
+};
