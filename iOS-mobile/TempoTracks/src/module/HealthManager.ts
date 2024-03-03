@@ -4,7 +4,7 @@ export const HealthManager = {
   requestAuthorization: () => {
     return NativeModules.HealthManager.requestAuthorization();
   },
-  getWorkoutData: (timeFrame: String) => {
+  getWorkoutData: (timeFrame: "Day" | "Week" | "Month" | "Year") => {
     return NativeModules.HealthManager.getWorkoutData(timeFrame);
   },
 };
