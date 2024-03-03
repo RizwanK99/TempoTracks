@@ -160,7 +160,8 @@ export const CreateWorkoutTemplateForm: React.FC<
     setIntervals((prevState) =>
       prevState
         ? prevState.map((item) => {
-            if (item.id === id) {
+            if (item.id.toString() === id) {
+              // TODO: Fix this, i.e remove toString() and fix wahtever filtering this is
               return { ...item, isChecked: !item.isChecked };
             }
             return item;
@@ -499,7 +500,10 @@ export const CreateWorkoutTemplateForm: React.FC<
                               key={index}
                               title={interval.label}
                               subTitle={`${interval.active} secs active, ${interval.rest} secs rest`}
-                              onPress={() => handleCheckboxChange(interval.id)}
+                              onPress={
+                                () =>
+                                  handleCheckboxChange(interval.id.toString()) // TODO: this should be fixed as well
+                              }
                               value={interval.isChecked}
                               deletable={interval.isCustom}
                               id={interval.id}
