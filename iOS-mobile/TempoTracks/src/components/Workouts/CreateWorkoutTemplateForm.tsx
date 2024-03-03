@@ -241,7 +241,16 @@ export const CreateWorkoutTemplateForm: React.FC<
     checkedBoxes.forEach((item) => {
       totalSum += item.active + item.rest;
     });
-    return totalSum * numSets;
+    const totalDurationInSeconds = totalSum * numSets;
+
+    const totalMinutes = Math.floor(totalDurationInSeconds / 60);
+    const remainingSeconds = totalDurationInSeconds % 60;
+
+    return {
+      minutes: totalMinutes,
+      seconds: remainingSeconds,
+      totalDuration: totalDurationInSeconds,
+    };
   };
 
   const compiledIntervalsForGraph = copyListNTimes(ordering, numberOfSets);
@@ -298,7 +307,8 @@ export const CreateWorkoutTemplateForm: React.FC<
               name: values.name,
               user_id: userId,
               description: values.description,
-              expected_duration: calculateEstimatedDuration(values.num_sets),
+              expected_duration: calculateEstimatedDuration(values.num_sets)
+                .totalDuration,
               expected_distance: Number(values.expected_distance),
               type: values.type ? (values.type as any) : null,
               playlist_id: values.playlist_id,
@@ -636,7 +646,16 @@ export const CreateWorkoutTemplateForm: React.FC<
                       </View>
                       <Text style={{ color: theme.colors.foregroundMuted }}>
                         Total Duration:{" "}
-                        {calculateEstimatedDuration(numberOfSets)} seconds
+                        {calculateEstimatedDuration(numberOfSets).minutes !==
+                          0 &&
+                          `${
+                            calculateEstimatedDuration(numberOfSets).minutes
+                          } mins`}{" "}
+                        {calculateEstimatedDuration(numberOfSets).seconds !==
+                          0 &&
+                          `${
+                            calculateEstimatedDuration(numberOfSets).seconds
+                          } secs`}
                       </Text>
                     </View>
                     <View
