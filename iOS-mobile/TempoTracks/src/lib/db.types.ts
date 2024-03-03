@@ -131,6 +131,38 @@ export type Database = {
         }
         Relationships: []
       }
+      static_workout_intervals: {
+        Row: {
+          active: number
+          id: number
+          intensity_id: number | null
+          label: string
+          rest: number
+        }
+        Insert: {
+          active: number
+          id?: number
+          intensity_id?: number | null
+          label: string
+          rest: number
+        }
+        Update: {
+          active?: number
+          id?: number
+          intensity_id?: number | null
+          label?: string
+          rest?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_static_workout_intervals_tempo_fkey"
+            columns: ["intensity_id"]
+            isOneToOne: false
+            referencedRelation: "workout_intensities"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       user_settings: {
         Row: {
           auto_mix: number | null
@@ -215,25 +247,25 @@ export type Database = {
       }
       workout_intensities: {
         Row: {
-          bpm_lower_threshold: number | null
-          bpm_upper_threshold: number | null
+          bpm_lower_threshold: number
+          bpm_upper_threshold: number
           id: number
-          label: string | null
-          tempo: number | null
+          label: string
+          tempo: number
         }
         Insert: {
-          bpm_lower_threshold?: number | null
-          bpm_upper_threshold?: number | null
+          bpm_lower_threshold: number
+          bpm_upper_threshold: number
           id?: number
-          label?: string | null
-          tempo?: number | null
+          label: string
+          tempo: number
         }
         Update: {
-          bpm_lower_threshold?: number | null
-          bpm_upper_threshold?: number | null
+          bpm_lower_threshold?: number
+          bpm_upper_threshold?: number
           id?: number
-          label?: string | null
-          tempo?: number | null
+          label?: string
+          tempo?: number
         }
         Relationships: []
       }
@@ -241,46 +273,46 @@ export type Database = {
         Row: {
           active: number
           created_at: string
-          id: number
-          is_custom: boolean
+          id: string
+          index: number
+          intensity_id: number
           label: string
           rest: number
-          template_id: string | null
-          tempo: number
+          template_id: string
         }
         Insert: {
           active: number
           created_at?: string
-          id?: number
-          is_custom: boolean
+          id?: string
+          index: number
+          intensity_id: number
           label: string
           rest: number
-          template_id?: string | null
-          tempo: number
+          template_id?: string
         }
         Update: {
           active?: number
           created_at?: string
-          id?: number
-          is_custom?: boolean
+          id?: string
+          index?: number
+          intensity_id?: number
           label?: string
           rest?: number
-          template_id?: string | null
-          tempo?: number
+          template_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "public_workout_intervals_template_id_fkey"
-            columns: ["template_id"]
+            foreignKeyName: "public_workout_template_dup_intensity_id_fkey"
+            columns: ["intensity_id"]
             isOneToOne: false
-            referencedRelation: "workout_templates"
+            referencedRelation: "workout_intensities"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "public_workout_intervals_tempo_fkey"
-            columns: ["tempo"]
+            foreignKeyName: "public_workout_template_dup_template_id_fkey"
+            columns: ["template_id"]
             isOneToOne: false
-            referencedRelation: "workout_intensities"
+            referencedRelation: "workout_templates"
             referencedColumns: ["id"]
           }
         ]
@@ -296,7 +328,7 @@ export type Database = {
           last_completed: string | null
           name: string
           num_sets: number
-          playlist_id: string
+          playlist_id: string | null
           type: Database["public"]["Enums"]["workout_type"]
           user_id: string | null
         }
@@ -310,7 +342,7 @@ export type Database = {
           last_completed?: string | null
           name: string
           num_sets: number
-          playlist_id: string
+          playlist_id?: string | null
           type: Database["public"]["Enums"]["workout_type"]
           user_id?: string | null
         }
@@ -324,7 +356,7 @@ export type Database = {
           last_completed?: string | null
           name?: string
           num_sets?: number
-          playlist_id?: string
+          playlist_id?: string | null
           type?: Database["public"]["Enums"]["workout_type"]
           user_id?: string | null
         }
@@ -350,7 +382,7 @@ export type Database = {
           created_at: string
           is_paused: boolean
           paused_at: string | null
-          playlist_id: string
+          playlist_id: string | null
           status: Database["public"]["Enums"]["workout_status"]
           template_id: string
           time_end: string | null
@@ -369,7 +401,7 @@ export type Database = {
           created_at?: string
           is_paused?: boolean
           paused_at?: string | null
-          playlist_id: string
+          playlist_id?: string | null
           status: Database["public"]["Enums"]["workout_status"]
           template_id: string
           time_end?: string | null
@@ -388,7 +420,7 @@ export type Database = {
           created_at?: string
           is_paused?: boolean
           paused_at?: string | null
-          playlist_id?: string
+          playlist_id?: string | null
           status?: Database["public"]["Enums"]["workout_status"]
           template_id?: string
           time_end?: string | null

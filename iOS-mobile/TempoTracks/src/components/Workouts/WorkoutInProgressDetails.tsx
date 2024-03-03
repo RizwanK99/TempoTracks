@@ -162,11 +162,11 @@ export const WorkoutInProgressDetails: React.FC<
         <Stat unit="BPM" value={bpm} />
         <Stat unit="FT" value={distance} />
       </View>
-      <View style={{ flexDirection: "row", gap: 32, marginTop: "70%" }}>
+      <View style={{ flexDirection: "row", marginTop: "70%" }}>
         <View
           style={{
             flexDirection: "column",
-            width: "28%",
+            width: "50%",
             alignItems: "center",
             gap: 8,
           }}
@@ -174,8 +174,8 @@ export const WorkoutInProgressDetails: React.FC<
           <PaperButton
             style={{
               borderRadius: 24,
-              width: "100%",
-              height: 48,
+              width: "75%",
+              height: 50,
               backgroundColor: theme.colors.redPrimaryForeground,
               opacity: 0.8,
             }}
@@ -185,8 +185,8 @@ export const WorkoutInProgressDetails: React.FC<
               justifyContent: "center",
               alignItems: "center",
               alignContent: "center",
-              marginLeft: 4,
-              marginTop: 24,
+              marginLeft: 8,
+              marginTop: 16,
             }}
             icon="stop"
             onPress={() => {
@@ -200,7 +200,7 @@ export const WorkoutInProgressDetails: React.FC<
         <View
           style={{
             flexDirection: "column",
-            width: "28%",
+            width: "50%",
             alignItems: "center",
             gap: 8,
           }}
@@ -209,8 +209,8 @@ export const WorkoutInProgressDetails: React.FC<
             <PaperButton
               style={{
                 borderRadius: 24,
-                width: "100%",
-                height: 48,
+                width: "75%",
+                height: 50,
                 backgroundColor: theme.colors.primaryForeground,
               }}
               textColor={theme.colors.primary}
@@ -219,8 +219,8 @@ export const WorkoutInProgressDetails: React.FC<
                 justifyContent: "center",
                 alignItems: "center",
                 alignContent: "center",
-                marginLeft: 4,
-                marginTop: 24,
+                marginLeft: 8,
+                marginTop: 16,
               }}
               icon="pause"
               onPress={() => {
@@ -248,8 +248,8 @@ export const WorkoutInProgressDetails: React.FC<
                 justifyContent: "center",
                 alignItems: "center",
                 alignContent: "center",
-                marginLeft: 4,
-                marginTop: 24,
+                marginLeft: 8,
+                marginTop: 16,
               }}
               icon="play"
               onPress={() => {
