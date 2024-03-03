@@ -6,9 +6,9 @@ import { useAppTheme } from "../../provider/PaperProvider";
 
 interface IntervalDeleteModalProps {
   visible: boolean;
-  handleDelete: (id: string) => void;
+  handleDelete: (id: number) => void;
   onDismiss: () => void;
-  intervalId: string;
+  intervalId: number;
 }
 
 export const IntervalDeleteModal: React.FC<IntervalDeleteModalProps> = ({
