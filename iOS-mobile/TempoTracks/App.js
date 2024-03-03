@@ -41,7 +41,7 @@ import { PlaylistView } from "./src/components/Music/Playlist/PlaylistView";
 import { useCreateWorkout } from "./src/api/WorkoutsNew";
 
 //Watch Manager
-import { WatchManager, EventListener } from "./src/module/WatchManager";
+import { IS_WATCH_ENABLED, WatchManager, EventListener } from "./src/module/WatchManager";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -51,53 +51,62 @@ const getIsLoggedIn = () => {
 };
 
 function Root() {
-  //COMMENT OUT FOR EXPO BUILDS (WATCH)
+  if (IS_WATCH_ENABLED) {
+    const navigation = useNavigation();
+    const [eventData, setEventData] = useState(null);
+    const { mutateAsync: createWorkout } = useCreateWorkout();
 
-  /*START
-  const navigation = useNavigation();
-  const [eventData, setEventData] = useState(null);
-  const { mutateAsync: createWorkout } = useCreateWorkout();
-
-  useEffect(() => {
-    const unsubscribe = EventListener.subscribe('createWorkout', (data) => {
-      setEventData(data);
-    });
-
-    return unsubscribe;
-  }, []);
-
-  useEffect(() => {
-    let workout = "";
-
-    try {
-      workout = JSON.parse(eventData);
-    } catch (error) {
-      console.error("Error parsing JSON:", error);
-    }
-
-    const startWorkout = async (workout) => {
-      let createdWorkout = await createWorkout({
-        template_id: workout.id,
-        workout_name: workout.name,
-        workout_type: workout.type,
-        playlist_id: workout.playlist_id,
-        status: "IN_PROGRESS",
-        is_paused: false,
+    useEffect(() => {
+      const unsubscribe = EventListener.subscribe('createWorkout', (data) => {
+        setEventData(data);
       });
 
-      WatchManager.updateWorkoutId(createdWorkout[0].workout_id, createdWorkout[0].template_id);
+      return unsubscribe;
+    }, []);
 
-      navigation.navigate('WorkoutsStack', {
-        screen: 'WorkoutInProgress',
-        params: {
-          workoutId: createdWorkout[0].workout_id,
-        },
-      });
-    };
+    useEffect(() => {
+      if (!eventData) return;
+    
+      let workout = "";
 
-    startWorkout(workout);
-  }, [eventData]);
-  END*/
+      try {
+        workout = JSON.parse(eventData);
+      } catch (error) {
+        console.error("Error parsing JSON:", error);
+      }
+
+      const startWorkout = async (workout) => {
+        let createdWorkout = await createWorkout({
+          // change this once we make hook for auth
+          user_id: "c51056f2-c58f-4994-99e0-32c36ef3758b",
+          template_id: workout.id,
+          workout_name: workout.name,
+          workout_type: workout.type,
+          playlist_id: workout.playlist_id,
+          status: "IN_PROGRESS",
+          is_paused: false,
+          total_duration: 0,
+        });
+
+        print(createdWorkout[0])
+
+        WatchManager.updateWorkoutId(createdWorkout[0].workout_id, createdWorkout[0].template_id);
+
+        navigation.navigate('WorkoutsStack', {
+          screen: 'WorkoutInProgress',
+          params: {
+            workoutId: createdWorkout[0].workout_id,
+          },
+        });
+      };
+
+      startWorkout(workout);
+
+      setEventData(null);
+    }, [eventData]);
+
+
+  }
 
   return (
     <Tab.Navigator
