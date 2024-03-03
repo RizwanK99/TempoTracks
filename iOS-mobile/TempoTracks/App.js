@@ -3,7 +3,6 @@ import { Session } from "@supabase/supabase-js";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { AntDesign } from "@expo/vector-icons";
-import { ThemeProvider } from "@emotion/react";
 import { ToastProvider } from "react-native-toast-notifications";
 
 import { NavigationContainer } from "@react-navigation/native";
@@ -28,10 +27,10 @@ import StartOrCancelWorkoutPage from "./src/pages/StartOrCancelWorkoutPage";
 import CreateWorkoutPage from "./src/pages/CreateWorkoutPage";
 import WorkoutInProgressPage from "./src/pages/WorkoutInProgressPage";
 import WorkoutHistoryPage from "./src/pages/WorkoutHistoryPage";
-import UserPreferenceWorkoutPage from "./src/pages/UserPreferenceWorkoutPage";
 import WorkoutListPage from "./src/pages/WorkoutListPage";
 import WorkoutEndSummaryPage from "./src/pages/WorkoutEndSummaryPage";
 import WorkoutSummaryPage from "./src/pages/WorkoutSummaryPage";
+import WorkoutTrendsPage from "./src/pages/WorkoutTrendsPage";
 
 import { supabase } from "./src/lib/supabase";
 import { QueryProvider } from "./src/provider/QueryClientProvider";
@@ -124,9 +123,9 @@ function Root() {
           if (route.name === "HomeStack") {
             iconName = "home";
           } else if (route.name === "SettingsStack") {
-            iconName = "cog"
+            iconName = "cog";
           } else if (route.name === "MusicStack") {
-            iconName = "headphones"
+            iconName = "headphones";
           } else if (route.name === "WorkoutsStack") {
             iconName = "dumbbell";
           }
@@ -265,10 +264,6 @@ function WorkoutsStack() {
       <Stack.Screen name="WorkoutHistoryPage" component={WorkoutHistoryPage} />
       <Stack.Screen name="WorkoutListPage" component={WorkoutListPage} />
       <Stack.Screen
-        name="UserPreferenceWorkout"
-        component={UserPreferenceWorkoutPage}
-      />
-      <Stack.Screen
         name="WorkoutEndSummary"
         component={WorkoutEndSummaryPage}
       />
@@ -281,6 +276,7 @@ function WorkoutsStack() {
         component={StartOrCancelWorkoutPage}
       />
       <Stack.Screen name="WorkoutSummaryPage" component={WorkoutSummaryPage} />
+      <Stack.Screen name="WorkoutTrendsPage" component={WorkoutTrendsPage} />
     </Stack.Navigator>
   );
 }
