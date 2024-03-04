@@ -379,7 +379,7 @@ class MusicManager: NSObject {
               default:
                   return "Unknown"
               }
-          }() ?? "" as String
+          }() ?? "" as String,
       ] as [String:Any] : nil
     ] as [String:Any])
     }

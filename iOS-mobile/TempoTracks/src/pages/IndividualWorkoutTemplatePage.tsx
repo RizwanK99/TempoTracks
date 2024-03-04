@@ -199,9 +199,6 @@ const IndividualWorkoutTemplatePage = ({ route, navigation }) => {
                 onPress={() => {
                   navigation.navigate("StartOrCancelWorkoutPage", {
                     templateId: templateId,
-                    name: template.name,
-                    type: template.type,
-                    playlistId: template.playlist_id,
                   });
                 }}
               >

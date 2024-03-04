@@ -23,7 +23,13 @@ export const SongList = ({ songs }: Props) => {
   );
 };
 
-export const SongItem = ({ song }: { song: Tables<"songs"> }) => {
+export const SongItem = ({
+  song,
+  dontPlayOnClick = false,
+}: {
+  song: Tables<"songs">;
+  dontPlayOnClick?: boolean;
+}) => {
   const theme = useTheme();
 
   const playSong = (id: string) => {
@@ -34,7 +40,7 @@ export const SongItem = ({ song }: { song: Tables<"songs"> }) => {
     <TouchableRipple
       theme={theme}
       style={styles.container}
-      onPress={() => playSong(song.apple_music_id)}
+      onPress={() => (!!dontPlayOnClick ? {} : playSong(song.apple_music_id))}
     >
       <View style={styles.row}>
         <Image

@@ -1,6 +1,6 @@
 import { supabase } from "../lib/supabase";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { TablesInsert, Tables } from "../lib/db.types";
+import { Tables, TablesInsert } from "../lib/db.types";
 
 export const useCreateWorkoutTemplate = () => {
   return useMutation({

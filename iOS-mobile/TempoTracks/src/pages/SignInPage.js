@@ -121,7 +121,6 @@ const styles = StyleSheet.create({
   body: {
     fontSize: 26,
     color: "white",
-    fontWeight: 100,
   },
   buttonContainer: {
     width: "100%",

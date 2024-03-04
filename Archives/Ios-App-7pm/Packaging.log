@@ -1,0 +1,393 @@
+2024-03-04 00:16:29 +0000  Initial pipeline context: <IDEDistributionProcessingPipelineContext: 0x2c65b5b60; archive(resolved)="<IDEArchive: 0x60001c1eaa00>", distributionTask(resolved)="2", distributionDestination(resolved)="1", distributionMethod(resolved)="<IDEDistributionMethodDevelopmentSigned: 0x60000a7d6590>", team(resolved)="<IDEProvisioningDisambiguatableBasicTeam: 0x600003ab05c0; teamID='FG3F5G2D7L', teamName='Kuba Rogut', teamType='Individual', username='rogutkuba@gmail.com', isFreeProvisioningTeam='0'>">
+	Chain (14, self inclusive):
+	<IDEDistributionProcessingPipelineContext: 0x2c65b5b60; archive = "<IDEArchive: 0x60001c1eaa00>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x60000a7d6590>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x600003ab05c0; teamID='FG3F5G2D7L', teamName='Kuba Rogut', teamType='Individual', username='rogutkuba@gmail.com', isFreeProvisioningTeam='0'>">
+	<IDEDistributionProcessingPipelineContext: 0x2c5a21830; archive = "<IDEArchive: 0x60001c1eaa00>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x60000a7d6590>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x600003ab05c0; teamID='FG3F5G2D7L', teamName='Kuba Rogut', teamType='Individual', username='rogutkuba@gmail.com', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x124fd0630; archive = "<IDEArchive: 0x60001c1eaa00>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x60000a7d6590>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x600003ab05c0; teamID='FG3F5G2D7L', teamName='Kuba Rogut', teamType='Individual', username='rogutkuba@gmail.com', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x2c06d32d0; archive = "<IDEArchive: 0x60001c1eaa00>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x60000a7d6590>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x600003ab05c0; teamID='FG3F5G2D7L', teamName='Kuba Rogut', teamType='Individual', username='rogutkuba@gmail.com', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x2c5a24290; archive = "<IDEArchive: 0x60001c1eaa00>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x60000a7d6590>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x600003ab05c0; teamID='FG3F5G2D7L', teamName='Kuba Rogut', teamType='Individual', username='rogutkuba@gmail.com', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x2c5a24070; archive = "<IDEArchive: 0x60001c1eaa00>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x60000a7d6590>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x600003ab05c0; teamID='FG3F5G2D7L', teamName='Kuba Rogut', teamType='Individual', username='rogutkuba@gmail.com', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x2c5a27820; archive = "<IDEArchive: 0x60001c1eaa00>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x60000a7d6590>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x600003ab05c0; teamID='FG3F5G2D7L', teamName='Kuba Rogut', teamType='Individual', username='rogutkuba@gmail.com', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x2c5a27600; archive = "<IDEArchive: 0x60001c1eaa00>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x60000a7d6590>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x600003ab05c0; teamID='FG3F5G2D7L', teamName='Kuba Rogut', teamType='Individual', username='rogutkuba@gmail.com', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x2c6e30e70; archive = "<IDEArchive: 0x60001c1eaa00>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x60000a7d6590>", team="<IDEProvisioningDisambiguatableBasicTeam: 0x600003ab05c0; teamID='FG3F5G2D7L', teamName='Kuba Rogut', teamType='Individual', username='rogutkuba@gmail.com', isFreeProvisioningTeam='0'>">
+	<IDEDistributionContext: 0x2c6e309f0; archive = "<IDEArchive: 0x60001c1eaa00>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x60000a7d6590>", team="(null)">
+	<IDEDistributionContext: 0x2c5a2f830; archive = "<IDEArchive: 0x60001c1eaa00>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x60000a7d6590>", team="(null)">
+	<IDEDistributionContext: 0x2c5a58f30; archive = "<IDEArchive: 0x60001c1eaa00>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x60000a7d6590>", team="(null)">
+	<IDEDistributionContext: 0x2b4760000; archive = "<IDEArchive: 0x60001c1eaa00>", distributionMethod="<IDEDistributionMethodDevelopmentSigned: 0x60000a7d6590>", team="(null)">
+	<IDEDistributionContext: 0x2b477ae90; archive = "<IDEArchive: 0x60001c1eaa00>", distributionMethod="(null)", team="(null)">
+</IDEDistributionProcessingPipelineContext: 0x2c65b5b60>
+2024-03-04 00:16:29 +0000  Processing step: IDEDistributionCreateDestRootStep
+2024-03-04 00:16:29 +0000  Processing step: IDEDistributionCopyItemStep
+2024-03-04 00:16:29 +0000  Running /usr/bin/ditto '-V' '/Users/kubarogut/Library/Developer/Xcode/Archives/2024-03-03/Companion Watch App 2024-03-03, 7.14 PM.xcarchive/Products/Applications/TempoTracks.app' '/var/folders/_n/8sgdc5c506516vt964r9_wq40000gn/T/XcodeDistPipeline.~~~Kq8fva/Root/Payload/TempoTracks.app'
+2024-03-04 00:16:29 +0000  >>> Copying /Users/kubarogut/Library/Developer/Xcode/Archives/2024-03-03/Companion Watch App 2024-03-03, 7.14 PM.xcarchive/Products/Applications/TempoTracks.app 
+2024-03-04 00:16:29 +0000  copying file ./_CodeSignature/CodeResources ... 
+2024-03-04 00:16:29 +0000  16632 bytes for ./_CodeSignature/CodeResources
+2024-03-04 00:16:29 +0000  copying file ./SplashScreen.storyboardc/EXPO-VIEWCONTROLLER-1-view-EXPO-ContainerView.nib ... 
+2024-03-04 00:16:29 +0000  2242 bytes for ./SplashScreen.storyboardc/EXPO-VIEWCONTROLLER-1-view-EXPO-ContainerView.nib
+2024-03-04 00:16:29 +0000  copying file ./SplashScreen.storyboardc/SplashScreenViewController.nib ... 
+2024-03-04 00:16:29 +0000  976 bytes for ./SplashScreen.storyboardc/SplashScreenViewController.nib
+2024-03-04 00:16:29 +0000  copying file ./SplashScreen.storyboardc/Info.plist ... 
+2024-03-04 00:16:29 +0000  225 bytes for ./SplashScreen.storyboardc/Info.plist
+2024-03-04 00:16:29 +0000  copying file ./AccessibilityResources.bundle/en.lproj/Localizable.strings ... 
+2024-03-04 00:16:29 +0000  518 bytes for ./AccessibilityResources.bundle/en.lproj/Localizable.strings
+2024-03-04 00:16:29 +0000  copying file ./AccessibilityResources.bundle/Info.plist ... 
+2024-03-04 00:16:29 +0000  794 bytes for ./AccessibilityResources.bundle/Info.plist
+2024-03-04 00:16:29 +0000  copying file ./Assets.car ... 
+2024-03-04 00:16:29 +0000  35855 bytes for ./Assets.car
+2024-03-04 00:16:29 +0000  copying file ./TempoTracks ... 
+2024-03-04 00:16:29 +0000  5222784 bytes for ./TempoTracks
+2024-03-04 00:16:29 +0000  copying file ./main.jsbundle ... 
+2024-03-04 00:16:29 +0000  6856393 bytes for ./main.jsbundle
+2024-03-04 00:16:29 +0000  copying file ./EXConstants.bundle/app.config ... 
+2024-03-04 00:16:29 +0000  561 bytes for ./EXConstants.bundle/app.config
+copying file ./EXConstants.bundle/Info.plist ... 
+2024-03-04 00:16:29 +0000  769 bytes for ./EXConstants.bundle/Info.plist
+2024-03-04 00:16:29 +0000  copying file ./Watch/TempoTracks.app/_CodeSignature/CodeResources ... 
+2024-03-04 00:16:29 +0000  2183 bytes for ./Watch/TempoTracks.app/_CodeSignature/CodeResources
+2024-03-04 00:16:29 +0000  copying file ./Watch/TempoTracks.app/TempoTracks ... 
+2024-03-04 00:16:29 +0000  631936 bytes for ./Watch/TempoTracks.app/TempoTracks
+2024-03-04 00:16:29 +0000  copying file ./Watch/TempoTracks.app/embedded.mobileprovision ... 
+2024-03-04 00:16:29 +0000  18548 bytes for ./Watch/TempoTracks.app/embedded.mobileprovision
+2024-03-04 00:16:29 +0000  copying file ./Watch/TempoTracks.app/Info.plist ... 
+2024-03-04 00:16:29 +0000  1110 bytes for ./Watch/TempoTracks.app/Info.plist
+2024-03-04 00:16:29 +0000  copying file ./Watch/TempoTracks.app/PkgInfo ... 
+2024-03-04 00:16:29 +0000  8 bytes for ./Watch/TempoTracks.app/PkgInfo
+2024-03-04 00:16:29 +0000  copying file ./Frameworks/hermes.framework/_CodeSignature/CodeResources ... 
+2024-03-04 00:16:29 +0000  1798 bytes for ./Frameworks/hermes.framework/_CodeSignature/CodeResources
+2024-03-04 00:16:29 +0000  copying file ./Frameworks/hermes.framework/hermes ... 
+2024-03-04 00:16:29 +0000  3240384 bytes for ./Frameworks/hermes.framework/hermes
+2024-03-04 00:16:29 +0000  copying file ./Frameworks/hermes.framework/Info.plist ... 
+815 bytes for ./Frameworks/hermes.framework/Info.plist
+2024-03-04 00:16:29 +0000  copying file ./embedded.mobileprovision ... 
+2024-03-04 00:16:29 +0000  19211 bytes for ./embedded.mobileprovision
+2024-03-04 00:16:29 +0000  copying file ./assets/node_modules/react-native-ratings/dist/images/bell.png ... 
+2024-03-04 00:16:29 +0000  2989 bytes for ./assets/node_modules/react-native-ratings/dist/images/bell.png
+2024-03-04 00:16:29 +0000  copying file ./assets/node_modules/react-native-ratings/dist/images/airbnb-star-selected.png ... 
+2024-03-04 00:16:29 +0000  934 bytes for ./assets/node_modules/react-native-ratings/dist/images/airbnb-star-selected.png
+2024-03-04 00:16:29 +0000  copying file ./assets/node_modules/react-native-ratings/dist/images/heart.png ... 
+2024-03-04 00:16:29 +0000  1928 bytes for ./assets/node_modules/react-native-ratings/dist/images/heart.png
+2024-03-04 00:16:29 +0000  copying file ./assets/node_modules/react-native-ratings/dist/images/airbnb-star.png ... 
+2024-03-04 00:16:29 +0000  930 bytes for ./assets/node_modules/react-native-ratings/dist/images/airbnb-star.png
+2024-03-04 00:16:29 +0000  copying file ./assets/node_modules/react-native-ratings/dist/images/rocket.png ... 
+2024-03-04 00:16:29 +0000  4050 bytes for ./assets/node_modules/react-native-ratings/dist/images/rocket.png
+2024-03-04 00:16:29 +0000  copying file ./assets/node_modules/react-native-ratings/dist/images/star.png ... 
+2024-03-04 00:16:29 +0000  1961 bytes for ./assets/node_modules/react-native-ratings/dist/images/star.png
+2024-03-04 00:16:29 +0000  copying file ./assets/node_modules/@react-navigation/elements/src/assets/back-icon@3x.png ... 
+2024-03-04 00:16:29 +0000  761 bytes for ./assets/node_modules/@react-navigation/elements/src/assets/back-icon@3x.png
+2024-03-04 00:16:29 +0000  copying file ./assets/node_modules/@react-navigation/elements/src/assets/back-icon@2x.png ... 
+2024-03-04 00:16:29 +0000  405 bytes for ./assets/node_modules/@react-navigation/elements/src/assets/back-icon@2x.png
+2024-03-04 00:16:29 +0000  copying file ./assets/node_modules/@react-navigation/elements/src/assets/back-icon.png ... 
+2024-03-04 00:16:29 +0000  290 bytes for ./assets/node_modules/@react-navigation/elements/src/assets/back-icon.png
+copying file ./assets/node_modules/@react-navigation/elements/src/assets/back-icon-mask.png ... 
+2024-03-04 00:16:29 +0000  913 bytes for ./assets/node_modules/@react-navigation/elements/src/assets/back-icon-mask.png
+2024-03-04 00:16:29 +0000  copying file ./assets/node_modules/react-native-paper/src/assets/back-chevron.png ... 
+2024-03-04 00:16:29 +0000  489 bytes for ./assets/node_modules/react-native-paper/src/assets/back-chevron.png
+2024-03-04 00:16:29 +0000  copying file ./assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Fontisto.ttf ... 
+2024-03-04 00:16:29 +0000  313528 bytes for ./assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Fontisto.ttf
+2024-03-04 00:16:29 +0000  copying file ./assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Octicons.ttf ... 
+2024-03-04 00:16:29 +0000  49404 bytes for ./assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Octicons.ttf
+2024-03-04 00:16:29 +0000  copying file ./assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Feather.ttf ... 
+2024-03-04 00:16:29 +0000  56228 bytes for ./assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Feather.ttf
+2024-03-04 00:16:29 +0000  copying file ./assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Entypo.ttf ... 
+2024-03-04 00:16:29 +0000  66200 bytes for ./assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Entypo.ttf
+2024-03-04 00:16:29 +0000  copying file ./assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf ... 
+2024-03-04 00:16:29 +0000  134040 bytes for ./assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf
+2024-03-04 00:16:29 +0000  copying file ./assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf ... 
+2024-03-04 00:16:29 +0000  1147844 bytes for ./assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf
+2024-03-04 00:16:29 +0000  copying file ./assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/AntDesign.ttf ... 
+2024-03-04 00:16:29 +0000  70344 bytes for ./assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/AntDesign.ttf
+2024-03-04 00:16:29 +0000  copying file ./assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Foundation.ttf ... 
+2024-03-04 00:16:29 +0000  56976 bytes for ./assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Foundation.ttf
+2024-03-04 00:16:29 +0000  copying file ./assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Ionicons.ttf ... 
+2024-03-04 00:16:29 +0000  247192 bytes for ./assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Ionicons.ttf
+2024-03-04 00:16:29 +0000  copying file ./assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf ... 
+2024-03-04 00:16:29 +0000  202744 bytes for ./assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf
+2024-03-04 00:16:29 +0000  copying file ./assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf ... 
+2024-03-04 00:16:29 +0000  33736 bytes for ./assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf
+2024-03-04 00:16:29 +0000  copying file ./assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/FontAwesome.ttf ... 
+2024-03-04 00:16:29 +0000  165548 bytes for ./assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/FontAwesome.ttf
+2024-03-04 00:16:29 +0000  copying file ./assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Zocial.ttf ... 
+2024-03-04 00:16:29 +0000  25788 bytes for ./assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Zocial.ttf
+2024-03-04 00:16:29 +0000  copying file ./assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/EvilIcons.ttf ... 
+2024-03-04 00:16:29 +0000  13456 bytes for ./assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/EvilIcons.ttf
+2024-03-04 00:16:29 +0000  copying file ./assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/SimpleLineIcons.ttf ... 
+2024-03-04 00:16:29 +0000  54056 bytes for ./assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/SimpleLineIcons.ttf
+2024-03-04 00:16:29 +0000  copying file ./assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/MaterialIcons.ttf ... 
+2024-03-04 00:16:29 +0000  230384 bytes for ./assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/MaterialIcons.ttf
+2024-03-04 00:16:29 +0000  copying file ./Info.plist ... 
+2024-03-04 00:16:29 +0000  1657 bytes for ./Info.plist
+2024-03-04 00:16:29 +0000  copying file ./Expo.plist ... 
+2024-03-04 00:16:29 +0000  133 bytes for ./Expo.plist
+2024-03-04 00:16:29 +0000  copying file ./PkgInfo ... 
+2024-03-04 00:16:29 +0000  8 bytes for ./PkgInfo
+2024-03-04 00:16:29 +0000  /usr/bin/ditto exited with 0
+2024-03-04 00:16:29 +0000  Processing step: IDEDistributionEmbedProfileStep
+2024-03-04 00:16:29 +0000  Skipping profile for item: <IDEDistributionItem: 0x60001c1e6d60; bundleID='dev.hermesengine.iphoneos', path='<DVTFilePath:0x600010e3aae0:'/Users/kubarogut/Library/Developer/Xcode/Archives/2024-03-03/Companion Watch App 2024-03-03, 7.14 PM.xcarchive/Products/Applications/TempoTracks.app/Frameworks/hermes.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x6000185c81e0; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x600005148630; name='Apple Development: rogutkuba@gmail.com (BQWDK52L8M)', hash='29051E252827DB42EB4D62569A5FFB83EB71C396', serialNumber='15ADDDC8F31C9BA997539D1B3AFB8AD7', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2023-07-24 17:57:00 +0000''>', entitlements='(null)', teamID='FG3F5G2D7L', identifier='dev.hermesengine.iphoneos', executablePath='<DVTFilePath:0x600018f96b80:'/Users/kubarogut/Library/Developer/Xcode/Archives/2024-03-03/Companion Watch App 2024-03-03, 7.14 PM.xcarchive/Products/Applications/TempoTracks.app/Frameworks/hermes.framework/hermes'>', hardenedRuntime='0'>'>
+2024-03-04 00:16:29 +0000  Processing step: IDEDistributionInfoPlistStep
+2024-03-04 00:16:29 +0000  Skipping step: IDEDistributionInfoPlistStep because it said so
+2024-03-04 00:16:29 +0000  Skipping step: IDEDistributionInfoPlistStep because it said so
+2024-03-04 00:16:29 +0000  Skipping step: IDEDistributionInfoPlistStep because it said so
+2024-03-04 00:16:29 +0000  Processing step: IDEDistributionAppThinningPlistStep
+2024-03-04 00:16:29 +0000  Skipping step: IDEDistributionAppThinningPlistStep because it said so
+2024-03-04 00:16:29 +0000  Processing step: IDEDistributionCompileBitcodeStep
+2024-03-04 00:16:29 +0000  Skipping step: IDEDistributionCompileBitcodeStep because it said so
+2024-03-04 00:16:29 +0000  Processing step: IDEDistributionCodeSlimmingStep
+2024-03-04 00:16:29 +0000  Processing step: IDEDistributionCopyBCSymbolMapsStep
+2024-03-04 00:16:29 +0000  Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
+2024-03-04 00:16:29 +0000  Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
+2024-03-04 00:16:29 +0000  Skipping step: IDEDistributionCopyBCSymbolMapsStep because it said so
+2024-03-04 00:16:29 +0000  Processing step: IDEDistributionSymbolsStep
+2024-03-04 00:16:29 +0000  Skipping step: IDEDistributionSymbolsStep because it said so
+2024-03-04 00:16:29 +0000  Skipping step: IDEDistributionSymbolsStep because it said so
+2024-03-04 00:16:29 +0000  Skipping step: IDEDistributionSymbolsStep because it said so
+2024-03-04 00:16:29 +0000  Processing step: IDEDistributionAppThinningStep
+2024-03-04 00:16:29 +0000  Skipping step: IDEDistributionAppThinningStep because it said so
+2024-03-04 00:16:29 +0000  Processing step: IDEDistributionArchThinningStep
+2024-03-04 00:16:29 +0000  Running /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo '/var/folders/_n/8sgdc5c506516vt964r9_wq40000gn/T/XcodeDistPipeline.~~~Kq8fva/Root/Payload/TempoTracks.app/Frameworks/hermes.framework/hermes' '-verify_arch' 'arm64e'
+2024-03-04 00:16:29 +0000  /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo exited with 1
+2024-03-04 00:16:29 +0000  Skipping architecture thinning for item "hermes" because arch "arm64e" wasn't found
+2024-03-04 00:16:29 +0000  Running /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo '/var/folders/_n/8sgdc5c506516vt964r9_wq40000gn/T/XcodeDistPipeline.~~~Kq8fva/Root/Payload/TempoTracks.app/Watch/TempoTracks.app/TempoTracks' '-verify_arch' 'arm64e'
+2024-03-04 00:16:29 +0000  /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo exited with 1
+2024-03-04 00:16:29 +0000  Skipping architecture thinning for item "TempoTracks" because arch "arm64e" wasn't found
+2024-03-04 00:16:29 +0000  Running /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo '/var/folders/_n/8sgdc5c506516vt964r9_wq40000gn/T/XcodeDistPipeline.~~~Kq8fva/Root/Payload/TempoTracks.app/TempoTracks' '-verify_arch' 'arm64e'
+2024-03-04 00:16:29 +0000  /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo exited with 1
+2024-03-04 00:16:29 +0000  Skipping architecture thinning for item "TempoTracks" because arch "arm64e" wasn't found
+2024-03-04 00:16:29 +0000  Processing step: IDEDistributionODRStep
+2024-03-04 00:16:29 +0000  Processing step: IDEDistributionStripXattrsStep
+2024-03-04 00:16:29 +0000  Skipping stripping extended attributes of item: <IDEDistributionItem: 0x60001c1e6d60; bundleID='dev.hermesengine.iphoneos', path='<DVTFilePath:0x600010e3aae0:'/Users/kubarogut/Library/Developer/Xcode/Archives/2024-03-03/Companion Watch App 2024-03-03, 7.14 PM.xcarchive/Products/Applications/TempoTracks.app/Frameworks/hermes.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x6000185c81e0; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x600005148630; name='Apple Development: rogutkuba@gmail.com (BQWDK52L8M)', hash='29051E252827DB42EB4D62569A5FFB83EB71C396', serialNumber='15ADDDC8F31C9BA997539D1B3AFB8AD7', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2023-07-24 17:57:00 +0000''>', entitlements='(null)', teamID='FG3F5G2D7L', identifier='dev.hermesengine.iphoneos', executablePath='<DVTFilePath:0x600018f96b80:'/Users/kubarogut/Library/Developer/Xcode/Archives/2024-03-03/Companion Watch App 2024-03-03, 7.14 PM.xcarchive/Products/Applications/TempoTracks.app/Frameworks/hermes.framework/hermes'>', hardenedRuntime='0'>'>
+2024-03-04 00:16:29 +0000  Skipping stripping extended attributes of item: <IDEDistributionItem: 0x60001c1e4f60; bundleID='org.name.TempoTracks.watchkitapp', path='<DVTFilePath:0x600010ee5260:'/Users/kubarogut/Library/Developer/Xcode/Archives/2024-03-03/Companion Watch App 2024-03-03, 7.14 PM.xcarchive/Products/Applications/TempoTracks.app/Watch/TempoTracks.app'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x600010344000; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x600005148630; name='Apple Development: rogutkuba@gmail.com (BQWDK52L8M)', hash='29051E252827DB42EB4D62569A5FFB83EB71C396', serialNumber='15ADDDC8F31C9BA997539D1B3AFB8AD7', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2023-07-24 17:57:00 +0000''>', entitlements='{
+    "application-identifier" = "FG3F5G2D7L.org.name.TempoTracks.watchkitapp";
+    "com.apple.developer.team-identifier" = FG3F5G2D7L;
+    "get-task-allow" = 1;
+}', teamID='FG3F5G2D7L', identifier='org.name.TempoTracks.watchkitapp', executablePath='<DVTFilePath:0x600010ea24c0:'/Users/kubarogut/Library/Developer/Xcode/Archives/2024-03-03/Companion Watch App 2024-03-03, 7.14 PM.xcarchive/Products/Applications/TempoTracks.app/Watch/TempoTracks.app/TempoTracks'>', hardenedRuntime='0'>'>
+2024-03-04 00:16:29 +0000  Running /usr/bin/xattr '-crs' '/var/folders/_n/8sgdc5c506516vt964r9_wq40000gn/T/XcodeDistPipeline.~~~Kq8fva/Root/Payload/TempoTracks.app'
+2024-03-04 00:16:29 +0000  /usr/bin/xattr exited with 0
+2024-03-04 00:16:29 +0000  Processing step: IDEDistributionCodesignStep
+2024-03-04 00:16:29 +0000  Entitlements for <IDEDistributionItem: 0x60001c1e6d60; bundleID='dev.hermesengine.iphoneos', path='<DVTFilePath:0x600010e3aae0:'/Users/kubarogut/Library/Developer/Xcode/Archives/2024-03-03/Companion Watch App 2024-03-03, 7.14 PM.xcarchive/Products/Applications/TempoTracks.app/Frameworks/hermes.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x6000185c81e0; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x600005174630; name='Apple Development: rogutkuba@gmail.com (BQWDK52L8M)', hash='29051E252827DB42EB4D62569A5FFB83EB71C396', serialNumber='15ADDDC8F31C9BA997539D1B3AFB8AD7', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2023-07-24 17:57:00 +0000''>', entitlements='(null)', teamID='FG3F5G2D7L', identifier='dev.hermesengine.iphoneos', executablePath='<DVTFilePath:0x600018f96b80:'/Users/kubarogut/Library/Developer/Xcode/Archives/2024-03-03/Companion Watch App 2024-03-03, 7.14 PM.xcarchive/Products/Applications/TempoTracks.app/Frameworks/hermes.framework/hermes'>', hardenedRuntime='0'>'>: {
+}
+2024-03-04 00:16:29 +0000  Entitlements for <IDEDistributionItem: 0x60001c1e6d60; bundleID='dev.hermesengine.iphoneos', path='<DVTFilePath:0x600010e3aae0:'/Users/kubarogut/Library/Developer/Xcode/Archives/2024-03-03/Companion Watch App 2024-03-03, 7.14 PM.xcarchive/Products/Applications/TempoTracks.app/Frameworks/hermes.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x6000185c81e0; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x600005148630; name='Apple Development: rogutkuba@gmail.com (BQWDK52L8M)', hash='29051E252827DB42EB4D62569A5FFB83EB71C396', serialNumber='15ADDDC8F31C9BA997539D1B3AFB8AD7', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2023-07-24 17:57:00 +0000''>', entitlements='(null)', teamID='FG3F5G2D7L', identifier='dev.hermesengine.iphoneos', executablePath='<DVTFilePath:0x600018f96b80:'/Users/kubarogut/Library/Developer/Xcode/Archives/2024-03-03/Companion Watch App 2024-03-03, 7.14 PM.xcarchive/Products/Applications/TempoTracks.app/Frameworks/hermes.framework/hermes'>', hardenedRuntime='0'>'> are: {
+}
+2024-03-04 00:16:29 +0000  Writing entitlements for <IDEDistributionItem: 0x60001c1e6d60; bundleID='dev.hermesengine.iphoneos', path='<DVTFilePath:0x600010e3aae0:'/Users/kubarogut/Library/Developer/Xcode/Archives/2024-03-03/Companion Watch App 2024-03-03, 7.14 PM.xcarchive/Products/Applications/TempoTracks.app/Frameworks/hermes.framework'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x6000185c81e0; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x6000051482c0; name='Apple Development: rogutkuba@gmail.com (BQWDK52L8M)', hash='29051E252827DB42EB4D62569A5FFB83EB71C396', serialNumber='15ADDDC8F31C9BA997539D1B3AFB8AD7', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2023-07-24 17:57:00 +0000''>', entitlements='(null)', teamID='FG3F5G2D7L', identifier='dev.hermesengine.iphoneos', executablePath='<DVTFilePath:0x600018f96b80:'/Users/kubarogut/Library/Developer/Xcode/Archives/2024-03-03/Companion Watch App 2024-03-03, 7.14 PM.xcarchive/Products/Applications/TempoTracks.app/Frameworks/hermes.framework/hermes'>', hardenedRuntime='0'>'> to: /var/folders/_n/8sgdc5c506516vt964r9_wq40000gn/T/XcodeDistPipeline.~~~Kq8fva/entitlements~~~CnEMCJ
+2024-03-04 00:16:29 +0000  Running /usr/bin/codesign '-vvv' '--force' '--sign' '29051E252827DB42EB4D62569A5FFB83EB71C396' '--entitlements' '/var/folders/_n/8sgdc5c506516vt964r9_wq40000gn/T/XcodeDistPipeline.~~~Kq8fva/entitlements~~~CnEMCJ' '--generate-entitlement-der' '--preserve-metadata=identifier,flags,runtime' '/var/folders/_n/8sgdc5c506516vt964r9_wq40000gn/T/XcodeDistPipeline.~~~Kq8fva/Root/Payload/TempoTracks.app/Frameworks/hermes.framework'
+2024-03-04 00:16:29 +0000  /var/folders/_n/8sgdc5c506516vt964r9_wq40000gn/T/XcodeDistPipeline.~~~Kq8fva/Root/Payload/TempoTracks.app/Frameworks/hermes.framework: replacing existing signature
+2024-03-04 00:16:29 +0000  /var/folders/_n/8sgdc5c506516vt964r9_wq40000gn/T/XcodeDistPipeline.~~~Kq8fva/Root/Payload/TempoTracks.app/Frameworks/hermes.framework: signed bundle with Mach-O thin (arm64) [dev.hermesengine.iphoneos]
+2024-03-04 00:16:29 +0000  /usr/bin/codesign exited with 0
+2024-03-04 00:16:29 +0000  Entitlements for <IDEDistributionItem: 0x60001c1e4f60; bundleID='org.name.TempoTracks.watchkitapp', path='<DVTFilePath:0x600010ee5260:'/Users/kubarogut/Library/Developer/Xcode/Archives/2024-03-03/Companion Watch App 2024-03-03, 7.14 PM.xcarchive/Products/Applications/TempoTracks.app/Watch/TempoTracks.app'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x600010344000; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x600005161340; name='Apple Development: rogutkuba@gmail.com (BQWDK52L8M)', hash='29051E252827DB42EB4D62569A5FFB83EB71C396', serialNumber='15ADDDC8F31C9BA997539D1B3AFB8AD7', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2023-07-24 17:57:00 +0000''>', entitlements='{
+    "application-identifier" = "FG3F5G2D7L.org.name.TempoTracks.watchkitapp";
+    "com.apple.developer.team-identifier" = FG3F5G2D7L;
+    "get-task-allow" = 1;
+}', teamID='FG3F5G2D7L', identifier='org.name.TempoTracks.watchkitapp', executablePath='<DVTFilePath:0x600010ea24c0:'/Users/kubarogut/Library/Developer/Xcode/Archives/2024-03-03/Companion Watch App 2024-03-03, 7.14 PM.xcarchive/Products/Applications/TempoTracks.app/Watch/TempoTracks.app/TempoTracks'>', hardenedRuntime='0'>'>: {
+    "application-identifier" = "FG3F5G2D7L.org.name.TempoTracks.watchkitapp";
+    "com.apple.developer.team-identifier" = FG3F5G2D7L;
+    "get-task-allow" = 1;
+}
+2024-03-04 00:16:29 +0000  Entitlements for <IDEDistributionItem: 0x60001c1e4f60; bundleID='org.name.TempoTracks.watchkitapp', path='<DVTFilePath:0x600010ee5260:'/Users/kubarogut/Library/Developer/Xcode/Archives/2024-03-03/Companion Watch App 2024-03-03, 7.14 PM.xcarchive/Products/Applications/TempoTracks.app/Watch/TempoTracks.app'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x600010344000; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x600005174630; name='Apple Development: rogutkuba@gmail.com (BQWDK52L8M)', hash='29051E252827DB42EB4D62569A5FFB83EB71C396', serialNumber='15ADDDC8F31C9BA997539D1B3AFB8AD7', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2023-07-24 17:57:00 +0000''>', entitlements='{
+    "application-identifier" = "FG3F5G2D7L.org.name.TempoTracks.watchkitapp";
+    "com.apple.developer.team-identifier" = FG3F5G2D7L;
+    "get-task-allow" = 1;
+}', teamID='FG3F5G2D7L', identifier='org.name.TempoTracks.watchkitapp', executablePath='<DVTFilePath:0x600010ea24c0:'/Users/kubarogut/Library/Developer/Xcode/Archives/2024-03-03/Companion Watch App 2024-03-03, 7.14 PM.xcarchive/Products/Applications/TempoTracks.app/Watch/TempoTracks.app/TempoTracks'>', hardenedRuntime='0'>'> are: {
+    "application-identifier" = "FG3F5G2D7L.org.name.TempoTracks.watchkitapp";
+    "com.apple.developer.team-identifier" = FG3F5G2D7L;
+    "get-task-allow" = 1;
+}
+2024-03-04 00:16:29 +0000  Writing entitlements for <IDEDistributionItem: 0x60001c1e4f60; bundleID='org.name.TempoTracks.watchkitapp', path='<DVTFilePath:0x600010ee5260:'/Users/kubarogut/Library/Developer/Xcode/Archives/2024-03-03/Companion Watch App 2024-03-03, 7.14 PM.xcarchive/Products/Applications/TempoTracks.app/Watch/TempoTracks.app'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x600010344000; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x600005162c00; name='Apple Development: rogutkuba@gmail.com (BQWDK52L8M)', hash='29051E252827DB42EB4D62569A5FFB83EB71C396', serialNumber='15ADDDC8F31C9BA997539D1B3AFB8AD7', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2023-07-24 17:57:00 +0000''>', entitlements='{
+    "application-identifier" = "FG3F5G2D7L.org.name.TempoTracks.watchkitapp";
+    "com.apple.developer.team-identifier" = FG3F5G2D7L;
+    "get-task-allow" = 1;
+}', teamID='FG3F5G2D7L', identifier='org.name.TempoTracks.watchkitapp', executablePath='<DVTFilePath:0x600010ea24c0:'/Users/kubarogut/Library/Developer/Xcode/Archives/2024-03-03/Companion Watch App 2024-03-03, 7.14 PM.xcarchive/Products/Applications/TempoTracks.app/Watch/TempoTracks.app/TempoTracks'>', hardenedRuntime='0'>'> to: /var/folders/_n/8sgdc5c506516vt964r9_wq40000gn/T/XcodeDistPipeline.~~~Kq8fva/entitlements~~~b5zglp
+2024-03-04 00:16:29 +0000  Running /usr/bin/codesign '-vvv' '--force' '--sign' '29051E252827DB42EB4D62569A5FFB83EB71C396' '--entitlements' '/var/folders/_n/8sgdc5c506516vt964r9_wq40000gn/T/XcodeDistPipeline.~~~Kq8fva/entitlements~~~b5zglp' '--generate-entitlement-der' '--preserve-metadata=identifier,flags,runtime' '/var/folders/_n/8sgdc5c506516vt964r9_wq40000gn/T/XcodeDistPipeline.~~~Kq8fva/Root/Payload/TempoTracks.app/Watch/TempoTracks.app'
+2024-03-04 00:16:29 +0000  /var/folders/_n/8sgdc5c506516vt964r9_wq40000gn/T/XcodeDistPipeline.~~~Kq8fva/Root/Payload/TempoTracks.app/Watch/TempoTracks.app: replacing existing signature
+2024-03-04 00:16:29 +0000  /var/folders/_n/8sgdc5c506516vt964r9_wq40000gn/T/XcodeDistPipeline.~~~Kq8fva/Root/Payload/TempoTracks.app/Watch/TempoTracks.app: signed app bundle with Mach-O universal (arm64 arm64_32) [org.name.TempoTracks.watchkitapp]
+2024-03-04 00:16:29 +0000  /usr/bin/codesign exited with 0
+2024-03-04 00:16:29 +0000  Entitlements for <IDEDistributionItem: 0x60001810f000; bundleID='org.name.TempoTracks', path='<DVTFilePath:0x600010ec5490:'/Users/kubarogut/Library/Developer/Xcode/Archives/2024-03-03/Companion Watch App 2024-03-03, 7.14 PM.xcarchive/Products/Applications/TempoTracks.app'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x6000185c8fa0; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x600005148630; name='Apple Development: rogutkuba@gmail.com (BQWDK52L8M)', hash='29051E252827DB42EB4D62569A5FFB83EB71C396', serialNumber='15ADDDC8F31C9BA997539D1B3AFB8AD7', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2023-07-24 17:57:00 +0000''>', entitlements='{
+    "application-identifier" = "FG3F5G2D7L.org.name.TempoTracks";
+    "com.apple.developer.healthkit" = 1;
+    "com.apple.developer.healthkit.access" =     (
+    );
+    "com.apple.developer.team-identifier" = FG3F5G2D7L;
+    "get-task-allow" = 1;
+}', teamID='FG3F5G2D7L', identifier='org.name.TempoTracks', executablePath='<DVTFilePath:0x600010eda290:'/Users/kubarogut/Library/Developer/Xcode/Archives/2024-03-03/Companion Watch App 2024-03-03, 7.14 PM.xcarchive/Products/Applications/TempoTracks.app/TempoTracks'>', hardenedRuntime='0'>'>: {
+    "application-identifier" = "FG3F5G2D7L.org.name.TempoTracks";
+    "com.apple.developer.healthkit" = 1;
+    "com.apple.developer.healthkit.access" =     (
+    );
+    "com.apple.developer.team-identifier" = FG3F5G2D7L;
+    "get-task-allow" = 1;
+}
+2024-03-04 00:16:29 +0000  Entitlements for <IDEDistributionItem: 0x60001810f000; bundleID='org.name.TempoTracks', path='<DVTFilePath:0x600010ec5490:'/Users/kubarogut/Library/Developer/Xcode/Archives/2024-03-03/Companion Watch App 2024-03-03, 7.14 PM.xcarchive/Products/Applications/TempoTracks.app'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x6000185c8fa0; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x6000051482c0; name='Apple Development: rogutkuba@gmail.com (BQWDK52L8M)', hash='29051E252827DB42EB4D62569A5FFB83EB71C396', serialNumber='15ADDDC8F31C9BA997539D1B3AFB8AD7', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2023-07-24 17:57:00 +0000''>', entitlements='{
+    "application-identifier" = "FG3F5G2D7L.org.name.TempoTracks";
+    "com.apple.developer.healthkit" = 1;
+    "com.apple.developer.healthkit.access" =     (
+    );
+    "com.apple.developer.team-identifier" = FG3F5G2D7L;
+    "get-task-allow" = 1;
+}', teamID='FG3F5G2D7L', identifier='org.name.TempoTracks', executablePath='<DVTFilePath:0x600010eda290:'/Users/kubarogut/Library/Developer/Xcode/Archives/2024-03-03/Companion Watch App 2024-03-03, 7.14 PM.xcarchive/Products/Applications/TempoTracks.app/TempoTracks'>', hardenedRuntime='0'>'> are: {
+    "application-identifier" = "FG3F5G2D7L.org.name.TempoTracks";
+    "com.apple.developer.healthkit" = 1;
+    "com.apple.developer.healthkit.access" =     (
+    );
+    "com.apple.developer.team-identifier" = FG3F5G2D7L;
+    "get-task-allow" = 1;
+}
+2024-03-04 00:16:29 +0000  Writing entitlements for <IDEDistributionItem: 0x60001810f000; bundleID='org.name.TempoTracks', path='<DVTFilePath:0x600010ec5490:'/Users/kubarogut/Library/Developer/Xcode/Archives/2024-03-03/Companion Watch App 2024-03-03, 7.14 PM.xcarchive/Products/Applications/TempoTracks.app'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x6000185c8fa0; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x600005149130; name='Apple Development: rogutkuba@gmail.com (BQWDK52L8M)', hash='29051E252827DB42EB4D62569A5FFB83EB71C396', serialNumber='15ADDDC8F31C9BA997539D1B3AFB8AD7', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2023-07-24 17:57:00 +0000''>', entitlements='{
+    "application-identifier" = "FG3F5G2D7L.org.name.TempoTracks";
+    "com.apple.developer.healthkit" = 1;
+    "com.apple.developer.healthkit.access" =     (
+    );
+    "com.apple.developer.team-identifier" = FG3F5G2D7L;
+    "get-task-allow" = 1;
+}', teamID='FG3F5G2D7L', identifier='org.name.TempoTracks', executablePath='<DVTFilePath:0x600010eda290:'/Users/kubarogut/Library/Developer/Xcode/Archives/2024-03-03/Companion Watch App 2024-03-03, 7.14 PM.xcarchive/Products/Applications/TempoTracks.app/TempoTracks'>', hardenedRuntime='0'>'> to: /var/folders/_n/8sgdc5c506516vt964r9_wq40000gn/T/XcodeDistPipeline.~~~Kq8fva/entitlements~~~bR0IRn
+2024-03-04 00:16:29 +0000  Running /usr/bin/codesign '-vvv' '--force' '--sign' '29051E252827DB42EB4D62569A5FFB83EB71C396' '--entitlements' '/var/folders/_n/8sgdc5c506516vt964r9_wq40000gn/T/XcodeDistPipeline.~~~Kq8fva/entitlements~~~bR0IRn' '--generate-entitlement-der' '--preserve-metadata=identifier,flags,runtime' '/var/folders/_n/8sgdc5c506516vt964r9_wq40000gn/T/XcodeDistPipeline.~~~Kq8fva/Root/Payload/TempoTracks.app'
+2024-03-04 00:16:29 +0000  /var/folders/_n/8sgdc5c506516vt964r9_wq40000gn/T/XcodeDistPipeline.~~~Kq8fva/Root/Payload/TempoTracks.app: replacing existing signature
+2024-03-04 00:16:29 +0000  /var/folders/_n/8sgdc5c506516vt964r9_wq40000gn/T/XcodeDistPipeline.~~~Kq8fva/Root/Payload/TempoTracks.app: signed app bundle with Mach-O thin (arm64) [org.name.TempoTracks]
+2024-03-04 00:16:29 +0000  /usr/bin/codesign exited with 0
+2024-03-04 00:16:29 +0000  Processing step: IDEDistributionZipODRItemStep
+2024-03-04 00:16:29 +0000  Skipping step: IDEDistributionZipODRItemStep because it said so
+2024-03-04 00:16:29 +0000  Skipping step: IDEDistributionZipODRItemStep because it said so
+2024-03-04 00:16:29 +0000  Skipping step: IDEDistributionZipODRItemStep because it said so
+2024-03-04 00:16:29 +0000  Processing step: IDEDistributionCreateIPAStep
+2024-03-04 00:16:29 +0000  Running /usr/bin/ditto '-V' '-c' '-k' '--norsrc' '/var/folders/_n/8sgdc5c506516vt964r9_wq40000gn/T/XcodeDistPipeline.~~~Kq8fva/Root' '/var/folders/_n/8sgdc5c506516vt964r9_wq40000gn/T/XcodeDistPipeline.~~~Kq8fva/Packages/TempoTracks.ipa'
+2024-03-04 00:16:29 +0000  >>> Copying /var/folders/_n/8sgdc5c506516vt964r9_wq40000gn/T/XcodeDistPipeline.~~~Kq8fva/Root 
+2024-03-04 00:16:29 +0000  copying file ./Payload/TempoTracks.app/_CodeSignature/CodeResources ... 
+2024-03-04 00:16:29 +0000  16632 bytes for ./Payload/TempoTracks.app/_CodeSignature/CodeResources
+2024-03-04 00:16:29 +0000  copying file ./Payload/TempoTracks.app/SplashScreen.storyboardc/EXPO-VIEWCONTROLLER-1-view-EXPO-ContainerView.nib ... 
+2024-03-04 00:16:29 +0000  2242 bytes for ./Payload/TempoTracks.app/SplashScreen.storyboardc/EXPO-VIEWCONTROLLER-1-view-EXPO-ContainerView.nib
+2024-03-04 00:16:29 +0000  copying file ./Payload/TempoTracks.app/SplashScreen.storyboardc/SplashScreenViewController.nib ... 
+2024-03-04 00:16:29 +0000  976 bytes for ./Payload/TempoTracks.app/SplashScreen.storyboardc/SplashScreenViewController.nib
+2024-03-04 00:16:29 +0000  copying file ./Payload/TempoTracks.app/SplashScreen.storyboardc/Info.plist ... 
+2024-03-04 00:16:29 +0000  225 bytes for ./Payload/TempoTracks.app/SplashScreen.storyboardc/Info.plist
+2024-03-04 00:16:29 +0000  copying file ./Payload/TempoTracks.app/AccessibilityResources.bundle/en.lproj/Localizable.strings ... 
+2024-03-04 00:16:29 +0000  518 bytes for ./Payload/TempoTracks.app/AccessibilityResources.bundle/en.lproj/Localizable.strings
+copying file ./Payload/TempoTracks.app/AccessibilityResources.bundle/Info.plist ... 
+2024-03-04 00:16:29 +0000  794 bytes for ./Payload/TempoTracks.app/AccessibilityResources.bundle/Info.plist
+2024-03-04 00:16:29 +0000  copying file ./Payload/TempoTracks.app/Assets.car ... 
+2024-03-04 00:16:29 +0000  35855 bytes for ./Payload/TempoTracks.app/Assets.car
+2024-03-04 00:16:29 +0000  copying file ./Payload/TempoTracks.app/TempoTracks ... 
+2024-03-04 00:16:30 +0000  5222784 bytes for ./Payload/TempoTracks.app/TempoTracks
+copying file ./Payload/TempoTracks.app/main.jsbundle ... 
+2024-03-04 00:16:30 +0000  6856393 bytes for ./Payload/TempoTracks.app/main.jsbundle
+2024-03-04 00:16:30 +0000  copying file ./Payload/TempoTracks.app/EXConstants.bundle/app.config ... 
+561 bytes for ./Payload/TempoTracks.app/EXConstants.bundle/app.config
+copying file ./Payload/TempoTracks.app/EXConstants.bundle/Info.plist ... 
+769 bytes for ./Payload/TempoTracks.app/EXConstants.bundle/Info.plist
+copying file ./Payload/TempoTracks.app/Watch/TempoTracks.app/_CodeSignature/CodeResources ... 
+2183 bytes for ./Payload/TempoTracks.app/Watch/TempoTracks.app/_CodeSignature/CodeResources
+copying file ./Payload/TempoTracks.app/Watch/TempoTracks.app/TempoTracks ... 
+2024-03-04 00:16:30 +0000  631936 bytes for ./Payload/TempoTracks.app/Watch/TempoTracks.app/TempoTracks
+copying file ./Payload/TempoTracks.app/Watch/TempoTracks.app/embedded.mobileprovision ... 
+2024-03-04 00:16:30 +0000  22774 bytes for ./Payload/TempoTracks.app/Watch/TempoTracks.app/embedded.mobileprovision
+copying file ./Payload/TempoTracks.app/Watch/TempoTracks.app/Info.plist ... 
+2024-03-04 00:16:30 +0000  1110 bytes for ./Payload/TempoTracks.app/Watch/TempoTracks.app/Info.plist
+2024-03-04 00:16:30 +0000  copying file ./Payload/TempoTracks.app/Watch/TempoTracks.app/PkgInfo ... 
+8 bytes for ./Payload/TempoTracks.app/Watch/TempoTracks.app/PkgInfo
+2024-03-04 00:16:30 +0000  copying file ./Payload/TempoTracks.app/Frameworks/hermes.framework/_CodeSignature/CodeResources ... 
+2024-03-04 00:16:30 +0000  1798 bytes for ./Payload/TempoTracks.app/Frameworks/hermes.framework/_CodeSignature/CodeResources
+copying file ./Payload/TempoTracks.app/Frameworks/hermes.framework/hermes ... 
+2024-03-04 00:16:30 +0000  3240656 bytes for ./Payload/TempoTracks.app/Frameworks/hermes.framework/hermes
+copying file ./Payload/TempoTracks.app/Frameworks/hermes.framework/Info.plist ... 
+2024-03-04 00:16:30 +0000  815 bytes for ./Payload/TempoTracks.app/Frameworks/hermes.framework/Info.plist
+copying file ./Payload/TempoTracks.app/embedded.mobileprovision ... 
+23437 bytes for ./Payload/TempoTracks.app/embedded.mobileprovision
+2024-03-04 00:16:30 +0000  copying file ./Payload/TempoTracks.app/assets/node_modules/react-native-ratings/dist/images/bell.png ... 
+2024-03-04 00:16:30 +0000  2989 bytes for ./Payload/TempoTracks.app/assets/node_modules/react-native-ratings/dist/images/bell.png
+copying file ./Payload/TempoTracks.app/assets/node_modules/react-native-ratings/dist/images/airbnb-star-selected.png ... 
+2024-03-04 00:16:30 +0000  934 bytes for ./Payload/TempoTracks.app/assets/node_modules/react-native-ratings/dist/images/airbnb-star-selected.png
+copying file ./Payload/TempoTracks.app/assets/node_modules/react-native-ratings/dist/images/heart.png ... 
+2024-03-04 00:16:30 +0000  1928 bytes for ./Payload/TempoTracks.app/assets/node_modules/react-native-ratings/dist/images/heart.png
+copying file ./Payload/TempoTracks.app/assets/node_modules/react-native-ratings/dist/images/airbnb-star.png ... 
+2024-03-04 00:16:30 +0000  930 bytes for ./Payload/TempoTracks.app/assets/node_modules/react-native-ratings/dist/images/airbnb-star.png
+copying file ./Payload/TempoTracks.app/assets/node_modules/react-native-ratings/dist/images/rocket.png ... 
+2024-03-04 00:16:30 +0000  4050 bytes for ./Payload/TempoTracks.app/assets/node_modules/react-native-ratings/dist/images/rocket.png
+copying file ./Payload/TempoTracks.app/assets/node_modules/react-native-ratings/dist/images/star.png ... 
+2024-03-04 00:16:30 +0000  1961 bytes for ./Payload/TempoTracks.app/assets/node_modules/react-native-ratings/dist/images/star.png
+2024-03-04 00:16:30 +0000  copying file ./Payload/TempoTracks.app/assets/node_modules/@react-navigation/elements/src/assets/back-icon@3x.png ... 
+2024-03-04 00:16:30 +0000  761 bytes for ./Payload/TempoTracks.app/assets/node_modules/@react-navigation/elements/src/assets/back-icon@3x.png
+copying file ./Payload/TempoTracks.app/assets/node_modules/@react-navigation/elements/src/assets/back-icon@2x.png ... 
+2024-03-04 00:16:30 +0000  405 bytes for ./Payload/TempoTracks.app/assets/node_modules/@react-navigation/elements/src/assets/back-icon@2x.png
+copying file ./Payload/TempoTracks.app/assets/node_modules/@react-navigation/elements/src/assets/back-icon.png ... 
+290 bytes for ./Payload/TempoTracks.app/assets/node_modules/@react-navigation/elements/src/assets/back-icon.png
+copying file ./Payload/TempoTracks.app/assets/node_modules/@react-navigation/elements/src/assets/back-icon-mask.png ... 
+2024-03-04 00:16:30 +0000  913 bytes for ./Payload/TempoTracks.app/assets/node_modules/@react-navigation/elements/src/assets/back-icon-mask.png
+copying file ./Payload/TempoTracks.app/assets/node_modules/react-native-paper/src/assets/back-chevron.png ... 
+2024-03-04 00:16:30 +0000  489 bytes for ./Payload/TempoTracks.app/assets/node_modules/react-native-paper/src/assets/back-chevron.png
+2024-03-04 00:16:30 +0000  copying file ./Payload/TempoTracks.app/assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Fontisto.ttf ... 
+2024-03-04 00:16:30 +0000  313528 bytes for ./Payload/TempoTracks.app/assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Fontisto.ttf
+copying file ./Payload/TempoTracks.app/assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Octicons.ttf ... 
+2024-03-04 00:16:30 +0000  49404 bytes for ./Payload/TempoTracks.app/assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Octicons.ttf
+2024-03-04 00:16:30 +0000  copying file ./Payload/TempoTracks.app/assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Feather.ttf ... 
+2024-03-04 00:16:30 +0000  56228 bytes for ./Payload/TempoTracks.app/assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Feather.ttf
+copying file ./Payload/TempoTracks.app/assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Entypo.ttf ... 
+2024-03-04 00:16:30 +0000  66200 bytes for ./Payload/TempoTracks.app/assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Entypo.ttf
+copying file ./Payload/TempoTracks.app/assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf ... 
+2024-03-04 00:16:30 +0000  134040 bytes for ./Payload/TempoTracks.app/assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf
+2024-03-04 00:16:30 +0000  copying file ./Payload/TempoTracks.app/assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf ... 
+2024-03-04 00:16:30 +0000  1147844 bytes for ./Payload/TempoTracks.app/assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf
+copying file ./Payload/TempoTracks.app/assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/AntDesign.ttf ... 
+2024-03-04 00:16:30 +0000  70344 bytes for ./Payload/TempoTracks.app/assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/AntDesign.ttf
+2024-03-04 00:16:30 +0000  copying file ./Payload/TempoTracks.app/assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Foundation.ttf ... 
+2024-03-04 00:16:30 +0000  56976 bytes for ./Payload/TempoTracks.app/assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Foundation.ttf
+2024-03-04 00:16:30 +0000  copying file ./Payload/TempoTracks.app/assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Ionicons.ttf ... 
+2024-03-04 00:16:30 +0000  247192 bytes for ./Payload/TempoTracks.app/assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Ionicons.ttf
+copying file ./Payload/TempoTracks.app/assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf ... 
+2024-03-04 00:16:30 +0000  202744 bytes for ./Payload/TempoTracks.app/assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf
+2024-03-04 00:16:30 +0000  copying file ./Payload/TempoTracks.app/assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf ... 
+2024-03-04 00:16:30 +0000  33736 bytes for ./Payload/TempoTracks.app/assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf
+copying file ./Payload/TempoTracks.app/assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/FontAwesome.ttf ... 
+2024-03-04 00:16:30 +0000  165548 bytes for ./Payload/TempoTracks.app/assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/FontAwesome.ttf
+2024-03-04 00:16:30 +0000  copying file ./Payload/TempoTracks.app/assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Zocial.ttf ... 
+2024-03-04 00:16:30 +0000  25788 bytes for ./Payload/TempoTracks.app/assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Zocial.ttf
+2024-03-04 00:16:30 +0000  copying file ./Payload/TempoTracks.app/assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/EvilIcons.ttf ... 
+2024-03-04 00:16:30 +0000  13456 bytes for ./Payload/TempoTracks.app/assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/EvilIcons.ttf
+copying file ./Payload/TempoTracks.app/assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/SimpleLineIcons.ttf ... 
+2024-03-04 00:16:30 +0000  54056 bytes for ./Payload/TempoTracks.app/assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/SimpleLineIcons.ttf
+copying file ./Payload/TempoTracks.app/assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/MaterialIcons.ttf ... 
+2024-03-04 00:16:30 +0000  230384 bytes for ./Payload/TempoTracks.app/assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/MaterialIcons.ttf
+2024-03-04 00:16:30 +0000  copying file ./Payload/TempoTracks.app/Info.plist ... 
+2024-03-04 00:16:30 +0000  1657 bytes for ./Payload/TempoTracks.app/Info.plist
+copying file ./Payload/TempoTracks.app/Expo.plist ... 
+2024-03-04 00:16:30 +0000  133 bytes for ./Payload/TempoTracks.app/Expo.plist
+copying file ./Payload/TempoTracks.app/PkgInfo ... 
+2024-03-04 00:16:30 +0000  8 bytes for ./Payload/TempoTracks.app/PkgInfo
+2024-03-04 00:16:30 +0000  /usr/bin/ditto exited with 0
+2024-03-04 00:16:30 +0000  Processing step: IDEDistributionAppStoreInformationStep
+2024-03-04 00:16:30 +0000  Skipping step: IDEDistributionAppStoreInformationStep because it said so
+2024-03-04 00:16:30 +0000  Processing step: IDEDistributionGenerateProcessedDistributionItems
+2024-03-04 00:16:30 +0000  IDEDistributionItem init <DVTFilePath:0x600010ec8620:'/var/folders/_n/8sgdc5c506516vt964r9_wq40000gn/T/XcodeDistPipeline.~~~Kq8fva/Root/Payload/TempoTracks.app/Frameworks/hermes.framework'>
+2024-03-04 00:16:30 +0000  IDEDistributionItem init <DVTFilePath:0x600010ef21b0:'/var/folders/_n/8sgdc5c506516vt964r9_wq40000gn/T/XcodeDistPipeline.~~~Kq8fva/Root/Payload/TempoTracks.app/Watch/TempoTracks.app'>
+2024-03-04 00:16:30 +0000  IDEDistributionItem init <DVTFilePath:0x600010ec8fc0:'/var/folders/_n/8sgdc5c506516vt964r9_wq40000gn/T/XcodeDistPipeline.~~~Kq8fva/Root/Payload/TempoTracks.app'>
+2024-03-04 00:16:30 +0000  Processing step: IDEDistributionCreateManifestStep

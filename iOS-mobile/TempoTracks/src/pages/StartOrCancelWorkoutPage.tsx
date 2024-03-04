@@ -1,8 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { SafeAreaView } from "react-native";
-import { useTheme } from "react-native-paper";
+import { Text, useTheme } from "react-native-paper";
 import { useCreateWorkout } from "../api/WorkoutsNew";
 import { CountDownTimer } from "../components/Workouts/CountDownTimer";
+
+// Watch Manager
+import { useGetWorkoutTemplateById } from "../api/WorkoutTemplate";
+import { calculateSongQueue } from "../utils/calculateSongQueue";
+import { useSetAsyncStorageItem } from "../api/AsyncStorage";
+import { useSongs } from "../api/Music";
+import { MusicManager } from "../module/MusicManager";
+import { mapBpmToPlaybackRate } from "../utils/formatWorkoutIntervals";
 import { useQuery } from "@tanstack/react-query";
 import { saved_user_data } from "../api/Globals";
 // Watch Manager
@@ -10,56 +18,115 @@ import { IS_WATCH_ENABLED, WatchManager } from "../module/WatchManager";
 
 const StartOrCancelWorkoutPage = ({ route, navigation }) => {
   const theme = useTheme();
-  const { templateId, name, type, playlistId } = route.params;
-  const { mutate: createWorkout } = useCreateWorkout();
-  const [starting, setStarting] = useState<boolean>(false);
-  const [isCountingDown, setIsCountingDown] = useState<boolean>(true);
-  const [workout, setWorkout] = useState(null);
-  const {
-    status,
-    data: createdWorkout,
-    error,
-  } = useQuery({
-    queryKey: ["createdWorkout", { id: templateId }],
-  });
+
+  const { templateId } = route.params;
+  const { mutateAsync: createWorkout } = useCreateWorkout();
+  const { data: template, isPending } = useGetWorkoutTemplateById(templateId);
+  // const { data: songs } = useSongs();
+  const { mutateAsync: saveSongQueueToStorage } =
+    useSetAsyncStorageItem("music_queue");
+
+  if (isPending || !template) {
+    return (
+      <SafeAreaView
+        style={{
+          flex: 1,
+          flexDirection: "column",
+          backgroundColor: theme.colors.background,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Text>Loading...</Text>
+      </SafeAreaView>
+    );
+  }
 
   const handleIconPress = () => {
     navigation.goBack();
   };
 
-  useEffect(() => {
-    if (!isCountingDown) {
-      createWorkout({
-        // change this once we make hook for auth
-        user_id: saved_user_data.user_id,
-        template_id: templateId,
-        workout_name: name,
-        workout_type: type,
-        playlist_id: playlistId,
-        status: "IN_PROGRESS",
-        is_paused: false,
-        total_duration: 0,
-      });
+  const handleProgressComplete = async () => {
+    console.log("Progress complete!");
+    const createdWorkout = await createWorkout({
+      // change this once we make hook for auth
+      user_id: saved_user_data.user_id,
+      template_id: templateId,
+      workout_name: template.name,
+      workout_type: template.type,
+      playlist_id: template.playlist_id,
+      status: "IN_PROGRESS",
+      is_paused: false,
+      total_duration: 0,
+    });
+
+    if (!createdWorkout) {
+      console.log("Error creating workout!");
+      return;
     }
-  }, [isCountingDown]);
 
-  const handleProgressComplete = () => {
-    setIsCountingDown(false);
-  };
+    // Create the song queue for the workout
+    console.log(
+      "Songs before queue",
+      template.playlists?.songs?.map((s) => s.title),
+      template.workout_intervals
+    );
 
-  useEffect(() => {
-    if (createdWorkout && !isCountingDown) {
-      if (IS_WATCH_ENABLED){
-        WatchManager.updateWorkoutId(createdWorkout[0].workout_id, createdWorkout[0].template_id);
+    const songQueue = calculateSongQueue({
+      intervals: template.workout_intervals,
+      numberOfSets: template.num_sets,
+      songs: template.playlists?.songs ?? [],
+    });
+
+    console.log(
+      "songQueue",
+      songQueue.map((s) => s.title)
+    );
+    await saveSongQueueToStorage(songQueue);
+
+    // add songs to the queue and play
+    await MusicManager.addSongsToQueue(songQueue.map((s) => s.apple_music_id));
+    await MusicManager.play();
+
+    setTimeout(() => {
+      // set playback rate
+      if (template.workout_intervals.length > 0) {
+        const interval = template.workout_intervals[0];
+        MusicManager.changePlaybackRate(
+          mapBpmToPlaybackRate(
+            Math.round(
+              (interval.workout_intensities.bpm_lower_threshold +
+                interval.workout_intensities.bpm_upper_threshold) /
+                2
+            ),
+            false
+          )
+        );
       }
+    }, 1000);
 
-      navigation.navigate("WorkoutInProgress", {
-        workoutId: createdWorkout[0].workout_id,
-        playlistId: createdWorkout[0].playlist_id,
-        templateId: createdWorkout[0].template_id,
-      });
+    console.log(
+      "interval length vs queue length",
+      template.expected_duration,
+      songQueue.reduce(
+        (acc, cur) => acc + Math.round(cur.duration_ms / 1000),
+        0
+      )
+    );
+
+    if (IS_WATCH_ENABLED) {
+      WatchManager.updateWorkoutId(
+        createdWorkout.workout_id,
+        createdWorkout.template_id
+      );
     }
-  }, [createdWorkout]);
+
+    navigation.navigate("WorkoutInProgress", {
+      workoutId: createdWorkout.workout_id,
+      playlistId: createdWorkout.playlist_id,
+      templateId: createdWorkout.template_id,
+    });
+  };
 
   return (
     <SafeAreaView
@@ -71,12 +138,10 @@ const StartOrCancelWorkoutPage = ({ route, navigation }) => {
         alignItems: "center",
       }}
     >
-      {isCountingDown ? (
-        <CountDownTimer
-          handleIconPress={() => handleIconPress()}
-          handleProgressComplete={() => handleProgressComplete()}
-        />
-      ) : null}
+      <CountDownTimer
+        handleIconPress={() => handleIconPress()}
+        handleProgressComplete={() => handleProgressComplete()}
+      />
     </SafeAreaView>
   );
 };
