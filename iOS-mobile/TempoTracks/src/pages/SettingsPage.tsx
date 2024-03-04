@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import updateSettings from "../api/Settings";
 import updateUser from "../api/User"
-import { useTheme, Text, TouchableOpacity } from "react-native-paper";
+import { useTheme, Text} from "react-native-paper";
 import { Switch, TextInput, Button, ToggleButton } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Slider } from "react-native-elements";
@@ -12,6 +12,7 @@ import { ScrollView } from "react-native";
 import useThemeStore from "../hooks/useThemeStore";
 import { saved_user_data } from "../api/Globals";
 import { updateBodyStats } from "../api/User"
+import { useAppTheme } from "../provider/PaperProvider";
 
 const SettingsPage = ({ route, navigation }) => {
   const [user, setUser] = useState({});
@@ -60,7 +61,7 @@ const SettingsPage = ({ route, navigation }) => {
     async function fetchData() {
       //console.log("in async");
       await updateSettings(
-        user.user_id,
+        saved_user_data.user_id,
         dataStream,
         fade,
         mix,
@@ -126,15 +127,15 @@ const SettingsPage = ({ route, navigation }) => {
         </View>
           <View style={styles.setting}>
             <Text style={{margin: "5%", paddingRight: "1%"}} theme={theme.colors.text} variant="bodyLarge">Height:</Text>
-            <TextInput onChangeText={text => Number(setHeight(text))} label="Height (cm)" disabled={!isEditable} value={height ?? ""} style={{width: '40%'}}/>
+            <TextInput onChangeText={text => Number(setHeight(text))} label="Height (cm)" disabled={!isEditable} value={`${height}`} style={{width: '40%'}}/>
           </View>
           <View style={styles.setting}>
             <Text style={{margin: "5%"}} theme={theme.colors.text} variant="bodyLarge">Weight:</Text>
-            <TextInput onChangeText={text => Number(setWeight(text))} label="Weight (kg)" disabled={!isEditable} value={weight ?? ""} style={{width: '40%'}}/>
+            <TextInput onChangeText={text => Number(setWeight(text))} label="Weight (kg)" disabled={!isEditable} value={`${weight}`} style={{width: '40%'}}/>
           </View>
           <View style={styles.setting}>
             <Text style={{margin: "5%", paddingRight: "6%"}} theme={theme.colors.text} variant="bodyLarge">Age:</Text>
-            <TextInput onChangeText={text => Number(setAge(text))} label="Age" disabled={!isEditable} value={age ?? ""} style={{width: '40%'}}/>
+            <TextInput onChangeText={text => Number(setAge(text))} label="Age" disabled={!isEditable} value={`${age}`} style={{width: '40%'}}/>
           </View>
           <Text style={{margin: 10}} theme={theme.colors.text} variant="titleLarge">Account</Text>
           <View style={styles.setting}>
