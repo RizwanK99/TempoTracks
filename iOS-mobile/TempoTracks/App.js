@@ -50,6 +50,7 @@ import {
 } from "./src/module/WatchManager";
 import { saved_user_data } from "./src/api/Globals";
 import { MusicManager } from "./src/module/MusicManager";
+import { getWorkoutTemplateById } from "./src/api/WorkoutTemplate";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -114,6 +115,31 @@ function Root() {
           if (!createdWorkout) {
             console.error("Error creating workout");
             return;
+          }
+
+          // add songs to the queue and play
+          try {
+            const templateData = await getWorkoutTemplateById(
+              createdWorkout.template_id
+            );
+
+            if (templateData) {
+              const songQueue = calculateSongQueue({
+                intervals: templateData.workout_intervals,
+                numberOfSets: templateData.num_sets,
+                songs: templateData.playlists?.songs ?? [],
+              });
+
+              await saveSongQueueToStorage(songQueue);
+              if (IS_WATCH_ENABLED) {
+                await MusicManager.addSongsToQueue(
+                  songQueue.map((s) => s.apple_music_id)
+                );
+                await MusicManager.play();
+              }
+            }
+          } catch (e) {
+            console.log("Error adding songs to queue", e);
           }
 
           WatchManager.updateWorkoutId(
