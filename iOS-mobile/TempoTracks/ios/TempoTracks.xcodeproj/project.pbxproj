@@ -78,6 +78,7 @@
 		814375232B81D4B30086F53B /* SongAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongAdapter.swift; sourceTree = "<group>"; };
 		814375252B8464AC0086F53B /* WorkoutAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutAdapter.swift; sourceTree = "<group>"; };
 		814375292B86C8940086F53B /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = TempoTracks/AppDelegate.mm; sourceTree = "<group>"; };
+		816E784E2B9550BB00DEB535 /* Companion Watch AppRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Companion Watch AppRelease.entitlements"; sourceTree = "<group>"; };
 		81C996CF2B76EA2B00A9C0A3 /* WatchConnectivityHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchConnectivityHandler.swift; sourceTree = "<group>"; };
 		81C996D12B798E0700A9C0A3 /* Theming.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theming.swift; sourceTree = "<group>"; };
 		81C996D32B79D0B800A9C0A3 /* Companion Watch AppDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Companion Watch AppDebug.entitlements"; sourceTree = "<group>"; };
@@ -262,6 +263,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				816E784E2B9550BB00DEB535 /* Companion Watch AppRelease.entitlements */,
 				81C996D32B79D0B800A9C0A3 /* Companion Watch AppDebug.entitlements */,
 				13B07FAE1A68108700A75B9A /* TempoTracks */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -720,6 +722,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = "Companion Watch AppRelease.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
@@ -814,10 +817,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_CPLUSPLUSFLAGS = "$(inherited)";
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "TempoTracks-Bridging-Header.h";
@@ -878,10 +878,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_CPLUSPLUSFLAGS = "$(inherited)";
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "TempoTracks-Bridging-Header.h";
