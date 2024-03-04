@@ -37,8 +37,13 @@ const SettingsPage = ({ route, navigation }) => {
     console.log(isEditable)
 
     if(!isEditable){
-      updateBodyStats(height, weight)
+      console.log("SAVEEEEEEEEEEEEEEEEEEEE")
+      saveData();
     }
+  }
+
+  async function saveData() {
+    updateBodyStats(saved_user_data.user_id, height, weight, age)
   }
 
   useEffect(() => {
