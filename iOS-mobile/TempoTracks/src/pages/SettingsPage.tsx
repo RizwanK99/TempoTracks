@@ -2,6 +2,7 @@
 // https://aboutreact.com/react-native-bottom-navigation/
 import React, { useState, useEffect } from "react";
 import updateSettings from "../api/Settings";
+import updateUser from "../api/"
 import { useTheme, Text, TouchableOpacity } from "react-native-paper";
 import { Switch, TextInput, Button, ToggleButton } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -9,18 +10,6 @@ import { Slider } from "react-native-elements";
 import { StyleSheet, View, SafeAreaView} from "react-native";
 import { ScrollView } from "react-native";
 import useThemeStore from "../hooks/useThemeStore";
-
-async function retrieveData(user, setUser) {
-  try {
-    const value = await AsyncStorage.getItem("user_data");
-    if (value !== null) {
-      let userData = JSON.parse(value);
-      await setUser(userData);
-    }
-  } catch (error) {
-    console.log("Error retreiving user data", error);
-  }
-}
 
 const SettingsPage = ({ route, navigation }) => {
   const [user, setUser] = useState({});
@@ -36,10 +25,13 @@ const SettingsPage = ({ route, navigation }) => {
 
   useEffect(() => {
     async function fetchData() {
-      await retrieveData(user, setUser);
+      const value = await AsyncStorage.getItem("user_data");
+      if (value !== null) {
+        setUser(JSON.parse(value));
+      }
     }
     fetchData();
-  }, [user.user_id]);
+  }, []);
 
   useEffect(() => {
     console.log("State changed!");
@@ -101,13 +93,30 @@ const SettingsPage = ({ route, navigation }) => {
         <View>
           <Text style={{margin: 10}} theme={theme.colors.text} variant="titleLarge">Account</Text>
           <View style={styles.setting}>
-            <Text style={{margin: "5%"}} theme={theme.colors.text} variant="bodyLarge">Email</Text>
-            <TextInput label="Email" style={{width: '60%'}}/>
+            <Text style={{margin: "5%"}} theme={theme.colors.text} variant="bodyLarge">User ID:</Text>
+            <Text>{user.user_id ?? ""}</Text>
+          </View>
+          <View style={styles.setting}>
+            <Text style={{margin: "5%"}} theme={theme.colors.text} variant="bodyLarge">Name:</Text>
+            <Text>{`${user.first_name} ${user.last_name}` ?? ""}</Text>
+          </View>
+          <View style={styles.setting}>
+            <Text style={{margin: "5%"}} theme={theme.colors.text} variant="bodyLarge">Username:</Text>
+            <Text>{user.username}</Text>
+          </View>
+          <View style={styles.setting}>
+            <Text style={{margin: "5%"}} theme={theme.colors.text} variant="bodyLarge">Email:</Text>
+            <Text>{user.email}</Text>
+          </View>
+          <View style={styles.setting}>
+            <Text style={{margin: "5%"}} theme={theme.colors.text} variant="bodyLarge">Change Email</Text>
+            <TextInput label="Email" style={{width: '50%'}}/>
           </View>
         </View>
         <Button
-          style={{ width: "45%", justifyContent: "flex-start", margin: "5%", borderRadius: 6 }}
-          buttonColor="#09BC8A"
+          style={{ width: "45%", justifyContent: "flex-start", margin: "5%", borderRadius: 6}}
+          buttonColor={theme.colors.primary}
+          textColor={theme.colors.card}
           icon="delete"
           mode="contained"
           onPress={() => console.log("Pressed")}
@@ -125,7 +134,7 @@ const SettingsPage = ({ route, navigation }) => {
             />
           </View>
         </View>
-        <View>
+        {/*<View>
           <Text style={{margin: 10}} theme={theme.colors.text} variant="titleLarge">Data Saver</Text>
           <View style={styles.setting}>
             <Text style={{margin: "5%"}} theme={theme.colors.text} variant="bodyLarge">Turn Off Data Streaming</Text>
@@ -200,7 +209,7 @@ const SettingsPage = ({ route, navigation }) => {
               onValueChange={onBPMWarning}
             />
           </View>
-        </View>
+            </View>*/}
       </ScrollView>
     </SafeAreaView>
   );
