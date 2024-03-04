@@ -187,6 +187,7 @@ function App() {
   LogBox.ignoreLogs([
     "Found screens with the same name nested",
     "@supabase/gotrue-js",
+    "No storage option exists to persist",
   ]);
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
