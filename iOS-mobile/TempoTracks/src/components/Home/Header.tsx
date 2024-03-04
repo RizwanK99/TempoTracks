@@ -21,7 +21,7 @@ export const HomePageHeader = ({ navigation }) => {
   } else if (currentHour >= 12 && currentHour < 18) {
     greeting = "Good Afternoon";
   } else {
-    greeting = "Goodnight";
+    greeting = "Good Evening";
   }
   useEffect(() => {
     async function fetchData() {
