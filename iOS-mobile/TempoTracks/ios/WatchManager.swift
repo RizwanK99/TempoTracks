@@ -28,6 +28,9 @@ import MusicKit
       else if functionName == "endWorkout" {
         WatchManagerEmitter.emitter.endWorkout(data)
       }
+      else if functionName == "updateLiveWorkout" {
+        WatchManagerEmitter.emitter.updateLiveWorkout(data)
+      }
     }
 }
 
@@ -41,7 +44,7 @@ class WatchManagerEmitter: RCTEventEmitter {
   }
   
   override func supportedEvents() -> [String]! {
-    return ["createWorkout", "togglePauseWorkout", "endWorkout"]
+    return ["createWorkout", "togglePauseWorkout", "endWorkout", "updateLiveWorkout"]
   }
 
   override static func requiresMainQueueSetup() -> Bool {
@@ -61,6 +64,11 @@ class WatchManagerEmitter: RCTEventEmitter {
   @objc
   func endWorkout(_ workout_id: String){
     sendEvent(withName: "endWorkout", body: workout_id)
+  }
+
+  @objc
+  func updateLiveWorkout(_ workoutData: String){
+    sendEvent(withName: "updateLiveWorkout", body: workoutData)
   }
 }
 
@@ -261,5 +269,10 @@ class WatchManagerListener: NSObject {
       (error) in
       print("endWorkout - Sending message failed with error: \(error)")
     })
+  }
+  
+  @objc
+  static func requiresMainQueueSetup() -> Bool {
+    return true
   }
 }

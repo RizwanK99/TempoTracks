@@ -49,7 +49,7 @@ export const usePlayerState = ({ songs }: SongProps) => {
         currentSong,
       };
     },
-    refetchInterval: 2500,
+    refetchInterval: 250,
     enabled: songs && songs.length > 0,
   });
 };

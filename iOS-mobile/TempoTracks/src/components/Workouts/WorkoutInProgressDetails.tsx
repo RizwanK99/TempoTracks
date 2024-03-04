@@ -17,6 +17,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { TimingEngineResult } from "../../hooks/useTimingEngine";
 import { MusicManager } from "../../module/MusicManager";
+import { _formatNumber } from "../../pages/WorkoutSummaryPage";
 
 interface TimeProps {
   value: number;
@@ -27,7 +28,10 @@ interface TimeProps {
 const Time: React.FC<TimeProps> = ({ value, unit, showColon = true }) => {
   const theme = useAppTheme();
   return (
-    <Text style={{ color: theme.colors.primary, fontSize: 68 }} key={unit}>
+    <Text
+      style={{ color: theme.colors.primary, fontSize: 68 }}
+      key={`${value}-${unit}`}
+    >
       {showColon && ":"}
       {value < 10 ? `0${value}` : value}
     </Text>
@@ -43,7 +47,7 @@ const Stat: React.FC<StatProps> = ({ unit, value }) => {
   const theme = useAppTheme();
   return (
     <Text style={{ color: theme.colors.text, fontSize: 34 }}>
-      {value} {unit}
+      {_formatNumber(value)} {unit}
     </Text>
   );
 };
@@ -93,68 +97,85 @@ export const WorkoutInProgressDetails: React.FC<
   const [distance, setDistance] = useState<number>(5);
 
   // Needed since calling reset after mutation
-  const duration = useMemo(() => {
-    return totalSeconds;
-  }, [totalSeconds]);
+  // const duration = useMemo(() => {
+  //   return totalSeconds;
+  // }, [totalSeconds]);
 
-  const handleWorkoutEnd = () => {
-    endWorkout({ workoutId, templateId, duration });
+  const handleWorkoutEnd = (fromLocal: boolean, data: any = null) => {
+    if (fromLocal && IS_WATCH_ENABLED) {
+      WatchManager.endWorkout(workoutId);
+    }
+
+    endWorkout({
+      workoutId,
+      templateId,
+      duration: totalSeconds > 0 ? totalSeconds : null,
+      rawHealthData: data,
+    });
     reset();
     navigation.navigate("WorkoutSummaryPage", {
       workoutId: workoutId,
     });
   };
 
-  if (IS_WATCH_ENABLED) {
-    const [pauseEventData, setPauseEventData] = useState(null);
-    const [endEventData, setEndEventData] = useState(null);
-
-    useEffect(() => {
+  useEffect(() => {
+    if (IS_WATCH_ENABLED) {
       if (EventListener.getCount("togglePauseWorkout") == 0) {
         const unsubscribePause = EventListener.subscribe(
           "togglePauseWorkout",
-          (data) => {
-            setPauseEventData(data);
+          (pauseEventData) => {
+            if (!pauseEventData) return;
+
+            if (pauseEventData == "true") {
+              pauseWorkout(workoutId);
+              pause();
+            } else {
+              resumeWorkout(workoutId);
+              start();
+            }
+
+            togglePaused();
           }
         );
         const unsubscribeStop = EventListener.subscribe(
           "endWorkout",
           (data) => {
-            setEndEventData(data);
+            data ? handleWorkoutEnd(false, data) : null;
+          }
+        );
+
+        const unsubscribeLiveData = EventListener.subscribe(
+          "updateLiveWorkout",
+          (data) => {
+            console.log("updateLiveWorkout event received", data);
+            if (data) {
+              const parsedData = (() => {
+                try {
+                  return JSON.parse(data);
+                } catch (e) {
+                  console.log("Error parsing live data", e);
+                  return null;
+                }
+              })();
+
+              if (parsedData) {
+                setCalories(parsedData.activeEnergy);
+                setBpm(parsedData.heartRate);
+                setDistance(parsedData.distance);
+              }
+            }
           }
         );
 
         return () => {
           unsubscribePause();
           unsubscribeStop();
+          unsubscribeLiveData();
         };
       }
-
-      return;
-    }, []);
-
-    useEffect(() => {
-      if (!pauseEventData) return;
-
-      if (pauseEventData == "true") {
-        pauseWorkout(workoutId);
-        pause();
-      } else {
-        resumeWorkout(workoutId);
-        start();
-      }
-
-      togglePaused();
-
-      setPauseEventData(null);
-    }, [pauseEventData]);
-
-    useEffect(() => {
-      if (!endEventData) return;
-
-      handleWorkoutEnd();
-    }, [endEventData]);
-  }
+    }
+    return;
+  }, []);
 
   return (
     <SafeAreaView
@@ -179,13 +200,20 @@ export const WorkoutInProgressDetails: React.FC<
         <Time unit="minutes" value={minutes} />
         <Time unit="seconds" value={seconds} />
       </View>
-      <View style={{ flexDirection: "column" }}>
+      <View
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 20,
+        }}
+      >
         {/* HEALTHKIT - may not be possible to update in real time? */}
         <Stat unit="CAL" value={calories} />
         <Stat unit="BPM" value={bpm} />
-        <Stat unit="FT" value={distance} />
+        <Stat unit="M" value={distance} />
       </View>
-      <View style={{ flexDirection: "row", marginTop: "70%" }}>
+      <View style={{ flexDirection: "row", marginTop: "30%" }}>
         <View
           style={{
             flexDirection: "column",
@@ -204,13 +232,10 @@ export const WorkoutInProgressDetails: React.FC<
               padding: 4,
             }}
             onPress={async () => {
-              if (IS_WATCH_ENABLED) {
-                WatchManager.endWorkout(workoutId);
-              }
               console.log("ending workout");
               await timingEngine.endTimer();
               MusicManager.pause();
-              handleWorkoutEnd();
+              handleWorkoutEnd(true);
             }}
           >
             <MaterialCommunityIcons

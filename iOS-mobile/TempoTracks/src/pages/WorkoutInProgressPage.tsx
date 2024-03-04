@@ -12,11 +12,11 @@ import { useStopwatch } from "react-timer-hook";
 import { useTimingEngine } from "../hooks/useTimingEngine";
 import { formatWorkoutIntervals } from "../utils/formatWorkoutIntervals";
 import { MusicManager } from "../module/MusicManager";
+import { Tables } from "../lib/db.types";
 
-const WorkoutInProgressPage = ({ navigation, route }) => {
+const WorkoutPageWrapper = ({ navigation, route }) => {
   const theme = useTheme();
   const { workoutId, templateId, playlistId } = route.params;
-
   const { data: template, isPending } = useGetWorkoutTemplateById(templateId);
 
   if (!template || isPending) {
@@ -30,10 +30,35 @@ const WorkoutInProgressPage = ({ navigation, route }) => {
           alignItems: "center",
         }}
       >
-        <Text>Loading...</Text>
+        <Text>Loading... in progress</Text>
       </SafeAreaView>
     );
   }
+
+  return (
+    <WorkoutInProgressPage
+      navigation={navigation}
+      route={route}
+      template={template}
+    />
+  );
+};
+
+const WorkoutInProgressPage = ({
+  navigation,
+  route,
+  template,
+}: {
+  template: Tables<"workout_templates"> & {
+    workout_intervals: (Tables<"workout_intervals"> & {
+      workout_intensities: Tables<"workout_intensities">;
+    })[];
+  };
+  navigation: any;
+  route: any;
+}) => {
+  const { workoutId, templateId, playlistId } = route.params;
+  const theme = useTheme();
 
   const windowWidth = useWindowDimensions().width;
   const scrollOffsetValue = useSharedValue<number>(0);
@@ -47,14 +72,15 @@ const WorkoutInProgressPage = ({ navigation, route }) => {
   const [paused, setPaused] = useState<boolean>(false);
 
   const formattedIntervals = useMemo(() => {
+    if (!template) return;
     return formatWorkoutIntervals({
-      rawIntervals: template.workout_intervals,
-      numberOfSets: template.num_sets,
+      rawIntervals: template?.workout_intervals,
+      numberOfSets: template?.num_sets,
     });
   }, [template]);
 
   const timingEngine = useTimingEngine<number>({
-    timingData: formattedIntervals,
+    timingData: formattedIntervals ?? [],
     autoStart: true,
     resetToDefaultOnEnd: 1,
     timeoutIdStorageKey: "music_timer",
@@ -95,25 +121,21 @@ const WorkoutInProgressPage = ({ navigation, route }) => {
         renderItem={({ index }) =>
           index === 0 ? (
             <SafeAreaView style={{ flex: 1 }}>
-              {template && !isPending ? (
-                <WorkoutInProgressDetails
-                  workoutId={workoutId}
-                  templateId={templateId}
-                  timingEngine={timingEngine}
-                  navigation={navigation}
-                  totalSeconds={totalSeconds}
-                  seconds={seconds}
-                  minutes={minutes}
-                  hours={hours}
-                  start={start}
-                  reset={reset}
-                  pause={pause}
-                  paused={paused}
-                  togglePaused={() => setPaused(!paused)}
-                />
-              ) : (
-                <Text>Loading...</Text>
-              )}
+              <WorkoutInProgressDetails
+                workoutId={workoutId}
+                templateId={templateId}
+                timingEngine={timingEngine}
+                navigation={navigation}
+                totalSeconds={totalSeconds}
+                seconds={seconds}
+                minutes={minutes}
+                hours={hours}
+                start={start}
+                reset={reset}
+                pause={pause}
+                paused={paused}
+                togglePaused={() => setPaused(!paused)}
+              />
             </SafeAreaView>
           ) : (
             <SafeAreaView style={{ flex: 1 }}>
@@ -126,4 +148,4 @@ const WorkoutInProgressPage = ({ navigation, route }) => {
   );
 };
 
-export default WorkoutInProgressPage;
+export default WorkoutPageWrapper;

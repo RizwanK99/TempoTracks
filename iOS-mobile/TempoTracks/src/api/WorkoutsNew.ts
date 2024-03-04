@@ -1,6 +1,6 @@
 import { supabase } from "../lib/supabase";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { TablesInsert } from "../lib/db.types";
+import { Tables, TablesInsert } from "../lib/db.types";
 
 export const useCreateWorkout = () => {
   const queryClient = useQueryClient();
@@ -74,9 +74,74 @@ export const useEndWorkout = () => {
     mutationFn: async (params: {
       workoutId: string;
       templateId: string;
-      duration: number;
+      duration: number | null;
+      rawHealthData: any | null;
     }) => {
-      const { workoutId, templateId, duration } = params;
+      console.log("Ending workout", params);
+
+      const { workoutId, templateId, duration, rawHealthData } = params;
+      // const { refetch } = useGetWorkoutById(workoutId);
+
+      console.log("rawHealthData", rawHealthData);
+
+      if (rawHealthData) {
+        const parsedHealthData = (() => {
+          try {
+            return JSON.parse(rawHealthData) as {
+              id: string;
+              averageHeartRate: number;
+              heartRate: number;
+              activeEnergy: number;
+              distance: number;
+            };
+          } catch (e) {
+            console.log("Error parsing health data", e);
+            return null;
+          }
+        })();
+        console.log("rawHealthData", rawHealthData, parsedHealthData);
+
+        if (!parsedHealthData) {
+          return null;
+        }
+
+        const healthData: Partial<Tables<"workouts">> = {
+          workout_id: parsedHealthData.id,
+          total_distance: parsedHealthData.distance,
+          total_energy_burned: parsedHealthData.activeEnergy,
+          average_heart_rate: parsedHealthData.averageHeartRate,
+        };
+
+        const { data: resultData } = await supabase
+          .from("workouts")
+          .update({
+            is_paused: false,
+            paused_at: null,
+            status: "COMPLETED",
+            time_end: new Date().toISOString(),
+
+            ...healthData,
+          })
+          .eq("workout_id", workoutId)
+          .select()
+          .single();
+
+        if (!resultData) {
+          console.log("Error saving workout health data");
+          return null;
+        }
+
+        await supabase
+          .from("workout_templates")
+          .update({
+            last_completed: new Date().toISOString(),
+          })
+          .eq("id", templateId);
+
+        // refetch();
+        return resultData;
+      }
+
       const { data, error } = await supabase
         .from("workouts")
         .update({
@@ -84,7 +149,7 @@ export const useEndWorkout = () => {
           paused_at: null,
           status: "COMPLETED",
           time_end: new Date().toISOString(),
-          total_duration: duration,
+          ...(duration ? { total_duration: duration } : {}), // only update duration if it's provided
         })
         .eq("workout_id", workoutId);
 
