@@ -10,6 +10,7 @@ import { Slider } from "react-native-elements";
 import { StyleSheet, View, SafeAreaView} from "react-native";
 import { ScrollView } from "react-native";
 import useThemeStore from "../hooks/useThemeStore";
+import { saved_user_data } from "../api/Globals";
 
 const SettingsPage = ({ route, navigation }) => {
   const [user, setUser] = useState({});
@@ -91,29 +92,57 @@ const SettingsPage = ({ route, navigation }) => {
       </Text>
       <ScrollView>
         <View>
+        <View style={styles.setting}>
+          <Text style={{margin: 10}} theme={theme.colors.text} variant="titleLarge">Physical Info</Text>
+            <Button
+          style={{ width: "10%", margin: "3%", marginLeft: "35%", borderRadius: 4}}
+          buttonColor={theme.colors.primary}
+          textColor={theme.colors.card}
+          title="Edit"
+          icon="delete"
+          mode="contained"
+          onPress={() => console.log("Pressed")}
+        ></Button>
+        </View>
+          <View style={styles.setting}>
+            <Text style={{margin: "5%", paddingRight: "1%"}} theme={theme.colors.text} variant="bodyLarge">Height:</Text>
+            <TextInput label="Height (cm)" value={saved_user_data.height} style={{width: '40%'}}/>
+          </View>
+          <View style={styles.setting}>
+            <Text style={{margin: "5%"}} theme={theme.colors.text} variant="bodyLarge">Weight:</Text>
+            <TextInput label="Weight (kg)" value={saved_user_data.weight} style={{width: '40%'}}/>
+          </View>
+          <View style={styles.setting}>
+            <Text style={{margin: "5%", paddingRight: "6%"}} theme={theme.colors.text} variant="bodyLarge">Age:</Text>
+            <TextInput label="Age" style={{width: '40%'}}/>
+          </View>
           <Text style={{margin: 10}} theme={theme.colors.text} variant="titleLarge">Account</Text>
           <View style={styles.setting}>
             <Text style={{margin: "5%"}} theme={theme.colors.text} variant="bodyLarge">User ID:</Text>
-            <Text>{user.user_id ?? ""}</Text>
+            <Text>{saved_user_data.user_id ?? ""}</Text>
           </View>
           <View style={styles.setting}>
             <Text style={{margin: "5%"}} theme={theme.colors.text} variant="bodyLarge">Name:</Text>
-            <Text>{`${user.first_name} ${user.last_name}` ?? ""}</Text>
+            <Text>{`${saved_user_data.first_name} ${saved_user_data.last_name}` ?? ""}</Text>
           </View>
           <View style={styles.setting}>
             <Text style={{margin: "5%"}} theme={theme.colors.text} variant="bodyLarge">Username:</Text>
-            <Text>{user.username}</Text>
+            <Text>{saved_user_data.username}</Text>
           </View>
           <View style={styles.setting}>
             <Text style={{margin: "5%"}} theme={theme.colors.text} variant="bodyLarge">Email:</Text>
-            <Text>{user.email}</Text>
+            <Text>{saved_user_data.email}</Text>
           </View>
           <View style={styles.setting}>
-            <Text style={{margin: "5%"}} theme={theme.colors.text} variant="bodyLarge">Change Email</Text>
-            <TextInput label="Email" style={{width: '50%'}}/>
+            <Text style={{margin: "5%"}} theme={theme.colors.text} variant="bodyLarge">Phone Number:</Text>
+            <Text>{saved_user_data.phone_number}</Text>
           </View>
+          {/*<View style={styles.setting}>
+            <Text style={{margin: "5%"}} theme={theme.colors.text} variant="bodyLarge">Change Username</Text>
+            <TextInput label="Username" style={{width: '40%'}}/>
+      </View>*/}
         </View>
-        <Button
+        {/*<Button
           style={{ width: "45%", justifyContent: "flex-start", margin: "5%", borderRadius: 6}}
           buttonColor={theme.colors.primary}
           textColor={theme.colors.card}
@@ -122,8 +151,8 @@ const SettingsPage = ({ route, navigation }) => {
           onPress={() => console.log("Pressed")}
         >
           Delete Account
-        </Button>
-        <View>
+      </Button>*/}
+        {/*<View>
           <Text style={{margin: 10}} theme={theme.colors.text} variant="titleLarge">Dark Mode</Text>
           <View style={styles.setting}>
             <Text style={{margin: "5%"}} theme={theme.colors.text} variant="bodyLarge">Turn On Dark Mode</Text>
@@ -132,8 +161,8 @@ const SettingsPage = ({ route, navigation }) => {
               value={darkMode}
               onValueChange={onDarkMode}
             />
-          </View>
-        </View>
+    </View>
+        </View>*/}
         {/*<View>
           <Text style={{margin: 10}} theme={theme.colors.text} variant="titleLarge">Data Saver</Text>
           <View style={styles.setting}>

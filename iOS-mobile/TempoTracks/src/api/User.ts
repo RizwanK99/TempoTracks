@@ -96,4 +96,13 @@ async function updateGoals(
   return result.data;
 }
 
-export { createUser, userLogIn, updateGoals };
+async function updateBodyStats(user_id, height, weight) {
+  const result = await supabase.from('users').update({
+    height: height,
+    weight: weight
+  }).eq('user_id', user_id).single();
+  console.log(result);
+  return result.data;
+}
+
+export { createUser, userLogIn, updateGoals, updateBodyStats };
