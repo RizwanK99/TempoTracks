@@ -10,8 +10,8 @@ import { Slider } from "react-native-elements";
 import { StyleSheet, View, SafeAreaView} from "react-native";
 import { ScrollView } from "react-native";
 import useThemeStore from "../hooks/useThemeStore";
-import { saved_user_data } from "../api/Globals";
-import { updateBodyStats } from "../api/User"
+import { saved_user_data } from "../../api/Globals";
+import { updateBodyStats } from "../../api/User"
 
 const SettingsPage = ({ route, navigation }) => {
   const [user, setUser] = useState({});
@@ -32,18 +32,21 @@ const SettingsPage = ({ route, navigation }) => {
   const [age, setAge] = React.useState(saved_user_data.age);
 
   const toggleEditable = () => {
-    console.log("in here")
+    //console.log("in here")
     isEditable ? setEditable(false) : setEditable(true);
-    console.log(isEditable)
+    //console.log(isEditable)
 
     if(!isEditable){
-      console.log("SAVEEEEEEEEEEEEEEEEEEEE")
       saveData();
     }
   }
 
   async function saveData() {
     updateBodyStats(saved_user_data.user_id, height, weight, age)
+  }
+
+  async function updateBodyEdit() {
+    updateBodyStats(saved_user_data.user_id, userheight, weight)
   }
 
   useEffect(() => {
@@ -57,9 +60,9 @@ const SettingsPage = ({ route, navigation }) => {
   }, []);
 
   useEffect(() => {
-    console.log("State changed!");
+    //console.log("State changed!");
     async function fetchData() {
-      console.log("in async");
+      //console.log("in async");
       await updateSettings(
         user.user_id,
         dataStream,
@@ -79,12 +82,12 @@ const SettingsPage = ({ route, navigation }) => {
 
   const onFade = (value) => {
     setFade(value);
-    console.log(value);
+    //console.log(value);
   };
 
   const onMix = (value) => {
     setMix(value);
-    console.log(value);
+    //console.log(value);
   };
 
   const onExplicitContent = () => {
@@ -169,7 +172,7 @@ const SettingsPage = ({ route, navigation }) => {
           textColor={theme.colors.card}
           icon="delete"
           mode="contained"
-          onPress={() => console.log("Pressed")}
+          onPress={() => //console.log("Pressed")}
         >
           Delete Account
       </Button>*/}
