@@ -15,6 +15,11 @@ import { useAppTheme } from "../../provider/PaperProvider";
 import { HealthManager } from "../../module/HealthManager";
 import { saved_user_data } from "../../api/Globals";
 import { updateDailyGoals } from "../../api/User";
+import { startOfDay, format, set } from "date-fns";
+
+import { getUsersWorkouts } from "../../api/Workouts";
+import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
+import { useGetCompletedWorkouts } from "../../api/WorkoutsNew";
 
 export const DailyGoals = () => {
   const theme = useAppTheme();
@@ -35,33 +40,32 @@ export const DailyGoals = () => {
   const [distance, setDistance] = React.useState(0);
   const [calories, setCalories] = React.useState(0);
 
-  const [workoutData, setWorkoutData] = React.useState([]);
+  const { data: completedWorkouts, isPending: loadingCompletedWorkouts } =
+    useGetCompletedWorkouts(saved_user_data.user_id);
+
+  async function getDailyWorkouts(workoutData) {
+    const todaysDate = startOfDay(new Date());
+    const dailyWorkouts = workoutData.filter((workout) => {
+      const workoutStart = startOfDay(new Date(workout.time_start));
+      return workoutStart.getTime() === todaysDate.getTime();
+    });
+    const totalDuration = dailyWorkouts.reduce((accumulator, workout) => {
+      return accumulator + workout.total_duration;
+    }, 0);
+    setDuration(totalDuration);
+    const totalDistance = dailyWorkouts.reduce((accumulator, workout) => {
+      return accumulator + workout.total_distance;
+    }, 0);
+    setDistance(totalDistance);
+    const totalCalories = dailyWorkouts.reduce((accumulator, workout) => {
+      return accumulator + workout.total_energy_burned;
+    }, 0);
+    setCalories(totalCalories);
+  }
 
   React.useEffect(() => {
-    async function fetchData() {
-      const data = await HealthManager.getWorkoutData("Day");
-      setWorkoutData(data);
-    }
-    fetchData();
-
-    var d = 0;
-    workoutData.forEach((element: any) => {
-      d += element.Duration;
-    });
-    setDuration(d);
-
-    var dist = 0;
-    workoutData.forEach((element: any) => {
-      dist += element.Distance;
-    });
-    setDistance(dist);
-
-    var cals = 0;
-    workoutData.forEach((element: any) => {
-      cals += element.Calories;
-    });
-    setCalories(cals);
-  }, []);
+    getDailyWorkouts(completedWorkouts);
+  }, [completedWorkouts]);
 
   async function saveData() {
     updateDailyGoals(saved_user_data.user_id, text_dist, text_cal, text_dur);
@@ -150,11 +154,11 @@ export const DailyGoals = () => {
             Distance
           </Button>
           <Text style={{ color: theme.colors.foregroundMuted }}>
-            {distance.toFixed(0)}km
+            {distance.toFixed(0)} km
           </Text>
         </View>
         <View style={{ paddingHorizontal: 10 }}>
-          <ProgressBar progress={0.7} />
+          <ProgressBar progress={distance / parseInt(text_dist) || 1} />
         </View>
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
           <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>
@@ -179,11 +183,11 @@ export const DailyGoals = () => {
             Duration
           </Button>
           <Text style={{ color: theme.colors.foregroundMuted }}>
-            {duration.toFixed(0)}mins
+            {duration.toFixed(0)} mins
           </Text>
         </View>
         <View style={{ paddingHorizontal: 10 }}>
-          <ProgressBar progress={0.9} />
+          <ProgressBar progress={duration / parseInt(text_dur) || 1} />
         </View>
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
           <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>
@@ -208,11 +212,11 @@ export const DailyGoals = () => {
             Calories
           </Button>
           <Text style={{ color: theme.colors.foregroundMuted }}>
-            {calories.toFixed(0)}cals
+            {calories.toFixed(0)} cals
           </Text>
         </View>
         <View style={{ paddingHorizontal: 10 }}>
-          <ProgressBar progress={0.8} />
+          <ProgressBar progress={calories / parseInt(text_cal) || 1} />
         </View>
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
           <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>
