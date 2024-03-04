@@ -13,6 +13,16 @@ export const HomePageHeader = ({ navigation }) => {
   const formattedDate = format(endOfDay(new Date()), "MMMM d, yyyy");
   const [user, setUser] = useState<Tables<"users"> | null>(null);
 
+  const currentHour = new Date().getHours();
+
+  let greeting: string;
+  if (currentHour >= 5 && currentHour < 12) {
+    greeting = "Good Morning";
+  } else if (currentHour >= 12 && currentHour < 18) {
+    greeting = "Good Afternoon";
+  } else {
+    greeting = "Goodnight";
+  }
   useEffect(() => {
     async function fetchData() {
       const value = await AsyncStorage.getItem("user_data");
@@ -28,7 +38,11 @@ export const HomePageHeader = ({ navigation }) => {
       mode="small"
       statusBarHeight={0}
       elevated
-      style={{ backgroundColor: theme.colors.background, paddingBottom: 10 }}
+      style={{
+        backgroundColor: theme.colors.background,
+        paddingBottom: 10,
+        marginBottom: 8,
+      }}
     >
       <View
         style={{
@@ -45,15 +59,17 @@ export const HomePageHeader = ({ navigation }) => {
           />
           {user && (
             <Appbar.Content
-              title={"Good Afternoon, " + saved_user_data.first_name}
-              titleStyle={{ fontSize: 25 }}
+              title={greeting + ", " + saved_user_data.first_name}
+              titleStyle={{ fontSize: 26 }}
             />
           )}
         </View>
-
-        <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-          <Avatar.Text size={40} label={saved_user_data.first_name ?? ""} />
-        </TouchableOpacity>
+        {/* <TouchableOpacity onPress={() => navigation.navigate("Profile")}> */}
+        <Avatar.Text
+          size={48}
+          label={saved_user_data.first_name.toUpperCase().at(0) ?? "D"}
+        />
+        {/* </TouchableOpacity> */}
       </View>
     </Appbar.Header>
   );
