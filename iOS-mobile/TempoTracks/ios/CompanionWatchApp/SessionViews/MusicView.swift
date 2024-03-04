@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import _MusicKit_SwiftUI
 
 class MusicViewModel: ObservableObject {
   @Published var curSong: Song
@@ -15,7 +16,7 @@ class MusicViewModel: ObservableObject {
     self.curSong = curSong
   }
   
-  func playSong(title: String, artwork: URL) {
+  func playSong(title: String, artwork: Artwork) {
     self.curSong = Song(title: title, artwork: artwork)
   }
 }
@@ -27,13 +28,12 @@ struct MusicView: View {
   var body: some View {
     ZStack {
       VStack {
-        AsyncImage(url: viewModel.curSong.artwork) { image in
-          image.resizable()
-        } placeholder: {
-          ProgressView()
+        if viewModel.curSong.artwork != nil {
+          ArtworkImage(viewModel.curSong.artwork!, width: 100,
+                       height: 100)
+          .aspectRatio(contentMode: .fit)
+          .frame(width: 100, height: 100)
         }
-        .aspectRatio(contentMode: .fit)
-        .frame(width: 100, height: 100)
         
         Text(viewModel.curSong.title)
           .font(.title3)

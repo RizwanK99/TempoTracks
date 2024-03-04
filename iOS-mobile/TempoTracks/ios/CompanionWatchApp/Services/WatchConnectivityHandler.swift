@@ -6,13 +6,14 @@
 //
 
 import WatchConnectivity
+import MusicKit
 
 class WatchConnectivityHandler: NSObject, WCSessionDelegate {
   static let shared = WatchConnectivityHandler()
   
   // Tight coupling
   static let musicViewModel = MusicViewModel(curSong:
-    Song(title: "Song 1", artwork: URL(string:"https://i.scdn.co/image/ab67616d0000b2736e7bb273ff9cb1de1e1d4d0a")!)
+    Song(title: "Song 1", artwork: nil)
   )
   
   static let workoutViewModel = WorkoutViewModel(workouts: [
@@ -103,7 +104,7 @@ class WatchConnectivityHandler: NSObject, WCSessionDelegate {
         return
       }
       
-      guard let artwork = message["artwork"] as? URL else {
+      guard let artwork = message["artwork"] as? Artwork else {
         return
       }
       

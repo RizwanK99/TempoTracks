@@ -63,7 +63,7 @@ class WatchManagerEmitter: RCTEventEmitter {
     private var timer: Timer?
     private var musicPlayer = SystemMusicPlayer.shared
     private var title: String?
-    private var artwork: URL?
+    private var artwork: Artwork?
 
     private override init() {
       super.init()
@@ -79,7 +79,7 @@ class WatchManagerEmitter: RCTEventEmitter {
     }
 
     @objc private func pollMusicPlayer() {
-      let curArtwork = musicPlayer.queue.currentEntry?.artwork?.url(width: 500, height: 500);
+      let curArtwork = musicPlayer.queue.currentEntry?.artwork
       let curTitle = musicPlayer.queue.currentEntry?.title
       
       if curArtwork != artwork && curTitle != title {
@@ -90,8 +90,8 @@ class WatchManagerEmitter: RCTEventEmitter {
       }
     }
   
-  func playSong(_ title: String, _ artwork: URL) {
-    print("SENDING PLAYED SONG TO WATCH WITH TITLE: " + title + " AND ARTWORK: " + artwork.absoluteString)
+  func playSong(_ title: String, _ artwork: Artwork) {
+    print("SENDING PLAYED SONG TO WATCH WITH TITLE: " + title + " AND ARTWORK: " + artwork.url(width: 50, height: 50)!.absoluteString)
       guard WCSession.default.isPaired && WCSession.default.isWatchAppInstalled else {
           print("playSong - Watch app is not installed or not paired")
           return

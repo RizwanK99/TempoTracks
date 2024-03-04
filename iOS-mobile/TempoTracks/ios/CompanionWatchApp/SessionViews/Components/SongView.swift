@@ -7,9 +7,10 @@
 
 import Foundation
 import SwiftUI
+import MusicKit
 
 struct Song: Identifiable {
   let id = UUID()
   let title: String
-  let artwork: URL
+  let artwork: Artwork?
 }
