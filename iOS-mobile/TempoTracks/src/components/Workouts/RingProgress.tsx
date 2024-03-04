@@ -51,7 +51,7 @@ const RingProgress: React.FC<RingProgressProps> = ({
       onComplete();
     }
 
-    return () => clearInterval(interval);
+    return () => clearInterval(interval as any);
   }, [counter]);
 
   const animatedProps = useAnimatedProps(() => ({
