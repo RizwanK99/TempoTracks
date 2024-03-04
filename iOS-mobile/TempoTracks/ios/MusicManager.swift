@@ -176,7 +176,6 @@ class MusicManager: NSObject {
     Task {
       // fetch song item
       var request = MusicLibraryRequest<Song>()
-      request.filter(matching: \.id, equalTo: MusicItemID(stringLiteral: songIdParam))
       let libraryResponse: MusicLibraryResponse = try await request.response()
       
       let song = libraryResponse.items[0]

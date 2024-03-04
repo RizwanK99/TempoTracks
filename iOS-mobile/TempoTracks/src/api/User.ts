@@ -66,6 +66,10 @@ async function userLogIn(email, password) {
     daily_distance_goal: result.data.daily_distance,
     daily_calorie_goal: result.data.daily_calories,
     daily_duration_goal: result.data.daily_duration,
+    monthly_distance_goal: result.data.monthly_distance,
+    monthly_calorie_goal: result.data.monthly_calories,
+    monthly_duration_goal: result.data.monthly_duration,
+    monthly_workouts_goal: result.data.monthly_workouts,
   }
 
   saved_user_data.user_id = user_data.user_id;
@@ -77,11 +81,15 @@ async function userLogIn(email, password) {
   saved_user_data.daily_distance_goal = user_data.daily_distance_goal;
   saved_user_data.daily_calorie_goal = user_data.daily_calorie_goal;
   saved_user_data.daily_duration_goal = user_data.daily_duration_goal;
+  saved_user_data.monthly_distance_goal = user_data.monthly_distance_goal;
+  saved_user_data.monthly_calorie_goal = user_data.monthly_calorie_goal;
+  saved_user_data.monthly_duration_goal = user_data.monthly_duration_goal;
+  saved_user_data.monthly_workouts_goal = user_data.monthly_workouts_goal;
 
   return user_data;
 }
 
-async function updateGoals(
+async function updateDailyGoals(
   user_id,
   daily_distance,
   daily_calories,
@@ -96,4 +104,15 @@ async function updateGoals(
   return result.data;
 }
 
-export { createUser, userLogIn, updateGoals };
+async function updateMonthlyGoals(user_id, monthly_distance, monthly_calories, monthly_duration, monthly_workouts) {
+  const result = await supabase.from('users').update({
+    monthly_distance: monthly_distance,
+    monthly_calories: monthly_calories,
+    monthly_duration: monthly_duration,
+    monthly_workouts: monthly_workouts,
+  }).eq('user_id', user_id).single();
+  console.log(result);
+  return result.data;
+}
+
+export { createUser, userLogIn, updateDailyGoals, updateMonthlyGoals };

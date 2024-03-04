@@ -35,7 +35,7 @@ struct SongJson: Codable {
     }
 }
 
-class SongAdapter {
+/*class SongAdapter {
   static let adapter = SongAdapter()
 
   func adaptJsonToSong(json: String) -> [Song] {
@@ -57,4 +57,4 @@ class SongAdapter {
     
     return adaptedSongs
   }
-}
+}*/

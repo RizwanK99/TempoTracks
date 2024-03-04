@@ -6,15 +6,15 @@
 //
 
 import WatchConnectivity
+import MusicKit
 
 class WatchConnectivityHandler: NSObject, WCSessionDelegate {
   static let shared = WatchConnectivityHandler()
   
   // Tight coupling
-  static let musicViewModel = MusicViewModel(songs: [
-    Song(apple_id: "1", title: "Song 1"),
-    Song(apple_id: "2", title: "Song 2"),
-  ])
+  static let musicViewModel = MusicViewModel(curSong:
+    Song(title: "Song 1", artwork: nil)
+  )
   
   static let workoutViewModel = WorkoutViewModel(workouts: [
     Workout(workout_id: nil, template_id: "biking", playlist_id: "biking", name: "Biking", hk_type: .cycling),
@@ -57,18 +57,7 @@ class WatchConnectivityHandler: NSObject, WCSessionDelegate {
       return
     }
       
-    if fn_name == "sendSongs" {
-      guard let songs = message["songs"] as? String else {
-        return
-      }
-      
-      let adaptedSongs = SongAdapter.adapter.adaptJsonToSong(json: songs)
-      
-      DispatchQueue.main.async {
-        WatchConnectivityHandler.musicViewModel.updateSongsState(with: adaptedSongs)
-      }
-    }
-    else if fn_name == "sendWorkouts" {
+    if fn_name == "sendWorkouts" {
       guard let workouts = message["workouts"] as? String else {
         return
       }
@@ -115,13 +104,12 @@ class WatchConnectivityHandler: NSObject, WCSessionDelegate {
         return
       }
       
-      DispatchQueue.main.async {
-        WatchConnectivityHandler.musicViewModel.playSong(title: title)
+      guard let artwork = message["artwork"] as? Artwork else {
+        return
       }
-    }
-    else if fn_name == "pauseCurrentSong" {
+      
       DispatchQueue.main.async {
-        WatchConnectivityHandler.musicViewModel.pauseCurrentSong()
+        WatchConnectivityHandler.musicViewModel.playSong(title: title, artwork: artwork)
       }
     }
   }

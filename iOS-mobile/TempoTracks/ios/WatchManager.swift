@@ -13,13 +13,7 @@ import MusicKit
     static let music_manager = MusicManager()
 
     static func callFunction(withName functionName: String, withData data: String){
-      if functionName == "pauseSong" {
-        music_manager.changePlayerPlayback("PAUSE");
-      }
-      else if functionName == "playSong" {
-        music_manager.playSongWithId(NSString(string: data))
-      }
-      else if functionName == "createWorkout" {
+      if functionName == "createWorkout" {
         WatchManagerEmitter.emitter.createWorkout(data)
       }
       else if functionName == "togglePauseWorkout" {
@@ -77,7 +71,7 @@ class WatchManagerEmitter: RCTEventEmitter {
     private var timer: Timer?
     private var musicPlayer = SystemMusicPlayer.shared
     private var title: String?
-    private var state: MusicPlayer.PlaybackStatus?
+    private var artwork: Artwork?
 
     private override init() {
       super.init()
@@ -93,37 +87,19 @@ class WatchManagerEmitter: RCTEventEmitter {
     }
 
     @objc private func pollMusicPlayer() {
-      let curState = musicPlayer.state.playbackStatus
+      let curArtwork = musicPlayer.queue.currentEntry?.artwork
       let curTitle = musicPlayer.queue.currentEntry?.title
       
-      if curState != state {
-        state = curState
-        
-        switch curState {
-          case .playing:
-            title = curTitle
-            playSong(curTitle!)
-          case .paused:
-            pauseCurrentSong()
-          default:
-            break
-        }
-      }
-      
-      if curTitle != title {
+      if curArtwork != artwork && curTitle != title {
+        artwork = curArtwork
         title = curTitle
         
-        if curTitle == nil {
-          pauseCurrentSong()
-        }
-        else if curState == .playing {
-          playSong(curTitle!)
-        }
+        playSong(title!, artwork!);
       }
     }
   
-    func playSong(_ title: String) {
-      print("SENDING PLAYED SONG TO WATCH WITH TITLE: " + title)
+  func playSong(_ title: String, _ artwork: Artwork) {
+    print("SENDING PLAYED SONG TO WATCH WITH TITLE: " + title + " AND ARTWORK: " + artwork.url(width: 50, height: 50)!.absoluteString)
       guard WCSession.default.isPaired && WCSession.default.isWatchAppInstalled else {
           print("playSong - Watch app is not installed or not paired")
           return
@@ -132,26 +108,11 @@ class WatchManagerEmitter: RCTEventEmitter {
       
       // Add the function name to the dictionary
       dataDictionary["title"] = title
+      dataDictionary["artwork"] = artwork
       dataDictionary["functionName"] = "playSong"
 
       WCSession.default.sendMessage(dataDictionary, replyHandler: nil, errorHandler: { (error) in
           print("playSong - Sending message failed with error: \(error)")
-      })
-    }
-    
-    func pauseCurrentSong() {
-      print("PAUSING CURRENTLY PLAYED SONG")
-      guard WCSession.default.isPaired && WCSession.default.isWatchAppInstalled else {
-          print("pauseCurrentSong - Watch app is not installed or not paired")
-          return
-      }
-      var dataDictionary: [String: Any] = [:]
-      
-      // Add the function name to the dictionary
-      dataDictionary["functionName"] = "pauseCurrentSong"
-
-      WCSession.default.sendMessage(dataDictionary, replyHandler: nil, errorHandler: { (error) in
-          print("pauseCurrentSong - Sending message failed with error: \(error)")
       })
     }
 }

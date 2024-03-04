@@ -208,7 +208,11 @@ function Root() {
 function App() {
   const [session, setSession] = useState(null);
   // I see the issue just not sure scope of fix, seems to be fine
-  LogBox.ignoreLogs(["Found screens with the same name nested"]);
+  LogBox.ignoreLogs([
+    "Found screens with the same name nested",
+    "@supabase/gotrue-js",
+    "No storage option exists to persist",
+  ]);
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
