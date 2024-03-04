@@ -17,7 +17,7 @@ export const useCreateWorkout = () => {
       }
       return data;
     },
-    onSuccess: (data, variables, context) => {
+    onSuccess: (data, variables) => {
       queryClient.setQueryData(
         ["createdWorkout", { id: variables.template_id }],
         data
@@ -122,14 +122,15 @@ export const useGetWorkoutById = (workoutId: string) => {
   });
 };
 
-export const useGetCompletedWorkouts = () => {
+export const useGetCompletedWorkouts = (userId: string) => {
   return useQuery({
     queryKey: ["completedWorkouts"],
     queryFn: async () => {
       const { data, error } = await supabase
         .from("workouts")
         .select()
-        .eq("status", "COMPLETED");
+        .eq("status", "COMPLETED")
+        .eq("user_id", userId);
 
       if (error) {
         console.log("Error getting completed workouts", error);

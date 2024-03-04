@@ -10,24 +10,12 @@ import {
 } from "react-native-paper";
 import { useGetCompletedWorkouts } from "../api/WorkoutsNew";
 import { useEffect, useState } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Appbar } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { Tables } from "../lib/db.types";
 import { useAppTheme } from "../provider/PaperProvider";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-
-async function retrieveData(user, setUser) {
-  try {
-    const value = await AsyncStorage.getItem("user_data");
-    if (value !== null) {
-      let userData = JSON.parse(value);
-      await setUser(userData);
-    }
-  } catch (error) {
-    console.log("Error retreiving user data", error);
-  }
-}
+import { saved_user_data } from "../api/Globals";
 
 const types = [
   { label: "Biking", value: "Biking", icon: "bike" },
@@ -87,9 +75,8 @@ const FilterChips: React.FC<ChipProps> = ({ selectedTypes, onSelect }) => {
 
 const WorkoutHistoryPage = ({ navigation }) => {
   const { data: completedWorkouts, isPending: loadingCompletedWorkouts } =
-    useGetCompletedWorkouts();
+    useGetCompletedWorkouts(saved_user_data.user_id);
 
-  const [user, setUser] = useState({});
   const [searchQuery, setSearchQuery] = React.useState("");
 
   const [filteredData, setFilteredData] = useState<
@@ -111,16 +98,6 @@ const WorkoutHistoryPage = ({ navigation }) => {
       setActiveFilters(updatedTypes);
     }
   };
-
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     await retrieveData(user, setUser);
-  //     setData(true);
-  //     setWorkouts(await getUsersWorkouts(2, null));
-  //     setData(false);
-  //   }
-  //   fetchData();
-  // }, [user.user_id]);
 
   useEffect(() => {
     const filteredWorkouts = completedWorkouts?.filter((workout) =>
