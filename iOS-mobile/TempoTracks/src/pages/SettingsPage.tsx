@@ -1,8 +1,8 @@
 // React Native Bottom Navigation
 // https://aboutreact.com/react-native-bottom-navigation/
 import React, { useState, useEffect } from "react";
-import updateSettings from "../../api/Settings";
-import updateUser from "../../api/User"
+import updateSettings from "../api/Settings";
+import updateUser from "../api/User"
 import { useTheme, Text, TouchableOpacity } from "react-native-paper";
 import { Switch, TextInput, Button, ToggleButton } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -10,8 +10,8 @@ import { Slider } from "react-native-elements";
 import { StyleSheet, View, SafeAreaView} from "react-native";
 import { ScrollView } from "react-native";
 import useThemeStore from "../hooks/useThemeStore";
-import { saved_user_data } from "../../api/Globals";
-import { updateBodyStats } from "../../api/User"
+import { saved_user_data } from "../api/Globals";
+import { updateBodyStats } from "../api/User"
 
 const SettingsPage = ({ route, navigation }) => {
   const [user, setUser] = useState({});
