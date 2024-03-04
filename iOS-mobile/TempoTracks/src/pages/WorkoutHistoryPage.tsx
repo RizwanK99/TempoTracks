@@ -252,7 +252,7 @@ const WorkoutCard = ({
         borderRadius: 4,
       }}
       onPress={() =>
-        navigation.navigate("WorkoutEndSummary", {
+        navigation.navigate("CompletedWorkoutSummary", {
           workoutId: id,
         })
       }
@@ -318,7 +318,7 @@ const WorkoutCard = ({
               fontSize: 14,
             }}
           >
-            {distance} km
+            {Number(distance / 1000).toFixed(2)} km
           </Text>
           <Text
             style={{
@@ -326,16 +326,16 @@ const WorkoutCard = ({
               fontSize: 14,
             }}
           >
-            {Number(duration)} mins
+            {(Number(duration) / 60).toFixed(1)} mins
           </Text>
-          <Text
+          {/* <Text
             style={{
               color: theme.colors.foregroundMuted,
               fontSize: 14,
             }}
           >
             {caloriesBurnt} sets
-          </Text>
+          </Text> */}
         </View>
       </Card.Content>
     </Card>

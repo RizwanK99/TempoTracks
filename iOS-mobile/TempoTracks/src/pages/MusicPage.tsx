@@ -71,7 +71,7 @@ export const MusicPage = ({ navigation }: Props) => {
   }, []);
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ backgroundColor: theme.colors.background }}>
       {/* <HealthKitTest /> */}
       {/* <BackgroundTimerTest /> */}
       <View

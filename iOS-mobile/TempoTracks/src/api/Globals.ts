@@ -11,4 +11,8 @@ export let saved_user_data = {
     height: 0,
     weight: 0,
     age: 0,
+    monthly_distance_goal: 0,
+    monthly_calorie_goal: 0,
+    monthly_duration_goal: 0,
+    monthly_workouts_goal: 0,
   }

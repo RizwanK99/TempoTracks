@@ -6,38 +6,28 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import { Divider } from "react-native-paper";
-import { FAB, Appbar } from "react-native-paper";
+import {
+  ActivityIndicator,
+  Divider,
+  FAB,
+  Appbar,
+  Searchbar,
+} from "react-native-paper";
 import { useState } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Searchbar } from "react-native-paper";
 import { useGetWorkoutTemplates } from "../api/WorkoutTemplate.ts";
 import { Tables } from "../lib/db.types.ts";
 import { useAppTheme } from "../provider/PaperProvider.tsx";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { saved_user_data } from "../api/Globals.ts";
 
-async function retrieveData(user, setUser) {
-  try {
-    const value = await AsyncStorage.getItem("user_data");
-    if (value !== null) {
-      let userData = JSON.parse(value);
-      await setUser(userData);
-    }
-  } catch (error) {
-    console.log("Error retreiving user data", error);
-  }
-}
-
 const WorkoutListPage = ({ navigation }) => {
-  // const [user, setUser] = useState<Tables<'users'> | null>(null);
   const [searchQuery, setSearchQuery] = React.useState("");
   const theme = useAppTheme();
 
   const [filteredData, setFilteredData] = useState<
     Tables<"workout_templates">[] | null
   >();
-  const { data, error, isPending } = useGetWorkoutTemplates(
+  const { data, isPending: loadingWorkoutTemplates } = useGetWorkoutTemplates(
     saved_user_data.user_id
   );
 
@@ -46,14 +36,6 @@ const WorkoutListPage = ({ navigation }) => {
   const onStateChange = ({ open }) => setState({ open });
 
   const { open } = state;
-
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     await retrieveData(user, setUser);
-  //     setWorkouts(await getUsersWorkouts(user.user_id, null));
-  //   }
-  //   fetchData();
-  // }, [user.user_id]);
 
   const onChangeSearch = (query: string) => {
     setSearchQuery(query);
@@ -86,6 +68,23 @@ const WorkoutListPage = ({ navigation }) => {
     return workoutIcons[workoutType];
   };
 
+  if (loadingWorkoutTemplates) {
+    return (
+      <SafeAreaView
+        style={{
+          flex: 1,
+          paddingHorizontal: 12,
+          backgroundColor: theme.colors.background,
+          gap: 24,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <ActivityIndicator animating={true} color={theme.colors.primary} />
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView
       style={{
@@ -102,6 +101,7 @@ const WorkoutListPage = ({ navigation }) => {
       >
         <Appbar.Content
           title="Workouts"
+          titleStyle={{ fontSize: 31 }}
           style={{ backgroundColor: theme.colors.background }}
         />
         <Appbar.Action

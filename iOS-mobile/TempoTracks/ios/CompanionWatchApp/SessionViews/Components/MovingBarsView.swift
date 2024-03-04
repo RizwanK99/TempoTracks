@@ -20,19 +20,19 @@ struct MovingBarsView: View {
             RoundedRectangle(cornerRadius: 2)
                 .frame(width: 3, height: animateFirstBar ? 20 : 10)
                 .animation(Animation.easeInOut(duration: 0.6).repeatForever(autoreverses: true), value: animateFirstBar)
-                .foregroundColor(Color(hex: ColorHex.primary.rawValue))
+                .foregroundColor(Color.white)
 
             // Second bar
             RoundedRectangle(cornerRadius: 2)
                 .frame(width: 3, height: animateSecondBar ? 15 : 7)
                 .animation(Animation.easeInOut(duration: 0.8).repeatForever(autoreverses: true), value: animateSecondBar)
-                .foregroundColor(Color(hex: ColorHex.primary.rawValue))
+                .foregroundColor(Color.white)
 
             // Third bar
             RoundedRectangle(cornerRadius: 2)
                 .frame(width: 3, height: animateThirdBar ? 12 : 6)
                 .animation(Animation.easeInOut(duration: 0.5).repeatForever(autoreverses: true), value: animateThirdBar)
-                .foregroundColor(Color(hex: ColorHex.primary.rawValue))
+                .foregroundColor(Color.white)
         }
         .onAppear {
             animateFirstBar = true

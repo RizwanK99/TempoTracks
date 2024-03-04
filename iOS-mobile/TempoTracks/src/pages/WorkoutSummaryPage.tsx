@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { SafeAreaView, Text, View, ScrollView } from "react-native";
-import { Button, Divider } from "react-native-paper";
+import { ActivityIndicator, Button, Divider } from "react-native-paper";
 import { useGetWorkoutById } from "../api/WorkoutsNew.ts";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { LineChart } from "react-native-gifted-charts";
@@ -39,7 +39,13 @@ const Stat: React.FC<StatProps> = ({ value, label, units, icon }) => {
   );
 };
 
-function formatTime(totalSeconds: number): { value: number; unit: string } {
+function formatTime(totalSeconds: number | null | undefined): {
+  value: number;
+  unit: string;
+} {
+  if (!totalSeconds) {
+    return { value: 0, unit: "" };
+  }
   const minutes = Math.floor(totalSeconds / 60);
   const seconds = totalSeconds % 60;
 
@@ -52,15 +58,32 @@ function formatTime(totalSeconds: number): { value: number; unit: string } {
 
 const WorkoutSummaryPage = ({ navigation, route }) => {
   const theme = useAppTheme();
-  const { workoutId, duration, calories, bpm, distance } = route.params;
-  const { value: formattedDuration, unit } = formatTime(duration);
-  const { data: completedWorkout, isPending } = useGetWorkoutById(workoutId);
+  const { workoutId } = route.params;
+  const { data: completedWorkout, isPending: loadingCompletedWorkout } =
+    useGetWorkoutById(workoutId);
   const [workoutStart, setWorkoutStart] = useState<string | null>();
   const [workoutEnd, setWorkoutEnd] = useState<string | null>();
-  const [currentTime, setCurrentTime] = useState<string | null>();
+
+  if (loadingCompletedWorkout) {
+    return (
+      <SafeAreaView
+        style={{
+          flex: 1,
+          paddingHorizontal: 12,
+          backgroundColor: theme.colors.background,
+          gap: 24,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <ActivityIndicator animating={true} color={theme.colors.primary} />
+      </SafeAreaView>
+    );
+  }
+
   useEffect(() => {
     if (
-      !isPending &&
+      !loadingCompletedWorkout &&
       completedWorkout?.time_start &&
       completedWorkout.time_end
     ) {
@@ -79,7 +102,7 @@ const WorkoutSummaryPage = ({ navigation, route }) => {
         })
       );
     }
-  }, [isPending]);
+  }, [loadingCompletedWorkout]);
 
   const lineData = [
     {
@@ -233,6 +256,10 @@ const WorkoutSummaryPage = ({ navigation, route }) => {
     return minHeartRate;
   };
 
+  const { value: formattedDuration, unit } = formatTime(
+    completedWorkout?.total_duration
+  );
+
   return (
     <SafeAreaView
       style={{
@@ -264,7 +291,6 @@ const WorkoutSummaryPage = ({ navigation, route }) => {
         </View>
         <ScrollView>
           <View style={{ gap: 16, flex: 1 }}>
-            {/* Stats summary - make into component */}
             <Text
               style={{
                 color: theme.colors.text,
@@ -274,34 +300,61 @@ const WorkoutSummaryPage = ({ navigation, route }) => {
             >
               Workout Details
             </Text>
-            <View
-              style={{
-                backgroundColor: theme.colors.card,
-                padding: 16,
-                borderWidth: 1,
-                borderColor: theme.colors.border,
-                borderRadius: 4,
-                flexDirection: "row",
-              }}
-            >
-              <View style={{ flexDirection: "column", gap: 8, width: "50%" }}>
-                <Stat
-                  label="Total Time"
-                  value={formattedDuration}
-                  units={unit}
-                />
-                <Divider />
-                <Stat label="Distance" value={distance} units="KM" />
-                <Divider />
-                <Stat label="Avg. Pace" value={`5'32"`} units="/KM" />
+            {completedWorkout && (
+              <View
+                style={{
+                  backgroundColor: theme.colors.card,
+                  padding: 16,
+                  borderWidth: 1,
+                  borderColor: theme.colors.border,
+                  borderRadius: 4,
+                  flexDirection: "row",
+                }}
+              >
+                <View style={{ flexDirection: "column", gap: 8, width: "50%" }}>
+                  <Stat
+                    label="Total Time"
+                    value={formattedDuration}
+                    units={unit}
+                  />
+                  <Divider />
+                  <Stat
+                    label="Distance"
+                    value={completedWorkout.total_distance}
+                    units="KM"
+                  />
+                  <Divider />
+                  <Stat
+                    label="Avg. Pace"
+                    value={
+                      completedWorkout.total_duration !== 0
+                        ? completedWorkout.total_distance /
+                          completedWorkout.total_duration
+                        : 0
+                    }
+                    units="/KM"
+                  />
+                </View>
+                <View style={{ flexDirection: "column", gap: 8, width: "50%" }}>
+                  <Stat
+                    label="Total Calories"
+                    value={completedWorkout.total_energy_burned}
+                    units="cals"
+                  />
+                  <Divider />
+                  <Stat
+                    label="Avg. Heart Rate"
+                    value={
+                      completedWorkout.average_heart_rate
+                        ? completedWorkout.average_heart_rate
+                        : "N/A"
+                    }
+                    units={completedWorkout.average_heart_rate ? "BPM" : ""}
+                  />
+                  <Divider />
+                </View>
               </View>
-              <View style={{ flexDirection: "column", gap: 8, width: "50%" }}>
-                <Stat label="Total Calories" value={calories} units="cals" />
-                <Divider />
-                <Stat label="Avg. Heart Rate" value={"168"} units="BPM" />
-                <Divider />
-              </View>
-            </View>
+            )}
             {/* Heart rate map */}
             <Text
               style={{
@@ -347,10 +400,6 @@ const WorkoutSummaryPage = ({ navigation, route }) => {
                 yAxisColor={theme.colors.foregroundMuted}
                 verticalLinesColor={theme.colors.border}
                 color={theme.colors.redPrimary}
-                // areaChart
-                // startFillColor={theme.colors.redPrimary}
-                // startOpacity={0.8}
-                // endOpacity={0.2}
               />
             </View>
             <View
