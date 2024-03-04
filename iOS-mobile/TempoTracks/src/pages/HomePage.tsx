@@ -15,7 +15,7 @@ const HomePage = ({ navigation }) => {
   const theme = useTheme();
 
   if (IS_WATCH_ENABLED) {
-    sendSongsToWatch();
+    //sendSongsToWatch();
     sendWorkoutTemplatesToWatch();
   }
 
