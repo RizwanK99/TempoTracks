@@ -126,15 +126,15 @@ const SettingsPage = ({ route, navigation }) => {
         </View>
           <View style={styles.setting}>
             <Text style={{margin: "5%", paddingRight: "1%", color: theme.colors.text}} variant="bodyLarge">Height:</Text>
-            <TextInput onChangeText={text => setHeight(text)} label="Height (cm)" disabled={!isEditable} value={height} style={{width: '40%'}}/>
+            <TextInput onChangeText={text => setHeight(Number(text))} label="Height (cm)" disabled={!isEditable} value={height} style={{width: '40%'}}/>
           </View>
           <View style={styles.setting}>
             <Text style={{margin: "5%", color: theme.colors.text}}  variant="bodyLarge">Weight:</Text>
-            <TextInput onChangeText={text => setWeight(text)} label="Weight (kg)" disabled={!isEditable} value={weight} style={{width: '40%'}}/>
+            <TextInput onChangeText={text => setWeight(Number(text))} label="Weight (kg)" disabled={!isEditable} value={weight} style={{width: '40%'}}/>
           </View>
           <View style={styles.setting}>
             <Text style={{margin: "5%", paddingRight: "6%", color: theme.colors.text}}  variant="bodyLarge">Age:</Text>
-            <TextInput onChangeText={text => setAge(text)} label="Age" disabled={!isEditable} value={age} style={{width: '40%'}}/>
+            <TextInput onChangeText={text => setAge(Number(text))} label="Age" disabled={!isEditable} value={age} style={{width: '40%'}}/>
           </View>
           <Text style={{margin: 10, color: theme.colors.text}}  variant="titleLarge">Account</Text>
           <View style={styles.setting}>
