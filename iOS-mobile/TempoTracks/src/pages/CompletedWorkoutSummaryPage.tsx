@@ -150,7 +150,7 @@ const WorkoutEndSummaryPage = ({ route, navigation }) => {
                 <Divider />
                 <Stat
                   label="Distance"
-                  value={completedWorkout.total_distance}
+                  value={completedWorkout.total_distance.toFixed(2)}
                   units="KM"
                 />
                 <Divider />
@@ -158,8 +158,10 @@ const WorkoutEndSummaryPage = ({ route, navigation }) => {
                   label="Avg. Pace"
                   value={
                     completedWorkout.total_duration > 0
-                      ? completedWorkout.total_distance /
-                        completedWorkout.total_duration
+                      ? (
+                          completedWorkout.total_distance /
+                          completedWorkout.total_duration
+                        ).toFixed(2)
                       : 0
                   }
                   units="/KM"
@@ -168,7 +170,7 @@ const WorkoutEndSummaryPage = ({ route, navigation }) => {
               <View style={{ flexDirection: "column", gap: 8, width: "50%" }}>
                 <Stat
                   label="Total Calories"
-                  value={completedWorkout.total_energy_burned}
+                  value={completedWorkout.total_energy_burned.toFixed(0)}
                   units="cals"
                 />
                 <Divider />
@@ -176,7 +178,7 @@ const WorkoutEndSummaryPage = ({ route, navigation }) => {
                   label="Avg. Heart Rate"
                   value={
                     completedWorkout.average_heart_rate
-                      ? completedWorkout.average_heart_rate
+                      ? completedWorkout.average_heart_rate.toFixed(0)
                       : 0
                   }
                   units="BPM"
