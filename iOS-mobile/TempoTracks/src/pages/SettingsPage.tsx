@@ -11,6 +11,7 @@ import { StyleSheet, View, SafeAreaView} from "react-native";
 import { ScrollView } from "react-native";
 import useThemeStore from "../hooks/useThemeStore";
 import { saved_user_data } from "../api/Globals";
+import { updateBodyStats } from "../api/User"
 
 const SettingsPage = ({ route, navigation }) => {
   const [user, setUser] = useState({});
@@ -23,6 +24,22 @@ const SettingsPage = ({ route, navigation }) => {
   const [darkMode, setDarkMode] = useState(false);
   const theme = useTheme();
   const { toggleTheme } = useThemeStore();
+
+  const [isEditable, setEditable] = useState(false)
+
+  const [height, setHeight] = React.useState(saved_user_data.height);
+  const [weight, setWeight] = React.useState(saved_user_data.weight);
+  const [age, setAge] = React.useState(saved_user_data.age);
+
+  const toggleEditable = () => {
+    console.log("in here")
+    isEditable ? setEditable(false) : setEditable(true);
+    console.log(isEditable)
+
+    if(!isEditable){
+      updateBodyStats(height, weight)
+    }
+  }
 
   useEffect(() => {
     async function fetchData() {
@@ -95,26 +112,25 @@ const SettingsPage = ({ route, navigation }) => {
         <View style={styles.setting}>
           <Text style={{margin: 10}} theme={theme.colors.text} variant="titleLarge">Physical Info</Text>
             <Button
-          style={{ width: "10%", margin: "3%", marginLeft: "35%", borderRadius: 4}}
+          style={{ width: "35%", margin: "3%", marginLeft: "20%", borderRadius: 4}}
           buttonColor={theme.colors.primary}
           textColor={theme.colors.card}
-          title="Edit"
-          icon="delete"
+          icon={isEditable ? "content-save" : "pen"}
           mode="contained"
-          onPress={() => console.log("Pressed")}
-        ></Button>
+          onPress={toggleEditable}
+        >{isEditable ? "Save" : "Edit"}</Button>
         </View>
           <View style={styles.setting}>
             <Text style={{margin: "5%", paddingRight: "1%"}} theme={theme.colors.text} variant="bodyLarge">Height:</Text>
-            <TextInput label="Height (cm)" value={saved_user_data.height} style={{width: '40%'}}/>
+            <TextInput onChangeText={text => Number(setHeight(text))} label="Height (cm)" disabled={!isEditable} value={height ?? ""} style={{width: '40%'}}/>
           </View>
           <View style={styles.setting}>
             <Text style={{margin: "5%"}} theme={theme.colors.text} variant="bodyLarge">Weight:</Text>
-            <TextInput label="Weight (kg)" value={saved_user_data.weight} style={{width: '40%'}}/>
+            <TextInput onChangeText={text => Number(setWeight(text))} label="Weight (kg)" disabled={!isEditable} value={weight ?? ""} style={{width: '40%'}}/>
           </View>
           <View style={styles.setting}>
             <Text style={{margin: "5%", paddingRight: "6%"}} theme={theme.colors.text} variant="bodyLarge">Age:</Text>
-            <TextInput label="Age" style={{width: '40%'}}/>
+            <TextInput onChangeText={text => Number(setAge(text))} label="Age" disabled={!isEditable} value={age ?? ""} style={{width: '40%'}}/>
           </View>
           <Text style={{margin: 10}} theme={theme.colors.text} variant="titleLarge">Account</Text>
           <View style={styles.setting}>
