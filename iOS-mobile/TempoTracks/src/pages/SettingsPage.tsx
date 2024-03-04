@@ -27,9 +27,9 @@ const SettingsPage = ({ route, navigation }) => {
 
   const [isEditable, setEditable] = useState(false)
 
-  const [height, setHeight] = React.useState(saved_user_data.height);
-  const [weight, setWeight] = React.useState(saved_user_data.weight);
-  const [age, setAge] = React.useState(saved_user_data.age);
+  const [height, setHeight] = React.useState<Number>(saved_user_data.height);
+  const [weight, setWeight] = React.useState<Number>(saved_user_data.weight);
+  const [age, setAge] = React.useState<Number>(saved_user_data.age);
 
   const toggleEditable = () => {
     //console.log("in here")
