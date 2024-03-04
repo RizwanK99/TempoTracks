@@ -106,8 +106,8 @@ const SettingsPage = ({ route, navigation }) => {
         style={{
           marginTop: "5%",
           marginLeft: "2%",
+          colors: theme.colors.text,
         }}
-        theme={theme.colors.text}
         variant={"headlineLarge"}
       >
         Settings
@@ -115,7 +115,7 @@ const SettingsPage = ({ route, navigation }) => {
       <ScrollView>
         <View>
         <View style={styles.setting}>
-          <Text style={{margin: 10}} theme={theme.colors.text} variant="titleLarge">Physical Info</Text>
+          <Text style={{margin: 10, colors: theme.colors.text}} variant="titleLarge">Physical Info</Text>
             <Button
           style={{ width: "35%", margin: "3%", marginLeft: "20%", borderRadius: 4}}
           buttonColor={theme.colors.primary}
@@ -126,40 +126,40 @@ const SettingsPage = ({ route, navigation }) => {
         >{isEditable ? "Save" : "Edit"}</Button>
         </View>
           <View style={styles.setting}>
-            <Text style={{margin: "5%", paddingRight: "1%"}} theme={theme.colors.text} variant="bodyLarge">Height:</Text>
+            <Text style={{margin: "5%", paddingRight: "1%", color: theme.colors.text}} variant="bodyLarge">Height:</Text>
             <TextInput onChangeText={text => setHeight(text)} label="Height (cm)" disabled={!isEditable} value={height} style={{width: '40%'}}/>
           </View>
           <View style={styles.setting}>
-            <Text style={{margin: "5%"}} theme={theme.colors.text} variant="bodyLarge">Weight:</Text>
+            <Text style={{margin: "5%", color: theme.colors.text}}  variant="bodyLarge">Weight:</Text>
             <TextInput onChangeText={text => setWeight(text)} label="Weight (kg)" disabled={!isEditable} value={weight} style={{width: '40%'}}/>
           </View>
           <View style={styles.setting}>
-            <Text style={{margin: "5%", paddingRight: "6%"}} theme={theme.colors.text} variant="bodyLarge">Age:</Text>
+            <Text style={{margin: "5%", paddingRight: "6%", color: theme.colors.text}}  variant="bodyLarge">Age:</Text>
             <TextInput onChangeText={text => setAge(text)} label="Age" disabled={!isEditable} value={age} style={{width: '40%'}}/>
           </View>
-          <Text style={{margin: 10}} theme={theme.colors.text} variant="titleLarge">Account</Text>
+          <Text style={{margin: 10, color: theme.colors.text}}  variant="titleLarge">Account</Text>
           <View style={styles.setting}>
-            <Text style={{margin: "5%"}} theme={theme.colors.text} variant="bodyLarge">User ID:</Text>
+            <Text style={{margin: "5%", color: theme.colors.text}}  variant="bodyLarge">User ID:</Text>
             <Text>{saved_user_data.user_id ?? ""}</Text>
           </View>
           <View style={styles.setting}>
-            <Text style={{margin: "5%"}} theme={theme.colors.text} variant="bodyLarge">Name:</Text>
+            <Text style={{margin: "5%", color: theme.colors.text}}  variant="bodyLarge">Name:</Text>
             <Text>{`${saved_user_data.first_name} ${saved_user_data.last_name}` ?? ""}</Text>
           </View>
           <View style={styles.setting}>
-            <Text style={{margin: "5%"}} theme={theme.colors.text} variant="bodyLarge">Username:</Text>
+            <Text style={{margin: "5%", color: theme.colors.text}}  variant="bodyLarge">Username:</Text>
             <Text>{saved_user_data.username}</Text>
           </View>
           <View style={styles.setting}>
-            <Text style={{margin: "5%"}} theme={theme.colors.text} variant="bodyLarge">Email:</Text>
+            <Text style={{margin: "5%", color: theme.colors.text}}  variant="bodyLarge">Email:</Text>
             <Text>{saved_user_data.email}</Text>
           </View>
           <View style={styles.setting}>
-            <Text style={{margin: "5%"}} theme={theme.colors.text} variant="bodyLarge">Phone Number:</Text>
+            <Text style={{margin: "5%", color: theme.colors.text}}  variant="bodyLarge">Phone Number:</Text>
             <Text>{saved_user_data.phone_number}</Text>
           </View>
           {/*<View style={styles.setting}>
-            <Text style={{margin: "5%"}} theme={theme.colors.text} variant="bodyLarge">Change Username</Text>
+            <Text style={{margin: "5%"}}  variant="bodyLarge">Change Username</Text>
             <TextInput label="Username" style={{width: '40%'}}/>
       </View>*/}
         </View>
@@ -174,9 +174,9 @@ const SettingsPage = ({ route, navigation }) => {
           Delete Account
       </Button>*/}
         {/*<View>
-          <Text style={{margin: 10}} theme={theme.colors.text} variant="titleLarge">Dark Mode</Text>
+          <Text style={{margin: 10}}  variant="titleLarge">Dark Mode</Text>
           <View style={styles.setting}>
-            <Text style={{margin: "5%"}} theme={theme.colors.text} variant="bodyLarge">Turn On Dark Mode</Text>
+            <Text style={{margin: "5%"}}  variant="bodyLarge">Turn On Dark Mode</Text>
             <Switch
               color="#09BC8A"
               value={darkMode}
@@ -185,9 +185,9 @@ const SettingsPage = ({ route, navigation }) => {
     </View>
         </View>*/}
         {/*<View>
-          <Text style={{margin: 10}} theme={theme.colors.text} variant="titleLarge">Data Saver</Text>
+          <Text style={{margin: 10}}  variant="titleLarge">Data Saver</Text>
           <View style={styles.setting}>
-            <Text style={{margin: "5%"}} theme={theme.colors.text} variant="bodyLarge">Turn Off Data Streaming</Text>
+            <Text style={{margin: "5%"}}  variant="bodyLarge">Turn Off Data Streaming</Text>
             <Switch
               color="#09BC8A"
               value={dataStream}
@@ -196,9 +196,9 @@ const SettingsPage = ({ route, navigation }) => {
           </View>
         </View>
         <View>
-          <Text style={{margin: 10}} theme={theme.colors.text} variant="titleLarge">Playback</Text>
+          <Text style={{margin: 10}}  variant="titleLarge">Playback</Text>
           <View style={styles.setting}>
-            <Text style={{margin: "5%"}} theme={theme.colors.text} variant="bodyLarge">Crossfade</Text>
+            <Text style={{margin: "5%"}}  variant="bodyLarge">Crossfade</Text>
             <Text>0s</Text>
             <Slider
               style={{
@@ -217,7 +217,7 @@ const SettingsPage = ({ route, navigation }) => {
             <Text>15s</Text>
           </View>
           <View style={styles.setting}>
-            <Text style={{margin: "5%"}} theme={theme.colors.text} variant="bodyLarge">Automix</Text>
+            <Text style={{margin: "5%"}}  variant="bodyLarge">Automix</Text>
             <Slider
               style={{
                 width: "50%",
@@ -235,7 +235,7 @@ const SettingsPage = ({ route, navigation }) => {
             />
           </View>
           <View style={styles.setting}>
-            <Text style={{margin: "5%"}} theme={theme.colors.text} variant="bodyLarge">Explicit Content</Text>
+            <Text style={{margin: "5%"}}  variant="bodyLarge">Explicit Content</Text>
             <Switch
               color="#09BC8A"
               value={explicitContent}
@@ -244,15 +244,15 @@ const SettingsPage = ({ route, navigation }) => {
           </View>
         </View>
         <View>
-          <Text style={{margin: 10}} theme={theme.colors.text} variant="titleLarge">Workouts</Text>
+          <Text style={{margin: 10}}  variant="titleLarge">Workouts</Text>
           <View style={styles.setting}>
-            <Text style={{margin: "5%"}} theme={theme.colors.text} variant="bodyLarge">Peak Normalization</Text>
+            <Text style={{margin: "5%"}}  variant="bodyLarge">Peak Normalization</Text>
             <ToggleButton icon="battery-low" value="low" />
             <ToggleButton icon="battery-medium" value="medium" />
             <ToggleButton icon="battery-high" value="high" />
           </View>
           <View style={styles.setting}>
-            <Text style={{margin: "5%"}} theme={theme.colors.text} variant="bodyLarge">High BPM Warning</Text>
+            <Text style={{margin: "5%"}}  variant="bodyLarge">High BPM Warning</Text>
             <Switch
               color="#09BC8A"
               value={bpmWarning}
