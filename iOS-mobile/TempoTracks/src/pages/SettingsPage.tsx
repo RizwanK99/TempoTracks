@@ -105,7 +105,7 @@ const SettingsPage = ({ route, navigation }) => {
         style={{
           marginTop: "5%",
           marginLeft: "2%",
-          textColor: theme.colors.text,
+          color: theme.colors.text,
         }}
         variant={"headlineLarge"}
       >
@@ -114,7 +114,7 @@ const SettingsPage = ({ route, navigation }) => {
       <ScrollView>
         <View>
         <View style={styles.setting}>
-          <Text style={{margin: 10, textColor: theme.colors.text}} variant="titleLarge">Physical Info</Text>
+          <Text style={{margin: 10, color: theme.colors.text}} variant="titleLarge">Physical Info</Text>
             <Button
           style={{ width: "35%", margin: "3%", marginLeft: "20%", borderRadius: 4}}
           buttonColor={theme.colors.primary}
@@ -125,36 +125,36 @@ const SettingsPage = ({ route, navigation }) => {
         >{isEditable ? "Save" : "Edit"}</Button>
         </View>
           <View style={styles.setting}>
-            <Text style={{margin: "5%", paddingRight: "1%", textColor: theme.colors.text}} variant="bodyLarge">Height:</Text>
+            <Text style={{margin: "5%", paddingRight: "1%", color: theme.colors.text}} variant="bodyLarge">Height:</Text>
             <TextInput onChangeText={text => setHeight(text)} label="Height (cm)" disabled={!isEditable} value={height} style={{width: '40%'}}/>
           </View>
           <View style={styles.setting}>
-            <Text style={{margin: "5%", textColor: theme.colors.text}}  variant="bodyLarge">Weight:</Text>
+            <Text style={{margin: "5%", color: theme.colors.text}}  variant="bodyLarge">Weight:</Text>
             <TextInput onChangeText={text => setWeight(text)} label="Weight (kg)" disabled={!isEditable} value={weight} style={{width: '40%'}}/>
           </View>
           <View style={styles.setting}>
-            <Text style={{margin: "5%", paddingRight: "6%", textColor: theme.colors.text}}  variant="bodyLarge">Age:</Text>
+            <Text style={{margin: "5%", paddingRight: "6%", color: theme.colors.text}}  variant="bodyLarge">Age:</Text>
             <TextInput onChangeText={text => setAge(text)} label="Age" disabled={!isEditable} value={age} style={{width: '40%'}}/>
           </View>
-          <Text style={{margin: 10, textColor: theme.colors.text}}  variant="titleLarge">Account</Text>
+          <Text style={{margin: 10, color: theme.colors.text}}  variant="titleLarge">Account</Text>
           <View style={styles.setting}>
-            <Text style={{margin: "5%", textColor: theme.colors.text}}  variant="bodyLarge">User ID:</Text>
+            <Text style={{margin: "5%", color: theme.colors.text}}  variant="bodyLarge">User ID:</Text>
             <Text>{saved_user_data.user_id ?? ""}</Text>
           </View>
           <View style={styles.setting}>
-            <Text style={{margin: "5%", textColor: theme.colors.text}}  variant="bodyLarge">Name:</Text>
+            <Text style={{margin: "5%", color: theme.colors.text}}  variant="bodyLarge">Name:</Text>
             <Text>{`${saved_user_data.first_name} ${saved_user_data.last_name}` ?? ""}</Text>
           </View>
           <View style={styles.setting}>
-            <Text style={{margin: "5%", textColor: theme.colors.text}}  variant="bodyLarge">Username:</Text>
+            <Text style={{margin: "5%", color: theme.colors.text}}  variant="bodyLarge">Username:</Text>
             <Text>{saved_user_data.username}</Text>
           </View>
           <View style={styles.setting}>
-            <Text style={{margin: "5%", textColor: theme.colors.text}}  variant="bodyLarge">Email:</Text>
+            <Text style={{margin: "5%", color: theme.colors.text}}  variant="bodyLarge">Email:</Text>
             <Text>{saved_user_data.email}</Text>
           </View>
           <View style={styles.setting}>
-            <Text style={{margin: "5%", textColor: theme.colors.text}}  variant="bodyLarge">Phone Number:</Text>
+            <Text style={{margin: "5%", color: theme.colors.text}}  variant="bodyLarge">Phone Number:</Text>
             <Text>{saved_user_data.phone_number}</Text>
           </View>
           {/*<View style={styles.setting}>
