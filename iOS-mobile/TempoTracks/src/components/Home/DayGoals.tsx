@@ -4,7 +4,7 @@ import { Button, Card, Text, Divider, IconButton, ProgressBar, Portal, Modal, Te
 import { useAppTheme } from "../../provider/PaperProvider";
 import { HealthManager } from "../../module/HealthManager";
 import { saved_user_data } from "../../api/Globals";
-import { updateGoals } from "../../api/User";
+import { updateDailyGoals } from "../../api/User";
 
 export const DailyGoals = () => {
   const theme = useAppTheme();
@@ -49,7 +49,7 @@ export const DailyGoals = () => {
   }, []);
 
   async function saveData() {
-    updateGoals(saved_user_data.user_id, text_dist, text_cal, text_dur);
+    updateDailyGoals(saved_user_data.user_id, text_dist, text_cal, text_dur);
     setVisible(false);
   }
 
@@ -57,8 +57,6 @@ export const DailyGoals = () => {
   return (
     <Card>
       <Card.Content>
-        <Button onPress={() => HealthManager.startWorkout()}>Start Workout</Button>
-        <Button onPress={() => HealthManager.endWorkout()}>End Workout</Button>
         <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
           <Text variant="headlineMedium" style={{ color: theme.colors.text, paddingHorizontal: 5 }}>Today's Progress</Text>
           <IconButton icon="pencil" size={20} onPress={showModal} />
