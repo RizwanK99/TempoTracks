@@ -7,43 +7,17 @@
 
 import Foundation
 import SwiftUI
+import _MusicKit_SwiftUI
 
 class MusicViewModel: ObservableObject {
-  @Published var songs: [Song]
-  var currentSongId: UUID? = nil
+  @Published var curSong: Song
   
-  init(songs: [Song] = []) {
-    self.songs = songs
+  init(curSong: Song) {
+    self.curSong = curSong
   }
   
-  func updateSongsState(with newSongs: [Song]) {
-    self.songs = newSongs
-  }
-  
-  func playSong(title: String) {
-    if let idx = songs.firstIndex(where: { $0.title == title }) {
-      var modifiedSongs = songs
-
-      modifiedSongs[idx].isPlaying = true
-      
-      for index in 0..<modifiedSongs.count {
-        if index != idx {
-          modifiedSongs[index].isPlaying = false
-        }
-      }
-      
-      songs = modifiedSongs
-    }
-  }
-  
-  func pauseCurrentSong() {
-    var modifiedSongs = songs
-
-    for index in 0..<modifiedSongs.count {
-      modifiedSongs[index].isPlaying = false
-    }
-    
-    songs = modifiedSongs
+  func playSong(title: String, artwork: Artwork) {
+    self.curSong = Song(title: title, artwork: artwork)
   }
 }
 
@@ -52,32 +26,21 @@ struct MusicView: View {
   @StateObject var viewModel = WatchConnectivityHandler.musicViewModel
   
   var body: some View {
-    List {
-      ForEach($viewModel.songs) { $song in
-        SongRow(song: song, playAction: {
-          withAnimation {
-            song.isPlaying.toggle()
-            
-            if song.isPlaying {
-              WatchConnectivityHandler.shared.send("playSong", song.apple_id);
-            }
-            else {
-              WatchConnectivityHandler.shared.send("pauseSong", "");
-            }
-            
-            if song.id == viewModel.currentSongId {
-              viewModel.currentSongId = nil
-              return
-            }
-
-            if let currentSongIndex = viewModel.songs.firstIndex(where: { $0.id == viewModel.currentSongId }) {
-              viewModel.songs[currentSongIndex].isPlaying = false
-            }
-            
-            viewModel.currentSongId = song.id
-          }
-        })
-        .listRowBackground(Color.clear)
+    ZStack {
+      VStack {
+        if viewModel.curSong.artwork != nil {
+          ArtworkImage(viewModel.curSong.artwork!, width: 100,
+                       height: 100)
+          .aspectRatio(contentMode: .fit)
+          .frame(width: 100, height: 100)
+        }
+        
+        Text(viewModel.curSong.title)
+          .font(.title3)
+          .foregroundColor(.white)
+          .padding(.top, 8)
+        
+        MovingBarsView()
       }
     }
   }

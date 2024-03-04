@@ -167,10 +167,10 @@ const WorkoutTrendsPage = ({ navigation }) => {
           >{`Average Duration: ${averageDuration.toFixed(1)} mins`}</Text>
           <Text
             style={{ color: theme.colors.foregroundMuted }}
-          >{`Average Distance: ${averageDistance} km`}</Text>
+          >{`Average Distance: ${averageDistance.toFixed(1)} m`}</Text>
           <Text
             style={{ color: theme.colors.foregroundMuted }}
-          >{`Average Calories: ${averageCalories} kCals`}</Text>
+          >{`Average Calories: ${averageCalories.toFixed(0)} kCals`}</Text>
           <Text style={{ marginTop: 16, marginBottom: -8, fontWeight: "bold" }}>
             Averages by Type
           </Text>
@@ -186,7 +186,7 @@ const WorkoutTrendsPage = ({ navigation }) => {
             </DataTable.Header>
             {stats.map((item) => (
               <DataTable.Row key={item.type}>
-                <DataTable.Cell>
+                <DataTable.Cell style={{ marginLeft: -16 }}>
                   <Text
                     style={{
                       color: theme.colors.foregroundMuted,
@@ -213,7 +213,7 @@ const WorkoutTrendsPage = ({ navigation }) => {
                       fontSize: 14,
                     }}
                   >
-                    {item.averageDuration}
+                    {item.averageDuration.toFixed(1)}
                   </Text>
                 </DataTable.Cell>
                 <DataTable.Cell>
@@ -223,17 +223,17 @@ const WorkoutTrendsPage = ({ navigation }) => {
                       fontSize: 14,
                     }}
                   >
-                    {item.averageDistance}
+                    {item.averageDistance.toFixed(2)}
                   </Text>
                 </DataTable.Cell>
-                <DataTable.Cell>
+                <DataTable.Cell style={{ paddingLeft: 10 }}>
                   <Text
                     style={{
                       color: theme.colors.foregroundMuted,
                       fontSize: 14,
                     }}
                   >
-                    {item.averageCalories}
+                    {item.averageCalories.toFixed(0)}
                   </Text>
                 </DataTable.Cell>
               </DataTable.Row>

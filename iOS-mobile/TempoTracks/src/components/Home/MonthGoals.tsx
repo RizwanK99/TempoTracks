@@ -55,75 +55,197 @@ export const MonthGoals = () => {
   }, [completedWorkouts]);
 
   async function saveData() {
-    updateMonthlyGoals(saved_user_data.user_id, text_dist, text_cal, text_dur, text_act);
+    updateMonthlyGoals(
+      saved_user_data.user_id,
+      text_dist,
+      text_cal,
+      text_dur,
+      text_act
+    );
     setVisible(false);
   }
 
   return (
-    <View>
+    <Card style={{ padding: 8, marginBottom: 18 }}>
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-        <Text variant="titleLarge" style={{ color: theme.colors.text, padding: 10 }}>Monthly Goals</Text>
+        <Text
+          variant="titleLarge"
+          style={{ color: theme.colors.text, padding: 10 }}
+        >
+          Monthly Goals
+        </Text>
         <IconButton icon="pencil" size={20} onPress={showModal} />
       </View>
       <Portal>
-        <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={{ top:0, position: 'absolute', width: "100%", padding: 10 }}>
+        <Modal
+          visible={visible}
+          onDismiss={hideModal}
+          contentContainerStyle={{
+            top: 0,
+            position: "absolute",
+            width: "100%",
+            padding: 10,
+          }}
+        >
           <Card>
-            <Card.Title title="Edit Monthly Goals" titleVariant="titleLarge"></Card.Title>
+            <Card.Title
+              title="Edit Monthly Goals"
+              titleVariant="titleLarge"
+            ></Card.Title>
             <Card.Content>
-              <TextInput label="Distance" value={text_dist} onChangeText={setTextDist} keyboardType="numeric" dense style={{ marginBottom: 10 }} />
-              <TextInput label="Duration" value={text_dur} onChangeText={setTextDur} keyboardType="numeric" dense style={{ marginBottom: 10 }} />
-              <TextInput label="Workouts" value={text_act} onChangeText={setTextAct} keyboardType="numeric" dense style={{ marginBottom: 10 }} />
-              <TextInput label="Calories" value={text_cal} onChangeText={setTextCal} keyboardType="numeric" dense />
-              <Button mode="elevated" style={{ marginTop: 10 }} onPress={saveData}>Save</Button>
+              <TextInput
+                label="Distance"
+                value={text_dist}
+                onChangeText={setTextDist}
+                keyboardType="numeric"
+                dense
+                style={{ marginBottom: 10 }}
+              />
+              <TextInput
+                label="Duration"
+                value={text_dur}
+                onChangeText={setTextDur}
+                keyboardType="numeric"
+                dense
+                style={{ marginBottom: 10 }}
+              />
+              <TextInput
+                label="Workouts"
+                value={text_act}
+                onChangeText={setTextAct}
+                keyboardType="numeric"
+                dense
+                style={{ marginBottom: 10 }}
+              />
+              <TextInput
+                label="Calories"
+                value={text_cal}
+                onChangeText={setTextCal}
+                keyboardType="numeric"
+                dense
+              />
+              <Button
+                mode="elevated"
+                style={{ marginTop: 10 }}
+                onPress={saveData}
+              >
+                Save
+              </Button>
             </Card.Content>
           </Card>
         </Modal>
       </Portal>
-      <Divider style={{ height: 1, backgroundColor: theme.colors.border, marginBottom: 5 }} />
-      <View style={{ flexDirection: "row", justifyContent: "flex-start", alignItems: "center" }}>
-        <Button textColor={theme.colors.text} icon="map">Distance</Button>
+      <Divider
+        style={{
+          height: 1,
+          backgroundColor: theme.colors.border,
+          marginBottom: 5,
+        }}
+      />
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "flex-start",
+          alignItems: "center",
+        }}
+      >
+        <Button textColor={theme.colors.text} icon="map">
+          Distance
+        </Button>
         <Text style={{ color: theme.colors.foregroundMuted }}>{distance.toFixed(0)} km</Text>
       </View>
       <View style={{ paddingHorizontal: 10 }}>
         <ProgressBar progress={(distance)/parseInt(text_dist) || 1} />
       </View>
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-        <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>0km</Text>
-        <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>{text_dist} km</Text>
+        <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>
+          0km
+        </Text>
+        <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>
+          {text_dist} km
+        </Text>
       </View>
-      <View style={{ flexDirection: "row", justifyContent: "flex-start", alignItems: "center" }}>
-        <Button textColor={theme.colors.text} style={{ alignSelf: "flex-start" }} icon="terrain">Duration</Button>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "flex-start",
+          alignItems: "center",
+        }}
+      >
+        <Button
+          textColor={theme.colors.text}
+          style={{ alignSelf: "flex-start" }}
+          icon="terrain"
+        >
+          Duration
+        </Button>
         <Text style={{ color: theme.colors.foregroundMuted }}>{duration.toFixed(0)} mins</Text>
       </View>
       <View style={{ paddingHorizontal: 10 }}>
         <ProgressBar progress={(duration)/parseInt(text_dur) || 1} />
       </View>
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-        <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>0km</Text>
-        <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>{text_dur} mins</Text>
+        <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>
+          0km
+        </Text>
+        <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>
+          {text_dur} mins
+        </Text>
       </View>
-      <View style={{ flexDirection: "row", justifyContent: "flex-start", alignItems: "center" }}>
-        <Button textColor={theme.colors.text} style={{ alignSelf: "flex-start" }} icon="weight-lifter">Workouts</Button>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "flex-start",
+          alignItems: "center",
+        }}
+      >
+        <Button
+          textColor={theme.colors.text}
+          style={{ alignSelf: "flex-start" }}
+          icon="weight-lifter"
+        >
+          Workouts
+        </Button>
         <Text style={{ color: theme.colors.foregroundMuted }}>{workouts.toFixed(0)}</Text>
       </View>
       <View style={{ paddingHorizontal: 10 }}>
         <ProgressBar progress={(workouts)/parseInt(text_act) || 1} />
       </View>
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-        <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>0</Text>
-        <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>{text_act}</Text>
+        <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>
+          0
+        </Text>
+        <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>
+          {text_act}
+        </Text>
       </View>
-      <View style={{ flexDirection: "row", justifyContent: "flex-start", alignItems: "center" }}>
-        <Button textColor={theme.colors.text} style={{ alignSelf: "flex-start" }} icon="fire">Calories</Button>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "flex-start",
+          alignItems: "center",
+        }}
+      >
+        <Button
+          textColor={theme.colors.text}
+          style={{ alignSelf: "flex-start" }}
+          icon="fire"
+        >
+          Calories
+        </Button>
         <Text style={{ color: theme.colors.foregroundMuted }}>{calories.toFixed(0)} cals</Text>
       </View>
       <View style={{ paddingHorizontal: 10 }}>
         <ProgressBar progress={(calories)/(parseInt(text_cal) || 1)} />
       </View>
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-        <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>0</Text>
-        <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>{text_cal} cals</Text>
+        <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>
+          0
+        </Text>
+        <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>
+          {text_cal} cals
+        </Text>
       </View>
-    </View>
+    </Card>
   );
 };
