@@ -31,6 +31,7 @@ export const WatchManager = {
     return NativeModules.WatchManager.sendSongs(songs);
   },
   sendWorkoutTemplates: (workoutTemplates: string) => {
+    console.log("sendWorkoutTemplates", workoutTemplates);
     return NativeModules.WatchManager.sendWorkouts(workoutTemplates);
   },
   updateWorkoutId: (workoutId: string, templateId: string) => {
@@ -67,6 +68,7 @@ export const sendWorkoutTemplatesToWatch = () => {
   );
 
   useEffect(() => {
+    console.log("useEffect-templates", isSuccess);
     if (isSuccess && templates) {
       const templatesJson = JSON.stringify(templates);
       WatchManager.sendWorkoutTemplates(templatesJson)

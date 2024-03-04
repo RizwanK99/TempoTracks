@@ -37,7 +37,10 @@ import { QueryProvider } from "./src/provider/QueryClientProvider";
 import { PaperProviderWrapper } from "./src/provider/PaperProvider";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { PlaylistView } from "./src/components/Music/Playlist/PlaylistView";
-import { useCreateWorkout } from "./src/api/WorkoutsNew";
+import {
+  useCreateWorkout,
+  useSaveWorkoutHealthData,
+} from "./src/api/WorkoutsNew";
 
 //Watch Manager
 import {
@@ -46,6 +49,8 @@ import {
   EventListener,
 } from "./src/module/WatchManager";
 import { saved_user_data } from "./src/api/Globals";
+import { MusicManager } from "./src/module/MusicManager";
+import { getWorkoutTemplateById } from "./src/api/WorkoutTemplate";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -61,11 +66,18 @@ function Root() {
     const { mutateAsync: createWorkout } = useCreateWorkout();
 
     useEffect(() => {
-      const unsubscribe = EventListener.subscribe("createWorkout", (data) => {
-        setEventData(data);
-      });
+      MusicManager.requestMusicAuthorization();
 
-      return unsubscribe;
+      const unsubscribeCreate = EventListener.subscribe(
+        "createWorkout",
+        (data) => {
+          setEventData(data);
+        }
+      );
+
+      return () => {
+        unsubscribeCreate();
+      };
     }, []);
 
     useEffect(() => {
@@ -73,41 +85,79 @@ function Root() {
 
       let workout = "";
 
+      console.log("createWorkout eventData", eventData);
+
       try {
+        // "playlist_id" : "p.5PG5gooiO1E14kQ",
+        // "id" : "cb9709b7-f009-478e-b3b0-95d2543be0db",
+        // "name" : "Morning 5k Run",
+        // "type" : "Running"
+
         workout = JSON.parse(eventData);
       } catch (error) {
         console.error("Error parsing JSON:", error);
       }
 
-      const startWorkout = async (workout) => {
-        let createdWorkout = await createWorkout({
-          // change this once we make hook for auth
-          user_id: saved_user_data.user_id,
-          template_id: workout.id,
-          workout_name: workout.name,
-          workout_type: workout.type,
-          playlist_id: workout.playlist_id,
-          status: "IN_PROGRESS",
-          is_paused: false,
-          total_duration: 0,
-        });
+      if (workout !== "") {
+        const startWorkout = async (workout) => {
+          const createdWorkout = await createWorkout({
+            // change this once we make hook for auth
+            user_id: saved_user_data.user_id,
+            template_id: workout.id,
+            workout_name: workout.name,
+            workout_type: workout.type,
+            playlist_id: workout.playlist_id,
+            status: "IN_PROGRESS",
+            is_paused: false,
+            total_duration: 0,
+          });
 
-        print(createdWorkout[0]);
+          if (!createdWorkout) {
+            console.error("Error creating workout");
+            return;
+          }
 
-        WatchManager.updateWorkoutId(
-          createdWorkout[0].workout_id,
-          createdWorkout[0].template_id
-        );
+          // add songs to the queue and play
+          try {
+            const templateData = await getWorkoutTemplateById(
+              createdWorkout.template_id
+            );
 
-        navigation.navigate("WorkoutsStack", {
-          screen: "WorkoutInProgress",
-          params: {
-            workoutId: createdWorkout[0].workout_id,
-          },
-        });
-      };
+            if (templateData) {
+              const songQueue = calculateSongQueue({
+                intervals: templateData.workout_intervals,
+                numberOfSets: templateData.num_sets,
+                songs: templateData.playlists?.songs ?? [],
+              });
 
-      startWorkout(workout);
+              await saveSongQueueToStorage(songQueue);
+              if (IS_WATCH_ENABLED) {
+                await MusicManager.addSongsToQueue(
+                  songQueue.map((s) => s.apple_music_id)
+                );
+                await MusicManager.play();
+              }
+            }
+          } catch (e) {
+            console.log("Error adding songs to queue", e);
+          }
+
+          WatchManager.updateWorkoutId(
+            createdWorkout.workout_id,
+            createdWorkout.template_id
+          );
+
+          navigation.navigate("WorkoutsStack", {
+            screen: "WorkoutInProgress",
+            params: {
+              workoutId: createdWorkout.workout_id,
+              playlistId: createdWorkout.playlist_id,
+              templateId: createdWorkout.template_id,
+            },
+          });
+        };
+        startWorkout(workout);
+      }
 
       setEventData(null);
     }, [eventData]);

@@ -20,6 +20,23 @@ export const useCreateWorkoutTemplate = () => {
   });
 };
 
+export const getWorkoutTemplateById = async (templateId: string) => {
+  const { data, error } = await supabase
+    .from("workout_templates")
+    .select(
+      "*, workout_intervals(*, workout_intensities(*)), playlists(*, playlist_items(*, songs(*)))"
+    )
+    .eq("id", templateId)
+    .single();
+
+  if (error) {
+    console.log("Error fetching workout template", error);
+    return null;
+  }
+
+  return data;
+};
+
 export const useGetWorkoutTemplates = (userId: string) => {
   return useQuery({
     queryKey: ["workout_templates", userId],

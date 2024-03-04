@@ -57,7 +57,6 @@ const StartOrCancelWorkoutPage = ({ route, navigation }) => {
       playlist_id: template.playlist_id,
       status: "IN_PROGRESS",
       is_paused: false,
-      total_duration: 0,
     });
 
     if (!createdWorkout) {
@@ -72,21 +71,31 @@ const StartOrCancelWorkoutPage = ({ route, navigation }) => {
       template.workout_intervals
     );
 
-    const songQueue = calculateSongQueue({
-      intervals: template.workout_intervals,
-      numberOfSets: template.num_sets,
-      songs: template.playlists?.songs ?? [],
-    });
-
-    console.log(
-      "songQueue",
-      songQueue.map((s) => s.title)
-    );
-    await saveSongQueueToStorage(songQueue);
-
     // add songs to the queue and play
-    await MusicManager.addSongsToQueue(songQueue.map((s) => s.apple_music_id));
-    await MusicManager.play();
+    try {
+      const songQueue = calculateSongQueue({
+        intervals: template.workout_intervals,
+        numberOfSets: template.num_sets,
+        songs: template.playlists?.songs ?? [],
+      });
+
+      await saveSongQueueToStorage(songQueue);
+      if (IS_WATCH_ENABLED) {
+        await MusicManager.addSongsToQueue(
+          songQueue.map((s) => s.apple_music_id)
+        );
+        await MusicManager.play();
+
+        WatchManager.updateWorkoutId(
+          createdWorkout.workout_id,
+          createdWorkout.template_id
+        );
+      }
+    } catch (e) {
+      console.log("Error adding songs to queue", e);
+    }
+
+    console.log("Navigating to workout in progress");
 
     setTimeout(() => {
       // set playback rate
@@ -104,22 +113,6 @@ const StartOrCancelWorkoutPage = ({ route, navigation }) => {
         );
       }
     }, 1000);
-
-    console.log(
-      "interval length vs queue length",
-      template.expected_duration,
-      songQueue.reduce(
-        (acc, cur) => acc + Math.round(cur.duration_ms / 1000),
-        0
-      )
-    );
-
-    if (IS_WATCH_ENABLED) {
-      WatchManager.updateWorkoutId(
-        createdWorkout.workout_id,
-        createdWorkout.template_id
-      );
-    }
 
     navigation.navigate("WorkoutInProgress", {
       workoutId: createdWorkout.workout_id,

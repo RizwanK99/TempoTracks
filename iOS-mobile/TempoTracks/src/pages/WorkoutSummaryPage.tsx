@@ -59,10 +59,30 @@ function formatTime(totalSeconds: number | null | undefined): {
 const WorkoutSummaryPage = ({ navigation, route }) => {
   const theme = useAppTheme();
   const { workoutId } = route.params;
-  const { data: completedWorkout, isPending: loadingCompletedWorkout } =
-    useGetWorkoutById(workoutId);
+  const {
+    data: completedWorkout,
+    isPending: loadingCompletedWorkout,
+    refetch,
+  } = useGetWorkoutById(workoutId);
   const [workoutStart, setWorkoutStart] = useState<string | null>();
   const [workoutEnd, setWorkoutEnd] = useState<string | null>();
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      if (
+        !completedWorkout?.average_heart_rate ||
+        completedWorkout.average_heart_rate === 0 ||
+        !completedWorkout.total_energy_burned ||
+        completedWorkout.total_energy_burned === 0
+      ) {
+        console.log("Refetching workout for summary");
+        refetch();
+      } else {
+        clearInterval(intervalId);
+      }
+    }, 2500);
+    return () => clearInterval(intervalId);
+  }, []);
 
   if (loadingCompletedWorkout) {
     return (
@@ -81,28 +101,28 @@ const WorkoutSummaryPage = ({ navigation, route }) => {
     );
   }
 
-  useEffect(() => {
-    if (
-      !loadingCompletedWorkout &&
-      completedWorkout?.time_start &&
-      completedWorkout.time_end
-    ) {
-      setWorkoutStart(
-        new Date(completedWorkout.time_start).toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: true,
-        })
-      );
-      setWorkoutEnd(
-        new Date(completedWorkout.time_end).toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: true,
-        })
-      );
-    }
-  }, [loadingCompletedWorkout]);
+  // useEffect(() => {
+  //   if (
+  //     !loadingCompletedWorkout &&
+  //     completedWorkout?.time_start &&
+  //     completedWorkout.time_end
+  //   ) {
+  //     setWorkoutStart(
+  //       new Date(completedWorkout.time_start).toLocaleTimeString([], {
+  //         hour: "2-digit",
+  //         minute: "2-digit",
+  //         hour12: true,
+  //       })
+  //     );
+  //     setWorkoutEnd(
+  //       new Date(completedWorkout.time_end).toLocaleTimeString([], {
+  //         hour: "2-digit",
+  //         minute: "2-digit",
+  //         hour12: true,
+  //       })
+  //     );
+  //   }
+  // }, [loadingCompletedWorkout]);
 
   const lineData = [
     {
@@ -314,22 +334,25 @@ const WorkoutSummaryPage = ({ navigation, route }) => {
                 <View style={{ flexDirection: "column", gap: 8, width: "50%" }}>
                   <Stat
                     label="Total Time"
-                    value={formattedDuration}
+                    value={_formatDuration(formattedDuration)}
                     units={unit}
                   />
                   <Divider />
                   <Stat
                     label="Distance"
-                    value={completedWorkout.total_distance}
-                    units="KM"
+                    value={_formatNumber(completedWorkout.total_distance)}
+                    units="M"
                   />
                   <Divider />
                   <Stat
                     label="Avg. Pace"
                     value={
                       completedWorkout.total_duration !== 0
-                        ? completedWorkout.total_distance /
-                          completedWorkout.total_duration
+                        ? _formatNumber(
+                            completedWorkout.total_distance /
+                              1000 /
+                              completedWorkout.total_duration
+                          )
                         : 0
                     }
                     units="/KM"
@@ -338,7 +361,9 @@ const WorkoutSummaryPage = ({ navigation, route }) => {
                 <View style={{ flexDirection: "column", gap: 8, width: "50%" }}>
                   <Stat
                     label="Total Calories"
-                    value={completedWorkout.total_energy_burned}
+                    value={Math.round(
+                      completedWorkout.total_energy_burned
+                    ).toString()}
                     units="cals"
                   />
                   <Divider />
@@ -346,7 +371,7 @@ const WorkoutSummaryPage = ({ navigation, route }) => {
                     label="Avg. Heart Rate"
                     value={
                       completedWorkout.average_heart_rate
-                        ? completedWorkout.average_heart_rate
+                        ? _formatNumber(completedWorkout.average_heart_rate)
                         : "N/A"
                     }
                     units={completedWorkout.average_heart_rate ? "BPM" : ""}
@@ -356,7 +381,7 @@ const WorkoutSummaryPage = ({ navigation, route }) => {
               </View>
             )}
             {/* Heart rate map */}
-            <Text
+            {/* <Text
               style={{
                 color: theme.colors.text,
                 fontSize: 16,
@@ -401,7 +426,7 @@ const WorkoutSummaryPage = ({ navigation, route }) => {
                 verticalLinesColor={theme.colors.border}
                 color={theme.colors.redPrimary}
               />
-            </View>
+            </View> */}
             <View
               style={{
                 marginTop: "2%",
@@ -429,6 +454,17 @@ const WorkoutSummaryPage = ({ navigation, route }) => {
       </View>
     </SafeAreaView>
   );
+};
+
+const _formatDuration = (totalSeconds: number) => {
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+
+  return `${minutes}:${seconds}`;
+};
+
+export const _formatNumber = (num: number) => {
+  return num < 10 ? `0${num.toFixed(2)}` : num.toFixed(2);
 };
 
 export default WorkoutSummaryPage;

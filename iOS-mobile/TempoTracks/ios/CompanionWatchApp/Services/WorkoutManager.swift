@@ -8,7 +8,37 @@
 import Foundation
 import HealthKit
 
+struct WorkoutDataJson: Codable {
+    var id: String
+    var averageHeartRate: Double
+    var heartRate: Double
+    var activeEnergy: Double
+    var distance: Double
+  
+    enum CodingKeys: String, CodingKey {
+        case id
+        case averageHeartRate
+        case heartRate
+        case activeEnergy
+        case distance
+    }
+}
+
 class WorkoutManager: NSObject, ObservableObject {
+    // MARK: - Workout Metrics
+    @Published var averageHeartRate: Double = 0
+    @Published var heartRate: Double = 0
+    @Published var activeEnergy: Double = 0
+    @Published var distance: Double = 0
+    @Published var displayTime: String = "00:00:00"
+    @Published var workout: HKWorkout?
+    
+    //Private vars
+    private var startTime: Date?
+    private var pauseTime: Date?
+    private var totalPausedTime: TimeInterval = 0
+    private var timer: Timer?
+  
     @Published var selectedWorkout: Workout? {
         didSet {
           guard let selectedWorkout = selectedWorkout else { return }
@@ -134,32 +164,34 @@ class WorkoutManager: NSObject, ObservableObject {
     }
 
     func endWorkout(_ external: Bool) {
-        if !external && selectedWorkout!.workout_id != nil {
-          WatchConnectivityHandler.shared.send("endWorkout", selectedWorkout!.workout_id!)
+      if selectedWorkout != nil && selectedWorkout!.workout_id != nil {
+        let workoutDataJson = WorkoutDataJson(
+          id: selectedWorkout!.workout_id!,
+          averageHeartRate: averageHeartRate,
+          heartRate: heartRate,
+          activeEnergy: activeEnergy,
+          distance: distance
+        );
+        
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted // Optional, for readable output
+        do {
+          let jsonData = try encoder.encode(workoutDataJson)
+          if let jsonString = String(data: jsonData, encoding: .utf8) {
+            print(jsonString)
+            WatchConnectivityHandler.shared.send("endWorkout", jsonString)
+          }
+        } catch {
+          print("Error encoding JSON: \(error)")
         }
         
-        if selectedWorkout!.workout_id != nil {
-          WatchConnectivityHandler.workoutViewModel.setWorkoutIdToNil(workout_id: selectedWorkout!.workout_id!)
-        }
+        WatchConnectivityHandler.workoutViewModel.setWorkoutIdToNil(workout_id: selectedWorkout!.workout_id!)
+      }
         
         pause()
         session?.end()
         showingSummaryView = true
     }
-    
-    // MARK: - Workout Metrics
-    @Published var averageHeartRate: Double = 0
-    @Published var heartRate: Double = 0
-    @Published var activeEnergy: Double = 0
-    @Published var distance: Double = 0
-    @Published var displayTime: String = "00:00:00"
-    @Published var workout: HKWorkout?
-    
-    //Private vars
-    private var startTime: Date?
-    private var pauseTime: Date?
-    private var totalPausedTime: TimeInterval = 0
-    private var timer: Timer?
     
     private func startTimer(){
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
@@ -198,6 +230,28 @@ class WorkoutManager: NSObject, ObservableObject {
             default:
                 return
             }
+          
+          let workoutDataJson = WorkoutDataJson(
+            id: self.selectedWorkout?.workout_id ?? "",
+            averageHeartRate: self.averageHeartRate,
+            heartRate: self.heartRate,
+            activeEnergy: self.activeEnergy,
+            distance: self.distance
+          );
+          
+          print("live-workout-data", workoutDataJson)
+          
+          let encoder = JSONEncoder()
+          encoder.outputFormatting = .prettyPrinted // Optional, for readable output
+          do {
+            let jsonData = try encoder.encode(workoutDataJson)
+            if let jsonString = String(data: jsonData, encoding: .utf8) {
+              print("updateLiveWorkout", jsonString)
+              WatchConnectivityHandler.shared.send("updateLiveWorkout", jsonString)
+            }
+          } catch {
+            print("Error encoding JSON: \(error)")
+          }
         }
     }
     

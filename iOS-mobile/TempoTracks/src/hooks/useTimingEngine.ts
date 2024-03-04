@@ -90,9 +90,9 @@ export const useTimingEngine = <T>(params: {
     lastAction.current = "play";
     lastActionTime.current = Date.now();
 
-    console.log("_handleStartTimer: creating timer for duration", duration);
-    console.log("_handleStartTimer: setting value to", value);
-    console.log("_handleStartTimer: timerIdRef", timerIdRef.current);
+    // console.log("_handleStartTimer: creating timer for duration", duration);
+    // console.log("_handleStartTimer: setting value to", value);
+    // console.log("_handleStartTimer: timerIdRef", timerIdRef.current);
     callback(value, false);
 
     return new Promise<void>(async (resolve) => {
@@ -107,16 +107,16 @@ export const useTimingEngine = <T>(params: {
           const data = timingData[currentTimingDataIndex.current];
           _handleStartTimer(data);
         } else {
-          console.log("_handleStartTimer: reached end of timingData");
+          // console.log("_handleStartTimer: reached end of timingData");
           onSuccess?.();
           endTimer();
         }
       }, duration);
 
-      console.log(
-        "_handleStartTimer: setting timerIdRef to",
-        timerIdRef.current
-      );
+      // console.log(
+      //   "_handleStartTimer: setting timerIdRef to",
+      //   timerIdRef.current
+      // );
     });
   };
 
@@ -124,17 +124,17 @@ export const useTimingEngine = <T>(params: {
     await _handleRefetchStoredTimerId();
 
     if (timerIdRef.current) {
-      console.log("Timer already started!");
+      // console.log("Timer already started!");
       return;
     }
 
     if (currentTimingDataIndex.current >= timingData.length) {
-      console.log("Reached end of workout!");
+      // console.log("Reached end of workout!");
       return;
     }
     const data = timingData[currentTimingDataIndex.current];
 
-    console.log("Starttimer: remainingTime", remainingTimeRef.current);
+    // console.log("Starttimer: remainingTime", remainingTimeRef.current);
 
     // if there is remaining time, start the timer with the remaining time
     if (remainingTimeRef.current && remainingTimeRef.current > 0) {
@@ -151,7 +151,7 @@ export const useTimingEngine = <T>(params: {
     _handleRefetchStoredTimerId();
 
     if (timerIdRef.current) {
-      console.log("pauseTimer: pausing");
+      // console.log("pauseTimer: pausing");
       const currentTime = Date.now();
       clearTimeout(timerIdRef.current);
 
@@ -161,11 +161,11 @@ export const useTimingEngine = <T>(params: {
         lastActionTime.current &&
         currentTimingDataIndex.current < timingData.length
       ) {
-        console.log(
-          "pauseTimer: remainingTime is",
-          timingData[currentTimingDataIndex.current].duration -
-            (currentTime - lastActionTime.current)
-        );
+        // console.log(
+        //   "pauseTimer: remainingTime is",
+        //   timingData[currentTimingDataIndex.current].duration -
+        //     (currentTime - lastActionTime.current)
+        // );
 
         remainingTimeRef.current =
           timingData[currentTimingDataIndex.current].duration -
@@ -180,7 +180,7 @@ export const useTimingEngine = <T>(params: {
   const endTimer = async () => {
     await _handleRefetchStoredTimerId();
 
-    console.log("endTimer: ending timer", timerIdRef.current?.toString());
+    // console.log("endTimer: ending timer", timerIdRef.current?.toString());
     if (timerIdRef.current) {
       clearTimeout(timerIdRef.current);
     }

@@ -40,7 +40,14 @@ export const SongItem = ({
     <TouchableRipple
       theme={theme}
       style={styles.container}
-      onPress={() => (!!dontPlayOnClick ? {} : playSong(song.apple_music_id))}
+      onPress={() => {
+        if (!dontPlayOnClick) {
+          playSong(song.apple_music_id);
+        }
+        // !!dontPlayOnClick ? {} : {
+        // console.log("Playing song", song.apple_music_id);
+        // playSong(song.apple_music_id)
+      }}
     >
       <View style={styles.row}>
         <Image

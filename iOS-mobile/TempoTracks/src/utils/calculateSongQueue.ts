@@ -149,14 +149,6 @@ export const calculateSongQueue = (params: {
         return acc + Math.round(val.tempo * (val.duration / groupDuration));
       }, 0);
 
-      console.log(
-        "groupIntervals",
-        groupIntervals.map(
-          (i) => `tempo: ${i.tempo} | duration: ${i.duration}`
-        ),
-        weightedTempo
-      );
-
       return {
         intervalDuration: groupDuration,
         desiredTempo: weightedTempo,
@@ -300,15 +292,6 @@ const getNewSongWithScores = (params: {
       };
     })
     .sort((a, b) => b.totalScore - a.totalScore);
-
-  console.log(
-    "for desiredTempo",
-    desiredTempo,
-    "songsWithScores",
-    songsWithScores.map(
-      (s) => `${s.title} has tempo = ${s.tempo} | totalScore = ${s.totalScore} `
-    )
-  );
 
   return {
     songsWithScores,
