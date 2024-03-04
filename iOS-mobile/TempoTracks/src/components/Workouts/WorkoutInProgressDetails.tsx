@@ -1,13 +1,10 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { SafeAreaView, Text, View } from "react-native";
-import { Button, useTheme } from "react-native-paper";
-import { Button as PaperButton } from "react-native-paper";
 import {
   usePauseWorkout,
   useResumeWorkout,
   useEndWorkout,
 } from "../../api/WorkoutsNew";
-import { useStopwatch } from "react-timer-hook";
 
 // Watch Manager
 import {
@@ -28,7 +25,7 @@ interface TimeProps {
 }
 
 const Time: React.FC<TimeProps> = ({ value, unit, showColon = true }) => {
-  const theme = useTheme();
+  const theme = useAppTheme();
   return (
     <Text style={{ color: theme.colors.primary, fontSize: 68 }} key={unit}>
       {showColon && ":"}
@@ -105,10 +102,6 @@ export const WorkoutInProgressDetails: React.FC<
     reset();
     navigation.navigate("WorkoutSummaryPage", {
       workoutId: workoutId,
-      duration: duration,
-      calories: calories,
-      bpm: bpm,
-      distance: distance,
     });
   };
 
@@ -187,6 +180,7 @@ export const WorkoutInProgressDetails: React.FC<
         <Time unit="seconds" value={seconds} />
       </View>
       <View style={{ flexDirection: "column" }}>
+        {/* HEALTHKIT - may not be possible to update in real time? */}
         <Stat unit="CAL" value={calories} />
         <Stat unit="BPM" value={bpm} />
         <Stat unit="FT" value={distance} />

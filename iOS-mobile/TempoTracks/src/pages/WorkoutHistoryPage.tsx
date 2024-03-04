@@ -252,7 +252,7 @@ const WorkoutCard = ({
         borderRadius: 4,
       }}
       onPress={() =>
-        navigation.navigate("WorkoutEndSummary", {
+        navigation.navigate("CompletedWorkoutSummary", {
           workoutId: id,
         })
       }

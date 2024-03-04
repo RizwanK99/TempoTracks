@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Session } from "@supabase/supabase-js";
+import { LogBox } from "react-native";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { AntDesign } from "@expo/vector-icons";
@@ -28,7 +28,7 @@ import CreateWorkoutPage from "./src/pages/CreateWorkoutPage";
 import WorkoutInProgressPage from "./src/pages/WorkoutInProgressPage";
 import WorkoutHistoryPage from "./src/pages/WorkoutHistoryPage";
 import WorkoutListPage from "./src/pages/WorkoutListPage";
-import WorkoutEndSummaryPage from "./src/pages/WorkoutEndSummaryPage";
+import CompletedWorkoutSummaryPage from "./src/pages/CompletedWorkoutSummaryPage";
 import WorkoutSummaryPage from "./src/pages/WorkoutSummaryPage";
 import WorkoutTrendsPage from "./src/pages/WorkoutTrendsPage";
 
@@ -40,7 +40,12 @@ import { PlaylistView } from "./src/components/Music/Playlist/PlaylistView";
 import { useCreateWorkout } from "./src/api/WorkoutsNew";
 
 //Watch Manager
-import { IS_WATCH_ENABLED, WatchManager, EventListener } from "./src/module/WatchManager";
+import {
+  IS_WATCH_ENABLED,
+  WatchManager,
+  EventListener,
+} from "./src/module/WatchManager";
+import { saved_user_data } from "./src/api/Globals";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -56,7 +61,7 @@ function Root() {
     const { mutateAsync: createWorkout } = useCreateWorkout();
 
     useEffect(() => {
-      const unsubscribe = EventListener.subscribe('createWorkout', (data) => {
+      const unsubscribe = EventListener.subscribe("createWorkout", (data) => {
         setEventData(data);
       });
 
@@ -65,7 +70,7 @@ function Root() {
 
     useEffect(() => {
       if (!eventData) return;
-    
+
       let workout = "";
 
       try {
@@ -77,7 +82,7 @@ function Root() {
       const startWorkout = async (workout) => {
         let createdWorkout = await createWorkout({
           // change this once we make hook for auth
-          user_id: "c51056f2-c58f-4994-99e0-32c36ef3758b",
+          user_id: saved_user_data.user_id,
           template_id: workout.id,
           workout_name: workout.name,
           workout_type: workout.type,
@@ -87,12 +92,15 @@ function Root() {
           total_duration: 0,
         });
 
-        print(createdWorkout[0])
+        print(createdWorkout[0]);
 
-        WatchManager.updateWorkoutId(createdWorkout[0].workout_id, createdWorkout[0].template_id);
+        WatchManager.updateWorkoutId(
+          createdWorkout[0].workout_id,
+          createdWorkout[0].template_id
+        );
 
-        navigation.navigate('WorkoutsStack', {
-          screen: 'WorkoutInProgress',
+        navigation.navigate("WorkoutsStack", {
+          screen: "WorkoutInProgress",
           params: {
             workoutId: createdWorkout[0].workout_id,
           },
@@ -103,8 +111,6 @@ function Root() {
 
       setEventData(null);
     }, [eventData]);
-
-
   }
 
   return (
@@ -177,6 +183,8 @@ function Root() {
 
 function App() {
   const [session, setSession] = useState(null);
+  // I see the issue just not sure scope of fix, seems to be fine
+  LogBox.ignoreLogs(["Found screens with the same name nested"]);
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
@@ -264,8 +272,8 @@ function WorkoutsStack() {
       <Stack.Screen name="WorkoutHistoryPage" component={WorkoutHistoryPage} />
       <Stack.Screen name="WorkoutListPage" component={WorkoutListPage} />
       <Stack.Screen
-        name="WorkoutEndSummary"
-        component={WorkoutEndSummaryPage}
+        name="CompletedWorkoutSummary"
+        component={CompletedWorkoutSummaryPage}
       />
       <Stack.Screen
         name="IndividualWorkoutTemplatePage"
