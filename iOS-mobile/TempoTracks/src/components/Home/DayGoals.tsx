@@ -15,15 +15,37 @@ export const DailyGoals = () => {
   const [text_dur, setTextDur] = React.useState(String(saved_user_data.daily_duration_goal));
   const [text_cal, setTextCal] = React.useState(String(saved_user_data.daily_calorie_goal));
 
+  const [duration, setDuration] = React.useState(0);
+  const [distance, setDistance] = React.useState(0);
+  const [calories, setCalories] = React.useState(0);
+
   const [workoutData, setWorkoutData] = React.useState([])
 
   React.useEffect(() => {
     async function fetchData() {
-      const data = await HealthManager.getWorkoutData("Year"); //change to "Day"
-      console.log(data);
-      setWorkoutData(JSON.parse(data)); //NOT WORKING FOR SOME REASON
+      const data = await HealthManager.getWorkoutData("Day");
+      setWorkoutData(data);
+      
     }
     fetchData();
+
+    var d = 0;
+    workoutData.forEach((element: any) => {
+      d += element.Duration;
+    });
+    setDuration(d);
+
+    var dist = 0;
+    workoutData.forEach((element: any) => {
+      dist += element.Distance;
+    });
+    setDistance(dist);
+
+    var cals = 0;
+    workoutData.forEach((element: any) => {
+      cals += element.Calories;
+    });
+    setCalories(cals);
   }, []);
 
   async function saveData() {
@@ -58,7 +80,7 @@ export const DailyGoals = () => {
       </Portal>
         <View style={{ flexDirection: "row", justifyContent: "flex-start", alignItems: "center" }}>
           <Button textColor={theme.colors.text} icon="map">Distance</Button>
-          <Text style={{ color: theme.colors.foregroundMuted }}>0</Text>
+          <Text style={{ color: theme.colors.foregroundMuted }}>{distance.toFixed(0)}km</Text>
         </View>
         <View style={{ paddingHorizontal: 10 }}>
           <ProgressBar progress={0.7} />
@@ -69,7 +91,7 @@ export const DailyGoals = () => {
         </View>
         <View style={{ flexDirection: "row", justifyContent: "flex-start", alignItems: "center" }}>
           <Button textColor={theme.colors.text} style={{ alignSelf: "flex-start" }} icon="terrain">Duration</Button>
-          <Text style={{ color: theme.colors.foregroundMuted }}>55 min</Text>
+          <Text style={{ color: theme.colors.foregroundMuted }}>{duration.toFixed(0)}mins</Text>
         </View>
         <View style={{ paddingHorizontal: 10 }}>
           <ProgressBar progress={0.9} />
@@ -80,7 +102,7 @@ export const DailyGoals = () => {
         </View>
         <View style={{ flexDirection: "row", justifyContent: "flex-start", alignItems: "center" }}>
           <Button textColor={theme.colors.text} style={{ alignSelf: "flex-start" }} icon="fire">Calories</Button>
-          <Text style={{ color: theme.colors.foregroundMuted }}>337</Text>
+          <Text style={{ color: theme.colors.foregroundMuted }}>{calories.toFixed(0)}cals</Text>
         </View>
         <View style={{ paddingHorizontal: 10 }}>
           <ProgressBar progress={0.8} />
