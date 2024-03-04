@@ -214,6 +214,10 @@ export type Database = {
           first_name: string | null
           height: number | null
           last_name: string | null
+          monthly_calories: number | null
+          monthly_distance: number | null
+          monthly_duration: number | null
+          monthly_workouts: number | null
           phone_number: string | null
           user_id: string
           username: string | null
@@ -228,6 +232,10 @@ export type Database = {
           first_name?: string | null
           height?: number | null
           last_name?: string | null
+          monthly_calories?: number | null
+          monthly_distance?: number | null
+          monthly_duration?: number | null
+          monthly_workouts?: number | null
           phone_number?: string | null
           user_id: string
           username?: string | null
@@ -242,6 +250,10 @@ export type Database = {
           first_name?: string | null
           height?: number | null
           last_name?: string | null
+          monthly_calories?: number | null
+          monthly_distance?: number | null
+          monthly_duration?: number | null
+          monthly_workouts?: number | null
           phone_number?: string | null
           user_id?: string
           username?: string | null

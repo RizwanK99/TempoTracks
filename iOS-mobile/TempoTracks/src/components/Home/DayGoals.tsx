@@ -4,7 +4,7 @@ import { Button, Card, Text, Divider, IconButton, ProgressBar, Portal, Modal, Te
 import { useAppTheme } from "../../provider/PaperProvider";
 import { HealthManager } from "../../module/HealthManager";
 import { saved_user_data } from "../../api/Globals";
-import { updateGoals } from "../../api/User";
+import { updateDailyGoals } from "../../api/User";
 
 export const DailyGoals = () => {
   const theme = useAppTheme();
@@ -49,7 +49,7 @@ export const DailyGoals = () => {
   }, []);
 
   async function saveData() {
-    updateGoals(saved_user_data.user_id, text_dist, text_cal, text_dur);
+    updateDailyGoals(saved_user_data.user_id, text_dist, text_cal, text_dur);
     setVisible(false);
   }
 

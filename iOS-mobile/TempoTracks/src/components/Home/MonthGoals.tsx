@@ -7,16 +7,23 @@ import { getUsersWorkouts } from "../../api/Workouts";
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useAppTheme } from "../../provider/PaperProvider";
+import { saved_user_data } from "../../api/Globals";
+import { updateMonthlyGoals } from "../../api/User";
 
 export const MonthGoals = () => {
   const theme = useAppTheme();
   const [visible, setVisible] = React.useState(false);
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
-  const [text_dist, setTextDist] = React.useState("20");
-  const [text_dur, setTextDur] = React.useState("3000");
-  const [text_act, setTextAct] = React.useState("25");
-  const [text_cal, setTextCal] = React.useState("10000");
+  const [text_dist, setTextDist] = React.useState(String(saved_user_data.monthly_distance_goal));
+  const [text_dur, setTextDur] = React.useState(String(saved_user_data.monthly_duration_goal));
+  const [text_act, setTextAct] = React.useState(String(saved_user_data.monthly_workouts_goal));
+  const [text_cal, setTextCal] = React.useState(String(saved_user_data.monthly_calorie_goal));
+
+  async function saveData() {
+    updateMonthlyGoals(saved_user_data.user_id, text_dist, text_cal, text_dur, text_act);
+    setVisible(false);
+  }
 
   return (
     <View>
@@ -33,7 +40,7 @@ export const MonthGoals = () => {
               <TextInput label="Duration" value={text_dur} onChangeText={setTextDur} keyboardType="numeric" dense style={{ marginBottom: 10 }} />
               <TextInput label="Workouts" value={text_act} onChangeText={setTextAct} keyboardType="numeric" dense style={{ marginBottom: 10 }} />
               <TextInput label="Calories" value={text_cal} onChangeText={setTextCal} keyboardType="numeric" dense />
-              <Button mode="elevated" style={{ marginTop: 10 }} onPress={hideModal}>Save</Button>
+              <Button mode="elevated" style={{ marginTop: 10 }} onPress={saveData}>Save</Button>
             </Card.Content>
           </Card>
         </Modal>
@@ -48,7 +55,7 @@ export const MonthGoals = () => {
       </View>
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
         <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>0km</Text>
-        <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>{text_dist}km</Text>
+        <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>{text_dist} km</Text>
       </View>
       <View style={{ flexDirection: "row", justifyContent: "flex-start", alignItems: "center" }}>
         <Button textColor={theme.colors.text} style={{ alignSelf: "flex-start" }} icon="terrain">Duration</Button>
@@ -59,7 +66,7 @@ export const MonthGoals = () => {
       </View>
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
         <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>0km</Text>
-        <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>{text_dur}mins</Text>
+        <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>{text_dur} mins</Text>
       </View>
       <View style={{ flexDirection: "row", justifyContent: "flex-start", alignItems: "center" }}>
         <Button textColor={theme.colors.text} style={{ alignSelf: "flex-start" }} icon="weight-lifter">Workouts</Button>
@@ -70,7 +77,7 @@ export const MonthGoals = () => {
       </View>
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
         <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>0</Text>
-        <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>{text_act}</Text>
+        <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>{text_act} workouts</Text>
       </View>
       <View style={{ flexDirection: "row", justifyContent: "flex-start", alignItems: "center" }}>
         <Button textColor={theme.colors.text} style={{ alignSelf: "flex-start" }} icon="fire">Calories</Button>
@@ -81,7 +88,7 @@ export const MonthGoals = () => {
       </View>
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
         <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>0</Text>
-        <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>{text_cal}cals</Text>
+        <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>{text_cal} cals</Text>
       </View>
     </View>
   );
