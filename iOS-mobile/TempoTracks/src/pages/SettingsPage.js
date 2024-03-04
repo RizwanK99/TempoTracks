@@ -13,6 +13,7 @@ import {
   SafeAreaView,
 } from "react-native";
 import { ScrollView } from "react-native";
+import { useAppTheme } from "../provider/PaperProvider";
 
 async function retrieveData(user, setUser) {
   try {
@@ -34,6 +35,8 @@ const SettingsPage = ({ route, navigation }) => {
   const [explicitContent, setExplicitContent] = useState(false);
   const [peakNormalize, setPeakNormalize] = useState(1);
   const [bpmWarning, setBPMWarning] = useState(true);
+
+  const theme = useAppTheme();
 
   useEffect(() => {
     async function fetchData() {
@@ -82,7 +85,7 @@ const SettingsPage = ({ route, navigation }) => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#000000" }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <Text
         style={{
           color: "#FFFFFF",
