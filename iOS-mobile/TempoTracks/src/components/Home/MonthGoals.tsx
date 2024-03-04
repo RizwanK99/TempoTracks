@@ -1,31 +1,7 @@
 import * as React from "react";
-import {
-  TouchableOpacity,
-  ScrollView,
-  View,
-  SafeAreaView,
-  Dimensions,
-  KeyboardAvoidingView,
-  Platform,
-} from "react-native";
-import {
-  useTheme,
-  Button,
-  Card,
-  Text,
-  Divider,
-  IconButton,
-  Chip,
-  Surface,
-  ProgressBar,
-  Tooltip,
-  PaperProvider,
-  Menu,
-  Modal,
-  Portal,
-  TextInput,
-} from "react-native-paper";
-import { endOfDay, format } from "date-fns";
+import { TouchableOpacity, ScrollView, View, SafeAreaView, Dimensions, KeyboardAvoidingView, Platform } from "react-native";
+import { useTheme, Button, Card, Text, Divider, IconButton, Chip, Surface, ProgressBar, Tooltip, PaperProvider, Menu, Modal, Portal, TextInput } from "react-native-paper";
+import { endOfDay, format, set, startOfDay } from "date-fns";
 import { LineChart } from "react-native-gifted-charts";
 import { getUsersWorkouts } from "../../api/Workouts";
 import { useEffect, useState } from "react";
@@ -33,24 +9,50 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useAppTheme } from "../../provider/PaperProvider";
 import { saved_user_data } from "../../api/Globals";
 import { updateMonthlyGoals } from "../../api/User";
+import { useGetCompletedWorkouts } from "../../api/WorkoutsNew";
 
 export const MonthGoals = () => {
   const theme = useAppTheme();
   const [visible, setVisible] = React.useState(false);
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
-  const [text_dist, setTextDist] = React.useState(
-    String(saved_user_data.monthly_distance_goal)
-  );
-  const [text_dur, setTextDur] = React.useState(
-    String(saved_user_data.monthly_duration_goal)
-  );
-  const [text_act, setTextAct] = React.useState(
-    String(saved_user_data.monthly_workouts_goal)
-  );
-  const [text_cal, setTextCal] = React.useState(
-    String(saved_user_data.monthly_calorie_goal)
-  );
+  const [text_dist, setTextDist] = React.useState(String(saved_user_data.monthly_distance_goal));
+  const [text_dur, setTextDur] = React.useState(String(saved_user_data.monthly_duration_goal));
+  const [text_act, setTextAct] = React.useState(String(saved_user_data.monthly_workouts_goal));
+  const [text_cal, setTextCal] = React.useState(String(saved_user_data.monthly_calorie_goal));
+
+  const [duration, setDuration] = React.useState(0);
+  const [distance, setDistance] = React.useState(0);
+  const [calories, setCalories] = React.useState(0);
+  const [workouts, setWorkouts] = React.useState(0);
+
+  const { data: completedWorkouts, isPending: loadingCompletedWorkouts } =
+    useGetCompletedWorkouts(saved_user_data.user_id);
+
+  async function getDailyWorkouts(workoutData) {
+    const todaysDate = startOfDay(new Date());
+    const dailyWorkouts = workoutData.filter((workout) => {
+      const workoutStart = startOfDay(new Date(workout.time_start));
+      return workoutStart.getTime() === todaysDate.getTime();
+    });
+    const totalDuration = dailyWorkouts.reduce((accumulator, workout) => {
+      return accumulator + workout.total_duration;
+    }, 0);
+    setDuration(totalDuration);
+    const totalDistance = dailyWorkouts.reduce((accumulator, workout) => {
+      return accumulator + workout.total_distance;
+    }, 0);
+    setDistance(totalDistance);
+    const totalCalories = dailyWorkouts.reduce((accumulator, workout) => {
+      return accumulator + workout.total_energy_burned;
+    }, 0);
+    setCalories(totalCalories);
+    setWorkouts(dailyWorkouts.length);
+  }
+
+  React.useEffect(() => {
+    getDailyWorkouts(completedWorkouts);
+  }, [completedWorkouts]);
 
   async function saveData() {
     updateMonthlyGoals(
@@ -150,10 +152,10 @@ export const MonthGoals = () => {
         <Button textColor={theme.colors.text} icon="map">
           Distance
         </Button>
-        <Text style={{ color: theme.colors.foregroundMuted }}>56km</Text>
+        <Text style={{ color: theme.colors.foregroundMuted }}>{distance.toFixed(0)} km</Text>
       </View>
       <View style={{ paddingHorizontal: 10 }}>
-        <ProgressBar progress={0.7} />
+        <ProgressBar progress={(distance)/parseInt(text_dist) || 1} />
       </View>
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
         <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>
@@ -177,10 +179,10 @@ export const MonthGoals = () => {
         >
           Duration
         </Button>
-        <Text style={{ color: theme.colors.foregroundMuted }}>400m</Text>
+        <Text style={{ color: theme.colors.foregroundMuted }}>{duration.toFixed(0)} mins</Text>
       </View>
       <View style={{ paddingHorizontal: 10 }}>
-        <ProgressBar progress={0.2} />
+        <ProgressBar progress={(duration)/parseInt(text_dur) || 1} />
       </View>
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
         <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>
@@ -204,17 +206,17 @@ export const MonthGoals = () => {
         >
           Workouts
         </Button>
-        <Text style={{ color: theme.colors.foregroundMuted }}>22</Text>
+        <Text style={{ color: theme.colors.foregroundMuted }}>{workouts.toFixed(0)}</Text>
       </View>
       <View style={{ paddingHorizontal: 10 }}>
-        <ProgressBar progress={0.9} />
+        <ProgressBar progress={(workouts)/parseInt(text_act) || 1} />
       </View>
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
         <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>
           0
         </Text>
         <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>
-          {text_act} workouts
+          {text_act}
         </Text>
       </View>
       <View
@@ -231,10 +233,10 @@ export const MonthGoals = () => {
         >
           Calories
         </Button>
-        <Text style={{ color: theme.colors.foregroundMuted }}>10000</Text>
+        <Text style={{ color: theme.colors.foregroundMuted }}>{calories.toFixed(0)} cals</Text>
       </View>
       <View style={{ paddingHorizontal: 10 }}>
-        <ProgressBar progress={0.8} />
+        <ProgressBar progress={(calories)/(parseInt(text_cal) || 1)} />
       </View>
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
         <Text style={{ color: theme.colors.foregroundMuted, padding: 5 }}>
