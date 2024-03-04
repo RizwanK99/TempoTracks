@@ -3,12 +3,10 @@ import AntDesignIcons from "react-native-vector-icons/AntDesign";
 import FontAwesomeIcons from "react-native-vector-icons/FontAwesome";
 import { MusicManager } from "../../../module/MusicManager";
 import { Slider } from "react-native-elements";
-import { Text } from "react-native-paper";
 
 const PlayerControls = ({
   isPlaying,
   setIsPlaying,
-  playbackRate,
   handlePlaybackRateChange,
 }) => {
   const togglePlay = () => {
@@ -45,7 +43,7 @@ const PlayerControls = ({
           <AntDesignIcons name="forward" size={42} color="white" />
         </TouchableOpacity>
       </View>
-      <View style={styles.volumeContainer}>
+      {/* <View style={styles.volumeContainer}>
         <FontAwesomeIcons
           name="volume-off"
           size={24}
@@ -68,7 +66,7 @@ const PlayerControls = ({
           color="white"
           style={{ marginTop: 8 }}
         />
-      </View>
+      </View> */}
     </View>
   );
 };

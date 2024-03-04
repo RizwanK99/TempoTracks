@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
-import { useTheme } from "react-native-paper";
+import { SafeAreaView, Text, View } from "react-native";
+import { Button, useTheme } from "react-native-paper";
+import { Button as PaperButton } from "react-native-paper";
 import {
   usePauseWorkout,
   useResumeWorkout,
@@ -9,9 +10,16 @@ import {
 import { useStopwatch } from "react-timer-hook";
 
 // Watch Manager
-import { IS_WATCH_ENABLED, EventListener, WatchManager } from "../../module/WatchManager";
+import {
+  IS_WATCH_ENABLED,
+  EventListener,
+  WatchManager,
+} from "../../module/WatchManager";
 import { useAppTheme } from "../../provider/PaperProvider";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { TimingEngineResult } from "../../hooks/useTimingEngine";
+import { MusicManager } from "../../module/MusicManager";
 
 interface TimeProps {
   value: number;
@@ -46,6 +54,7 @@ const Stat: React.FC<StatProps> = ({ unit, value }) => {
 interface WorkoutInProgressDetailsProps {
   workoutId: string;
   templateId: string;
+  timingEngine: TimingEngineResult;
   navigation: any;
   totalSeconds: number;
   seconds: number;
@@ -66,6 +75,7 @@ export const WorkoutInProgressDetails: React.FC<
 > = ({
   workoutId,
   templateId,
+  timingEngine,
   navigation,
   totalSeconds,
   minutes,
@@ -102,18 +112,24 @@ export const WorkoutInProgressDetails: React.FC<
     });
   };
 
-  if (IS_WATCH_ENABLED){
+  if (IS_WATCH_ENABLED) {
     const [pauseEventData, setPauseEventData] = useState(null);
     const [endEventData, setEndEventData] = useState(null);
 
     useEffect(() => {
-      if (EventListener.getCount('togglePauseWorkout') == 0){
-        const unsubscribePause = EventListener.subscribe('togglePauseWorkout', (data) => {
-          setPauseEventData(data);
-        });
-        const unsubscribeStop = EventListener.subscribe('endWorkout', (data) => {
-          setEndEventData(data);
-        });
+      if (EventListener.getCount("togglePauseWorkout") == 0) {
+        const unsubscribePause = EventListener.subscribe(
+          "togglePauseWorkout",
+          (data) => {
+            setPauseEventData(data);
+          }
+        );
+        const unsubscribeStop = EventListener.subscribe(
+          "endWorkout",
+          (data) => {
+            setEndEventData(data);
+          }
+        );
 
         return () => {
           unsubscribePause();
@@ -130,8 +146,7 @@ export const WorkoutInProgressDetails: React.FC<
       if (pauseEventData == "true") {
         pauseWorkout(workoutId);
         pause();
-      }
-      else {
+      } else {
         resumeWorkout(workoutId);
         start();
       }
@@ -139,14 +154,13 @@ export const WorkoutInProgressDetails: React.FC<
       togglePaused();
 
       setPauseEventData(null);
-    }, [pauseEventData])
+    }, [pauseEventData]);
 
     useEffect(() => {
       if (!endEventData) return;
 
       handleWorkoutEnd();
-    }, [endEventData])
-
+    }, [endEventData]);
   }
 
   return (
@@ -195,10 +209,13 @@ export const WorkoutInProgressDetails: React.FC<
               borderRadius: 24,
               padding: 4,
             }}
-            onPress={() => {
-              if (IS_WATCH_ENABLED){
+            onPress={async () => {
+              if (IS_WATCH_ENABLED) {
                 WatchManager.endWorkout(workoutId);
               }
+              console.log("ending workout");
+              await timingEngine.endTimer();
+              MusicManager.pause();
               handleWorkoutEnd();
             }}
           >
@@ -230,7 +247,10 @@ export const WorkoutInProgressDetails: React.FC<
                   padding: 4,
                 }}
                 onPress={() => {
-                  if (IS_WATCH_ENABLED){
+                  //WatchManager.togglePauseWorkout(workoutId);
+                  MusicManager.pause();
+                  timingEngine.pauseTimer();
+                  if (IS_WATCH_ENABLED) {
                     WatchManager.togglePauseWorkout(workoutId);
                   }
                   pauseWorkout(workoutId);
@@ -260,7 +280,10 @@ export const WorkoutInProgressDetails: React.FC<
                   padding: 4,
                 }}
                 onPress={() => {
-                  if (IS_WATCH_ENABLED){
+                  //WatchManager.togglePauseWorkout(workoutId);
+                  MusicManager.play();
+                  timingEngine.startTimer();
+                  if (IS_WATCH_ENABLED) {
                     WatchManager.togglePauseWorkout(workoutId);
                   }
                   resumeWorkout(workoutId);

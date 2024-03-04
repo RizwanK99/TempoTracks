@@ -40,7 +40,8 @@ const RingProgress: React.FC<RingProgressProps> = ({
   }, [progress]);
 
   useEffect(() => {
-    let interval;
+    let interval: NodeJS.Timer | undefined = undefined;
+
     if (counter > 0) {
       interval = setInterval(
         () => setCounter((prevCounter) => prevCounter - 1),
@@ -50,8 +51,8 @@ const RingProgress: React.FC<RingProgressProps> = ({
       onComplete();
     }
 
-    return () => clearInterval(interval);
-  }, [counter, onComplete, setCounter]);
+    return () => clearInterval(interval as any);
+  }, [counter]);
 
   const animatedProps = useAnimatedProps(() => ({
     strokeDasharray: [circumference * filled.value, circumference],

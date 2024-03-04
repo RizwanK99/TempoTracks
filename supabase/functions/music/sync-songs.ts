@@ -111,7 +111,7 @@ export const syncSongs = async (
     })();
 
     const song: TablesInsert<'songs'> = {
-      title: track.name,
+      title: rawSong.title,
       artist: track.artists.map((artist) => artist.name).join(', '),
       duration_ms: track.duration_ms,
       spotify_id: track.id, // track is from spotify

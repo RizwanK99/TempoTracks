@@ -12,17 +12,15 @@ import {
   NativeStackNavigationProp,
   NativeStackScreenProps,
 } from "@react-navigation/native-stack";
+import { CurrentSongTab } from "../CurrentSongTab";
 
 interface Props {
-  // playlist: Tables<"playlists"> & { songs: Tables<"songs">[] };
   route: NativeStackScreenProps<any>["route"];
   navigation: NativeStackNavigationProp<any>;
 }
 
 export const PlaylistView = ({ route, navigation }: Props) => {
   const theme = useTheme();
-
-  console.log("route params", route.params);
 
   if (!route.params) {
     return <Text>No playlist</Text>;
@@ -60,6 +58,7 @@ export const PlaylistView = ({ route, navigation }: Props) => {
           ))}
         </ScrollView>
       </View>
+      <CurrentSongTab />
     </SafeAreaView>
   );
 };

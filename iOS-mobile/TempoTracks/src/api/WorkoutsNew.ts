@@ -1,6 +1,6 @@
 import { supabase } from "../lib/supabase";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Tables, TablesInsert } from "../lib/db.types";
+import { TablesInsert } from "../lib/db.types";
 
 export const useCreateWorkout = () => {
   const queryClient = useQueryClient();
@@ -9,7 +9,8 @@ export const useCreateWorkout = () => {
       const { data, error } = await supabase
         .from("workouts")
         .insert(workout)
-        .select("*");
+        .select()
+        .single();
 
       if (error) {
         console.log("Error creating workout", error);
