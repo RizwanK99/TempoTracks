@@ -42,16 +42,8 @@ const WorkoutInProgressPage = ({ navigation, route }) => {
   const ref = React.useRef<ICarouselInstance>(null);
   const [data, setData] = React.useState([...new Array(2).keys()]);
 
-  const {
-    totalSeconds,
-    seconds,
-    minutes,
-    hours,
-    isRunning,
-    start,
-    pause,
-    reset,
-  } = useStopwatch({ autoStart: true });
+  const { totalSeconds, seconds, minutes, hours, start, pause, reset } =
+    useStopwatch({ autoStart: true });
   const [paused, setPaused] = useState<boolean>(false);
 
   const formattedIntervals = useMemo(() => {
@@ -77,7 +69,6 @@ const WorkoutInProgressPage = ({ navigation, route }) => {
   const baseOptions = {
     vertical: false,
     width: windowWidth,
-    // height: "100%",
   } as const;
 
   return (
@@ -99,7 +90,6 @@ const WorkoutInProgressPage = ({ navigation, route }) => {
         onScrollEnd={() => {
           console.log("===2");
         }}
-        // onConfigurePanGesture={(g) => g.enabled(false)}
         pagingEnabled={isPagingEnabled}
         onSnapToItem={(index) => console.log("current index:", index)}
         renderItem={({ index }) =>
