@@ -5,7 +5,7 @@ import {
   StyleSheet,
   TextInput,
   Pressable,
-  Alert,
+  TouchableOpacity,
 } from "react-native";
 import { userLogIn } from "../api/User";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -48,14 +48,14 @@ const SignInPage = ({ navigation }) => {
     <View style={styles.full}>
       <View style={[styles.container, { flexDirection: "column" }]}>
         <View style={{ flex: 2 }}>
-          <Pressable
-            style={styles.signButton}
+          <TouchableOpacity
+            style={{ position: "absolute", top: 24, right: 10 }}
             onPress={() => navigation.navigate("Launch")}
           >
             <Text style={{ color: "white", fontSize: 16, fontWeight: "100" }}>
               Back
             </Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
         <View style={{ flex: 6 }}>
           <Text style={styles.title}>Let's sign you in.</Text>

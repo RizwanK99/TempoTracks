@@ -5,7 +5,7 @@ import {
   StyleSheet,
   TextInput,
   Pressable,
-  Alert,
+  TouchableOpacity,
 } from "react-native";
 import { createUser } from "../api/User";
 
@@ -42,14 +42,14 @@ const RegisterPage = ({ navigation }) => {
     <View style={styles.full}>
       <View style={[styles.container, { flexDirection: "column" }]}>
         <View style={{ flex: 2 }}>
-          <Pressable
-            style={styles.signButton}
+          <TouchableOpacity
+            style={{ position: "absolute", top: 24, right: 10 }}
             onPress={() => navigation.navigate("Launch")}
           >
             <Text style={{ color: "white", fontSize: 16, fontWeight: "100" }}>
               Back
             </Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
         <View style={{ flex: 6 }}>
           <Text style={styles.title}>Welcome back.</Text>
@@ -97,6 +97,20 @@ const RegisterPage = ({ navigation }) => {
             Invalid User Data.
           </Text>
         </View>
+      </View>
+      <View
+        style={[
+          styles.helpContainer,
+          { flexDirection: "row", marginTop: -24, marginBottom: 24 },
+        ]}
+      >
+        <Text style={styles.help}>Already have an account? </Text>
+        <Text
+          style={styles.help1}
+          onPress={() => navigation.navigate("SignIn")}
+        >
+          Sign In
+        </Text>
       </View>
       <View>
         <Pressable style={styles.buttonContainer} onPress={checkUser}>
