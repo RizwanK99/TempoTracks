@@ -104,6 +104,16 @@ async function updateDailyGoals(
   return result.data;
 }
 
+async function updateBodyStats(user_id, height, weight, age) {
+  const result = await supabase.from('users').update({
+    height: height,
+    weight: weight,
+    age: age,
+  }).eq('user_id', user_id).single();
+  console.log(result);
+  return result.data;
+}
+
 async function updateMonthlyGoals(user_id, monthly_distance, monthly_calories, monthly_duration, monthly_workouts) {
   const result = await supabase.from('users').update({
     monthly_distance: monthly_distance,
@@ -115,4 +125,4 @@ async function updateMonthlyGoals(user_id, monthly_distance, monthly_calories, m
   return result.data;
 }
 
-export { createUser, userLogIn, updateDailyGoals, updateMonthlyGoals };
+export { createUser, userLogIn, updateDailyGoals, updateMonthlyGoals, updateBodyStats };
